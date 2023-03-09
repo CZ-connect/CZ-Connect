@@ -6,3 +6,12 @@ on:
     # Sequence of patterns matched against refs/heads
     branches:    
       - main
+  steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - run: flutter pub get
+    - run: flutter test
+    - run: flutter build web
+
