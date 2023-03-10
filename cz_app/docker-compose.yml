@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  flutter-web:
+    build:
+      context: .
+      target: builder
+    ports:
+      - 3000:3000
+    command: [ "flutter", "run", "-d", "web-server", "--web-port", "3000", "--web-hostname", "0.0.0.0" ]
