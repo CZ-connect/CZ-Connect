@@ -32,8 +32,8 @@ class OverViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FractionallySizedBox(
-      widthFactor: 1,
-      heightFactor: 1.5,
+      widthFactor: 0.8,
+      heightFactor: 0.3,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -77,8 +77,8 @@ class OverViewWidget extends StatelessWidget {
     );
 
     final referral = FractionallySizedBox(
-      widthFactor: 1,
-      heightFactor: 1.5,
+      widthFactor: 0.6,
+      heightFactor: 0.3,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -94,8 +94,8 @@ class OverViewWidget extends StatelessWidget {
     );
 
     final filter = FractionallySizedBox(
-      widthFactor: 1,
-      heightFactor: 1.5,
+      widthFactor: 0.6,
+      heightFactor: 0.8,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -147,8 +147,8 @@ class OverViewWidget extends StatelessWidget {
 
     // Column van de deelnemer rows
     final referralsColumns = FractionallySizedBox(
-      widthFactor: 1,
-      heightFactor: 1.5,
+      widthFactor: 0.6,
+      heightFactor: 0.8,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -161,28 +161,6 @@ class OverViewWidget extends StatelessWidget {
             referralContainerRow,
             referralContainerRow,
             referralContainerRow
-          ],
-        ),
-      ),
-    );
-
-    final fsb = FractionallySizedBox(
-      widthFactor: 0.8,
-      heightFactor: 0.3,
-      alignment: FractionalOffset.topCenter,
-      child: DecoratedBox(
-        decoration:
-            BoxDecoration(border: Border.all(width: 2), color: Colors.black),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              children: [
-                user,
-                referral,
-              ],
-            ),
-            referralsColumns,
           ],
         ),
       ),
