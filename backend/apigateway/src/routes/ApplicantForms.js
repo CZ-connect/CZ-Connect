@@ -15,7 +15,7 @@ const postBreaker = new CircuitBraker(
     circuitBrakerOptions);
 
 function postApplicantForm(req, res, next) {
-    postBreaker.fire(res, req, next)
+    postBreaker.fire(req.body)
         .then(results => {
             res.json(results)
         })

@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const PORT = process.env.PORT || '3000';
+const PORT = process.env.APIGTWY_PORT;
 
 let app = express();
 
