@@ -14,4 +14,4 @@ RUN chmod +x ./entrypoint.sh ./wait-for-it.sh
 
 ENTRYPOINT [ "./entrypoint.sh" ]
 
-CMD [ "node", "./src/applicantforms.js" ]
+CMD [ "node", "./src/applicant_form_main.js" ]

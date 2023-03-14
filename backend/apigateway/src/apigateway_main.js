@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(morgan("combined")); // DEV
 
 // Define routes
-app.use('/applicantforms', require('./routes/ApplicantForms'));
+app.use('/applicantforms', require('./routes/applicant_form_route'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

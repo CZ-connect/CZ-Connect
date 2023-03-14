@@ -27,10 +27,13 @@ function postApplication(applicantForm) {
                     
                     // TODO: do some stuff with the msg, could be an error
                     resolve(msg.content.toString());
+
+                    // Acknowledge the message after succesfully getting a reply
+                    channel.ack(msg);
                 }
             });
 
-            const sendToQProp = {
+            const msgProp = {
                 correlationId: correlationId,
                 replyTo: q.queue
             }
@@ -38,7 +41,7 @@ function postApplication(applicantForm) {
             channel.sendToQueue(
                 RPCQueueName,
                 Buffer.from(JSON.stringify(applicantForm)),
-                sendToQProp);
+                msgProp);
         
         } catch (error) {
             reject(error);

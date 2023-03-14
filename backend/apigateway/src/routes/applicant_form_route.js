@@ -2,7 +2,7 @@ const express = require('express');
 const router = express();
 const CircuitBraker = require('opossum');
 
-const applicantFormsController = require('../controllers/ApplicantForm');
+const applicantFormController = require('../controllers/applicant_form_controller');
 
 const circuitBrakerOptions = {
     timeout: 5 * 1000,
@@ -11,7 +11,7 @@ const circuitBrakerOptions = {
 };
 
 const postBreaker = new CircuitBraker(
-    applicantFormsController.postApplication,
+    applicantFormController.postApplication,
     circuitBrakerOptions);
 
 function postApplicantForm(req, res, next) {

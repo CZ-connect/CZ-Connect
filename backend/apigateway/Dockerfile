@@ -10,4 +10,8 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "node", "./src/apigateway.js" ]
+RUN chmod +x ./entrypoint.sh ./wait-for-it.sh
+
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+CMD [ "node", "./src/apigateway_main.js" ]

@@ -4,7 +4,7 @@ services:
 
   apigateway:
     build: ./apigateway
-    command: ./node_modules/.bin/nodemon ./src/apigateway.js
+    command: ./node_modules/.bin/nodemon ./src/apigateway_main.js
     env_file:
       - ./apigateway/.env
     volumes:
@@ -18,12 +18,9 @@ services:
     
   applicant-forms-service:
     build: ./applicant-forms
-    command: ./node_modules/.bin/nodemon ./src/applicantforms.js
+    command: ./node_modules/.bin/nodemon ./src/applicant_form_main.js
     env_file:
       - ./applicant-forms/.env
-    environment:
-      - WAIT_FOR_HOST=rabbitmq
-      - ON_PORT=5672
     volumes:
       - ./applicant-forms/src:/usr/src/app/src
     networks:

@@ -1,5 +1,7 @@
 const amqplib = require('amqplib');
 
+const applicantFormController = require('./controllers/applicant_form_controller');
+
 const RMQConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
 const RPCQueueName = process.env.RABBITMQ_RPC_QUEUE_NAME;
 
@@ -17,12 +19,15 @@ async function bootstrap() {
         channel.prefetch(1);    // We will only send out up to 1 msg on the consumer below
         channel.consume(RPCQueueName, function reply(msg) {
 
-            // PLACEHOLDER: Validate and save applicant form
-            var reply = `Hello ${ JSON.parse(msg.content.toString()).data }!`;
-            
+            // We reply OK or ERR back to the client indicating
+            // if the validation and persisting of the form data
+            // went well.
+            var statusCode = applicantFormController
+                    .validateAndSaveFormData(msg.content.toString())
+                
             channel.sendToQueue(
                 msg.properties.replyTo,
-                Buffer.from(reply),
+                Buffer.from(statusCode),
                 {
                     correlationId: msg.properties.correlationId
                 }
@@ -31,6 +36,7 @@ async function bootstrap() {
         });
     } catch (error) {
         console.error(error);
+        throw(error);
     }
 }
  
