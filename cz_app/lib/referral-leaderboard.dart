@@ -57,9 +57,6 @@ class ReferralLeaderboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Referral Leaderboard'),
-      ),
       body: Container(
         child: referralsColumns,
       ),
