@@ -11,6 +11,13 @@ app.use(morgan("combined")); // DEV
 // Define routes
 app.use('/applicantforms', require('./routes/ApplicantForms'));
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
 // Run the app
 app.listen(PORT, () => {
     console.log(`Starting apigatewayservice on port ${ PORT } . . .`);

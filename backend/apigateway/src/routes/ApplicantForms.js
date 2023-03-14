@@ -16,13 +16,10 @@ const postBreaker = new CircuitBraker(
 
 function postApplicantForm(req, res, next) {
     postBreaker.fire(res, req, next)
-        .then((results) => {
+        .then(results => {
             res.json(results)
         })
-        .catch((error) => {
-            res.status(400)
-            res.json(error);
-        });
+        .catch((err) => next(err));
 }
 
 router.route('/')
