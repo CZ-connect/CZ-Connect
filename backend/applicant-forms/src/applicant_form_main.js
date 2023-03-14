@@ -21,7 +21,7 @@ async function bootstrap() {
 
             // We reply OK or ERR back to the client indicating
             // if the validation and persisting of the form data
-            // went well.
+            // went well. TODO: Still needs discussion
             var statusCode = applicantFormController
                     .validateAndSaveFormData(msg.content.toString())
                 

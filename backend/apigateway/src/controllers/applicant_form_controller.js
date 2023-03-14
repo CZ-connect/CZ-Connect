@@ -20,7 +20,6 @@ function postApplication(applicantForm) {
                 channel = await connection.createChannel();
             }
             q = await channel.assertQueue('', { exclusive: true });
-            // TODO: prevent 406 PRECONDITION_FAILED - delivery acknowledgement timed out
             channel.consume(q.queue, (msg) => {
                 if (msg.properties.correlationId == correlationId) {
                     // correlationId matched, so this is our request
@@ -33,7 +32,7 @@ function postApplication(applicantForm) {
                 }
             });
 
-            const msgProp = {
+            const msgProps = {
                 correlationId: correlationId,
                 replyTo: q.queue
             }
@@ -41,7 +40,7 @@ function postApplication(applicantForm) {
             channel.sendToQueue(
                 RPCQueueName,
                 Buffer.from(JSON.stringify(applicantForm)),
-                msgProp);
+                msgProps);
         
         } catch (error) {
             reject(error);

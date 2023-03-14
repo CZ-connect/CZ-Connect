@@ -6,7 +6,7 @@ const PORT = process.env.APIGTWY_PORT;
 let app = express();
 
 app.use(express.json());
-app.use(morgan("combined")); // DEV
+app.use(morgan('combined'));
 
 // Define routes
 app.use('/applicantforms', require('./routes/applicant_form_route'));
