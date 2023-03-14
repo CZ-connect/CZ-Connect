@@ -23,7 +23,6 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
         working-directory: cz_app
-
       # Run tests
       - name: Run tests
         run: flutter test
