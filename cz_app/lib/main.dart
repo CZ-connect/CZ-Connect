@@ -32,8 +32,8 @@ class OverViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FractionallySizedBox(
-      widthFactor: 0.7,
-      heightFactor: 0.6,
+      widthFactor: 1,
+      heightFactor: 1.5,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -78,7 +78,7 @@ class OverViewWidget extends StatelessWidget {
 
     final referral = FractionallySizedBox(
       widthFactor: 1,
-      heightFactor: 0.6,
+      heightFactor: 1.5,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -95,7 +95,7 @@ class OverViewWidget extends StatelessWidget {
 
     final filter = FractionallySizedBox(
       widthFactor: 1,
-      heightFactor: 0.6,
+      heightFactor: 1.5,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -147,8 +147,8 @@ class OverViewWidget extends StatelessWidget {
 
     // Column van de deelnemer rows
     final referralsColumns = FractionallySizedBox(
-      widthFactor: 0.7,
-      heightFactor: 0.6,
+      widthFactor: 1,
+      heightFactor: 1.5,
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
@@ -166,7 +166,7 @@ class OverViewWidget extends StatelessWidget {
       ),
     );
 
-    return FractionallySizedBox(
+    final fsb = FractionallySizedBox(
       widthFactor: 0.8,
       heightFactor: 0.3,
       alignment: FractionalOffset.topCenter,
@@ -178,17 +178,28 @@ class OverViewWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Flexible(child: user),
-                Flexible(child: referral),
+                user,
+                referral,
               ],
             ),
-            Row(
-              children: [
-                Flexible(child: referralsColumns),
-              ],
-            ),
+            referralsColumns,
           ],
         ),
+      ),
+    );
+
+    return Container(
+      child: Column(
+        children: [
+          Flexible(
+              child: Row(children: [
+            Flexible(child: user),
+            Flexible(child: referral),
+          ])),
+          Flexible(
+            child: referralsColumns,
+          )
+        ],
       ),
     );
   }
