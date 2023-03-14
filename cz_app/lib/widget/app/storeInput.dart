@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'formTextWidget.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -16,6 +17,7 @@ class formWidget extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: <Widget>[
+                containerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Enter your name',
