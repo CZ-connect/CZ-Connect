@@ -26,5 +26,5 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: flutter test test/web_test.dart
+        run: flutter test
         working-directory: cz_app
