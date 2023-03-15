@@ -62,8 +62,8 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
-          file: cz_app/Dockerfile
-          work-directory: ./cz_app
+          file: cz_app/docker-compose.yml
+#          work-directory: ./cz_app
 
   deploy:
     permissions:
