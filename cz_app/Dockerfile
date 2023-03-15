@@ -25,7 +25,7 @@ RUN flutter doctor
 WORKDIR ./cz_app
 
 COPY . .
-
+RUN echo flutter pub get
 RUN flutter pub get
 RUN flutter build web
 
