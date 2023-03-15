@@ -22,7 +22,7 @@ RUN git config --global --add safe.directory /usr/share/flutter
 # Check status of flutter installation
 RUN flutter doctor
 
-WORKDIR /opt/CZ-connect
+WORKDIR ./cz_app
 
 COPY . .
 
