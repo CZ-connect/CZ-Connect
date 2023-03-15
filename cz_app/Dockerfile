@@ -22,7 +22,7 @@ RUN git config --global --add safe.directory /usr/share/flutter
 # Check status of flutter installation
 RUN flutter doctor
 
-WORKDIR /opt/MY_AWESOME_NAMER
+WORKDIR /opt/CZ-connect
 
 COPY . .
 
@@ -32,6 +32,6 @@ RUN flutter build web
 # Run web server from nginx
 FROM nginx:1.23 as runtime
 
-COPY --from=builder /opt/MY_AWESOME_NAMER/build /usr/share/nginx/html
+COPY --from=builder /opt/CZ-connect/build /usr/share/nginx/html
 
 EXPOSE 3000
