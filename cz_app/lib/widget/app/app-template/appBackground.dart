@@ -1,8 +1,6 @@
 import 'package:cz_app/widget/app/app-template/bottemAppLayout.dart';
 import 'package:cz_app/widget/app/app-template/topAppLayout.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-import '../formTextWidget.dart';
 
 
 //This widget styles the topcontainer and the bottom container in the app into 1
@@ -10,11 +8,11 @@ import '../formTextWidget.dart';
 
   @override
   Widget build(BuildContext context) {
-   return Row(
+   return Column(
        children: <Widget>[
          // top widget 1
          topAppWidget(),
-         bottemAppWidget()
+         bottemAppWidget(),
          //top widget 2
        ]
    );
