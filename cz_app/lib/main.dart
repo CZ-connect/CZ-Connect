@@ -1,6 +1,7 @@
 import 'package:cz_app/widget/app/app-template/appBackground.dart';
 import 'package:cz_app/widget/app/formTextWidget.dart';
 import 'package:cz_app/widget/app/storeInput.dart';
+import 'package:cz_app/widget/app/views/referralOverview.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CZ_connect',
       home: Scaffold(
-        body: backgroundWidget(),
+        body: ReferralOverview()
       ),
     );
   }
