@@ -1,5 +1,4 @@
 const amqplib = require('amqplib');
-const crypto = require('crypto');
 
 const RMQConnectionString = process.env.RABBITMQ_CONNECTION_STRING;
 const RPCQueueName = process.env.RABBITMQ_RPC_QUEUE_NAME;

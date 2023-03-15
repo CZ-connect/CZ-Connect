@@ -4,10 +4,8 @@ function validateAndSaveFormData(applicantForm) {
 
         // TODO: validate fields on parsedForm object
 
-        return 'OK';
     } catch (error) {
         console.log(error);
-        return 'ERR';
     }
 }
 

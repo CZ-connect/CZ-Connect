@@ -9,7 +9,7 @@ const RPCQueueName = process.env.RABBITMQ_RPC_QUEUE_NAME;
 let connection;
 let channel;
 
-async function bootstrap() {
+async function consumer() {
     try {
         if (!channel) {
             connection = await amqplib.connect(RMQConnectionString);
@@ -27,4 +27,4 @@ async function bootstrap() {
     }
 }
  
-bootstrap();
+consumer();
