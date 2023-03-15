@@ -18,20 +18,7 @@ async function bootstrap() {
         channel.assertQueue(RPCQueueName);
         channel.prefetch(1);    // We will only send out up to 1 msg on the consumer below
         channel.consume(RPCQueueName, function reply(msg) {
-
-            // We reply OK or ERR back to the client indicating
-            // if the validation and persisting of the form data
-            // went well. TODO: Still needs discussion
-            var statusCode = applicantFormController
-                    .validateAndSaveFormData(msg.content.toString())
-                
-            channel.sendToQueue(
-                msg.properties.replyTo,
-                Buffer.from(statusCode),
-                {
-                    correlationId: msg.properties.correlationId
-                }
-            );
+            applicantFormController.validateAndSaveFormData(msg.content.toString())
             channel.ack(msg);
         });
     } catch (error) {
