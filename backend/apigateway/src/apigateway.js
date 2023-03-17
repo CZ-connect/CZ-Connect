@@ -10,6 +10,7 @@ app.use(morgan("combined")); // DEV
 
 // Define routes
 app.use('/applicantforms', require('./routes/ApplicantForms'));
+app.use('/referrals', require('./routes/referrals'));
 
 // Run the app
 app.listen(PORT, () => {

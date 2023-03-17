@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/apigateway.js",
   "scripts": {
+    "start": "node src/apigateway.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
