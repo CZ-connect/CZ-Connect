@@ -5,8 +5,12 @@ class ReferralDashBoard extends StatelessWidget {
   const ReferralDashBoard({super.key});
   @override
   Widget build(BuildContext context) {
-    
-  final r = Referral(id: 1, status: "done", participantEmail: "coenvdberge@outlook.com", participantName: "Coen", registrationDate: DateTime.now());
+    final r = Referral(
+        id: 1,
+        status: "done",
+        participantEmail: "coenvdberge@outlook.com",
+        participantName: "Coen",
+        registrationDate: DateTime.now());
     final referralRowPhoto = Container(
       width: 70,
       height: 70,
