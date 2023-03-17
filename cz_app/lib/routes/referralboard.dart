@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 Future<Referral> fetchReferrals() async {
   final response =
-      await http.get(Uri.parse('https://jsonplaceholder.typicode.com/album/3'));
+      await http.get(Uri.parse('http://localhost:3000/referrals/1'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

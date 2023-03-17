@@ -3,15 +3,16 @@ const referralsRoute = express.Router();
 
 
 referralsRoute.get('/', async function(req, res, next) {
-    res.json(data);
+    res.json(jsonData);
 });
 
 referralsRoute.get('/1', async function(req, res, next) {
-    res.json(data[1]);
+    res.json(jsonData.data[1]);
 });
 
 
-const data = [
+const jsonData = 
+{ data: [
     {
       "id": 1,
       "status": "pending",
@@ -83,6 +84,7 @@ const data = [
       "registrationDate": "2022-01-10 11:00:00"
     }
   ]
+}
 
   
   module.exports = referralsRoute;

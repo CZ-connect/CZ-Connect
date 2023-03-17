@@ -18,7 +18,7 @@ class Referral {
       status: json['status'],
       participantName: json['participantName'],
       participantEmail: json['participantEmail'],
-      registrationDate: json['registrationDate'],
+      registrationDate: DateTime.parse(json['registrationDate']),
     );
   }
 }
