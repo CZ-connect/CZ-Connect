@@ -35,9 +35,26 @@ class ReferralWidget extends StatefulWidget {
   State<ReferralWidget> createState() => _ReferralWidgetState();
 }
 
-Widget getTextWidgets(List<Referral> strings) {
+List<Widget> getReferralsRowWidgetListList(List<Referral> referrals) {
+  List<Widget> myList = [];
+  myList.add(getReferralsRowWidgetList(referrals));
+  return myList;
+}
+
+Widget getReferralsRowWidgetList(List<Referral> referrals) {
+  return Column(
+      children: referrals.map((item) => getReferralsRow(item)).toList());
+}
+
+Widget getReferralsRow(Referral referral) {
   return Row(
-      children: strings.map((item) => Text(item.participantEmail)).toList());
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(referral.status),
+      Text(referral.participantName),
+      Text(referral.participantEmail),
+    ],
+  );
 }
 
 class _ReferralWidgetState extends State<ReferralWidget> {
@@ -64,10 +81,9 @@ class _ReferralWidgetState extends State<ReferralWidget> {
             child: FutureBuilder<List<Referral>>(
           future: futureReferral,
           builder: (context, snapshot) {
-            print(snapshot.data);
             if (snapshot.hasData) {
-              return Text(
-                  'Id: ${snapshot.data!.first.id} Name: ${snapshot.data!.first.participantName} Date: ${snapshot.data!.first.registrationDate}');
+              return Column(
+                  children: getReferralsRowWidgetListList(snapshot.data!));
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
