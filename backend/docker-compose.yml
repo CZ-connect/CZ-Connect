@@ -1,18 +1,30 @@
-version: '3'
+version: '3.9'
 
-services:
-
-  apigateway:
-    build: ./apigateway
-    command: ./node_modules/.bin/nodemon ./apigateway/src/apigateway.js
+services:  
+  czconnect-backend:
+    build: .
     env_file:
-      - ./apigateway/.env
-    volumes:
-      - ./apigateway/src:/usr/src/app/src
+      - .env
     ports:
       - 3000:3000
     networks:
-      - mainnet
+      - czconnect
+  
+  mssql-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    # user: root 
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=keig0edw8woordjonguh
+    volumes:
+      - mssql:/var/opt/mssql/data
+    networks:
+      - czconnect
 
 networks:
-  mainnet:
+  czconnect:
+
+volumes:
+  mssql:
+
+  
