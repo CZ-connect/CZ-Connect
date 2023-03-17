@@ -3,7 +3,7 @@ class Referral {
   String status;
   String participantName;
   String participantEmail;
-  bool reimbursable;
+  DateTime registrationDate;
 
-  Referral({required this.id, required this.status, required this.participantName, required this.reimbursable, required this.participantEmail});
+  Referral({required this.id, required this.status, required this.participantName, required this.participantEmail, required this.registrationDate});
 }
