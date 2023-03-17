@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
         body: Container(
-          margin: EdgeInsets.only(left: 150.0, right: 150.0),
-          child: OverViewWidget(),
+          margin: const EdgeInsets.only(left: 150.0, right: 150.0),
+          child: const OverViewWidget(),
         ),
       ),
     );
@@ -43,8 +43,8 @@ class OverViewWidget extends StatelessWidget {
           Flexible(
             child: Row(
               children: [
-                Flexible(child: const UserRow()),
-                Flexible(child: const ReferralStatus()),
+                Flexible(child: UserRow()),
+                Flexible(child: ReferralStatus()),
               ],
             ),
           ),

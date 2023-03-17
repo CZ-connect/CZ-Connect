@@ -1,10 +1,12 @@
+import 'package:cz_app/models/Referral.dart';
 import 'package:flutter/material.dart';
 
 class ReferralDashBoard extends StatelessWidget {
   const ReferralDashBoard({super.key});
-
   @override
   Widget build(BuildContext context) {
+    
+  final r = Referral(id: 1, status: "done", participantEmail: "coenvdberge@outlook.com", participantName: "Coen", registrationDate: DateTime.now());
     final referralRowPhoto = Container(
       width: 70,
       height: 70,
@@ -36,10 +38,9 @@ class ReferralDashBoard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         referralRowPhoto,
-        const Text("NAAM DEELNEMER"),
-        const Text("FUNCTIE"),
-        const Text("STATUS"),
-        const Text("DATUM"),
+        Text(r.status),
+        Text(r.participantName),
+        Text(r.participantEmail),
         referralRowButtonContainer
       ],
     );
