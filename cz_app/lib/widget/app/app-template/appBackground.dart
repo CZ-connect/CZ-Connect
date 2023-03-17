@@ -1,6 +1,7 @@
-import 'package:cz_app/widget/app/app-template/bottemAppLayout.dart';
+ import 'package:cz_app/widget/app/app-template/bottemAppLayout.dart';
 import 'package:cz_app/widget/app/app-template/topAppLayout.dart';
 import 'package:flutter/material.dart';
+
 
 
 //This widget styles the topcontainer and the bottom container in the app into 1
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
          //top widget 2
        ]
    );
+
   }
 
 }

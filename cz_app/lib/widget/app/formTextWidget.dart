@@ -1,10 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 class containerTextWidget extends StatelessWidget{
   const containerTextWidget({Key? key}) : super(key: key);
-
   String get h1 => "Sing up here!";
   String get h2 => "use this form to apply";
 

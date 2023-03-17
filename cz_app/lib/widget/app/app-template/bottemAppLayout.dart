@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
+import 'appMainContainer.dart';
+
 class bottemAppWidget extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     //TODO make this filllable with widtgets
-    return Center(
-      child: Container(
-        decoration: const BoxDecoration(color: Colors.black),
-        width: double.infinity,
-        height: 200,
-      ),
+    return Container(
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40.0),
+            topLeft: Radius.circular(40.0),
+          ),
+          color: Colors.black),
+      width: double.maxFinite,
+      height: MediaQuery.of(context).size.height - 250,
+      child: appMainContainer(),
     );
   }
 }

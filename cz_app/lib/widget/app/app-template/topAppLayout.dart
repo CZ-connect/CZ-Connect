@@ -9,8 +9,9 @@ class topAppWidget extends StatelessWidget {
     return Center(
       child: Container(
         decoration: const BoxDecoration(color: Colors.red),
-        width: double.infinity,
+        width: double.maxFinite,
         height: 250.0,
+
       ),
     );
   }
