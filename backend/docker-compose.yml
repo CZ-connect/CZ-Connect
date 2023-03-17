@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  apigateway:
+    build: ./apigateway
+    command: ./node_modules/.bin/nodemon ./apigateway/src/apigateway.js
+    env_file:
+      - ./apigateway/.env
+    volumes:
+      - ./apigateway/src:/usr/src/app/src
+    ports:
+      - 3000:3000
+    networks:
+      - mainnet
+
+networks:
+  mainnet:
