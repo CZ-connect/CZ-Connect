@@ -10,8 +10,9 @@ services:
     networks:
       - czconnect
   
-  product-mssql:
+  mssql-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root 
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=keig0edw8woordjonguh
