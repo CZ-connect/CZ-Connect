@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj": {}
+    "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {}
   },
   "projects": {
-    "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj": {
+    "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj",
+        "projectUniqueName": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj",
-        "packagesPath": "/home/ocmkieboom/.nuget/packages/",
-        "outputPath": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/obj/",
+        "projectPath": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\gogoj\\.nuget\\packages\\",
+        "outputPath": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ocmkieboom/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\gogoj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -56,10 +63,6 @@
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.3, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -84,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
