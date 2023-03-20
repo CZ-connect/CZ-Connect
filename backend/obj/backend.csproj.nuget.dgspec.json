@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj": {}
+    "/home/ocmkieboom/Documenten/Avans/Semester 6/Proj/CZ-Connect/backend/backend.csproj": {}
   },
   "projects": {
-    "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj": {
+    "/home/ocmkieboom/Documenten/Avans/Semester 6/Proj/CZ-Connect/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj",
+        "projectUniqueName": "/home/ocmkieboom/Documenten/Avans/Semester 6/Proj/CZ-Connect/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/backend.csproj",
+        "projectPath": "/home/ocmkieboom/Documenten/Avans/Semester 6/Proj/CZ-Connect/backend/backend.csproj",
         "packagesPath": "/home/ocmkieboom/.nuget/packages/",
-        "outputPath": "/home/ocmkieboom/Documenten/Avans/PROJ/CZ-Connect/backend/obj/",
+        "outputPath": "/home/ocmkieboom/Documenten/Avans/Semester 6/Proj/CZ-Connect/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ocmkieboom/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net6.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -35,34 +35,26 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.AspNetCore.OpenApi": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[7.0.2, )"
+              "version": "[6.4.0, )"
             },
-            "Microsoft.EntityFrameworkCore": {
+            "microsoft.entityframeworkcore": {
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.Design": {
+            "microsoft.entityframeworkcore.design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "microsoft.entityframeworkcore.sqlserver": {
               "target": "Package",
               "version": "[7.0.4, )"
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.3, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.4.0, )"
             }
           },
           "imports": [
@@ -71,8 +63,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -84,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/6.0.113/RuntimeIdentifierGraph.json"
         }
       }
     }
