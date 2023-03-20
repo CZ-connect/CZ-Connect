@@ -1,7 +1,5 @@
-
-import 'package:cz_app/widget/app/form-app/topAppLayout.dart';
+  import 'package:cz_app/widget/app/form-app/topAppLayout.dart';
 import 'package:flutter/material.dart';
-
 import 'bottemAppLayout.dart';
 
 
@@ -19,7 +17,6 @@ import 'bottemAppLayout.dart';
          //top widget 2
        ]
    );
-
   }
 
 }

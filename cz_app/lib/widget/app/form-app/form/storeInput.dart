@@ -16,7 +16,7 @@ class formWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Form(
             key: _formKey,
             child: Column(
@@ -24,11 +24,11 @@ class formWidget extends StatelessWidget {
                 containerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Enter your name',
+                    hintText: 'John do',
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'John do';
+                      return 'The name is required';
                     }
                     return null;
                   },

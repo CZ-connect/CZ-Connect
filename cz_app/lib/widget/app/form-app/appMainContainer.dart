@@ -11,7 +11,8 @@ class appMainContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        decoration: const BoxDecoration(color: Colors.amber),
+        decoration: const BoxDecoration(color: Colors.white),
+        margin: const EdgeInsets.only(top: 50),
         width:  MediaQuery
             .of(context)
             .size

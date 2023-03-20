@@ -12,7 +12,7 @@ class bottemAppWidget extends StatelessWidget {
             topRight: Radius.circular(40.0),
             topLeft: Radius.circular(40.0),
           ),
-          color: Colors.black),
+          color: Colors.black12),
       width: double.maxFinite,
       height: MediaQuery.of(context).size.height - 250,
       child: appMainContainer(),
