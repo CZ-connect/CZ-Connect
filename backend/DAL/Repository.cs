@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using CZConnect.Db;
 using CZConnect.Models;
 
 namespace CZConnect.DAL;

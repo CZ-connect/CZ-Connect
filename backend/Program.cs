@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
-using CZConnect.Db;
+using CZConnect.Models;
 using CZConnect.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IRepository, Repository<DataContext>>();
+// Dependency injection
+builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
 
 builder.Services.AddControllers();
@@ -17,9 +18,10 @@ var app = builder.Build();
 app.UseAuthorization();
 app.MapControllers();
 
+// Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
     db.Database.Migrate();
 }
 

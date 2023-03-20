@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using CZConnect.Models;
 
-namespace CZConnect.Db;
+namespace CZConnect.Models;
 
-public class DataContext : DbContext
+public class AppDBContext : DbContext
 {
-    public DataContext(DbContextOptions options) : base(options) { }
+    public AppDBContext(DbContextOptions options) : base(options) { }
 
     public DbSet<Referral> Referrals { get; set; }
     public DbSet<ApplicantForm> ApplicantForms { get; set; }

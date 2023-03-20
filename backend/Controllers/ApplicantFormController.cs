@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using CZConnect.Models;
-using CZConnect.Db;
 using CZConnect.DAL;
 
 namespace CZConnect.Controllers;
@@ -12,7 +11,7 @@ public class ApplicantFormController : ControllerBase
 {
     private readonly IRepository _repository;
 
-    public ApplicantFormController(DataContext context, IRepository repository) =>
+    public ApplicantFormController(AppDBContext context, IRepository repository) =>
         this._repository = repository;
 
     [HttpGet]
