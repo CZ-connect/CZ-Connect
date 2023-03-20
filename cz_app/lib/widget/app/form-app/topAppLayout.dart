@@ -11,7 +11,6 @@ class topAppWidget extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.red),
         width: double.maxFinite,
         height: 250.0,
-
       ),
     );
   }

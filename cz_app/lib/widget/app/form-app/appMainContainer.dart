@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'form/storeInput.dart';
+
 class appMainContainer extends StatelessWidget {
   const appMainContainer({super.key});
 
 
   @override
   Widget build(BuildContext context) {
-    //TODO make this filllable with widtgets
     return Center(
       child: Container(
         decoration: const BoxDecoration(color: Colors.amber),
@@ -19,8 +20,9 @@ class appMainContainer extends StatelessWidget {
             .of(context)
             .size
             .height - 250,
-
+        child: formWidget(),
       ),
+
     );
   }
 
