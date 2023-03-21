@@ -12,7 +12,7 @@ services:
   
   mssql-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    # user: root 
+    user: root
     environment:
       - ACCEPT_EULA=Y
       # Password is sha256 of the string 'czconnect'
