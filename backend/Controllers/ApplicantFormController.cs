@@ -37,7 +37,7 @@ public class ApplicantFormController : ControllerBase
     public async Task<ActionResult<ApplicantForm>> InsertApplicantForm(ApplicantForm newForm)
     {
         await _repository.CreateAsync<ApplicantForm>(newForm);
-        return CreatedAtAction(nameof(newForm), new { id = newForm.Id }, newForm);
+        return CreatedAtAction(nameof(GetApplicantForm), new { id = newForm.Id }, newForm);
     }
 
     [HttpPut("{id}")]
@@ -50,7 +50,7 @@ public class ApplicantFormController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<ApplicantForm>> DeleteApplicantForm(long id)
     {
-        var model = await _repository.SelectById<ApplicantForm>(id);
+        var model = await _repository.SelectByIdAsync<ApplicantForm>(id);
 
         if (model == null)
         {
