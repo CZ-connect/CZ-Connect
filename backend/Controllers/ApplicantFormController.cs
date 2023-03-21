@@ -16,7 +16,8 @@ public class ApplicantFormController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApplicantForm>>> GetApplicantForm()
     {
-        return await _repository.SelectAll<ApplicantForm>();
+        var applicantForms = _repository.SelectAll<ApplicantForm>();
+        return Ok(applicantForms);
     }
 
     [HttpGet("{id}")]
@@ -29,13 +30,35 @@ public class ApplicantFormController : ControllerBase
             return NotFound();
         }
 
-        return model;
+        return Ok(model);
     }
 
     [HttpPost]
-    public async Task<ActionResult<ApplicantForm>> InsertApplicantForm(ApplicantForm applicantForm)
+    public async Task<ActionResult<ApplicantForm>> InsertApplicantForm(ApplicantForm newForm)
     {
-        await _repository.CreateAsync<ApplicantForm>(applicantForm);
-        return CreatedAtAction(nameof(GetApplicantForm), new { id = applicantForm.Id }, applicantForm);
+        await _repository.CreateAsync<ApplicantForm>(newForm);
+        return CreatedAtAction(nameof(newForm), new { id = newForm.Id }, newForm);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateApplicantForm(ApplicantForm formToUpdate)
+    {
+        await _repository.UpdateAsync<ApplicantForm>(formToUpdate);
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ApplicantForm>> DeleteApplicantForm(long id)
+    {
+        var model = await _repository.SelectById<ApplicantForm>(id);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        await _repository.DeleteAsync<ApplicantForm>(model);
+
+        return NoContent();
     }
 }

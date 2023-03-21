@@ -14,30 +14,30 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
 
     public async Task<List<T>> SelectAll<T>() where T : class
     {
-        return await this._db.Set<T>().ToListAsync();
+        return this._db.Set<T>().ToListAsync();
     }
 
     public async Task<T> SelectById<T>(long id) where T : class
     {
-        return await this._db.Set<T>().FindAsync(id);
+        return this._db.Set<T>().FindAsync(id);
     }
 
     public async Task CreateAsync<T>(T entity) where T : class
     {
         this._db.Set<T>().Add(entity);
-        _ = await this._db.SaveChangesAsync();
+        await this._db.SaveChangesAsync();
     }
 
     public async Task UpdateAsync<T>(T entity) where T : class
     {
         this._db.Set<T>().Update(entity);
-        _ = await this._db.SaveChangesAsync();
+        await this._db.SaveChangesAsync();
     }
 
 
     public async Task DeleteAsync<T>(T entity) where T : class
     {
         this._db.Set<T>().Remove(entity);
-        _ = await this._db.SaveChangesAsync();
+        await this._db.SaveChangesAsync();
     }
 }
