@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CZConnect.Models;
 
 public class ApplicantForm 

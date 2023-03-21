@@ -16,14 +16,14 @@ public class ApplicantFormController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ApplicantForm>>> GetApplicantForm()
     {
-        var applicantForms = _repository.SelectAll<ApplicantForm>();
+        var applicantForms = await _repository.AllAsync<ApplicantForm>();
         return Ok(applicantForms);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ApplicantForm>> GetApplicantForm(long id)
     {
-        var model = await _repository.SelectById<ApplicantForm>(id);
+        var model = await _repository.SelectByIdAsync<ApplicantForm>(id);
 
         if (model == null)
         {

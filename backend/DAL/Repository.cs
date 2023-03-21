@@ -12,12 +12,12 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
     public Repository(TDbContext context) =>
         this._db = context;
 
-    public async Task<List<T>> SelectAll<T>() where T : class
+    public Task<List<T>> SelectAll<T>() where T : class
     {
         return this._db.Set<T>().ToListAsync();
     }
 
-    public async Task<T> SelectById<T>(long id) where T : class
+    public ValueTask<T> SelectById<T>(long id) where T : class
     {
         return this._db.Set<T>().FindAsync(id);
     }
