@@ -1,24 +1,20 @@
 import 'dart:convert';
 
+import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:http/http.dart';
 
-class Referral {
+class ReferralService {
   int userId;
   //List<Referral> referrals;
-  List<String> Refferals = [];
+  List<Referral> Referrals = [];
 
-  Referral({required this.userId});
+  ReferralService({required this.userId});
 
   Future<void> getData() async {
-    try{
-      Response response = await get(Uri.parse('https://jsonplaceholder.typicode.com/todos/0'));
+      Response response = await get(Uri.parse('https://jsonplaceholder.typicode.com/todos/$userId'));
       Map data = jsonDecode(response.body);
       //print(data);
       //print(data['title']);
       //get properties from data
-    }
-    catch(e){
-      print('error $e');
-    }
   }
 }
