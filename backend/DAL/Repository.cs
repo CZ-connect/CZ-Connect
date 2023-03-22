@@ -40,4 +40,9 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         this._db.Set<T>().Remove(entity);
         await this._db.SaveChangesAsync();
     }
+
+    public Task<List<T>> SelectMultipleByIdAsync<T>(long id) where T : class
+    {
+       return this._db.Set<T>().ToListAsync();
+    }
 }
