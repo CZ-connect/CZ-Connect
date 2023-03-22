@@ -1,4 +1,3 @@
-import 'package:cz_app/routes/referralboard.dart';
 import 'package:flutter/material.dart';
 import 'widget/dashboard/UserRow.dart';
 import 'widget/dashboard/FilterRow.dart';
@@ -61,17 +60,6 @@ class OverViewWidget extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(child: ReferralDashBoard()),
-                ElevatedButton(
-                  child: const Text('Open route'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReferralWidget()),
-                    );
-                    // Navigate to second route when tapped.
-                  },
-                ),
               ],
             ),
           ),

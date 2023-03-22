@@ -1,77 +1,76 @@
 import 'package:cz_app/models/Referral.dart';
 import 'package:flutter/material.dart';
+import 'package:cz_app/data/ReferralData.dart';
 
-class ReferralDashBoard extends StatelessWidget {
+class ReferralDashBoard extends StatefulWidget {
   const ReferralDashBoard({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    final r = Referral(
-        id: 1,
-        status: "done",
-        participantEmail: "coenvdberge@outlook.com",
-        participantName: "Coen",
-        registrationDate: DateTime.now());
-    final referralRowPhoto = Container(
+  State<StatefulWidget> createState() => _ReferralDashBoard();
+}
+
+class _ReferralDashBoard extends State<ReferralDashBoard> {
+  late Future<List<Referral>> referrals;
+
+  @override
+  void initState() {
+    referrals = ReferralData().fetchReferrals();
+    super.initState();
+  }
+
+  final referralRowPhoto = Container(
+    width: 70,
+    height: 70,
+    decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+    child: Image.asset(
+      './images/stadscafe.png',
       width: 70,
       height: 70,
-      decoration:
-          const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-      child: Image.asset(
-        './images/stadscafe.png',
-        width: 70,
-        height: 70,
-      ),
-    );
+    ),
+  );
 
-    const referralRowButton =
-        TextButton(onPressed: onPressed, child: Text("KLIK MIJ"));
-
-    final referralRowButtonContainer = Container(
+  Widget referralRowButtonContainer() {
+    return Container(
       decoration: const BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
       ),
-      child: referralRowButton,
+      child: const TextButton(onPressed: onPressed, child: Text("KLIK MIJ")),
     );
+  }
 
-    // Row per deelnemer
-    // per deelnemer: Foto, Naam, Functie, Status, Datum, Knop
-    final referralRow = Row(
+  Widget getReferralsRow(Referral referral) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         referralRowPhoto,
-        Text(r.status),
-        Text(r.participantName),
-        Text(r.participantEmail),
-        referralRowButtonContainer
+        Text(referral.status),
+        Text(referral.participantName),
+        Text(referral.participantEmail),
+        referralRowButtonContainer()
       ],
     );
+  }
 
-    final referralContainerRow = Container(
-      decoration: const BoxDecoration(color: Colors.grey),
-      child: referralRow,
-    );
-
-    // Column van de deelnemer rows
-    return FractionallySizedBox(
-      widthFactor: 1.0,
-      alignment: FractionalOffset.center,
-      child: DecoratedBox(
-        decoration:
-            BoxDecoration(border: Border.all(width: 2), color: Colors.grey),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            referralContainerRow,
-            referralContainerRow,
-            referralContainerRow,
-            referralContainerRow
-          ],
-        ),
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Referral>>(
+      future: ReferralData().fetchReferrals(),
+      builder: (context, snapshot) {
+        List<Referral>? referrals = snapshot.data;
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: referrals!.length - 1,
+            itemBuilder: (context, index) {
+              return getReferralsRow(snapshot.data![index]);
+            },
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
