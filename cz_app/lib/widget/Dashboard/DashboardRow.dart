@@ -2,14 +2,14 @@ import 'package:cz_app/models/Referral.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/data/ReferralData.dart';
 
-class ReferralDashBoard extends StatefulWidget {
-  const ReferralDashBoard({super.key});
+class DashboardRow extends StatefulWidget {
+  const DashboardRow({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ReferralDashBoard();
+  State<StatefulWidget> createState() => _DashboardRow();
 }
 
-class _ReferralDashBoard extends State<ReferralDashBoard> {
+class _DashboardRow extends State<DashboardRow> {
   late Future<List<Referral>> referrals;
 
   @override
