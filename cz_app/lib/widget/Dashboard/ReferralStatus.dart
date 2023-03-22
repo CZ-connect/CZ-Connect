@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:cz_app/data/ReferralData.dart';
 
-class ReferralStatus extends StatelessWidget {
+class ReferralStatus extends StatefulWidget {
   const ReferralStatus({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _ReferralStatus();
+}
+
+class _ReferralStatus extends State<ReferralStatus> {
   @override
   Widget build(BuildContext context) {
     final referralCompleted = Container(
@@ -15,7 +21,14 @@ class ReferralStatus extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [Text("1")],
+        children: [
+          FutureBuilder(
+            future: ReferralData().completedCounter(),
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            },
+          ),
+        ],
       ),
     );
 
@@ -27,9 +40,17 @@ class ReferralStatus extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.redAccent),
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [Text("1")]),
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FutureBuilder(
+            future: ReferralData().pendingCounter(),
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            },
+          ),
+        ],
+      ),
     );
 
     return FractionallySizedBox(
