@@ -48,12 +48,12 @@ namespace backend.Migrations
                 columns: new[] { "id", "participantEmail", "participantName", "registrationDate", "status" },
                 values: new object[,]
                 {
-                    { 1L, "cmberge@avans.nl", "Coen", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5360), "Aangemeld" },
-                    { 2L, "m1@avans.nl", "Marijn 1", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5435), "Aangenomen" },
-                    { 3L, "m2@avans.nl", "Marijn 2", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5442), "Afgewezen" },
-                    { 4L, "jos@avans.nl", "Jos", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5449), "Aangemeld" },
-                    { 5L, "jedrek@avans.nl", "Jedrek", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5455), "Aangenomen" },
-                    { 6L, "wballeko@avans.nl", "William", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5461), "Afgewezen" }
+                    { 1L, "cmberge@avans.nl", "Coen", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5360), "Completed" },
+                    { 2L, "m1@avans.nl", "Marijn 1", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5435), "Completed" },
+                    { 3L, "m2@avans.nl", "Marijn 2", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5442), "Completed" },
+                    { 4L, "jos@avans.nl", "Jos", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5449), "Completed" },
+                    { 5L, "jedrek@avans.nl", "Jedrek", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5455), "Pending" },
+                    { 6L, "wballeko@avans.nl", "William", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5461), "Pending" }
                 });
         }
 

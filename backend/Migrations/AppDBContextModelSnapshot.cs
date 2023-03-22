@@ -77,7 +77,7 @@ namespace backend.Migrations
                             participantEmail = "cmberge@avans.nl",
                             participantName = "Coen",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5360),
-                            status = "Aangemeld"
+                            status = "Completed"
                         },
                         new
                         {
@@ -85,7 +85,7 @@ namespace backend.Migrations
                             participantEmail = "m1@avans.nl",
                             participantName = "Marijn 1",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5435),
-                            status = "Aangenomen"
+                            status = "Completed"
                         },
                         new
                         {
@@ -93,7 +93,7 @@ namespace backend.Migrations
                             participantEmail = "m2@avans.nl",
                             participantName = "Marijn 2",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5442),
-                            status = "Afgewezen"
+                            status = "Completed"
                         },
                         new
                         {
@@ -101,7 +101,7 @@ namespace backend.Migrations
                             participantEmail = "jos@avans.nl",
                             participantName = "Jos",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5449),
-                            status = "Aangemeld"
+                            status = "Completed"
                         },
                         new
                         {
@@ -109,7 +109,7 @@ namespace backend.Migrations
                             participantEmail = "jedrek@avans.nl",
                             participantName = "Jedrek",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5455),
-                            status = "Aangenomen"
+                            status = "Pending"
                         },
                         new
                         {
@@ -117,7 +117,7 @@ namespace backend.Migrations
                             participantEmail = "wballeko@avans.nl",
                             participantName = "William",
                             registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5461),
-                            status = "Afgewezen"
+                            status = "Pending"
                         });
                 });
 #pragma warning restore 612, 618

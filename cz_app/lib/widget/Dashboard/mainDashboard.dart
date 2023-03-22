@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'UserRow.dart';
-import 'FilterRow.dart';
 import 'ReferralStatus.dart';
 import 'DashboardRow.dart';
 
@@ -44,14 +43,6 @@ class _OverViewWidget extends StatelessWidget {
               children: [
                 const Flexible(child: UserRow()),
                 const Flexible(child: ReferralStatus()),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                const Flexible(child: FilterRow()),
               ],
             ),
           ),

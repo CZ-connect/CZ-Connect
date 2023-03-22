@@ -32,24 +32,28 @@ class _DashboardRow extends State<DashboardRow> {
   Widget referralRowButtonContainer() {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.red,
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
       ),
-      child: const TextButton(onPressed: onPressed, child: Text("KLIK MIJ")),
+      child: TextButton(
+        child: Text("Edit"),
+        style: TextButton.styleFrom(
+            backgroundColor: Colors.red, foregroundColor: Colors.black),
+        onPressed: onPressed,
+      ),
     );
   }
 
-  Widget getReferralsRow(Referral referral) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        referralRowPhoto,
-        Text(referral.status),
-        Text(referral.participantName),
-        Text(referral.participantEmail),
-        referralRowButtonContainer()
+  DataRow getReferralsRow(Referral referral) {
+    return DataRow(
+      color: MaterialStateColor.resolveWith((states) => Colors.grey),
+      cells: <DataCell>[
+        DataCell(referralRowPhoto),
+        DataCell(Text(referral.status)),
+        DataCell(Text(referral.participantName)),
+        DataCell(Text(referral.participantEmail)),
+        DataCell(referralRowButtonContainer()),
       ],
     );
   }
@@ -61,19 +65,42 @@ class _DashboardRow extends State<DashboardRow> {
       builder: (context, snapshot) {
         List<Referral>? referrals = snapshot.data;
         if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: referrals!.length - 1,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
+          return CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: true,
+                child: DataTable(
+                  headingRowColor:
+                      MaterialStateColor.resolveWith((states) => Colors.grey),
+                  // ignore: prefer_const_literals_to_create_immutables
+                  columns: <DataColumn>[
+                    const DataColumn(
+                      label: Text("User"),
+                    ),
+                    const DataColumn(
+                      label: Text("Status"),
+                    ),
+                    const DataColumn(
+                      label: Text("Participant name"),
+                    ),
+                    const DataColumn(
+                      label: Text("Participant email"),
+                    ),
+                    const DataColumn(
+                      label: Text("Edit"),
+                    ),
+                  ],
+                  rows: snapshot.data!.map<DataRow>(
+                    (referral) {
+                      return getReferralsRow(referral);
+                    },
+                  ).toList(),
                 ),
-                child: getReferralsRow(snapshot.data![index]),
-              );
-            },
+              ),
+            ],
           );
         } else {
-          return const CircularProgressIndicator();
+          return CircularProgressIndicator();
         }
       },
     );
