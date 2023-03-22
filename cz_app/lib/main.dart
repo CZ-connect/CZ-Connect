@@ -1,19 +1,17 @@
+import 'package:cz_app/widget/app/form-app//appBackground.dart';
 import 'package:flutter/material.dart';
 import 'widget/dashboard/UserRow.dart';
 import 'widget/dashboard/FilterRow.dart';
 import 'widget/dashboard/ReferralStatus.dart';
 import 'widget/dashboard/ReferralDashboard.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static const String _title = 'CZ-Connect';
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

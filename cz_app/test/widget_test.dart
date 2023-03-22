@@ -1,30 +1,73 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:cz_app/main.dart';
+import 'package:dio/dio.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:cz_app/widget/app/form-app/form/formTextWidget.dart';
+import 'package:cz_app/widget/app/form-app/form/model/form.model.dart';
+import 'package:cz_app/widget/app/form-app/form/storeInput.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('Form Widget', () {
+    late Dio dio;
+    late DioAdapter dioAdapter;
+    late ModelForm modelForm;
+    late GlobalKey<FormState> formKey;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    setUp(() {
+      dio = Dio();
+      dioAdapter = DioAdapter(dio: dio);
+      modelForm = ModelForm(null, null);
+      formKey = GlobalKey<FormState>();
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    testWidgets('testing form for formdata', (WidgetTester tester) async {
+      final formData = FormData.fromMap({
+        'name': 'John Doe',
+        'email': 'johndoe@example.com',
+      });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+
+      final widget = MaterialApp(
+        home: Scaffold(
+          body: formWidget(),
+        ),
+      );
+      await tester.pumpWidget(widget);
+
+      await tester.enterText(
+          find.byType(TextFormField).first, formData.fields[0].value);
+      modelForm.name = formData.fields[0].value;
+      await tester.enterText(
+          find.byType(TextFormField).last, formData.fields[1].value);
+      modelForm.email = formData.fields[1].value;
+
+      await tester.tap(find.text('Submit'));
+      await tester.pump();
+      expect(modelForm.name, 'John Doe');
+      expect(modelForm.email, 'johndoe@example.com');
+    });
+
+    testWidgets('Submitting invalid form should show error message',
+        (WidgetTester tester) async {
+      final widget = MaterialApp(
+        home: Scaffold(
+          body: formWidget(),
+        ),
+      );
+      await tester.pumpWidget(widget);
+
+      await tester.tap(find.text('Submit'));
+      await tester.pump();
+
+      expect(find.text('The name is required'), findsOneWidget);
+      expect(find.text('The email address is invalid'), findsOneWidget);
+    });
+
+    test('Email validation', () {
+      expect(EmailValidator.validate('johndoe@example.com'), true);
+      expect(EmailValidator.validate('johndoe@example.'), false);
+      expect(EmailValidator.validate('johndoe'), false);
+    });
   });
 }
