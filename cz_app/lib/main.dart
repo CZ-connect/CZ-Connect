@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/Dashboard/mainDashboard.dart';
 import 'package:cz_app/widget/app/form-app//appBackground.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CZ_connect',
+      initialRoute: '/',
+      routes: {
+        '/dashboard': (context) => const OverViewWidget(),
+      },
       home: Scaffold(
         body: backgroundWidget(),
       ),
