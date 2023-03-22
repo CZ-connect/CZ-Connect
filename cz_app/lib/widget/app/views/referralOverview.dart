@@ -15,40 +15,16 @@ class ReferralOverview extends StatefulWidget {
 
 class _ReferralOverviewState extends State<ReferralOverview> {
   Map? data = {};
-
   @override
   Widget build(BuildContext context) {
     data = (data?.isNotEmpty ?? false) ? data : ModalRoute.of(context)!.settings.arguments as Map?;
 
-    var arr = [
-      Referral(
-          id: 1,
-          status: "Aangemeld",
-          participantName: "Jos Jos",
-          participantEmail: "jos@jos.nl",
-          registrationDate: DateTime.now()
-      ),
-      Referral(
-          id: 2,
-          status: "Aangemeld",
-          participantName: "Kjoen Kjoen",
-          participantEmail: "kjoen@kjoen.nl",
-          registrationDate: DateTime.now()
-      ),
-      Referral(
-          id: 3,
-          status: "Aangemeld",
-          participantName: "Marijn Marijn",
-          participantEmail: "marijn@marijn.nl",
-          registrationDate: DateTime.now(),
-      )
-    ];
     return Scaffold(
         appBar:
             AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
         body: ListView(
           children: [
-            for (var referral in arr)
+            for (var referral in data?['referrals'])
               Card(
                   margin: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
                   color: Colors.white24,

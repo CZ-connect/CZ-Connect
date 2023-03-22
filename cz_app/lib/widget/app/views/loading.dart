@@ -21,6 +21,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
    }
    catch (e)
     {
+      print(e);
       Navigator.pushReplacementNamed(context, '/error', arguments: {
         'message': 'Referrals konden niet worden ogehaald'
       });

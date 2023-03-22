@@ -11,10 +11,11 @@ class ReferralService {
   ReferralService({required this.userId});
 
   Future<void> getData() async {
-      Response response = await get(Uri.parse('https://jsonplaceholder.typicode.com/todos/$userId'));
-      Map data = jsonDecode(response.body);
-      //print(data);
-      //print(data['title']);
-      //get properties from data
+     Response response = await get(Uri.parse('http://localhost:3000/api/referral/$userId'));
+     List data = jsonDecode(response.body) as List;
+
+     Referrals = data
+            .map((referralJson) => Referral.fromJson(referralJson))
+            .toList();
   }
 }
