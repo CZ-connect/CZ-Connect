@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using CZConnect.Models;
+using CZConnect.DAL;
 
 namespace CZConnect.Controllers;
 
@@ -8,12 +8,15 @@ namespace CZConnect.Controllers;
 [Route("api/[controller]")]
 public class ReferralController : ControllerBase
 {
-    private readonly AppDBContext _AppDBContext;
+    private readonly IRepository _repository;
 
-    public ReferralController(AppDBContext AppDBContext) =>
-        _AppDBContext = AppDBContext;
+    public ReferralController(AppDBContext context, IRepository repository) =>
+        this._repository = repository;
     
     [HttpGet]
-    public async Task<List<Referral>> Get() =>
-        await _AppDBContext.Referrals.ToListAsync();
+    public async Task<ActionResult<IEnumerable<Referral>>> GetReferral()
+    {
+        var referrals = await _repository.AllAsync<Referral>();
+        return Ok(referrals);
+    }
 }

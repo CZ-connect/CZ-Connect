@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
   dio: ^5.0.3
+  http: ^0.13.5
   http_mock_adapter: ^0.4.2
 
 dev_dependencies:
