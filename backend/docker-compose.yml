@@ -20,6 +20,8 @@ services:
       - mssql:/var/opt/mssql/data
     networks:
       - czconnect
+    ports:
+      - 1433:1433
 
 networks:
   czconnect:

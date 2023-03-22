@@ -14,7 +14,11 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
 app.UseAuthorization();
 app.MapControllers();
 
