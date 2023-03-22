@@ -16,7 +16,13 @@ public class ReferralController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Referral>>> GetReferral()
     {
-        var referrals = await _repository.AllAsync<Referral>();
-        return Ok(referrals);
+        ReferralResponse referralsResponse = new ReferralResponse();
+
+        referralsResponse.referrals = await _repository.AllAsync<Referral>();
+
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.status == "Aangemeld");
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.status == "Pending");;
+
+        return Ok(referralsResponse);
     }
 }
