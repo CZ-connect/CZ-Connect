@@ -43,32 +43,11 @@ void main() {
                   "participantEmail": "m2@avans.nl",
                   "participantName": "Marijn 2",
                   "registrationDate": "2023-03-22T12:24:13.9225442",
-                  "status": "Completed"
-                },
-                {
-                  "id": 4,
-                  "participantEmail": "jos@avans.nl",
-                  "participantName": "Jos",
-                  "registrationDate": "2023-03-22T12:24:13.9225449",
-                  "status": "Completed"
-                },
-                {
-                  "id": 5,
-                  "participantEmail": "jedrek@avans.nl",
-                  "participantName": "Jedrek",
-                  "registrationDate": "2023-03-22T12:24:13.9225455",
-                  "status": "Pending"
-                },
-                {
-                  "id": 6,
-                  "participantEmail": "wballeko@avans.nl",
-                  "participantName": "William",
-                  "registrationDate": "2023-03-22T12:24:13.9225461",
                   "status": "Pending"
                 }
               ],
-              "completed": 4,
-              "pending": 2
+              "completed": 2,
+              "pending": 1
             }
           ],
         );
@@ -116,32 +95,11 @@ void main() {
                   "participantEmail": "m2@avans.nl",
                   "participantName": "Marijn 2",
                   "registrationDate": "2023-03-22T12:24:13.9225442",
-                  "status": "Completed"
-                },
-                {
-                  "id": 4,
-                  "participantEmail": "jos@avans.nl",
-                  "participantName": "Jos",
-                  "registrationDate": "2023-03-22T12:24:13.9225449",
-                  "status": "Completed"
-                },
-                {
-                  "id": 5,
-                  "participantEmail": "jedrek@avans.nl",
-                  "participantName": "Jedrek",
-                  "registrationDate": "2023-03-22T12:24:13.9225455",
-                  "status": "Pending"
-                },
-                {
-                  "id": 6,
-                  "participantEmail": "wballeko@avans.nl",
-                  "participantName": "William",
-                  "registrationDate": "2023-03-22T12:24:13.9225461",
                   "status": "Pending"
                 }
               ],
-              "completed": 4,
-              "pending": 2
+              "completed": 2,
+              "pending": 1
             }
           ],
         );
