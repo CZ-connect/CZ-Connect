@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'formTextWidget.dart';
@@ -14,7 +11,6 @@ final _formKey = GlobalKey<FormState>();
 class formWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
 
-//TODO implement dio on the backend architecture -> https://pub.dev/packages/dio#sending-formdata
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -60,7 +56,7 @@ class formWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      _formKey.currentState?.save();
+                     // _formKey.currentState?.save();
                       sendform();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
