@@ -14,8 +14,12 @@ class ReferralOverview extends StatefulWidget {
 }
 
 class _ReferralOverviewState extends State<ReferralOverview> {
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context)?.settings.arguments as Map;
+
     var arr = [
       Referral(
           id: 1,
@@ -85,18 +89,6 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                       ])))
           ],
         ));
-
   }
-  Future<void> _pullRefresh() async {
-    await fetchData();
-    setState(() {
-    });
-  }
-  Future<void> fetchData() =>
-      // Imagine that this function is
-  // more complex and slow.
-  Future.delayed(
-    const Duration(seconds: 1), () => print("getting data"),
-  );
 }
 

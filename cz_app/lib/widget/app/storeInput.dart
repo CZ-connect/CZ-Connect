@@ -4,12 +4,17 @@ import 'formTextWidget.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class formWidget extends StatelessWidget {
+class formWidget extends StatefulWidget {
   const formWidget({Key? key}) : super(key: key);
 
   @override
+  State<formWidget> createState() => _formWidgetState();
+}
+
+class _formWidgetState extends State<formWidget> {
+  @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold( body :Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -56,6 +61,6 @@ class formWidget extends StatelessWidget {
               ],
             )),
       ),
-    );
+    ));
   }
 }

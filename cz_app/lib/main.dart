@@ -1,6 +1,7 @@
 import 'package:cz_app/widget/app/app-template/appBackground.dart';
 import 'package:cz_app/widget/app/formTextWidget.dart';
 import 'package:cz_app/widget/app/storeInput.dart';
+import 'package:cz_app/widget/app/views/loading.dart';
 import 'package:cz_app/widget/app/views/referralOverview.dart';
 import 'package:flutter/material.dart';
 
@@ -12,10 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CZ_connect',
-      home: Scaffold(
-        body: ReferralOverview()
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoadingWidget(),
+        '/referralOverview': (context) => ReferralOverview()
+        },
     );
   }
 }
