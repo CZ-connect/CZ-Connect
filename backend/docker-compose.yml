@@ -12,10 +12,10 @@ services:
   
   mssql-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    # user: root 
+    user: root
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=keig0edw8woordjonguh
+      - MSSQL_SA_PASSWORD="3Q%8C7`5e_dXZ#H
     volumes:
       - mssql:/var/opt/mssql/data
     networks:

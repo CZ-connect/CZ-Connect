@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
   intl: ^0.18.0
+  dio: ^5.0.3
+  http_mock_adapter: ^0.4.2
 
 dev_dependencies:
   flutter_test:
