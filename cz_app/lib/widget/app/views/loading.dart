@@ -12,12 +12,20 @@ class LoadingWidget extends StatefulWidget {
 class _LoadingWidgetState extends State<LoadingWidget> {
 
   void setupReference() async {
-   Referral instance = Referral(userId: 1);
-   await instance.getData();
+   ReferralService instance = ReferralService(userId: 1);
+   try {
+     await instance.getData();
+     Navigator.pushReplacementNamed(context, '/referralOverview', arguments: {
+       'referrals': instance.Referrals
+     });
+   }
+   catch (e)
+    {
+      Navigator.pushReplacementNamed(context, '/error', arguments: {
+        'message': 'Referrals konden niet worden ogehaald'
+      });
+    }
    // ignore: use_build_context_synchronously
-   Navigator.pushReplacementNamed(context, '/referralOverview', arguments: {
-     'referrals': instance.Refferals
-   });
   }
 
   @override
@@ -30,7 +38,8 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Padding(padding: EdgeInsets.all(50.0),
-      child: Text("Ophalen van gegevens..."),),
+      child: Center(
+          child: Text("Ophalen van gegevens...")))
     );
   }
 }

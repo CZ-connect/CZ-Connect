@@ -14,11 +14,11 @@ class ReferralOverview extends StatefulWidget {
 }
 
 class _ReferralOverviewState extends State<ReferralOverview> {
-  Map data = {};
+  Map? data = {};
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context)?.settings.arguments as Map;
+    data = (data?.isNotEmpty ?? false) ? data : ModalRoute.of(context)!.settings.arguments as Map?;
 
     var arr = [
       Referral(
