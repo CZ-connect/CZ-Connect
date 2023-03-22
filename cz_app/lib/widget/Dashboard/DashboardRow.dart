@@ -64,7 +64,12 @@ class _DashboardRow extends State<DashboardRow> {
           return ListView.builder(
             itemCount: referrals!.length - 1,
             itemBuilder: (context, index) {
-              return getReferralsRow(snapshot.data![index]);
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                ),
+                child: getReferralsRow(snapshot.data![index]),
+              );
             },
           );
         } else {
