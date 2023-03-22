@@ -4,10 +4,10 @@ import 'FilterRow.dart';
 import 'ReferralStatus.dart';
 import 'DashboardRow.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const OverViewWidget());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class OverViewWidget extends StatelessWidget {
+  const OverViewWidget({super.key});
 
   static const String _title = 'CZ-Connect';
 
@@ -23,15 +23,15 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text(_title)),
         body: Container(
           margin: const EdgeInsets.only(left: 150.0, right: 150.0),
-          child: const OverViewWidget(),
+          child: const _OverViewWidget(),
         ),
       ),
     );
   }
 }
 
-class OverViewWidget extends StatelessWidget {
-  const OverViewWidget({super.key});
+class _OverViewWidget extends StatelessWidget {
+  const _OverViewWidget();
 
   @override
   Widget build(BuildContext context) {
