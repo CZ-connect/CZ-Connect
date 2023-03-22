@@ -16,8 +16,10 @@ class UserRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
-            Image.asset('./images/stadscafe.png', width: 70, height: 70),
-            const Text("Coen van den Berge"),
+            Expanded(
+                child: Image.asset('./images/stadscafe.png',
+                    width: 70, height: 70)),
+            const Expanded(child: Text("Coen van den Berge"))
           ],
         ),
       ),
