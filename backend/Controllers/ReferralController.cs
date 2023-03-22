@@ -21,7 +21,7 @@ public class ReferralController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
     {
-        var model = await _repository.SelectMultipleByIdAsync<Referral>(id);
+        var model = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
 
         if (model == null)
         {

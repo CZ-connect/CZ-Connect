@@ -10,5 +10,4 @@ public interface IRepository
     Task CreateAsync<T>(T entity) where T : class;
     Task UpdateAsync<T>(T entity) where T : class;
     Task DeleteAsync<T>(T entity) where T : class;
-    Task<List<T>> SelectMultipleByIdAsync<T>(long id) where T : class;
 }
