@@ -4,9 +4,13 @@ import 'package:cz_app/widget/Dashboard/UserRow.dart';
 import 'package:cz_app/widget/Dashboard/mainDashboard.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  setUpAll(nock.init);
+  setUpAll(() {
+    nock.defaultBase = "http://localhost:3000/api";
+    nock.init();
+  });
 
   setUp(() {
     nock.cleanAll();
@@ -14,6 +18,63 @@ void main() {
 
   group('OverViewWidget', () {
     testWidgets('renders UI components correctly', (WidgetTester tester) async {
+      final interceptor = nock.get("/referral")
+        ..reply(
+          200,
+          [
+            {
+              "referrals": [
+                {
+                  "id": 1,
+                  "participantEmail": "cmberge@avans.nl",
+                  "participantName": "Coen",
+                  "registrationDate": "2023-03-22T12:24:13.922536",
+                  "status": "Completed"
+                },
+                {
+                  "id": 2,
+                  "participantEmail": "m1@avans.nl",
+                  "participantName": "Marijn 1",
+                  "registrationDate": "2023-03-22T12:24:13.9225435",
+                  "status": "Completed"
+                },
+                {
+                  "id": 3,
+                  "participantEmail": "m2@avans.nl",
+                  "participantName": "Marijn 2",
+                  "registrationDate": "2023-03-22T12:24:13.9225442",
+                  "status": "Completed"
+                },
+                {
+                  "id": 4,
+                  "participantEmail": "jos@avans.nl",
+                  "participantName": "Jos",
+                  "registrationDate": "2023-03-22T12:24:13.9225449",
+                  "status": "Completed"
+                },
+                {
+                  "id": 5,
+                  "participantEmail": "jedrek@avans.nl",
+                  "participantName": "Jedrek",
+                  "registrationDate": "2023-03-22T12:24:13.9225455",
+                  "status": "Pending"
+                },
+                {
+                  "id": 6,
+                  "participantEmail": "wballeko@avans.nl",
+                  "participantName": "William",
+                  "registrationDate": "2023-03-22T12:24:13.9225461",
+                  "status": "Pending"
+                }
+              ],
+              "completed": 4,
+              "pending": 2
+            }
+          ],
+        );
+
+      expect(interceptor.isDone, true);
+
       // Build the OverViewWidget
       await tester.pumpWidget(const OverViewWidget());
 
@@ -22,6 +83,7 @@ void main() {
 
       // Verify that the UserRow and ReferralStatus widgets are being rendered
       expect(find.byType(UserRow), findsOneWidget);
+
       expect(find.byType(ReferralStatus), findsOneWidget);
 
       // Verify that the DashboardRow widget is being rendered
@@ -29,6 +91,63 @@ void main() {
     });
 
     testWidgets('renders three rows', (WidgetTester tester) async {
+      final interceptor = nock.get("/referral")
+        ..reply(
+          200,
+          [
+            {
+              "referrals": [
+                {
+                  "id": 1,
+                  "participantEmail": "cmberge@avans.nl",
+                  "participantName": "Coen",
+                  "registrationDate": "2023-03-22T12:24:13.922536",
+                  "status": "Completed"
+                },
+                {
+                  "id": 2,
+                  "participantEmail": "m1@avans.nl",
+                  "participantName": "Marijn 1",
+                  "registrationDate": "2023-03-22T12:24:13.9225435",
+                  "status": "Completed"
+                },
+                {
+                  "id": 3,
+                  "participantEmail": "m2@avans.nl",
+                  "participantName": "Marijn 2",
+                  "registrationDate": "2023-03-22T12:24:13.9225442",
+                  "status": "Completed"
+                },
+                {
+                  "id": 4,
+                  "participantEmail": "jos@avans.nl",
+                  "participantName": "Jos",
+                  "registrationDate": "2023-03-22T12:24:13.9225449",
+                  "status": "Completed"
+                },
+                {
+                  "id": 5,
+                  "participantEmail": "jedrek@avans.nl",
+                  "participantName": "Jedrek",
+                  "registrationDate": "2023-03-22T12:24:13.9225455",
+                  "status": "Pending"
+                },
+                {
+                  "id": 6,
+                  "participantEmail": "wballeko@avans.nl",
+                  "participantName": "William",
+                  "registrationDate": "2023-03-22T12:24:13.9225461",
+                  "status": "Pending"
+                }
+              ],
+              "completed": 4,
+              "pending": 2
+            }
+          ],
+        );
+
+      expect(interceptor.isDone, true);
+
       // Build the widget
       await tester.pumpWidget(const OverViewWidget());
 
