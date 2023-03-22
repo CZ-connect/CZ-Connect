@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using CZConnect.Models;
 using System.Linq.Expressions;
 
 namespace CZConnect.DAL;
@@ -18,7 +15,7 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         return this._db.Set<T>().ToListAsync();
     }
 
-    public Task<List<T>> AllAsync<T>(Expression<Func<T, bool>> filter = null) where T : class
+    public Task<List<T>> AllAsync<T>(Expression<Func<T, bool>>? filter = null) where T : class
     {
         IQueryable<T> query = this._db.Set<T>();
         if (filter != null)

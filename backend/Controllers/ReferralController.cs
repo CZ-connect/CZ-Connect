@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using CZConnect.Models;
 using CZConnect.DAL;
@@ -21,17 +20,13 @@ public class ReferralController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
     {
-        var model = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+        var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
 
-        if (model == null)
+        if (referrals == null)
         {
             return NotFound();
         }
 
-        return Ok(model);
+        return Ok(referrals);
     }
-    
-    [HttpGet]
-    public async Task<List<Referral>> Get() =>
-        await _AppDBContext.Referrals.ToListAsync();
 }
