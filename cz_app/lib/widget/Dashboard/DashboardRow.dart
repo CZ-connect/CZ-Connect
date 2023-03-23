@@ -37,10 +37,10 @@ class _DashboardRow extends State<DashboardRow> {
         ),
       ),
       child: TextButton(
-        child: Text("Bewerk"),
         style: TextButton.styleFrom(
             backgroundColor: Colors.red, foregroundColor: Colors.black),
         onPressed: onPressed,
+        child: const Text("Bewerk"),
       ),
     );
   }
@@ -104,7 +104,7 @@ class _DashboardRow extends State<DashboardRow> {
             ],
           );
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );
