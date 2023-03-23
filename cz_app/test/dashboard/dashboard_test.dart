@@ -20,21 +20,6 @@ void main() {
     const expectedJsonResponse =
         '{"referrals":[{"id":1,"participantEmail":"cmberge@avans.nl","participantName":"Coen","registrationDate":"2023-03-22T12:24:13.922536","status":"Completed"},{"id":2,"participantEmail":"m1@avans.nl","participantName":"Marijn 1","registrationDate":"2023-03-22T12:24:13.9225435","status":"Completed"},{"id":3,"participantEmail":"m2@avans.nl","participantName":"Marijn 2","registrationDate":"2023-03-22T12:24:13.9225442","status":"Completed"},{"id":4,"participantEmail":"jos@avans.nl","participantName":"Jos","registrationDate":"2023-03-22T12:24:13.9225449","status":"Completed"},{"id":5,"participantEmail":"jedrek@avans.nl","participantName":"Jedrek","registrationDate":"2023-03-22T12:24:13.9225455","status":"Pending"},{"id":6,"participantEmail":"wballeko@avans.nl","participantName":"William","registrationDate":"2023-03-22T12:24:13.9225461","status":"Pending"}],"completed":4,"pending":2}';
 
-    test('mockingBackend', () async {
-      final interceptor = nock.get("/referral")
-        ..reply(
-          200,
-          expectedJsonResponse,
-        );
-
-      final uri = Uri.parse("http://localhost:3000/api/referral");
-      final response = await http.get(uri);
-
-      expect(interceptor.isDone, true);
-      expect(response.statusCode, 200);
-      expect(response.body, expectedJsonResponse);
-    });
-
     testWidgets('renders UI components correctly', (WidgetTester tester) async {
       final interceptor = nock.get("/referral")
         ..reply(
@@ -42,14 +27,19 @@ void main() {
           expectedJsonResponse,
         );
 
-      final uri = Uri.parse("http://localhost:3000/api/referral");
-      final response = await http.get(uri);
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
 
-      expect(response.statusCode, 200);
-      expect(response.body, expectedJsonResponse);
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
 
       // Build the OverViewWidget
       await tester.pumpWidget(const OverViewWidget());
+      expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
       expect(find.text('CZ-Connect'), findsOneWidget);
@@ -61,8 +51,6 @@ void main() {
 
       // Verify that the DashboardRow widget is being rendered
       expect(find.byType(DashboardRow), findsOneWidget);
-
-      expect(interceptor.isDone, true);
     });
 
     testWidgets('renders three rows', (WidgetTester tester) async {
@@ -72,10 +60,19 @@ void main() {
           expectedJsonResponse,
         );
 
-      expect(interceptor.isDone, true);
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
+
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
 
       // Build the widget
       await tester.pumpWidget(const OverViewWidget());
+      expect(interceptor.isDone, true);
 
       // Find the three row widgets
       final userRowFinder = find.byType(UserRow);
