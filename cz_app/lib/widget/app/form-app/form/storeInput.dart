@@ -24,11 +24,11 @@ class formWidget extends StatelessWidget {
                 containerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'John do',
+                    hintText: 'Naam',
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'The name is required';
+                      return 'De naam is een verplicht veld';
                     }
                     return null;
                   },
@@ -38,13 +38,13 @@ class formWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'example@host.com',
+                    hintText: 'voorbeeld@email.nl',
                   ),
                   validator: (String? value) {
                     if (value == null ||
                         value.isEmpty ||
                         !EmailValidator.validate(value)) {
-                      return 'The email address is invalid';
+                      return 'Het emailadres is een verplicht veld';
                     }
                     return null;
                   },
@@ -56,14 +56,14 @@ class formWidget extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                     // _formKey.currentState?.save();
+                      _formKey.currentState?.save();
                       sendform();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
+                        const SnackBar(content: Text('Informatie afhandelen')),
                       );
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Verstuur'),
                 ),
               ],
             )),

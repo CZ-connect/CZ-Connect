@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 class containerTextWidget extends StatelessWidget{
   const containerTextWidget({Key? key}) : super(key: key);
-  String get h1 => "Sing up here!";
-  String get h2 => "use this form to apply";
-
+  String get h1 => "Meld je hier aan!";
+  String get h2 => "Gebruik dit formulier om te solliciteren";
 
   @override
   Widget build(BuildContext context) {
@@ -23,5 +22,4 @@ class containerTextWidget extends StatelessWidget{
       ],
     );
   }
-
 }
