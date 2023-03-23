@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/dashboard': (context) => const OverViewWidget(),
+        '/': (context) => Scaffold(
+              body: backgroundWidget(),
+            ),
       },
-      home: Scaffold(
-        body: backgroundWidget(),
-      ),
     );
   }
 }
