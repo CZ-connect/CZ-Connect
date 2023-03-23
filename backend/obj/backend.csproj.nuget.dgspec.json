@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {}
+    "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {}
   },
   "projects": {
-    "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {
+    "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
+        "projectUniqueName": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
+        "projectPath": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\gogoj\\.nuget\\packages\\",
-        "outputPath": "D:\\FlutterApps\\src\\CZ-Connect\\backend\\obj\\",
+        "outputPath": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -45,27 +45,19 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "Microsoft.AspNetCore.OpenApi": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
+            "microsoft.entityframeworkcore": {
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.Design": {
+            "microsoft.entityframeworkcore.design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "microsoft.entityframeworkcore.sqlserver": {
               "target": "Package",
               "version": "[7.0.4, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.4.0, )"
             }
           },
           "imports": [

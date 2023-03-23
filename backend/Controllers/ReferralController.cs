@@ -8,12 +8,10 @@ namespace CZConnect.Controllers;
 [Route("api/[controller]")]
 public class ReferralController : ControllerBase
 {
-    private readonly AppDBContext _AppDBContext;
     private readonly IRepository _repository;
 
-    public ReferralController(AppDBContext AppDBContext, IRepository repository) 
+    public ReferralController(IRepository repository) 
     {
-        _AppDBContext = AppDBContext;
         _repository = repository;
     }
 
