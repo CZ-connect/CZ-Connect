@@ -17,7 +17,7 @@ class UserRow extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             Expanded(
-                child: Image.asset('assets/images/stadscafe.png',
+                child: Image.asset('assets/images/profile_placeholder.png',
                     width: 70, height: 70)),
             const Expanded(child: Text("Coen van den Berge"))
           ],

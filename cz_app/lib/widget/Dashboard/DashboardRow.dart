@@ -23,7 +23,7 @@ class _DashboardRow extends State<DashboardRow> {
     height: 70,
     decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
     child: Image.asset(
-      './images/stadscafe.png',
+      './images/profile_placeholder.png',
       width: 70,
       height: 70,
     ),
