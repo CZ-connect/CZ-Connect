@@ -20,8 +20,8 @@ public class ReferralController : ControllerBase
 
         referralsResponse.referrals = await _repository.AllAsync<Referral>();
 
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.status == "Completed");
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.status == "Pending");;
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.status == "Afgerond");
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.status == "In afwachting");;
 
         return Ok(referralsResponse);
     }

@@ -33,6 +33,7 @@ namespace backend.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    employeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     participantEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     participantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     registrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -45,15 +46,15 @@ namespace backend.Migrations
 
             migrationBuilder.InsertData(
                 table: "Referrals",
-                columns: new[] { "id", "participantEmail", "participantName", "registrationDate", "status" },
+                columns: new[] { "id", "employeeName", "participantEmail", "participantName", "registrationDate", "status" },
                 values: new object[,]
                 {
-                    { 1L, "cmberge@avans.nl", "Coen", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5360), "Completed" },
-                    { 2L, "m1@avans.nl", "Marijn 1", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5435), "Completed" },
-                    { 3L, "m2@avans.nl", "Marijn 2", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5442), "Completed" },
-                    { 4L, "jos@avans.nl", "Jos", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5449), "Completed" },
-                    { 5L, "jedrek@avans.nl", "Jedrek", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5455), "Pending" },
-                    { 6L, "wballeko@avans.nl", "William", new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5461), "Pending" }
+                    { 1L, "CZ-Medewerker", "cmberge@avans.nl", "Coen", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7564), "Afgerond" },
+                    { 2L, "CZ-Medewerker", "m1@avans.nl", "Marijn 1", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7634), "In afwachting" },
+                    { 3L, "CZ-Medewerker", "m2@avans.nl", "Marijn 2", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7638), "Afgerond" },
+                    { 4L, "CZ-Medewerker", "jos@avans.nl", "Jos", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7643), "Afgerond" },
+                    { 5L, "CZ-Medewerker", "jedrek@avans.nl", "Jedrek", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7647), "Afgerond" },
+                    { 6L, "CZ-Medewerker", "wballeko@avans.nl", "William", new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7652), "In afwachting" }
                 });
         }
 

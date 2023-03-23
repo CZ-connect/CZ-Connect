@@ -37,7 +37,7 @@ class _DashboardRow extends State<DashboardRow> {
         ),
       ),
       child: TextButton(
-        child: Text("Edit"),
+        child: Text("Bewerk"),
         style: TextButton.styleFrom(
             backgroundColor: Colors.red, foregroundColor: Colors.black),
         onPressed: onPressed,
@@ -50,6 +50,7 @@ class _DashboardRow extends State<DashboardRow> {
       color: MaterialStateColor.resolveWith((states) => Colors.grey),
       cells: <DataCell>[
         DataCell(referralRowPhoto),
+        DataCell(Text(referral.employeeName)),
         DataCell(Text(referral.status)),
         DataCell(Text(referral.participantName)),
         DataCell(Text(referral.participantEmail)),
@@ -75,19 +76,22 @@ class _DashboardRow extends State<DashboardRow> {
                   // ignore: prefer_const_literals_to_create_immutables
                   columns: <DataColumn>[
                     const DataColumn(
-                      label: Text("User"),
+                      label: Text(""),
+                    ),
+                    const DataColumn(
+                      label: Text("Medewerker"),
                     ),
                     const DataColumn(
                       label: Text("Status"),
                     ),
                     const DataColumn(
-                      label: Text("Participant name"),
+                      label: Text("Naam sollicitant"),
                     ),
                     const DataColumn(
-                      label: Text("Participant email"),
+                      label: Text("Email sollicitant"),
                     ),
                     const DataColumn(
-                      label: Text("Edit"),
+                      label: Text("Bewerk"),
                     ),
                   ],
                   rows: snapshot.data!.map<DataRow>(

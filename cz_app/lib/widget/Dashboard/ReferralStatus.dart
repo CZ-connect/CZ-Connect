@@ -65,11 +65,11 @@ class _ReferralStatus extends State<ReferralStatus> {
           children: [
             Column(children: [
               Expanded(child: referralCompleted),
-              const Expanded(child: Text("Completed"))
+              const Expanded(child: Text("Afgerond"))
             ]),
             Column(children: [
               Expanded(child: referralPending),
-              const Expanded(child: Text("Pending"))
+              const Expanded(child: Text("In Afwachting"))
             ]),
           ],
         ),

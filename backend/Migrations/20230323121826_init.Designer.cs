@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230322112414_init")]
+    [Migration("20230323121826_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -54,6 +54,10 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
 
+                    b.Property<string>("employeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("participantEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -77,50 +81,56 @@ namespace backend.Migrations
                         new
                         {
                             id = 1L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "cmberge@avans.nl",
                             participantName = "Coen",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5360),
-                            status = "Completed"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7564),
+                            status = "Afgerond"
                         },
                         new
                         {
                             id = 2L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "m1@avans.nl",
                             participantName = "Marijn 1",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5435),
-                            status = "Completed"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7634),
+                            status = "In afwachting"
                         },
                         new
                         {
                             id = 3L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "m2@avans.nl",
                             participantName = "Marijn 2",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5442),
-                            status = "Completed"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7638),
+                            status = "Afgerond"
                         },
                         new
                         {
                             id = 4L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "jos@avans.nl",
                             participantName = "Jos",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5449),
-                            status = "Completed"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7643),
+                            status = "Afgerond"
                         },
                         new
                         {
                             id = 5L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "jedrek@avans.nl",
                             participantName = "Jedrek",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5455),
-                            status = "Pending"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7647),
+                            status = "Afgerond"
                         },
                         new
                         {
                             id = 6L,
+                            employeeName = "CZ-Medewerker",
                             participantEmail = "wballeko@avans.nl",
                             participantName = "William",
-                            registrationDate = new DateTime(2023, 3, 22, 12, 24, 13, 922, DateTimeKind.Local).AddTicks(5461),
-                            status = "Pending"
+                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7652),
+                            status = "In afwachting"
                         });
                 });
 #pragma warning restore 612, 618
