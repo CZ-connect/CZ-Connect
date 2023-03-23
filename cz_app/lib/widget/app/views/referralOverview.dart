@@ -1,23 +1,21 @@
-import 'dart:async';
-
-import 'package:cz_app/widget/app/app-template/bottemAppLayout.dart';
-import 'package:cz_app/widget/app/app-template/topAppLayout.dart';
-import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/intl_browser.dart';
 
 class ReferralOverview extends StatefulWidget {
+  const ReferralOverview({super.key});
+
   @override
   State<ReferralOverview> createState() => _ReferralOverviewState();
 }
 
 class _ReferralOverviewState extends State<ReferralOverview> {
   Map? data = {};
+
   @override
   Widget build(BuildContext context) {
-    data = (data?.isNotEmpty ?? false) ? data : ModalRoute.of(context)!.settings.arguments as Map?;
+    data = (data?.isNotEmpty ?? false)
+        ? data
+        : ModalRoute.of(context)!.settings.arguments as Map?;
 
     return Scaffold(
         appBar:
@@ -58,7 +56,8 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     children: [
                                   Text(
                                       'Opgegeven E-mail: ${referral.participantEmail}'),
-                                  Text('Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
+                                  Text(
+                                      'Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
                                 ])),
                           ],
                         ),
@@ -67,4 +66,3 @@ class _ReferralOverviewState extends State<ReferralOverview> {
         ));
   }
 }
-
