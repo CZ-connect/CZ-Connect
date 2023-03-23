@@ -4,7 +4,6 @@ import 'package:cz_app/widget/Dashboard/UserRow.dart';
 import 'package:cz_app/widget/Dashboard/mainDashboard.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   setUpAll(() {
