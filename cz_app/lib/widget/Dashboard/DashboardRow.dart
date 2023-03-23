@@ -91,7 +91,7 @@ class _DashboardRow extends State<DashboardRow> {
                       label: Text("Email sollicitant"),
                     ),
                     const DataColumn(
-                      label: Text("Bewerk"),
+                      label: Text("Actie"),
                     ),
                   ],
                   rows: snapshot.data!.map<DataRow>(
