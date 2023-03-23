@@ -39,7 +39,6 @@ dependencies:
   dio: ^5.0.3
   http: ^0.13.5
   http_mock_adapter: ^0.4.2
-  http: ^0.13.5
   html: ^0.15.2
   mockito: ^5.3.2
   nock: ^1.2.1
