@@ -39,7 +39,7 @@ class _DashboardRow extends State<DashboardRow> {
       child: TextButton(
         style: TextButton.styleFrom(
             backgroundColor: Colors.red, foregroundColor: Colors.black),
-        onPressed: onPressed,
+        onPressed: () => print('Bewerk'),
         child: const Text("Bewerk"),
       ),
     );
@@ -110,5 +110,3 @@ class _DashboardRow extends State<DashboardRow> {
     );
   }
 }
-
-void onPressed() {}
