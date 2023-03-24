@@ -34,7 +34,7 @@ void main() {
           find.byType(TextFormField).last, jsonMap['email'].toString());
       modelForm.email = jsonMap['email'].toString();
 
-      await tester.tap(find.text('Submit'));
+      await tester.tap(find.text('Verstuur'));
       await tester.pump();
       expect(jsonMap['name'].toString(), 'John Doe');
       expect(jsonMap['email'].toString(), 'johndoe@example.com');
@@ -49,11 +49,11 @@ void main() {
       );
       await tester.pumpWidget(widget);
 
-      await tester.tap(find.text('Submit'));
+      await tester.tap(find.text('Verstuur'));
       await tester.pump();
 
-      expect(find.text('The name is required'), findsOneWidget);
-      expect(find.text('The email address is invalid'), findsOneWidget);
+      expect(find.text('De naam is een verplicht veld'), findsOneWidget);
+      expect(find.text('Het emailadres is een verplicht veld'), findsOneWidget);
     });
 
     test('Email validation', () {

@@ -6,7 +6,6 @@ import 'form/storeInput.dart';
 class appMainContainer extends StatelessWidget {
   const appMainContainer({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -23,8 +22,6 @@ class appMainContainer extends StatelessWidget {
             .height - 250,
         child: formWidget(),
       ),
-
     );
   }
-
 }
