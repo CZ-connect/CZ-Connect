@@ -20,6 +20,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
     return Scaffold(
         appBar:
             AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
+        key: const Key('referral_overview'),
         body: ListView(
           children: [
             for (var referral in data?['referrals'])
@@ -36,13 +37,17 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                  Text(
-                                      'Referral voor ${referral.participantName}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text(referral.status,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  Flexible(
+                                    child: Text(
+                                        'Referral voor ${referral.participantName}',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  Flexible(
+                                    child: Text(referral.status,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ),
                                 ])),
                           ],
                         ),
@@ -54,10 +59,14 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                  Text(
-                                      'Opgegeven E-mail: ${referral.participantEmail}'),
-                                  Text(
-                                      'Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
+                                  Flexible(
+                                    child: Text(
+                                        'Opgegeven E-mail: ${referral.participantEmail}'),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                        'Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
+                                  ),
                                 ])),
                           ],
                         ),

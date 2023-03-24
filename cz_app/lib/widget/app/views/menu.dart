@@ -15,7 +15,7 @@ class Menu extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/loading');
             },
-            child: const Text('Refferals overzicht'),
+            child: const Text('Referrals overzicht'),
           )
         ]));
   }

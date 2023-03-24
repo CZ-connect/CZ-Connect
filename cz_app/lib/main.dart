@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => Menu(),
-        '/loading': (context) => LoadingWidget(),
-        '/referralOverview': (context) => ReferralOverview(),
-        '/error': (context) => GenericError()
+        '/': (context) => const Menu(),
+        '/loading': (context) => const LoadingWidget(),
+        '/referralOverview': (context) => const ReferralOverview(),
+        '/error': (context) => const ErrorScreen()
         },
     );
   }

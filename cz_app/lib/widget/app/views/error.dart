@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class GenericError extends StatefulWidget {
-  const GenericError({super.key});
+class ErrorScreen extends StatefulWidget {
+  const ErrorScreen({super.key});
 
   @override
-  State<GenericError> createState() => _GenericErrorState();
+  State<ErrorScreen> createState() => _ErrorScreenState();
 }
 
-class _GenericErrorState extends State<GenericError> {
+class _ErrorScreenState extends State<ErrorScreen> {
   Map? data = {};
 
   @override
@@ -27,6 +27,7 @@ class _GenericErrorState extends State<GenericError> {
     String message = data?['message'] ?? 'Iets ging verkeerd';
 
     return Scaffold(
+        key: const Key('error_screen'),
         body: Padding(
       padding: const EdgeInsets.all(50.0),
       child: Center(child: Text('Error: $message')),
