@@ -1,16 +1,16 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'formTextWidget.dart';
 import 'model/form.model.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 final _formKey = GlobalKey<FormState>();
-final dio = Dio();
 
 class formWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
 
-//TODO implement dio on the backend architecture -> https://pub.dev/packages/dio#sending-formdata
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,11 +24,11 @@ class formWidget extends StatelessWidget {
                 containerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'John do',
+                    hintText: 'Naam',
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'The name is required';
+                      return 'De naam is een verplicht veld';
                     }
                     return null;
                   },
@@ -38,13 +38,13 @@ class formWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'example@host.com',
+                    hintText: 'voorbeeld@email.nl',
                   ),
                   validator: (String? value) {
                     if (value == null ||
                         value.isEmpty ||
                         !EmailValidator.validate(value)) {
-                      return 'The email address is invalid';
+                      return 'Het emailadres is een verplicht veld';
                     }
                     return null;
                   },
@@ -54,16 +54,16 @@ class formWidget extends StatelessWidget {
                 ),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
-                  onPressed: ()  {
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
                       sendform();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
+                        const SnackBar(content: Text('Informatie afhandelen')),
                       );
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Verstuur'),
                 ),
               ],
             )),
@@ -72,11 +72,18 @@ class formWidget extends StatelessWidget {
   }
 
   Future<void> sendform() async {
-    final formData = FormData.fromMap({
-      'name': modelForm.name,
-      'email': modelForm.email,
-    });
-    
-    final response = await dio.post('/api/applicantform', data: formData);
+    var url = Uri.http('localhost:3000', '/api/applicantform');
+    Map<String, dynamic> jsonMap = {
+      'name': modelForm.name.toString(),
+      'email': modelForm.email.toString()
+    };
+    var body = json.encode(jsonMap);
+    try {
+      var response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+      // return response.body;
+    } catch (exception) {
+      print(exception.toString());
+    }
   }
 }
