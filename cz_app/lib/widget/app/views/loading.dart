@@ -16,6 +16,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
       Navigator.pushReplacementNamed(context, '/referralOverview',
           arguments: {'referrals': instance.referrals});
     } catch (e) {
+      print(e);
       Navigator.pushReplacementNamed(context, '/error',
           arguments: {'message': 'Referrals konden niet worden opgehaald'});
     }
