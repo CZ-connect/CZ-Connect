@@ -10,6 +10,7 @@ builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
+builder.Services.AddScoped<DbInit>();
 
 builder.Services.AddControllers();
 
@@ -27,6 +28,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
     db.Database.Migrate();
+    app.UseItToSeedSqlServer(); 
 }
 
 app.Run();
