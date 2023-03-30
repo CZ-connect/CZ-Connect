@@ -16,11 +16,16 @@ class MyApp extends StatelessWidget {
       title: 'CZ_connect',
       initialRoute: '/',
       routes: {
-        '/': (context) => const Menu(),
+        '/referaldashboard': (context) => const Menu(),
         '/loading': (context) => const LoadingWidget(),
-        '/referralOverview': (context) => const ReferralOverview(),
-        '/error': (context) => const ErrorScreen()
+        '/referraloverview': (context) => const ReferralOverview(),
+        '/error': (context) => const ErrorScreen(),
+        '/': (context) => Scaffold(
+        body: backgroundWidget(),
+        ),
       },
+
+    },
     );
   }
 }
