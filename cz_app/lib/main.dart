@@ -24,8 +24,6 @@ class MyApp extends StatelessWidget {
         body: backgroundWidget(),
         ),
       },
-
-    },
     );
   }
 }
