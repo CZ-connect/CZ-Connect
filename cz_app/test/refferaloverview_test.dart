@@ -1,4 +1,8 @@
 import 'package:cz_app/main.dart';
+import 'package:cz_app/widget/app/views/error.dart';
+import 'package:cz_app/widget/app/views/loading.dart';
+import 'package:cz_app/widget/app/views/menu.dart';
+import 'package:cz_app/widget/app/views/referralOverview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
@@ -12,6 +16,17 @@ void main() {
     nock.cleanAll();
   });
 
+  Widget myapp = MaterialApp(
+    title: 'CZ_connect',
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const Menu(),
+      '/loading': (context) => const LoadingWidget(),
+      '/referralOverview': (context) => const ReferralOverview(),
+      '/error': (context) => const ErrorScreen(),
+    },
+  );
+
   const expectedJsonResponse =
       '[{"id":13,"participantName":"John Doe","participantEmail":"john.doe@email.com","status":"New","registrationDate":"2022-01-01T00:00:00","employeeId":1,"employee":null},{"id":14,"participantName":"Jane Smith","participantEmail":"jane.smith@email.com","status":"Pending","registrationDate":"2022-02-15T00:00:00","employeeId":1,"employee":null}]';
 
@@ -20,7 +35,7 @@ void main() {
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/referral/1")
         ..reply(200, expectedJsonResponse);
-      await tester.pumpWidget(const MyApp());
+      await tester.pumpWidget(myapp);
 
       await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
@@ -34,7 +49,7 @@ void main() {
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/referral/1")
         ..reply(200, '[]');
-      await tester.pumpWidget(const MyApp());
+     await tester.pumpWidget(myapp);
 
       await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
@@ -49,7 +64,7 @@ void main() {
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/referral/1")
         ..reply(500, '');
-      await tester.pumpWidget(const MyApp());
+      await tester.pumpWidget(myapp);
 
       await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
