@@ -33,14 +33,11 @@ class ScreenTemplate extends StatelessWidget {
         child: Column(
           children: [
             header,
-            Column(
-                children: [
-                  body,
-                ]),
+            Column(children: [
+              body,
+            ]),
           ],
         ),
-
-
       ),
     );
   }
