@@ -13,12 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CZ_connect',
       initialRoute: '/',
       routes: {
         '/': (context) => Scaffold(
               body: ScreenTemplate(
-                title: 'formulier voor een open solicatie',
                 header: topAppWidget(),
                 body: bottemAppWidget(
                     child: appMainContainer(

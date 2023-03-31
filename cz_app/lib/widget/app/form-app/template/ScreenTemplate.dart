@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // top level ScreenTemplate
 class ScreenTemplate extends StatelessWidget {
-  final String title;
 
   // container for the header
   final Widget header;
@@ -15,7 +14,6 @@ class ScreenTemplate extends StatelessWidget {
 
   const ScreenTemplate({
     Key? key,
-    required this.title,
     required this.header,
     required this.body,
     this.leading,
@@ -24,11 +22,6 @@ class ScreenTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        leading: leading,
-        //leading logic if needed
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
