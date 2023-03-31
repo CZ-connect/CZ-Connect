@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'formTextWidget.dart';
-import 'model/form.model.dart';
+import '../model/form.model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -10,6 +10,7 @@ final _formKey = GlobalKey<FormState>();
 
 class formWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
+  formWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
