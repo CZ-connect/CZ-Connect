@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/referaldashboard': (context) => const Menu(),
         '/loading': (context) => const LoadingWidget(),
-        '/referraloverview': (context) => const ReferralOverview(),
+        '/referralOverview': (context) => const ReferralOverview(),
         '/error': (context) => const ErrorScreen(),
         '/': (context) => Scaffold(
         body: backgroundWidget(),
