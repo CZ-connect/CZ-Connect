@@ -4,7 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'form/storeInput.dart';
 
 class appMainContainer extends StatelessWidget {
-  const appMainContainer({super.key});
+  final Widget child;
+  const appMainContainer({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

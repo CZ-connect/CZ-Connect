@@ -2,10 +2,11 @@ namespace CZConnect.Models;
 
 public class Referral 
 {
-    public long id { get; set; }
-    public string employeeName { get; set; }
-    public string participantEmail { get; set; }
-    public string participantName { get; set; }
-    public DateTime registrationDate { get; set; }
-    public string status { get; set; }
+    public long Id { get; set; }
+    public string ParticipantName { get; set; }
+    public string ParticipantEmail { get; set; }
+    public string Status { get; set; }
+    public DateTime RegistrationDate { get; set; }
+    public long EmployeeId { get; set; }
+    public Employee? Employee { get; set; }
 }

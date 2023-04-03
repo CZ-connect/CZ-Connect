@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cz_app/widget/app/form-app/form/formTextWidget.dart';
-import 'package:cz_app/widget/app/form-app/form/model/form.model.dart';
+import 'package:cz_app/widget/app/form-app/model/form.model.dart';
 import 'package:cz_app/widget/app/form-app/form/storeInput.dart';
 import 'package:mockito/mockito.dart';
 
@@ -38,6 +38,7 @@ void main() {
       await tester.pump();
       expect(jsonMap['name'].toString(), 'John Doe');
       expect(jsonMap['email'].toString(), 'johndoe@example.com');
+
     });
 
     testWidgets('Submitting invalid form should show error message',
