@@ -1,7 +1,6 @@
-import 'package:cz_app/widget/app/Dashboard/models/Referral.dart';
-import 'package:cz_app/widget/app/referral_details/referral_details.dart';
+import 'package:cz_app/widget/app/models/Referral.dart';
 import 'package:flutter/material.dart';
-import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
+import 'package:cz_app/widget/app/referral_dashboard/data/ReferralData.dart';
 
 class DashboardRow extends StatefulWidget {
   const DashboardRow({super.key});
@@ -40,13 +39,7 @@ class _DashboardRow extends State<DashboardRow> {
         DataCell(Text(referral.participantEmail)),
       ],
       onSelectChanged: (selected) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ReferralDetailWidget(),
-            settings: RouteSettings(arguments: referral),
-          ),
-        );
+        Navigator.pushNamed(context, "/referraldetail", arguments: referral);
       },
     );
   }

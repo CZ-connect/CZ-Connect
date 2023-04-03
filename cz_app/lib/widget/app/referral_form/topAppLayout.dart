@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class topAppWidget extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     //TODO make this filllable with widtgets

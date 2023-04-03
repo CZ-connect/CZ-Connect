@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
+import 'package:cz_app/widget/app/referral_dashboard/data/ReferralData.dart';
 
 class ReferralStatus extends StatefulWidget {
   const ReferralStatus({super.key});

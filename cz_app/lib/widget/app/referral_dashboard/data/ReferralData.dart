@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cz_app/widget/app/Dashboard/models/Referral.dart';
+import 'package:cz_app/widget/app/models/Referral.dart';
 import 'package:http/http.dart' as http;
 
 class ReferralData {
