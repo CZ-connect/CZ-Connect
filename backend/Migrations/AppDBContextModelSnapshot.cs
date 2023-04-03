@@ -3,6 +3,8 @@ using System;
 using CZConnect.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
@@ -47,29 +49,11 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("EmployeeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParticipantEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParticipantName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status");
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.HasKey("Id");
 
@@ -97,30 +81,8 @@ namespace backend.Migrations
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
-                    b.Property<long>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
-
-                    b.Property<string>("employeeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("participantEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("participantName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("registrationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                    b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -130,72 +92,6 @@ namespace backend.Migrations
 
                     b.ToTable("Referrals");
 
-                    b.HasData(
-                        new
-                        {
-                            id = 1L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "cmberge@avans.nl",
-                            participantName = "Coen",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7564),
-                            status = "Afgerond"
-                        },
-                        new
-                        {
-                            id = 2L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "m1@avans.nl",
-                            participantName = "Marijn 1",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7634),
-                            status = "In afwachting"
-                        },
-                        new
-                        {
-                            id = 3L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "m2@avans.nl",
-                            participantName = "Marijn 2",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7638),
-                            status = "Afgerond"
-                        },
-                        new
-                        {
-                            id = 4L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "jos@avans.nl",
-                            participantName = "Jos",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7643),
-                            status = "Afgerond"
-                        },
-                        new
-                        {
-                            id = 5L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "jedrek@avans.nl",
-                            participantName = "Jedrek",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7647),
-                            status = "Afgerond"
-                        },
-                        new
-                        {
-                            id = 6L,
-                            employeeName = "CZ-Medewerker",
-                            participantEmail = "wballeko@avans.nl",
-                            participantName = "William",
-                            registrationDate = new DateTime(2023, 3, 23, 13, 18, 26, 310, DateTimeKind.Local).AddTicks(7652),
-                            status = "In afwachting"
-                        });
-                });
-
-            modelBuilder.Entity("CZConnect.Models.Referral", b =>
-                {
-                    b.HasOne("CZConnect.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>

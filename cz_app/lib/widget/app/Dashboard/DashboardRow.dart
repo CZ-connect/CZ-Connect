@@ -1,6 +1,6 @@
-import 'package:cz_app/models/referral.dart';
+import 'package:cz_app/widget/app/Dashboard/models/Referral.dart';
 import 'package:flutter/material.dart';
-import 'package:cz_app/data/ReferralData.dart';
+import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
 
 class DashboardRow extends StatefulWidget {
   const DashboardRow({super.key});
@@ -29,32 +29,14 @@ class _DashboardRow extends State<DashboardRow> {
     ),
   );
 
-  Widget referralRowButtonContainer() {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-      child: TextButton(
-        style: TextButton.styleFrom(
-            backgroundColor: Colors.red, foregroundColor: Colors.black),
-        onPressed: () => print('Bewerk'),
-        child: const Text("Bewerk"),
-      ),
-    );
-  }
-
   DataRow getReferralsRow(Referral referral) {
     return DataRow(
       color: MaterialStateColor.resolveWith((states) => Colors.grey),
       cells: <DataCell>[
         DataCell(referralRowPhoto),
-        DataCell(Text(referral.employeeName)),
         DataCell(Text(referral.status)),
         DataCell(Text(referral.participantName)),
         DataCell(Text(referral.participantEmail)),
-        DataCell(referralRowButtonContainer()),
       ],
     );
   }
@@ -80,9 +62,6 @@ class _DashboardRow extends State<DashboardRow> {
                         label: Expanded(child: Text("")),
                       ),
                       const DataColumn(
-                        label: Expanded(child: Text("Medewerker")),
-                      ),
-                      const DataColumn(
                         label: Expanded(child: Text("Status")),
                       ),
                       const DataColumn(
@@ -90,9 +69,6 @@ class _DashboardRow extends State<DashboardRow> {
                       ),
                       const DataColumn(
                         label: Expanded(child: Text("Email sollicitant")),
-                      ),
-                      const DataColumn(
-                        label: Expanded(child: Text("Actie")),
                       ),
                     ],
                     rows: snapshot.data!.map<DataRow>(

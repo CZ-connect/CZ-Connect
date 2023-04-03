@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CZConnect.Models;
 using CZConnect.DAL;
-using CZConnect.DAL;
 
 namespace CZConnect.Controllers;
 
@@ -21,8 +20,8 @@ public class ReferralController : ControllerBase
 
         referralsResponse.referrals = await _repository.AllAsync<Referral>();
 
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Afgerond");
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In afwachting");;
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");;
 
         return Ok(referralsResponse);
     }

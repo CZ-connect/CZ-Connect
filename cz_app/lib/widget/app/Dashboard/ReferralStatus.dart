@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cz_app/data/ReferralData.dart';
+import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
 
 class ReferralStatus extends StatefulWidget {
   const ReferralStatus({super.key});
@@ -66,7 +66,7 @@ class _ReferralStatus extends State<ReferralStatus> {
             Expanded(
                 child: Column(children: [
               Expanded(child: referralCompleted),
-              const Expanded(child: Text("Afgerond"))
+              const Expanded(child: Text("Goedgekeurd"))
             ])),
             Expanded(
                 child: Column(children: [

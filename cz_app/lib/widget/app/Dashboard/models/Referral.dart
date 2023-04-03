@@ -1,7 +1,6 @@
 class Referral {
   int id;
   String status;
-  String employeeName;
   String participantName;
   String participantEmail;
   DateTime registrationDate;
@@ -9,7 +8,6 @@ class Referral {
   Referral(
       {required this.id,
       required this.status,
-      required this.employeeName,
       required this.participantName,
       required this.participantEmail,
       required this.registrationDate});
@@ -17,10 +15,9 @@ class Referral {
   factory Referral.fromJson(Map<String, dynamic> json) {
     return Referral(
       id: json['id'],
-      status: json['status'],
-      employeeName: json['employeeName'],
       participantName: json['participantName'],
       participantEmail: json['participantEmail'],
+      status: json['status'],
       registrationDate: DateTime.parse(json['registrationDate']),
     );
   }
