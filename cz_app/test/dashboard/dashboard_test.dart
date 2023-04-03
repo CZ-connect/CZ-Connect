@@ -1,9 +1,7 @@
-import 'package:cz_app/models/referral.dart';
-import 'package:cz_app/widget/Dashboard/DashboardRow.dart';
-import 'package:cz_app/widget/Dashboard/ReferralStatus.dart';
-import 'package:cz_app/widget/Dashboard/UserRow.dart';
-import 'package:cz_app/widget/Dashboard/mainDashboard.dart';
-import 'package:flutter/material.dart';
+import 'package:cz_app/widget/app/Dashboard/DashboardRow.dart';
+import 'package:cz_app/widget/app/Dashboard/ReferralStatus.dart';
+import 'package:cz_app/widget/app/Dashboard/UserRow.dart';
+import 'package:cz_app/widget/app/Dashboard/mainDashboard.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
 

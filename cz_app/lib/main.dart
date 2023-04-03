@@ -1,4 +1,4 @@
-import 'package:cz_app/widget/Dashboard/mainDashboard.dart';
+import 'package:cz_app/widget/app/Dashboard/mainDashboard.dart';
 import 'package:cz_app/widget/app/form-app//appBackground.dart';
 import 'package:flutter/material.dart';
 
