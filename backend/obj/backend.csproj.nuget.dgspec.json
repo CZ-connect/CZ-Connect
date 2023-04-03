@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {}
+    "c:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {
+    "c:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
+        "projectUniqueName": "c:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
+        "projectPath": "c:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\coenv\\.nuget\\packages\\",
-        "outputPath": "C:\\Flutter\\CZ-Connect\\backend\\obj\\",
+        "outputPath": "c:\\Flutter\\CZ-Connect\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\coenv\\AppData\\Roaming\\NuGet\\NuGet.Config"
