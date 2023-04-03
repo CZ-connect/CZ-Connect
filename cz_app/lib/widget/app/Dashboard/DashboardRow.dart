@@ -1,4 +1,5 @@
 import 'package:cz_app/widget/app/Dashboard/models/Referral.dart';
+import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
 
@@ -38,6 +39,15 @@ class _DashboardRow extends State<DashboardRow> {
         DataCell(Text(referral.participantName)),
         DataCell(Text(referral.participantEmail)),
       ],
+      onSelectChanged: (selected) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ReferralDetailWidget(),
+            settings: RouteSettings(arguments: referral),
+          ),
+        );
+      },
     );
   }
 
@@ -48,12 +58,12 @@ class _DashboardRow extends State<DashboardRow> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            List<Referral>? referrals = snapshot.data;
             return CustomScrollView(
               slivers: [
                 SliverFillRemaining(
                   hasScrollBody: true,
                   child: DataTable(
+                    showCheckboxColumn: false,
                     headingRowColor:
                         MaterialStateColor.resolveWith((states) => Colors.grey),
                     // ignore: prefer_const_literals_to_create_immutables

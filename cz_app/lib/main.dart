@@ -1,4 +1,5 @@
 import 'package:cz_app/widget/app/Dashboard/mainDashboard.dart';
+import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/views/error.dart';
 import 'package:cz_app/widget/app/views/loading.dart';
 import 'package:cz_app/widget/app/views/referralOverview.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/loading': (context) => const LoadingWidget(),
         '/referralOverview': (context) => const ReferralOverview(),
         '/error': (context) => const ErrorScreen(),
+        '/referraldetail': (context) => const ReferralDetailWidget(),
         '/': (context) => Scaffold(
               body: ScreenTemplate(
                 header: topAppWidget(),
