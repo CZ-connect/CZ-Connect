@@ -1,4 +1,4 @@
-import 'package:cz_app/models/Referral.dart';
+import 'package:cz_app/models/referral.dart';
 import 'package:cz_app/widget/Dashboard/DashboardRow.dart';
 import 'package:cz_app/widget/Dashboard/ReferralStatus.dart';
 import 'package:cz_app/widget/Dashboard/UserRow.dart';
@@ -83,10 +83,41 @@ void main() {
       expect(userRowFinder, findsOneWidget);
       expect(referralStatusFinder, findsOneWidget);
       expect(dashboardRowFinder, findsOneWidget);
+    });
 
-      // Display data fetched from the json response even if it is off screen
-      expect(find.text("Coen", skipOffstage: false), findsWidgets);
-      expect(find.text("jos@example.com", skipOffstage: false), findsWidgets);
+    testWidgets('renders async data', (WidgetTester tester) async {
+      final interceptor = nock.get("/referral")
+        ..reply(
+          200,
+          expectedJsonResponse,
+        );
+
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
+
+      nock.get("/referral").reply(
+            200,
+            expectedJsonResponse,
+          );
+
+      // Build the widget
+      await tester.runAsync(() async {
+        await tester.pumpWidget(const OverViewWidget());
+        await tester.pumpAndSettle();
+      });
+
+      expect(interceptor.isDone, true);
+
+      // Display the amount of completed and pending referrals
+      await expectLater(find.text("4", skipOffstage: false), findsWidgets);
+      await expectLater(find.text("2", skipOffstage: false), findsWidgets);
+
+      // Display the name and email of some referrals
+      await expectLater(find.text("Coen", skipOffstage: false), findsWidgets);
+      await expectLater(
+          find.text("jos@example.com", skipOffstage: false), findsWidgets);
     });
   });
 }
