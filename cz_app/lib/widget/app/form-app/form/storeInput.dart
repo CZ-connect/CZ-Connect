@@ -10,6 +10,7 @@ final _formKey = GlobalKey<FormState>();
 
 class formWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
+
   formWidget({super.key});
 
   @override
@@ -84,7 +85,7 @@ class formWidget extends StatelessWidget {
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(content: Text('Client error: ${response.statusCode}')),
+          SnackBar(content: Text('Client error: ${response.statusCode}')),
         );
         throw Exception('Client error: ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
@@ -94,8 +95,6 @@ class formWidget extends StatelessWidget {
         throw Exception('Server error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {
-      print(exception.toString());
-    }
+    } catch (exception) {}
   }
 }
