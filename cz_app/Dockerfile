@@ -34,4 +34,4 @@ FROM nginx:1.23 as runtime
 
 COPY --from=builder /opt/CZ-connect/build /usr/share/nginx/html
 
-EXPOSE 3000
+EXPOSE 3011

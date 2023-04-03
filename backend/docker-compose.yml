@@ -13,6 +13,8 @@ services:
   mssql-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     user: root
+    ports:
+      - 1433:1433
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD="3Q%8C7`5e_dXZ#H
@@ -20,8 +22,6 @@ services:
       - mssql:/var/opt/mssql/data
     networks:
       - czconnect
-    ports:
-      - 1433:1433
 
 networks:
   czconnect:
