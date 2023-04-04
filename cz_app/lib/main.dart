@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/Referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/bottom.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/container.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/template.dart';
@@ -26,6 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      onGenerateRoute: (settings) {
+        if (settings.name == '/referraldetail') {
+          final Referral arg = settings.arguments as Referral;
+        }
+      },
       initialRoute: '/',
       routes: {
         '/referraldashboard': (context) => const Scaffold(

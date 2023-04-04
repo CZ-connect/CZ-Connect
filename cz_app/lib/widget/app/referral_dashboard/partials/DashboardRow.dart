@@ -35,12 +35,23 @@ class _DashboardRow extends State<DashboardRow> {
       cells: <DataCell>[
         DataCell(referralRowPhoto),
         DataCell(Text(referral.status)),
-        DataCell(Text(referral.participantName)),
+        DataCell(
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              child: Text(
+                referral.participantName,
+                style: TextStyle(color: Colors.blue),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, "/referraldetail",
+                    arguments: referral);
+              },
+            ),
+          ),
+        ),
         DataCell(Text(referral.participantEmail)),
       ],
-      onSelectChanged: (selected) {
-        Navigator.pushNamed(context, "/referraldetail", arguments: referral);
-      },
     );
   }
 

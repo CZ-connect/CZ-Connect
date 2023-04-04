@@ -11,6 +11,7 @@ class ReferralDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final referral = ModalRoute.of(context)!.settings.arguments as Referral;
     return SizedBox.expand(
+      key: const Key("referral_details"),
       child: Column(
         children: [
           FractionallySizedBox(
@@ -23,7 +24,10 @@ class ReferralDetailWidget extends StatelessWidget {
               columns: <DataColumn>[
                 const DataColumn(
                   label: Expanded(
-                    child: Text("Informatie over:"),
+                    child: Text(
+                      "Informatie over:",
+                      key: Key('info'),
+                    ),
                   ),
                 ),
                 DataColumn(
