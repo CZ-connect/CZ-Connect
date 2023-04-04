@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'package:cz_app/widget/app/models/Referral.dart';
+import 'dart:convert' show jsonDecode;
+import '../../models/Referral.dart' show Referral;
 import 'package:http/http.dart' as http;
 
 class ReferralData {
