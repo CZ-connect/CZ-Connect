@@ -41,7 +41,7 @@ class _DashboardRow extends State<DashboardRow> {
             child: GestureDetector(
               child: Text(
                 referral.participantName,
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Colors.blueAccent),
               ),
               onTap: () {
                 Navigator.pushNamed(context, "/referraldetail",
