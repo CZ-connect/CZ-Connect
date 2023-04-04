@@ -1,3 +1,7 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:nock/nock.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/bottom.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/container.dart';
 import 'package:cz_app/widget/app/referral_dashboard/layout/template.dart';
@@ -8,9 +12,6 @@ import 'package:cz_app/widget/app/referral_details/layout/container.dart';
 import 'package:cz_app/widget/app/referral_details/layout/template.dart';
 import 'package:cz_app/widget/app/referral_details/layout/top.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:nock/nock.dart';
 
 void main() {
   setUpAll(() {
