@@ -340,7 +340,7 @@ packages:
     source: hosted
     version: "5.3.2"
   nock:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: nock
       sha256: "6c5dbffd04434df682f6b380d7d8f27f10298a64003c06ae678d48e13db52f4d"

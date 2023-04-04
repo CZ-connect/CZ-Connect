@@ -1,4 +1,3 @@
-import 'package:cz_app/main.dart';
 import 'package:cz_app/widget/app/views/error.dart';
 import 'package:cz_app/widget/app/views/loading.dart';
 import 'package:cz_app/widget/app/views/menu.dart';
@@ -49,7 +48,7 @@ void main() {
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/referral/1")
         ..reply(200, '[]');
-     await tester.pumpWidget(myapp);
+      await tester.pumpWidget(myapp);
 
       await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();

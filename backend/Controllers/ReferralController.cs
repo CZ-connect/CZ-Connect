@@ -10,9 +10,20 @@ public class ReferralController : ControllerBase
 {
     private readonly IRepository _repository;
 
-    public ReferralController(IRepository repository) 
+    public ReferralController(IRepository repository) =>
+        this._repository = repository;
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Referral>>> GetReferral()
     {
-        _repository = repository;
+        ReferralResponse referralsResponse = new ReferralResponse();
+
+        referralsResponse.referrals = await _repository.AllAsync<Referral>();
+
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");;
+
+        return Ok(referralsResponse);
     }
 
     [HttpGet("{id}")]
@@ -28,3 +39,4 @@ public class ReferralController : ControllerBase
         return Ok(referrals);
     }
 }
+   

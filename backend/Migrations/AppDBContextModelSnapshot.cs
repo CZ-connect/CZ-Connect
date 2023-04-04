@@ -91,6 +91,7 @@ namespace backend.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Referrals");
+
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>
