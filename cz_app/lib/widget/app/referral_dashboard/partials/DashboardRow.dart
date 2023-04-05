@@ -1,4 +1,4 @@
-import '../../models/Referral.dart' show Referral;
+import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/ReferralData.dart';
 
