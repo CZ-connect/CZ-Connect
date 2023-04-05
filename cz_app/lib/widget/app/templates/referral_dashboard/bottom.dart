@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ReferralIndexBottomWidget extends StatelessWidget {
+class ReferralDashboardBottomWidget extends StatelessWidget {
   final Widget child;
-  const ReferralIndexBottomWidget({super.key, required this.child});
+  const ReferralDashboardBottomWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

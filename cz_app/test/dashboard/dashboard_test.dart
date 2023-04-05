@@ -1,16 +1,12 @@
-import 'package:cz_app/widget/app/referral_dashboard/layout/bottom.dart';
-import 'package:cz_app/widget/app/referral_dashboard/layout/container.dart';
-import 'package:cz_app/widget/app/referral_dashboard/layout/template.dart';
-import 'package:cz_app/widget/app/referral_dashboard/layout/top.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/ReferralStatus.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/UserRow.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/DashboardRow.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
-import 'package:cz_app/widget/app/referral_details/layout/bottom.dart';
-import 'package:cz_app/widget/app/referral_details/layout/container.dart';
-import 'package:cz_app/widget/app/referral_details/layout/template.dart';
-import 'package:cz_app/widget/app/referral_details/layout/top.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
+import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
+import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
+import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
+import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
@@ -29,20 +25,20 @@ void main() {
     initialRoute: '/',
     routes: {
       '/': (context) => const Scaffold(
-            body: ReferralIndexTemplate(
-              header: ReferralIndexTopWidget(),
-              body: ReferralIndexBottomWidget(
-                child: ReferralIndexContainerWidget(
-                  child: OverViewWidget(),
+            body: ReferralDashboardTemplate(
+              header: ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
+                  child: ReferralDashboardIndexWidget(),
                 ),
               ),
             ),
           ),
       '/referraldetail': (context) => const Scaffold(
-            body: ReferralDetailTemplate(
-              header: ReferralDetailTopWidget(),
-              body: ReferralDetailBottomWidget(
-                child: ReferralDetailContainerWidget(
+            body: ReferralDashboardTemplate(
+              header: ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
                   child: ReferralDetailWidget(),
                 ),
               ),

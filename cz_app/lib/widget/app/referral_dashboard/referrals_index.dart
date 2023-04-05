@@ -3,10 +3,10 @@ import 'package:cz_app/widget/app/referral_dashboard/partials/ReferralStatus.dar
 import 'package:cz_app/widget/app/referral_dashboard/partials/UserRow.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const OverViewWidget());
+void main() => runApp(const ReferralDashboardIndexWidget());
 
-class OverViewWidget extends StatelessWidget {
-  const OverViewWidget({super.key});
+class ReferralDashboardIndexWidget extends StatelessWidget {
+  const ReferralDashboardIndexWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
