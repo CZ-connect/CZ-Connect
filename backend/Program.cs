@@ -11,7 +11,7 @@ builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
 builder.Services.AddScoped<DbInit>();
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -22,6 +22,12 @@ app.UseCors(x => x
     .AllowCredentials());
 app.UseAuthorization();
 app.MapControllers();
+app.UseSwagger();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerUI();
+}
 
 // Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
