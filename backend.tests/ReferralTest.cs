@@ -29,6 +29,38 @@ public class ReferralTest
         };
     }
 
+
+    [TestMethod]
+    public async Task GetIndividualReferral_Should_Succeed() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(1))
+        .ReturnsAsync(_referrals.FirstOrDefault(r => r.Id == 1));
+
+        var controller = new ReferralController(mockRepository.Object);
+        var result = await controller.GetIndividualReferral(1);
+
+        var okResult = result.Result as OkObjectResult;
+        
+        Assert.IsNotNull(okResult);
+        Assert.AreEqual(200, okResult.StatusCode);
+        Assert.IsInstanceOfType(okResult.Value, typeof(Referral)); 
+    }
+
+    [TestMethod]
+    public async Task GetIndividualReferral_Should_Give_NotFound() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(8))
+        .ReturnsAsync(() => null);
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.GetIndividualReferral(8);
+
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+    }
+
+
     [TestMethod]
     public async Task GetRefferalById_Should_Succeed()
     {
