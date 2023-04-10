@@ -1,75 +1,94 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import '../../models/employee.dart';
+import '../data/data.dart';
 import 'formTextWidget.dart';
 import '../model/form.model.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 final _formKey = GlobalKey<FormState>();
 
 class formWidget extends StatelessWidget {
-  ModelForm modelForm = ModelForm(null, null);
-
-  formWidget({super.key});
+  formWidget({Key? key}) : super(key: key);
+  ModelForm modelForm = ModelForm(null, null, null);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
-        child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                containerTextWidget(),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Naam',
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'De naam is een verplicht veld';
-                    }
-                    return null;
-                  },
-                  onSaved: (String? value) {
-                    modelForm.name = value;
-                  },
+    return FutureBuilder<Employee?>(
+      future: EmployeeData().fetchEmployee(),
+      builder: (BuildContext context, AsyncSnapshot<Employee?> snapshot) {
+        if (snapshot.hasData) {
+          final employee = snapshot.data;
+          final modelForm = ModelForm(employee?.name, employee?.email, null);
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    containerTextWidget(),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Naam',
+                      ),
+                      initialValue: employee?.name,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'De naam is een verplicht veld';
+                        }
+                        return null;
+                      },
+                      onSaved: (String? value) {
+                        modelForm.name = value;
+                      },
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'voorbeeld@email.nl',
+                      ),
+                      initialValue: employee?.email,
+                      validator: (String? value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !EmailValidator.validate(value)) {
+                          return 'Het emailadres is een verplicht veld';
+                        }
+                        return null;
+                      },
+                      onSaved: (String? value) {
+                        modelForm.email = value;
+                      },
+                    ),
+                    const Padding(padding: EdgeInsets.all(8.0)),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState?.save();
+                          sendform(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Informatie afhandelen')),
+                          );
+                        }
+                      },
+                      child: const Text('Verstuur'),
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'voorbeeld@email.nl',
-                  ),
-                  validator: (String? value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !EmailValidator.validate(value)) {
-                      return 'Het emailadres is een verplicht veld';
-                    }
-                    return null;
-                  },
-                  onSaved: (String? value) {
-                    modelForm.email = value;
-                  },
-                ),
-                const Padding(padding: EdgeInsets.all(8.0)),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState?.save();
-                      sendform(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Informatie afhandelen')),
-                      );
-                    }
-                  },
-                  child: const Text('Verstuur'),
-                ),
-              ],
-            )),
-      ),
+              ),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          log(snapshot.error.toString());
+          return Text('Er is iets fout gegaan bij het laden van de gegevens.');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 
@@ -90,11 +109,17 @@ class formWidget extends StatelessWidget {
         throw Exception('Client error: ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Server error: ${response.statusCode}')));
+        throw Exception('Client error: ${response.statusCode}');
+      } else if (response.statusCode >= 500 && response.statusCode <= 599) {
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Server error: ${response.statusCode}')),
         );
         throw Exception('Server error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      log(exception.toString());
+    }
   }
 }
