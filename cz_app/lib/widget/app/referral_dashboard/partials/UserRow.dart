@@ -19,7 +19,9 @@ class UserRow extends StatelessWidget {
             Expanded(
                 child: Image.asset('assets/images/profile_placeholder.png',
                     width: 70, height: 70)),
-            const Expanded(child: Text("Coen van den Berge"))
+            const Text(
+              'Coen van den Berge',
+            )
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:cz_app/widget/app/form-app/model/form.model.dart';
-import 'package:cz_app/widget/app/form-app/form/storeInput.dart';
+import 'package:cz_app/widget/app/models/form.model.dart';
+import 'package:cz_app/widget/app/referral_form/form/storeInput.dart';
 
 void main() {
   group('Form Widget', () {

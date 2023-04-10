@@ -1,6 +1,6 @@
-import 'package:cz_app/widget/app/Dashboard/models/Referral.dart';
+import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
-import 'package:cz_app/widget/app/Dashboard/data/ReferralData.dart';
+import 'package:cz_app/widget/app/referral_dashboard/data/ReferralData.dart';
 
 class DashboardRow extends StatefulWidget {
   const DashboardRow({super.key});
@@ -35,7 +35,21 @@ class _DashboardRow extends State<DashboardRow> {
       cells: <DataCell>[
         DataCell(referralRowPhoto),
         DataCell(Text(referral.status)),
-        DataCell(Text(referral.participantName)),
+        DataCell(
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              child: Text(
+                referral.participantName,
+                style: TextStyle(color: Colors.blueAccent),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, "/referraldetail",
+                    arguments: referral);
+              },
+            ),
+          ),
+        ),
         DataCell(Text(referral.participantEmail)),
       ],
     );
@@ -48,12 +62,12 @@ class _DashboardRow extends State<DashboardRow> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            List<Referral>? referrals = snapshot.data;
             return CustomScrollView(
               slivers: [
                 SliverFillRemaining(
                   hasScrollBody: true,
                   child: DataTable(
+                    showCheckboxColumn: false,
                     headingRowColor:
                         MaterialStateColor.resolveWith((states) => Colors.grey),
                     // ignore: prefer_const_literals_to_create_immutables

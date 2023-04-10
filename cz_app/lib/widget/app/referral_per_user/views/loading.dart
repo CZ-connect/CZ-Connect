@@ -1,5 +1,5 @@
+import 'package:cz_app/widget/app/referral_per_user/services/referralService.dart';
 import 'package:flutter/material.dart';
-import 'package:cz_app/widget/app/services/referralService.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({super.key});
