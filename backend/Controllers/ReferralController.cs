@@ -39,7 +39,7 @@ public class ReferralController : ControllerBase
         return Ok(referrals);
     }
 
-    [HttpGet("/individual/{id}")]
+    [HttpGet("individual/{id}")]
     public async Task<ActionResult<Referral>> GetIndividualReferral(long id)
     {
         var referral = await _repository.SelectByIdAsync<Referral>(id);
@@ -52,24 +52,15 @@ public class ReferralController : ControllerBase
         return Ok(referral);
     }
 
-    [HttpPut("/individual/{id}")]
-    public async Task<ActionResult<Referral>> UpdateReferral(long id, [FromBody] string status)
+    [HttpPut("individual/{id}")]
+    public async Task<ActionResult<Referral>> UpdateReferral(Referral referral)
     {
-        if(string.IsNullOrWhiteSpace(status)) 
-        {
-            return BadRequest("Status can not be empty");
-        }
-
-        var referral = await _repository.SelectByIdAsync<Referral>(id);
-
         if(referral == null) 
         {
             return NotFound();
         } 
 
-        referral.Status = status;
-        _repository.UpdateAsync(referral);
-
+        await _repository.UpdateAsync(referral);
         return Ok();
     }
 }

@@ -29,6 +29,32 @@ public class ReferralTest
         };
     }
 
+    [TestMethod]
+    public async Task UpdateReferralStatus_Should_Succeed() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.UpdateReferral(_referrals.First());
+        
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(OkResult));
+    }
+
+    [TestMethod]
+    public async Task UpdateReferralStatus_Should_Fail() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.UpdateReferral(null);
+        
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+    }
+
 
     [TestMethod]
     public async Task GetIndividualReferral_Should_Succeed() 

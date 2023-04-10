@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 builder.Services.AddScoped<DbInit>();
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 var app = builder.Build();
 app.UseCors(x => x
