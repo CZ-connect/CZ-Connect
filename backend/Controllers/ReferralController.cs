@@ -67,7 +67,7 @@ public class ReferralController : ControllerBase
             return NotFound();
         } 
 
-        refferal.status = status;
+        referral.Status = status;
         _repository.UpdateAsync(referral);
 
         return Ok();

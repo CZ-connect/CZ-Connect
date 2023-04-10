@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {}
+    "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj": {
+    "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
+        "projectUniqueName": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Flutter\\CZ-Connect\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\coenv\\.nuget\\packages\\",
-        "outputPath": "C:\\Flutter\\CZ-Connect\\backend\\obj\\",
+        "projectPath": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\gogoj\\.nuget\\packages\\",
+        "outputPath": "d:\\FlutterApps\\src\\CZ-Connect\\backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\coenv\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\gogoj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
