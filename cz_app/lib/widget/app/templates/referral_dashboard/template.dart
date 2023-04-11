@@ -21,9 +21,10 @@ class ReferralDashboardTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black12,
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: [ // margin top of 20 pixels
             header,
             Column(children: [
               body,

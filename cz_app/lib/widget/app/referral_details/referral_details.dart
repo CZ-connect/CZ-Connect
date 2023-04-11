@@ -26,7 +26,7 @@ class ReferralDetailWidget extends StatelessWidget {
               child: DataTable(
                 showCheckboxColumn: false,
                 headingRowColor:
-                    MaterialStateColor.resolveWith((states) => Colors.grey),
+                    MaterialStateColor.resolveWith((states) => Colors.white12),
                 columns: <DataColumn>[
                   const DataColumn(
                     label: Expanded(
