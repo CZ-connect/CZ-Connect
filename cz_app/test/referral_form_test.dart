@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cz_app/widget/app/referral_form/partials/store_input.dart';
+import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
