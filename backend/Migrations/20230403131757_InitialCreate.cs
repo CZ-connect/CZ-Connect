@@ -50,7 +50,7 @@ namespace backend.Migrations
                     ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<long>(type: "bigint", nullable: false)
+                    EmployeeId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {

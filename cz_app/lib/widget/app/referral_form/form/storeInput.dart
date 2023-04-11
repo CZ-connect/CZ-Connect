@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'formTextWidget.dart';
 import '../../models/form.model.dart';
 import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
 import 'dart:convert' as convert;
 
 final _formKey = GlobalKey<FormState>();
@@ -74,10 +75,13 @@ class formWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/applicantform');
+    var url = Uri.http('localhost:3000', '/api/referral');
     Map<String, dynamic> jsonMap = {
-      'name': modelForm.name.toString(),
-      'email': modelForm.email.toString()
+      'participantName': modelForm.name.toString(),
+      'participantEmail': modelForm.email.toString(),
+      'status': 'In Afwachting',
+      'registrationDate': DateTime.now().toIso8601String(),
+      'employeeId': null
     };
     var body = json.encode(jsonMap);
     try {

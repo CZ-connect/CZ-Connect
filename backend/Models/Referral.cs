@@ -7,6 +7,6 @@ public class Referral
     public string ParticipantEmail { get; set; }
     public string Status { get; set; }
     public DateTime RegistrationDate { get; set; }
-    public long EmployeeId { get; set; }
+    public long? EmployeeId { get; set; }
     public Employee? Employee { get; set; }
 }
