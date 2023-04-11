@@ -1,6 +1,6 @@
-import 'package:cz_app/widget/app/referral_dashboard/partials/ReferralStatus.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/UserRow.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/DashboardRow.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/user_row.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/dashboard_row.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
@@ -21,7 +21,7 @@ void main() {
     nock.cleanAll();
   });
 
-  Widget ReferralDashboard = MaterialApp(
+  Widget referralDashboard = MaterialApp(
     initialRoute: '/',
     routes: {
       '/': (context) => const Scaffold(
@@ -67,7 +67,7 @@ void main() {
           );
 
       // Build the OverViewWidget
-      await tester.pumpWidget(ReferralDashboard);
+      await tester.pumpWidget(referralDashboard);
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
@@ -100,7 +100,7 @@ void main() {
           );
 
       // Build the widget
-      await tester.pumpWidget(ReferralDashboard);
+      await tester.pumpWidget(referralDashboard);
       expect(interceptor.isDone, true);
 
       // Find the three row widgets
@@ -133,7 +133,7 @@ void main() {
 
       // Build the widget
       await tester.runAsync(() async {
-        await tester.pumpWidget(ReferralDashboard);
+        await tester.pumpWidget(referralDashboard);
         await tester.pumpAndSettle();
       });
 

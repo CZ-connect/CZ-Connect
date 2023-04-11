@@ -1,17 +1,22 @@
+//Referral Dashboard & Details
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
-import 'package:cz_app/widget/app/referral_details/referral_details.dart';
-import 'package:cz_app/widget/app/referral_form/appMainContainer.dart';
-import 'package:cz_app/widget/app/referral_form/bottemAppLayout.dart';
-import 'package:cz_app/widget/app/referral_form/form/storeInput.dart';
-import 'package:cz_app/widget/app/referral_form/template/ScreenTemplate.dart';
-import 'package:cz_app/widget/app/referral_form/topAppLayout.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/referralOverview.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
+import 'package:cz_app/widget/app/referral_details/referral_details.dart';
+//Referral Overview
+import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/menu.dart';
+//Referral Form
+import 'package:cz_app/widget/app/referral_form//store_input.dart';
+import 'package:cz_app/widget/app/templates/referral_form/screen_template.dart';
+import 'package:cz_app/widget/app/templates/referral_form/top_app_layout.dart';
+import 'package:cz_app/widget/app/templates/referral_form/bottom_app_layout.dart';
+import 'package:cz_app/widget/app/templates/referral_form/app_main_container.dart';
+//General
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
+        '/referralMenu': (context) => const Menu(),
         '/referralOverview': (context) => const ReferralOverview(),
         '/referraldetail': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
@@ -49,10 +55,10 @@ class MyApp extends StatelessWidget {
         '/error': (context) => const ErrorScreen(),
         '/': (context) => Scaffold(
               body: ScreenTemplate(
-                header: topAppWidget(),
-                body: bottemAppWidget(
-                  child: appMainContainer(
-                    child: formWidget(),
+                header: const TopAppWidget(),
+                body: BottemAppWidget(
+                  child: AppMainContainer(
+                    child: FormWidget(),
                   ),
                 ),
               ),

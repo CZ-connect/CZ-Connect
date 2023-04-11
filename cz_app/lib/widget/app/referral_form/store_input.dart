@@ -1,17 +1,17 @@
 import 'dart:convert';
+import 'package:cz_app/widget/app/models/form.model.dart';
+import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'formTextWidget.dart';
-import '../../models/form.model.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 final _formKey = GlobalKey<FormState>();
 
-class formWidget extends StatelessWidget {
+// ignore: must_be_immutable
+class FormWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
 
-  formWidget({super.key});
+  FormWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class formWidget extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                containerTextWidget(),
+                const ContainerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Naam',
@@ -84,17 +84,21 @@ class formWidget extends StatelessWidget {
       var response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Client error: ${response.statusCode}')),
         );
         throw Exception('Client error: ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Server error: ${response.statusCode}')),
         );
         throw Exception('Server error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      throw Exception(exception);
+    }
   }
 }

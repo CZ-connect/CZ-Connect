@@ -1,6 +1,6 @@
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
-import 'package:cz_app/widget/app/referral_dashboard/data/ReferralData.dart';
+import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
 
 class DashboardRow extends StatefulWidget {
   const DashboardRow({super.key});
@@ -41,7 +41,7 @@ class _DashboardRow extends State<DashboardRow> {
             child: GestureDetector(
               child: Text(
                 referral.participantName,
-                style: TextStyle(color: Colors.blueAccent),
+                style: const TextStyle(color: Colors.blueAccent),
               ),
               onTap: () {
                 Navigator.pushNamed(context, "/referraldetail",

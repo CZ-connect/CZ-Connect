@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cz_app/widget/app/models/form.model.dart';
-import 'package:cz_app/widget/app/referral_form/form/storeInput.dart';
+import 'package:cz_app/widget/app/referral_form/store_input.dart';
 
 void main() {
   group('Form Widget', () {
@@ -14,7 +14,7 @@ void main() {
     testWidgets('testing form for formdata', (WidgetTester tester) async {
       final widget = MaterialApp(
         home: Scaffold(
-          body: formWidget(),
+          body: FormWidget(),
         ),
       );
       await tester.pumpWidget(widget);
@@ -39,7 +39,7 @@ void main() {
         (WidgetTester tester) async {
       final widget = MaterialApp(
         home: Scaffold(
-          body: formWidget(),
+          body: FormWidget(),
         ),
       );
       await tester.pumpWidget(widget);

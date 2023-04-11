@@ -17,7 +17,7 @@ void main() {
   setUp(() {
     nock.cleanAll();
   });
-  Widget ReferralDashboard = MaterialApp(
+  Widget referralDashboard = MaterialApp(
     initialRoute: '/',
     routes: {
       '/': (context) => const Scaffold(
@@ -64,7 +64,7 @@ void main() {
           );
       //Load Async Widget
       await tester.runAsync(() async {
-        await tester.pumpWidget(ReferralDashboard);
+        await tester.pumpWidget(referralDashboard);
         await tester.pumpAndSettle();
       });
       //Expect the data is loaded

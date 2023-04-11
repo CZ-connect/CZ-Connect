@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'appMainContainer.dart';
-
-class bottemAppWidget extends StatelessWidget {
+class BottemAppWidget extends StatelessWidget {
   final Widget child;
 
-  const bottemAppWidget({super.key, required this.child});
+  const BottemAppWidget({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
     //TODO make this filllable with widtgets
@@ -18,7 +16,7 @@ class bottemAppWidget extends StatelessWidget {
           color: Colors.black12),
       width: double.maxFinite,
       height: MediaQuery.of(context).size.height - 250,
-       child: child,
+      child: child,
     );
   }
 }
