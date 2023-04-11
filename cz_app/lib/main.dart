@@ -51,10 +51,9 @@ class MyApp extends StatelessWidget {
               body: ScreenTemplate(
                 header: topAppWidget(),
                 body: bottemAppWidget(
-                  child: appMainContainer(
-                    child: formWidget(),
-                  ),
-                ),
+                    child: appMainContainer(
+                  child: FormWidget(),
+                )),
               ),
             ),
       },
