@@ -1,5 +1,5 @@
-import 'package:cz_app/widget/app/referral_form/partials/store_input.dart';
 import 'package:flutter/material.dart';
+import 'package:cz_app/widget/app/referral_form/partials/store_input.dart';
 
 class AppMainContainer extends StatelessWidget {
   final Widget child;
