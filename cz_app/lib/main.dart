@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
                 header: topAppWidget(),
                 body: bottemAppWidget(
                     child: appMainContainer(
-                  child: formWidget(),
+                  child: FormWidget(),
                 )),
               ),
             ),

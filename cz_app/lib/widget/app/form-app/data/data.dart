@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../models/employee.dart';
 
 class EmployeeData {
-  Future<Employee> fetchEmployee() async {
+  Future<Employee?> fetchEmployee() async {
     final response =
         await http.get(Uri.parse('http://localhost:3000/api/employee/1'));
 
@@ -12,7 +12,8 @@ class EmployeeData {
       return Employee.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a successful response, then throw an exception.
-      throw Exception('Failed to load employee');
+     // throw Exception('Failed to load employee');
     }
+    return null;
   }
 }
