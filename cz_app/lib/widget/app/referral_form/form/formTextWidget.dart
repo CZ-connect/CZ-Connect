@@ -7,18 +7,23 @@ class containerTextWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       children: <Widget>[
-        Text(h1, style: TextStyle(
-            color: Colors.grey[800],
-            fontWeight: FontWeight.bold,
-            fontSize: 40)),
-        Text(h2,
-            style: TextStyle(
-            color: Colors.grey[800],
-            fontWeight: FontWeight.bold,
-            fontSize: 32))
+        Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: Text(h1, style: TextStyle(
+              color: Colors.grey[800],
+              fontWeight: FontWeight.bold,
+              fontSize: 40)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Text(h2,
+              style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24)),
+        ),
       ],
     );
   }

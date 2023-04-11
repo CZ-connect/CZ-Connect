@@ -23,7 +23,7 @@ class formWidget extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                containerTextWidget(),
+                const containerTextWidget(),
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Naam',
