@@ -1,5 +1,4 @@
-import '../../models/employee.dart';
-
+import 'employee.dart';
 class ModelForm {
   String? name;
   String? email;
