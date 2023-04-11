@@ -1,0 +1,45 @@
+name: Flutter Web Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install Flutter
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.7.6'  # Set the version of Flutter to install
+
+      # Install dependencies
+      - name: Get dependencies
+        run: flutter pub get
+        working-directory: cz_app
+      # Run Analyze
+      - name: Run Analyze
+        run: dart run dart_code_metrics:metrics analyze lib
+        working-directory: cz_app
+      # Run Unnecessary nullable
+      - name: Run Unnecessary nullable
+        run: dart run dart_code_metrics:metrics check-unnecessary-nullable lib
+        working-directory: cz_app
+      # Run Unused Files
+      - name: Run Unused Files
+        run: dart run dart_code_metrics:metrics check-unused-files lib
+        working-directory: cz_app
+      # Run Unused Localizations
+      - name: Run Unused Localizations
+        run: dart run dart_code_metrics:metrics check-unused-l10n lib
+        working-directory: cz_app
+      # Unused Code
+      - name: Run Unused Code
+        run: dart run dart_code_metrics:metrics check-unused-code lib
+        working-directory: cz_app
