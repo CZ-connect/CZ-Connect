@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cz_app/widget/app/referral_form/store_input.dart';
+import 'package:cz_app/widget/app/referral_form/partials/store_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
@@ -14,11 +14,11 @@ void main() {
     });
     late ModelForm modelForm;
     setUp(() {
-      modelForm = ModelForm(null, null);
+      modelForm = ModelForm(null, null, null);
     });
 
     testWidgets('testing form for formdata', (WidgetTester tester) async {
-      final widget = MaterialApp(
+      const widget = MaterialApp(
         home: Scaffold(
           body: FormWidget(),
         ),
@@ -43,7 +43,7 @@ void main() {
 
     testWidgets('Submitting invalid form should show error message',
         (WidgetTester tester) async {
-      final widget = MaterialApp(
+      const widget = MaterialApp(
         home: Scaffold(
           body: FormWidget(),
         ),

@@ -11,7 +11,7 @@ import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/menu.dart';
 //Referral Form
-import 'package:cz_app/widget/app/referral_form//store_input.dart';
+import 'package:cz_app/widget/app/referral_form/partials/store_input.dart';
 import 'package:cz_app/widget/app/templates/referral_form/screen_template.dart';
 import 'package:cz_app/widget/app/templates/referral_form/top_app_layout.dart';
 import 'package:cz_app/widget/app/templates/referral_form/bottom_app_layout.dart';
@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
             ),
         '/loading': (context) => const LoadingWidget(),
         '/error': (context) => const ErrorScreen(),
-        '/': (context) => Scaffold(
+        '/': (context) => const Scaffold(
               body: ScreenTemplate(
-                header: const TopAppWidget(),
+                header: TopAppWidget(),
                 body: BottemAppWidget(
                   child: AppMainContainer(
                     child: FormWidget(),
