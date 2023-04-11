@@ -11,7 +11,7 @@ class UserRow extends StatelessWidget {
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
-            BoxDecoration(border: Border.all(width: 2), color: Colors.grey),
+            BoxDecoration(border: Border.all(width: 2), color: Colors.white24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           // ignore: prefer_const_literals_to_create_immutables

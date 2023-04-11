@@ -59,7 +59,7 @@ class _ReferralStatus extends State<ReferralStatus> {
       alignment: FractionalOffset.center,
       child: DecoratedBox(
         decoration:
-            BoxDecoration(border: Border.all(width: 2), color: Colors.grey),
+            BoxDecoration(border: Border.all(width: 2), color: Colors.white24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

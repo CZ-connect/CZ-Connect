@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-
 import '../../models/employee.dart';
 import 'formTextWidget.dart';
 import '../../models/form.model.dart';
