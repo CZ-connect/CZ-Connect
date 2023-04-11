@@ -70,6 +70,21 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                 ])),
                           ],
                         ),
+                       const Divider(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: 
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                  Flexible(
+                                    child: Text(
+                                        'Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
+                                  ),
+                                ])
+                              ),
+                          ])
                       ])))
           ],
         ));
