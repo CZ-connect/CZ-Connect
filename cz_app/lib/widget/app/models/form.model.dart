@@ -1,5 +1,7 @@
+import 'employee.dart';
 class ModelForm {
   String? name;
   String? email;
-  ModelForm(this.name, this.email);
+  Future? employee;
+  ModelForm(this.name, this.email, this.employee);
 }

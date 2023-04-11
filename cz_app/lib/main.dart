@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/appMainContainer.dart';
 import 'package:cz_app/widget/app/referral_form/bottemAppLayout.dart';
 import 'package:cz_app/widget/app/referral_form/form/storeInput.dart';
+import 'package:cz_app/widget/app/referral_form/storeInput.dart';
 import 'package:cz_app/widget/app/referral_form/template/ScreenTemplate.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         '/loading': (context) => const LoadingWidget(),
         '/error': (context) => const ErrorScreen(),
         '/': (context) => Scaffold(
+
           body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
