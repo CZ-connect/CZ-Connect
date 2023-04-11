@@ -14,7 +14,7 @@ class ReferralDetailWidget extends StatelessWidget {
     } else {
       referral = null;
     }
- 
+
     if (referral != null) {
       return SizedBox.expand(
         key: const Key("referral_details"),

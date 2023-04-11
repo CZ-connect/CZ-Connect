@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class topAppWidget extends StatelessWidget {
-  static const color = Color(0xFFE40429);
+  static const startColor = Color(0xFFE40429);
+  static const endColor = Color(0xFFFF9200);
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +11,14 @@ class topAppWidget extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: 250,
+        height: 200,
         child: Container(
           decoration: const BoxDecoration(
-            color: color,
+            gradient: LinearGradient(
+              colors: [startColor, endColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
           child: Align(
             alignment: Alignment.center,

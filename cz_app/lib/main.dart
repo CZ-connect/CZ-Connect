@@ -27,41 +27,50 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/referraldashboard': (context) => const Scaffold(
-              body: ReferralDashboardTemplate(
-                header: ReferralDashboardTopWidget(),
-                body: ReferralDashboardBottomWidget(
-                  child: ReferralDashboardContainerWidget(
-                    child: ReferralDashboardIndexWidget(),
-                  ),
-                ),
+          body: ReferralDashboardTemplate(
+            header: ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: ReferralDashboardIndexWidget(),
               ),
             ),
+          ),
+        ),
         '/referralOverview': (context) => const ReferralOverview(),
         '/referraldetail': (context) => const Scaffold(
-              body: ReferralDashboardTemplate(
-                header: ReferralDashboardTopWidget(),
-                body: ReferralDashboardBottomWidget(
-                  child: ReferralDashboardContainerWidget(
-                    child: ReferralDetailWidget(),
-                  ),
-                ),
+          body: ReferralDashboardTemplate(
+            header: ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: ReferralDetailWidget(),
               ),
             ),
+          ),
+        ),
         '/loading': (context) => const LoadingWidget(),
         '/error': (context) => const ErrorScreen(),
         '/': (context) => Scaffold(
-              body: ScreenTemplate(
-                header: topAppWidget(),
-                body: bottemAppWidget(
-                  child: appMainContainer(
-                    child: formWidget(),
-                  ),
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: ScreenTemplate(
+              header: topAppWidget(),
+              body: bottemAppWidget(
+                child: appMainContainer(
+                  child: formWidget(),
                 ),
               ),
             ),
+          ),
+        ),
       },
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: GoogleFonts.poppinsTextTheme(
           Theme.of(context).textTheme,
