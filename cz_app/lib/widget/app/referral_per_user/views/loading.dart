@@ -1,4 +1,4 @@
-import 'package:cz_app/widget/app/referral_per_user/services/referralService.dart';
+import 'package:cz_app/widget/app/referral_per_user/services/referral_service.dart';
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatefulWidget {
@@ -13,10 +13,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     ReferralService instance = ReferralService(userId: 1);
     try {
       await instance.getData();
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/referralOverview',
           arguments: {'referrals': instance.referrals});
     } catch (e) {
-      print(e);
       Navigator.pushReplacementNamed(context, '/error',
           arguments: {'message': 'Referrals konden niet worden opgehaald'});
     }

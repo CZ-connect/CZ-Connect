@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class topAppWidget extends StatelessWidget {
+class TopAppWidget extends StatelessWidget {
   static const startColor = Color(0xFFE40429);
   static const endColor = Color(0xFFFF9200);
+
+  const TopAppWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

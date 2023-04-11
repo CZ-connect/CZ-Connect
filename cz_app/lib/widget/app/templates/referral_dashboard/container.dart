@@ -1,4 +1,3 @@
-import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:flutter/material.dart';
 
 class ReferralDashboardContainerWidget extends StatelessWidget {

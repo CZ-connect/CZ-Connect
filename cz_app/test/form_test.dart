@@ -1,21 +1,27 @@
-import 'package:cz_app/widget/app/form-app/data/data.dart';
+import 'package:cz_app/widget/app/models/employee.dart';
+import 'package:cz_app/widget/app/models/form.model.dart';
+import 'package:cz_app/widget/app/referral_form/data/data.dart';
+import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
 import 'package:mockito/mockito.dart';
-import '../lib/widget/app/models/employee.dart';
-import '../lib/widget/app/models/form.model.dart';
-import '../lib/widget/app/referral_form/form/storeInput.dart';
+import 'dart:io';
+
 class MockEmployeeData extends Mock implements EmployeeData {}
 
 void main() {
   group('formWidget', () {
+    // ignore: unused_local_variable
     late MockEmployeeData mockEmployeeData;
+    // ignore: unused_local_variable
     final employee =
         Employee.fromJson({'name': 'John Doe', 'email': 'test@gmail.com'});
     final modelForm = ModelForm(null, null, null);
 
+    setUpAll(() {
+      // ↓ required to avoid HTTP error 400 mocked returns
+      HttpOverrides.global = null;
+    });
     setUp(() {
       mockEmployeeData = MockEmployeeData();
     });
