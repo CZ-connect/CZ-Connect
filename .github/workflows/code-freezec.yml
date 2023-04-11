@@ -1,0 +1,19 @@
+name: Prevent Pushes to Main Branch After Midnight
+on:
+  push:
+    branches:
+      - main
+jobs:
+  push-block:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Time
+      id: check_time
+      run: echo "::set-output name=block_push::$(if [ $(date +%H) -ge 00 ]; then echo true; else echo false; fi)"
+    - name: Block Push
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        if [ ${{ steps.check_time.outputs.block_push }} == true ]; then
+          echo "It is past midnight, pushing to main is not allowed at this time."
+          exit 1
+        fi
