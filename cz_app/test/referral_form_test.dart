@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cz_app/widget/app/models/form.model.dart';
-import 'package:cz_app/widget/app/referral_form/store_input.dart';
 
 void main() {
   group('Form Widget', () {
+    setUpAll(() {
+      // ↓ required to avoid HTTP error 400 mocked returns
+      HttpOverrides.global = null;
+    });
     late ModelForm modelForm;
     setUp(() {
       modelForm = ModelForm(null, null);
