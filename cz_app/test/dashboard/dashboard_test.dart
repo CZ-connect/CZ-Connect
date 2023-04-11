@@ -71,7 +71,7 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
-      expect(find.text('CZ-Connect-dashboard'), findsOneWidget);
+      expect(find.text('CZ-connect-dashboard'), findsOneWidget);
 
       // Verify that the UserRow and ReferralStatus widgets are being rendered
       expect(find.byType(UserRow), findsOneWidget);
