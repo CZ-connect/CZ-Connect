@@ -20,15 +20,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/referral/1': (context) => Scaffold(
-          body: ScreenTemplate(
-            header: topAppWidget(),
-            body: bottemAppWidget(
-              child: appMainContainer(
-                child: formWidget(),
-            )),
-          ),
-        ),
         '/referraldashboard': (context) => const OverViewWidget(),
         '/loading': (context) => const LoadingWidget(),
         '/referralMenu': (context) => const Menu(),
