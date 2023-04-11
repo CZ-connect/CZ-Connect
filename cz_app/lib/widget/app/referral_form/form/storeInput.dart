@@ -7,7 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import '../../models/employee.dart';
 import '../data/data.dart';
 import 'formTextWidget.dart';
-import '../model/form.model.dart';
+import '../../models/form.model.dart';
 import 'package:http/http.dart' as http;
 
 final _formKey = GlobalKey<FormState>();
