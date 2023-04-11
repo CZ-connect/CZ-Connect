@@ -1,0 +1,25 @@
+name: Remove Whitespaces
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Remove whitespaces
+      run: |
+        find . -name "*.dart" -type f -exec sed -i 's/[[:space:]]\+$//' {} \;
+        git add .
+        git config user.email "you@example.com"
+        git config user.name "Your Name"
+        git commit -m "Remove trailing whitespaces" || true
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
