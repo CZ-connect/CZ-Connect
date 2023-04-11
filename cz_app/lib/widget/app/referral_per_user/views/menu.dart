@@ -10,7 +10,7 @@ class Menu extends StatelessWidget {
         body: ListView(children: [
           TextButton(
             style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
             ),
             onPressed: () {
               Navigator.pushNamed(context, '/loading');

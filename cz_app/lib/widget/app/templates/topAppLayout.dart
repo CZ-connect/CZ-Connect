@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class ReferralDashboardTopWidget extends StatelessWidget {
-  const ReferralDashboardTopWidget({super.key});
+class topAppWidget extends StatelessWidget {
   static const startColor = Color(0xFFE40429);
   static const endColor = Color(0xFFFF9200);
 
   @override
   Widget build(BuildContext context) {
+    //TODO make this fillable with widgets
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -38,7 +39,7 @@ class ReferralDashboardTopWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'CZ-connect-dashboard',
+                  'CZ-connect',
                   style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,

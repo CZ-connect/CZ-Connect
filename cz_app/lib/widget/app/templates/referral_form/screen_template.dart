@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 
-// top level ScreenTemplate
 class ScreenTemplate extends StatelessWidget {
-
-  // container for the header
   final Widget header;
-
-  //container for the body
   final Widget body;
-
-  //the widget that gets changed in the tempalte
   final Widget? leading;
 
   const ScreenTemplate({
@@ -22,15 +15,37 @@ class ScreenTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            header,
-            Column(children: [
-              body,
-            ]),
-          ],
-        ),
+      appBar: null,
+      bottomNavigationBar: null,
+      body: Column(
+        children: [
+          Container(height: 0), // Removes extra space at the top of the Column
+          Expanded(
+            child: Stack(
+              children: [
+                const Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      header,
+                      body,
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -6,7 +6,6 @@ class BottemAppWidget extends StatelessWidget {
   const BottemAppWidget({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
-    //TODO make this filllable with widtgets
     return Container(
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
