@@ -21,6 +21,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? arguments =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String? queryParam = arguments?['queryParam'] as String?;
+
+    if (queryParam != null) {
+      print('Incoming query parameter: $queryParam');
+    }
     return MaterialApp(
       initialRoute: '/',
       routes: {

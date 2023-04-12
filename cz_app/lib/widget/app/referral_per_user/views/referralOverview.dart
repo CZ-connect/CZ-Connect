@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class ReferralOverview extends StatefulWidget {
@@ -81,6 +82,41 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                 ),
               ),
           ],
+        ),
+        //extract it so that it is accessible in two places
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Add your onPressed code here)!
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Title"),
+                  content: Text("Content"),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: Text("Kopiëer de link"),
+                      onPressed:  () async {
+                        const link = "https://www.example.com";
+                        await Clipboard.setData(ClipboardData(text: link));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Link gekopieerd!"),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                      }
+                    ),
+                  ],
+                );
+              },
+            );
+
+          },
+          label: const Text('Deel je link'),
+          icon: const Icon(Icons.share_outlined),
+          backgroundColor: Colors.redAccent,
         ),
       );
     } else {
