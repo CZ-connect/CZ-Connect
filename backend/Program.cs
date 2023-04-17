@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using CZConnect.Models;
@@ -12,7 +13,12 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
 builder.Services.AddScoped<DbInit>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        var enumConverter = new JsonStringEnumConverter();
+        options.JsonSerializerOptions.Converters.Add(enumConverter);
+    });
 
 var app = builder.Build();
 app.UseCors(x => x

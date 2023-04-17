@@ -1,6 +1,6 @@
 namespace CZConnect.Models;
 
-public enum EmployeeRoles
+public enum EmployeeRole
 {
     Admin,
     Employee,

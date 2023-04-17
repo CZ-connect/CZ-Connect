@@ -18,6 +18,13 @@ public class AppDBContext : DbContext
             .Property(e => e.Role)
             .HasConversion(
                 v => v.ToString(),                
-                v => (EmployeeRoles)Enum.Parse(typeof(EmployeeRoles), v));
+                v => (EmployeeRole)Enum.Parse(typeof(EmployeeRole), v));
+
+        modelBuilder
+            .Entity<Referral>()
+            .Property(r => r.Status)
+            .HasConversion(
+                v => v.ToString(),                
+                v => (ReferralStatus)Enum.Parse(typeof(ReferralStatus), v));
     }
 }
