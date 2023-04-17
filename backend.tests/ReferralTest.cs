@@ -18,13 +18,13 @@ public class ReferralTest
         _referrals = new List<Referral>
         {
             new Referral{Id = 1, ParticipantName = "John Doe", 
-                        ParticipantEmail = "johndoe@example.com", Status = "Pending", 
+                        ParticipantEmail = "johndoe@example.com", Status = ReferralStatus.Pending, 
                         RegistrationDate = DateTime.Now, EmployeeId = 1, Employee = null},
             new Referral{Id = 2, ParticipantName = "Jane Smith", 
-                        ParticipantEmail = "janesmith@example.com", Status = "Approved",
+                        ParticipantEmail = "janesmith@example.com", Status = ReferralStatus.Approved,
                         RegistrationDate = DateTime.Now.AddDays(-1), EmployeeId = 2, Employee = null},
             new Referral{Id = 3, ParticipantName = "Bob Johnson", 
-                        ParticipantEmail = "bobjohnson@example.com", Status = "Denied",
+                        ParticipantEmail = "bobjohnson@example.com", Status = ReferralStatus.Denied,
                         RegistrationDate = DateTime.Now.AddDays(-2), EmployeeId = 1, Employee = null}
         };
     }
@@ -36,7 +36,7 @@ public class ReferralTest
         mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
         var controller = new ReferralController(mockRepository.Object);
 
-        var result = await controller.UpdateReferral(_referrals.First());
+        var result = await controller.RejectReferral(_referrals.First());
         
         Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result.Result, typeof(OkResult));
@@ -49,7 +49,7 @@ public class ReferralTest
         mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
         var controller = new ReferralController(mockRepository.Object);
 
-        var result = await controller.UpdateReferral(null);
+        var result = await controller.RejectReferral(null);
         
         Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));

@@ -79,7 +79,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                         ],
                       ),
                       const Divider(),
-                        referral.status.toString() != "Afgekeurd" && referral.status.toString() != "Goedgekeurd"
+                        referral.status.toString() != "Approved" && referral.status.toString() != "Denied"
                           ? Row(
                               children: [
                                   Expanded(
@@ -90,7 +90,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                                   child: ElevatedButton(
                                                       onPressed: () {
                                                         setState(() {
-                                                            referral.status = "Afgekeurd";
+                                                            referral.status = "Denied";
                                                         });
                                                         rejectRefferal(context, referral);
                                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -136,7 +136,7 @@ Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
       'id': referral.id.toString(),
       'participantName': referral.participantName.toString(),
       'participantEmail': referral.participantEmail.toString(),
-      'status': "Afgekeurd",
+      'status': referral.status.toString(),
       'registrationDate': referral.registrationDate.toString(),
       'employeeId': 1,
       'employee': null
