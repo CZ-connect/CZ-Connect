@@ -11,4 +11,13 @@ public class AppDBContext : DbContext
     public DbSet<Employee> Employees {get; set;}
     public DbSet<ApplicantForm> ApplicantForms { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .Entity<Employee>()
+            .Property(e => e.Role)
+            .HasConversion(
+                v => v.ToString(),                
+                v => (EmployeeRoles)Enum.Parse(typeof(EmployeeRoles), v));
+    }
 }

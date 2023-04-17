@@ -55,6 +55,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
@@ -91,7 +95,6 @@ namespace backend.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Referrals");
-
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>

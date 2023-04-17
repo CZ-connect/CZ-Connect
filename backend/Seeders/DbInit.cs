@@ -1,4 +1,5 @@
 using CZConnect.Models;
+
 internal class DbInit
 {
     internal static void Initialize(AppDBContext dbContext)
@@ -9,15 +10,15 @@ internal class DbInit
         {
             var employees = new Employee[] 
             {
-                new Employee{EmployeeName = "Jan van Loon"},
-                new Employee{EmployeeName = "Miri Ham"},
+                new Employee { EmployeeName = "Jan van Loon", Role = EmployeeRoles.Admin },
+                new Employee { EmployeeName = "Miri Ham", Role = EmployeeRoles.Recruitment }
             };
             foreach(var e in employees)
                 dbContext.Employees.Add(e);
         } 
-        if(!dbContext.Referrals.Any()) 
+        if (!dbContext.Referrals.Any()) 
         {
-            var referrals = new Referral[] 
+            var referrals = new Referral[]
             {   
                 new Referral{ParticipantName = "Coen", ParticipantEmail = "koen@mail.com",
                             Status = "Goedgekeurd", RegistrationDate = new DateTime(2023, 3, 22), EmployeeId = 1, Employee = null},  
