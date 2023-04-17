@@ -40,6 +40,21 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GraphData",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AmmountOfNewReferrals = table.Column<int>(type: "int", nullable: false),
+                    AmmountOfApprovedReferrals = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GraphData", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Referrals",
                 columns: table => new
                 {
@@ -73,6 +88,9 @@ namespace backend.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ApplicantForms");
+
+            migrationBuilder.DropTable(
+                name: "GraphData");
 
             migrationBuilder.DropTable(
                 name: "Referrals");

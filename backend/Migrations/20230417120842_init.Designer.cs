@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230417094338_init")]
+    [Migration("20230417120842_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -65,6 +65,28 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CZConnect.Models.GraphData", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AmmountOfApprovedReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmmountOfNewReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GraphData");
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>

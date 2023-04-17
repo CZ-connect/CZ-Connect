@@ -64,6 +64,28 @@ namespace backend.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("CZConnect.Models.GraphData", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AmmountOfApprovedReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmmountOfNewReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GraphData");
+                });
+
             modelBuilder.Entity("CZConnect.Models.Referral", b =>
                 {
                     b.Property<long>("Id")
