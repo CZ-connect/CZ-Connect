@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../../models/graph.dart';
+import '../data/graph_data.dart';
 
 class RefferalLineChart extends StatelessWidget {
-  const RefferalLineChart({required this.isShowingMainData});
+  const RefferalLineChart({
+    super.key,
+    required this.isShowingMainData,
+    required List<Graph>? graph,
+  });
 
   final bool isShowingMainData;
+
+  //TODO uncomment this when the graph model is done
+  // final Graph graph;
 
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      isShowingMainData ? sampleData1 : sampleData2,
+      isShowingMainData ? StandardData : BackupData,
     );
   }
 
-  LineChartData get sampleData1 => LineChartData(
+  LineChartData get StandardData => LineChartData(
         lineTouchData: lineTouchData1,
         gridData: gridData,
         titlesData: titlesData1,
@@ -23,26 +32,17 @@ class RefferalLineChart extends StatelessWidget {
         lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 14,
-        maxY: 4,
+        maxY: 10,
         minY: 0,
       );
 
-  LineChartData get sampleData2 => LineChartData(
-        lineTouchData: lineTouchData2,
-        gridData: gridData,
-        titlesData: titlesData2,
-        borderData: borderData,
-        lineBarsData: lineBarsData2,
-        minX: 0,
-        maxX: 14,
-        maxY: 6,
-        minY: 0,
-      );
+  //empty so that if backup is fetched, it will be empty
+  LineChartData get BackupData => LineChartData();
 
   LineTouchData get lineTouchData1 => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+          tooltipBgColor: Colors.red,
         ),
       );
 
@@ -62,9 +62,8 @@ class RefferalLineChart extends StatelessWidget {
       );
 
   List<LineChartBarData> get lineBarsData1 => [
-        lineChartBarData1_1,
-        lineChartBarData1_2,
-        lineChartBarData1_3,
+        lineChartBarDataOpenReferals,
+        lineChartBarDataClosedReferals,
       ];
 
   LineTouchData get lineTouchData2 => LineTouchData(
@@ -76,20 +75,20 @@ class RefferalLineChart extends StatelessWidget {
           sideTitles: bottomTitles,
         ),
         rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(showTitles: true),
         ),
         topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(showTitles: true),
         ),
         leftTitles: AxisTitles(
           sideTitles: leftTitles(),
         ),
       );
 
+  //empty data for the backup
   List<LineChartBarData> get lineBarsData2 => [
-        lineChartBarData2_1,
-        lineChartBarData2_2,
-        lineChartBarData2_3,
+        lineChartBarDataOpenReferals,
+        lineChartBarDataClosedReferals,
       ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -97,22 +96,39 @@ class RefferalLineChart extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
+
+    //make a factory for this based on the data max y value
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '1m';
+        text = '10';
         break;
       case 2:
-        text = '2m';
+        text = '20';
         break;
       case 3:
-        text = '3m';
+        text = '30';
         break;
       case 4:
-        text = '5m';
+        text = '40';
         break;
       case 5:
-        text = '6m';
+        text = '50';
+        break;
+      case 6:
+        text = '60';
+        break;
+      case 7:
+        text = '70';
+        break;
+      case 8:
+        text = '80';
+        break;
+      case 9:
+        text = '90';
+        break;
+      case 10:
+        text = '100';
         break;
       default:
         return Container();
@@ -134,21 +150,48 @@ class RefferalLineChart extends StatelessWidget {
       fontSize: 16,
     );
     Widget text;
+    //make a factory for this based on the data max x value
     switch (value.toInt()) {
+      case 1:
+        text = const Text('January', style: style);
+        break;
       case 2:
-        text = const Text('SEPT', style: style);
+        text = const Text('February', style: style);
+        break;
+      case 3:
+        text = const Text('March', style: style);
+        break;
+      case 4:
+        text = const Text('April', style: style);
+        break;
+      case 5:
+        text = const Text('May', style: style);
+        break;
+      case 6:
+        text = const Text('June', style: style);
         break;
       case 7:
-        text = const Text('OCT', style: style);
+        text = const Text('July', style: style);
+        break;
+      case 8:
+        text = const Text('August', style: style);
+        break;
+      case 9:
+        text = const Text('September', style: style);
+        break;
+      case 10:
+        text = const Text('October', style: style);
+        break;
+      case 11:
+        text = const Text('November', style: style);
         break;
       case 12:
-        text = const Text('DEC', style: style);
+        text = const Text('December', style: style);
         break;
       default:
         text = const Text('');
         break;
     }
-
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 10,
@@ -163,138 +206,67 @@ class RefferalLineChart extends StatelessWidget {
         getTitlesWidget: bottomTitleWidgets,
       );
 
-  FlGridData get gridData => FlGridData(show: false);
+  FlGridData get gridData => FlGridData(show: true);
 
   FlBorderData get borderData => FlBorderData(
         show: true,
         border: const Border(
-          bottom: BorderSide(color: Colors.white70, width: 4),
-          left: BorderSide(color: Colors.transparent),
-          right: BorderSide(color: Colors.transparent),
-          top: BorderSide(color: Colors.transparent),
+          bottom: BorderSide(color: Colors.black12, width: 4),
+          left: BorderSide(color: Colors.white12),
+          right: BorderSide(color: Colors.white12),
+          top: BorderSide(color: Colors.white12),
         ),
       );
 
-  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
+  LineChartBarData get lineChartBarDataOpenReferals => LineChartBarData(
         isCurved: true,
-        color: Colors.white70,
+        color: Colors.teal,
         barWidth: 8,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 1.5),
-          FlSpot(5, 1.4),
-          FlSpot(7, 3.4),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
-        color: Colors.orange,
-        barWidth: 8,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: false,
-          color: Colors.cyan,
-        ),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData1_3 => LineChartBarData(
-        isCurved: true,
-        color: Colors.lime,
-        barWidth: 8,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 2.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 3),
-          FlSpot(10, 1.3),
-          FlSpot(13, 2.5),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData2_1 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        color: Colors.deepPurple,
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData2_2 => LineChartBarData(
-        isCurved: true,
-        color: Colors.purpleAccent,
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: true,
-          color: Colors.indigoAccent,
-        ),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-      );
-
-  LineChartBarData get lineChartBarData2_3 => LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        color: Colors.green,
-        barWidth: 2,
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
         spots: const [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
+          FlSpot(1, 0),
+          FlSpot(3, 4),
+          FlSpot(5, 6),
+          FlSpot(7, 7),
+          FlSpot(10, 8),
+          FlSpot(12, 10),
+          FlSpot(12, 0),
+        ],
+      );
+
+  // bar beween 1 and 2
+  LineChartBarData get lineChartBarDataClosedReferals => LineChartBarData(
+        isCurved: true,
+        color: Colors.orange,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: true),
+        belowBarData: BarAreaData(
+          show: false,
+          color: Colors.teal,
+        ),
+        spots: const [
+          FlSpot(1, 0),
+          FlSpot(3, 2),
+          FlSpot(7, 3),
+          FlSpot(10, 4),
+          FlSpot(12, 8),
+          FlSpot(13, 9),
         ],
       );
 }
 
-class LineChartSample1 extends StatefulWidget {
-  const LineChartSample1({super.key});
+class LineChartSample extends StatefulWidget {
+  const LineChartSample({super.key});
 
   @override
-  State<StatefulWidget> createState() => LineChartSample1State();
+  State<StatefulWidget> createState() => LineReferalState();
 }
 
-class LineChartSample1State extends State<LineChartSample1> {
-  late bool isShowingMainData;
+class LineReferalState extends State<LineChartSample> {
+  late bool isShowingMainData = true;
 
   @override
   void initState() {
@@ -302,10 +274,9 @@ class LineChartSample1State extends State<LineChartSample1> {
     isShowingMainData = true;
   }
 
-  @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.23,
+      aspectRatio: 1,
       child: Stack(
         children: <Widget>[
           Column(
@@ -315,7 +286,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                 height: 37,
               ),
               const Text(
-                'Monthly Sales',
+                'Referals',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 32,
@@ -327,28 +298,35 @@ class LineChartSample1State extends State<LineChartSample1> {
               const SizedBox(
                 height: 37,
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 6),
-                  child: RefferalLineChart(isShowingMainData: isShowingMainData),
-                ),
+              FutureBuilder<List<Graph>>(
+                future: GraphData().fetchGraph(),
+                builder: (BuildContext context, AsyncSnapshot<List<Graph>> snapshot) {
+                  if (snapshot.hasData) {
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 9, left: 6),
+                        child: RefferalLineChart(
+                          isShowingMainData: isShowingMainData,
+                          graph: snapshot.data,
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  } else {
+                    return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
               ),
               const SizedBox(
                 height: 10,
               ),
             ],
           ),
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
-            ),
-            onPressed: () {
-              setState(() {
-                isShowingMainData = !isShowingMainData;
-              });
-            },
-          )
         ],
       ),
     );

@@ -28,7 +28,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/referraldashboardgraph': (context) =>  const RefferalLineChart(isShowingMainData: true,),
+        '/graph': (context) => const Scaffold(
+              body: ReferralDashboardTemplate(
+                header: ReferralDashboardTopWidget(),
+                body: ReferralDashboardBottomWidget(
+                  child: ReferralDashboardContainerWidget(
+                    child: LineChartSample(),
+                  ),
+                ),
+              ),
+            ),
         '/referraldashboard': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),
