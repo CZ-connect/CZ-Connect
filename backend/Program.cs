@@ -13,12 +13,9 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
 builder.Services.AddScoped<DbInit>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        var enumConverter = new JsonStringEnumConverter();
-        options.JsonSerializerOptions.Converters.Add(enumConverter);
-    });
+builder.Services.AddControllers().AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters
+            .Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
 app.UseCors(x => x
