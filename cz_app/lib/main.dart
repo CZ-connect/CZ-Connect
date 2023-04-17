@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
+        '/referraldashboardgraph': (context) =>  const RefferalLineChart(isShowingMainData: true,),
         '/referraldashboard': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),

@@ -44,6 +44,7 @@ dependencies:
   nock: ^1.2.1
   very_good_analysis: ^4.0.0+1
   google_fonts: ^4.0.3
+  fl_chart: ^0.62.0
 
 dev_dependencies:
   flutter_test:
