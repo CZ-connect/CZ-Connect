@@ -25,7 +25,7 @@ namespace CZConnect.Controllers
             }
 
             var graphData = await _repository
-                    .AllAsync<GraphData>(x => x.Date.Year == year);
+                    .AllAsync<GraphData>(x => x.Year == year);
 
             return Ok(graphData);
         }

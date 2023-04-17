@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230417120842_init")]
+    [Migration("20230417125026_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -81,8 +81,11 @@ namespace backend.Migrations
                     b.Property<int>("AmmountOfNewReferrals")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
