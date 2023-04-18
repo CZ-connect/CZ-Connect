@@ -1,6 +1,5 @@
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/menu.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,9 +16,8 @@ void main() {
 
   Widget myapp = MaterialApp(
     title: 'CZ_connect',
-    initialRoute: '/',
+    initialRoute: '/loading',
     routes: {
-      '/': (context) => const Menu(),
       '/loading': (context) => const LoadingWidget(),
       '/referralOverview': (context) => const ReferralOverview(),
       '/error': (context) => const ErrorScreen(),

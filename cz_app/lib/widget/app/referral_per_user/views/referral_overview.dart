@@ -20,8 +20,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
         : ModalRoute.of(context)!.settings.arguments as Map?;
     if (data != null) {
       return Scaffold(
-        appBar:
-            AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
+        appBar: null,
         key: const Key('referral_overview'),
         body: ListView(
           children: [
@@ -115,8 +114,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
       );
     } else {
       return Scaffold(
-        appBar:
-            AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
+       appBar: null,
         key: const Key('referral_overview'),
         body: ListView(
           children: const [
@@ -130,7 +128,6 @@ class _ReferralOverviewState extends State<ReferralOverview> {
 Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
     var id = referral.id;
     var url = Uri.http('localhost:3000', '/api/referral/individual/$id');
-    referral.status = "Afgekeurd";
 
     Map<String, dynamic> jsonMap = {
       'id': referral.id.toString(),
