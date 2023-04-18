@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230403131757_InitialCreate")]
+    [Migration("20230418073449_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -75,11 +75,13 @@ namespace backend.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("ParticipantEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParticipantName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParticipantPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RegistrationDate")

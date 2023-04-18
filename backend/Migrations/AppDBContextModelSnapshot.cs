@@ -72,11 +72,13 @@ namespace backend.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("ParticipantEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParticipantName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParticipantPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RegistrationDate")
@@ -91,7 +93,6 @@ namespace backend.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Referrals");
-
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>

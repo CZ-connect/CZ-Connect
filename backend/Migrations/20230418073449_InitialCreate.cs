@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace backend.Migrations
 {
     /// <inheritdoc />
@@ -47,7 +45,8 @@ namespace backend.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ParticipantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParticipantPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: false)
