@@ -9,7 +9,7 @@ class ReferralOverviewContainerWidget extends StatelessWidget {
     return Center(
       child: Container(
         decoration: const BoxDecoration(color: Colors.white24),
-        width: MediaQuery.of(context).size.width - 100,
+        width: MediaQuery.of(context).size.width - 150,
         height: MediaQuery.of(context).size.height - 250,
         child: child,
       ),
