@@ -1,4 +1,3 @@
-import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:flutter/material.dart';
 
 class AppMainContainer extends StatelessWidget {
@@ -13,7 +12,7 @@ class AppMainContainer extends StatelessWidget {
         margin: const EdgeInsets.only(top: 50),
         width: MediaQuery.of(context).size.width - 100,
         height: MediaQuery.of(context).size.height - 250,
-        child: const FormWidget(),
+        child: child,
       ),
     );
   }

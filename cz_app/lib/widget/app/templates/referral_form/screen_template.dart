@@ -1,10 +1,16 @@
+import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
+import 'package:cz_app/widget/app/templates/referral_form/top_app_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../referral_dashboard/referrals_index.dart';
+import '../../referral_form/store_input.dart';
+import '../../referral_per_user/views/menu.dart';
 import '../referral_dashboard/bottom.dart';
 import '../referral_dashboard/container.dart';
 import '../referral_dashboard/template.dart';
 import '../referral_dashboard/top.dart';
+import 'app_main_container.dart';
+import 'bottom_app_layout.dart';
 
 class ScreenTemplate extends StatelessWidget {
   final Widget header;
@@ -59,9 +65,6 @@ class ScreenTemplate extends StatelessWidget {
         ],
       ),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
@@ -105,19 +108,33 @@ class ScreenTemplate extends StatelessWidget {
             ListTile(
               title: const Text('Application Form'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Scaffold(
+                  body: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: const ScreenTemplate(
+                      header: TopAppWidget(),
+                      body: BottemAppWidget(
+                        child: AppMainContainer(
+                          child: FormWidget(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+            },
             ),
             ListTile(
               title: const Text('Overzicht '),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const LoadingWidget()));
               },
             ),
           ],
