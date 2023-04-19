@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/recruitment_dashboard/recruitment_index.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
@@ -27,6 +28,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
+        '/recruitmentdashboard': (context) => const Scaffold(
+              body: ReferralDashboardTemplate(
+                header: ReferralDashboardTopWidget(),
+                body: ReferralDashboardBottomWidget(
+                  child: ReferralDashboardContainerWidget(
+                    child: RecruitmentDashboardIndexWidget(),
+                  ),
+                ),
+              ),
+            ),
         '/referraldashboard': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),

@@ -22,17 +22,27 @@ namespace CZConnect.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(long id)
         {
             var employee = await _repository.SelectByIdAsync<Employee>(id);
 
-            if (employee == null)
+            return Ok(employee);
+        }
+
+        [HttpGet]
+        [Route("department/{departmentId}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartment(long departmentId)
+        {
+            var employeesPerDepartment = await _repository.AllAsync<Employee>(e => e.DepartmentId == departmentId);
+
+            if(employeesPerDepartment == null)
             {
                 return NotFound();
             }
 
-            return Ok(employee);
+            return Ok(employeesPerDepartment);
         }
     }
 }

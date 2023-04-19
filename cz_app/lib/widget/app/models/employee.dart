@@ -1,12 +1,21 @@
 class Employee {
+  int id;
+  int departmentId;
   String? name;
   String? email;
-  Employee(this.name, this.email);
-  // Factory method to create an Employee object from JSON data
+
+  Employee(
+      {required this.id,
+      required this.departmentId,
+      required this.name,
+      required this.email});
+
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
-      json['name'] as String?,
-      json['email'] as String?,
+      id: json['id'],
+      departmentId: json['departmentId'],
+      name: json['name'],
+      email: json['email'],
     );
   }
 }
