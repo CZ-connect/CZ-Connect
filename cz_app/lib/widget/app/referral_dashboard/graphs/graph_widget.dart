@@ -5,24 +5,25 @@ import 'package:flutter/material.dart';
 import '../../models/graph.dart';
 import '../data/graph_data.dart';
 
+
 class RefferalLineChart extends StatelessWidget {
+  final List<Graph>? graph;
+  final bool isShowingMainData;
+
   const RefferalLineChart({
     super.key,
     required this.isShowingMainData,
-    required List<Graph>? graph,
+     this.graph,
   });
-
-  final bool isShowingMainData;
-
-  //TODO uncomment this when the graph model is done
-  // final Graph graph;
 
   @override
   Widget build(BuildContext context) {
+    createLines();
     return LineChart(
       isShowingMainData ? StandardData : BackupData,
     );
   }
+
 
   LineChartData get StandardData => LineChartData(
         lineTouchData: lineTouchData1,
@@ -256,7 +257,12 @@ class RefferalLineChart extends StatelessWidget {
           FlSpot(13, 9),
         ],
       );
+
+  void createLines() {
+
+  }
 }
+
 
 class LineChartSample extends StatefulWidget {
   const LineChartSample({super.key});
@@ -299,7 +305,7 @@ class LineReferalState extends State<LineChartSample> {
                 height: 37,
               ),
               FutureBuilder<List<Graph>>(
-                future: GraphData().fetchGraph(),
+                future: fetchGraphData(),
                 builder: (BuildContext context, AsyncSnapshot<List<Graph>> snapshot) {
                   if (snapshot.hasData) {
                     return Expanded(
@@ -312,7 +318,8 @@ class LineReferalState extends State<LineChartSample> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
+                    debugPrint("${snapshot.error}");
+                    return const Text("there has been a error while loading the data");
                   } else {
                     return const Expanded(
                       child: Center(
