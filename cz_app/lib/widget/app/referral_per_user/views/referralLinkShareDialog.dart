@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
   const ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = "https://www.example.com";
+  final String link = "localhost:port/#/?referral=1";
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class ReferralLinkShareDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Gebruik de onderstaande referentielink om nieuwe gebruikers aan te brengen'),
-          SizedBox(height: 8),
+          const Text('Gebruik de onderstaande referentielink om nieuwe gebruikers aan te brengen'),
+          const SizedBox(height: 8),
           Center(child:SelectableText(link)),
         ],
       ),
@@ -30,7 +31,7 @@ class ReferralLinkShareDialog extends StatelessWidget {
                 duration: Duration(seconds: 1),
               ),
             );
-            Navigator.of(context).pop();
+            context.pop();
           }
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Menu extends StatelessWidget {
   const Menu({super.key});
@@ -13,7 +14,7 @@ class Menu extends StatelessWidget {
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/loading');
+              context.go('/loading');
             },
             child: const Text('Referrals overzicht'),
           )

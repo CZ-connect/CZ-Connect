@@ -1,12 +1,13 @@
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/ReferralLinkShareButton.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referralLinkShareDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class ReferralOverview extends StatefulWidget {
-  List<Referral>? referrals;
-  ReferralOverview({super.key, this.referrals});
+  final List<Referral>? referrals;
+  const ReferralOverview({super.key, this.referrals});
 
   @override
   State<ReferralOverview> createState() => _ReferralOverviewState();
@@ -83,20 +84,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
           ],
         ),
         //extract it so that it is accessible in two places
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // Add your onPressed code here)!
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const ReferralLinkShareDialog();
-              },
-            );
-          },
-          label: const Text('Deel je link'),
-          icon: const Icon(Icons.share_outlined),
-          backgroundColor: Colors.redAccent,
-        ),
+        floatingActionButton: const ReferralLinkShareButton()
       );
     } else {
       return Scaffold(
@@ -108,6 +96,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
             Text('No data found.'),
           ],
         ),
+        floatingActionButton: const ReferralLinkShareButton()
       );
     }
   }

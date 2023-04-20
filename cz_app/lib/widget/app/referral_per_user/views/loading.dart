@@ -15,15 +15,9 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     try {
       await instance.getData();
       context.go(Uri(path: '/referralOverview').toString(), extra: instance.referrals);
-      //Navigator.pushReplacementNamed(context, '/referralOverview',
-      //    arguments: {'referrals': instance.referrals});
     } catch (e) {
-      print(e);
-      context.go(Uri(path: '/error').toString());
-      //Navigator.pushReplacementNamed(context, '/error',
-      //    arguments: {'message': 'Referrals konden niet worden opgehaald'});
+      context.go(Uri(path: '/error').toString(), extra: {'message': 'Referrals konden niet worden opgehaald'});
     }
-    // ignore: use_build_context_synchronously
   }
 
   @override
