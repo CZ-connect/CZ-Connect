@@ -1,30 +1,29 @@
+import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referralLinkShareDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class ReferralOverview extends StatefulWidget {
-  const ReferralOverview({super.key});
+  List<Referral>? referrals;
+  ReferralOverview({super.key, this.referrals});
 
   @override
   State<ReferralOverview> createState() => _ReferralOverviewState();
 }
 
 class _ReferralOverviewState extends State<ReferralOverview> {
-  Map? data = {};
 
   @override
   Widget build(BuildContext context) {
-    data = (data?.isNotEmpty ?? false)
-        ? data
-        : ModalRoute.of(context)!.settings.arguments as Map?;
-    if (data != null) {
+    if (widget.referrals != null) {
       return Scaffold(
         appBar:
             AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
         key: const Key('referral_overview'),
         body: ListView(
           children: [
-            for (var referral in data?['referrals'])
+            for (var referral in widget.referrals!)
               Card(
                 margin: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
                 color: Colors.white24,
@@ -90,29 +89,9 @@ class _ReferralOverviewState extends State<ReferralOverview> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Title"),
-                  content: Text("Content"),
-                  actions: <Widget>[
-                    ElevatedButton(
-                      child: Text("Kopiëer de link"),
-                      onPressed:  () async {
-                        const link = "https://www.example.com";
-                        await Clipboard.setData(ClipboardData(text: link));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Link gekopieerd!"),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                        Navigator.of(context).pop();
-                      }
-                    ),
-                  ],
-                );
+                return const ReferralLinkShareDialog();
               },
             );
-
           },
           label: const Text('Deel je link'),
           icon: const Icon(Icons.share_outlined),

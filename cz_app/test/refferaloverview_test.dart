@@ -21,7 +21,7 @@ void main() {
     routes: {
       '/': (context) => const Menu(),
       '/loading': (context) => const LoadingWidget(),
-      '/referralOverview': (context) => const ReferralOverview(),
+      '/referralOverview': (context) => ReferralOverview(),
       '/error': (context) => const ErrorScreen(),
     },
   );

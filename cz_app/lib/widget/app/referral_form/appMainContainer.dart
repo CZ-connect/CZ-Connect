@@ -20,7 +20,7 @@ class appMainContainer extends StatelessWidget {
             .of(context)
             .size
             .height - 250,
-        child: formWidget(),
+        child: child,
       ),
     );
   }

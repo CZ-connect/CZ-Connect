@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:go_router/src/state.dart';
 import 'formTextWidget.dart';
 import '../../models/form.model.dart';
 import 'package:http/http.dart' as http;
@@ -11,8 +12,8 @@ final _formKey = GlobalKey<FormState>();
 
 class formWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
-
-  formWidget({super.key});
+  String? referral;
+  formWidget({super.key, this.referral});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class formWidget extends StatelessWidget {
       'participantEmail': modelForm.email.toString(),
       'status': 'In Afwachting',
       'registrationDate': DateTime.now().toIso8601String(),
-      'employeeId': null
+      'employeeId': (referral != null) ? referral! : null
     };
     var body = json.encode(jsonMap);
     try {
