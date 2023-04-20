@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -83,34 +81,6 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                       ),
                                     ],
                                   ),
-                                  const Divider(),
-                                  referral.status.toString() != "Approved" && referral.status.toString() != "Denied"
-                                  ? Row(
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                                Flexible(
-                                                  child: ElevatedButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                            referral.status = "Denied";
-                                                        });
-                                                        rejectRefferal(context, referral);
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          const SnackBar(content: Text('Referral afkeuren')),
-                                                        );
-                                                      },
-                                                      child: const Text("Afkeuren"),
-                                                  ),
-                                              ),
-                                          ],
-                                      ),
-                                  ),
-                                ],
-                            )
-                            : const SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -132,38 +102,3 @@ class _ReferralOverviewState extends State<ReferralOverview> {
     }
   }
 }
-
-
-Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
-    var id = referral.id;
-    var url = Uri.http('localhost:3000', '/api/referral/individual/$id');
-
-    Map<String, dynamic> jsonMap = {
-      'id': referral.id.toString(),
-      'participantName': referral.participantName.toString(),
-      'participantEmail': referral.participantEmail.toString(),
-      'status': referral.status.toString(),
-      'registrationDate': referral.registrationDate.toString(),
-      'employeeId': 1,
-      'employee': null
-    };
-
-    var body = json.encode(jsonMap);
-
-    try {
-      var response = await http.put(url, 
-      headers: {"Content-Type": "application/json"}, body: body);
-
-     if (response.statusCode >= 400 && response.statusCode <= 499) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Client error: ${response.statusCode}')),
-        );
-         throw Exception('Client error: ${response.statusCode}');
-     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
-        );
-        throw Exception('Server error: ${response.statusCode}'); 
-      }
-    } catch (exception) {}
-  }

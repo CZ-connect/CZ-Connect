@@ -31,19 +31,19 @@ class NavigationMenu extends StatelessWidget {
             ListTile(
               title: const Text('Referral Dashboard'),
               onTap: () {
-                Navigator.pushNamed(context, '/referraldashboard');
+                Navigator.popAndPushNamed(context, '/referraldashboard');
               },
             ),
             ListTile(
               title: const Text('Application Form'),
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.popAndPushNamed(context, '/');
               },
             ),
             ListTile(
               title: const Text('Referral Overzicht'),
               onTap: () {
-                Navigator.pushNamed(context, '/loading');
+                Navigator.popAndPushNamed(context, '/loading');
               },
             ),
           ],

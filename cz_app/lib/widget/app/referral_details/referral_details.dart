@@ -2,10 +2,19 @@ import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'services/reject_refferal.dart';
+
 void main() => runApp(const ReferralDetailWidget());
 
-class ReferralDetailWidget extends StatelessWidget {
+class ReferralDetailWidget extends StatefulWidget {
   const ReferralDetailWidget({super.key});
+
+  @override
+  State<ReferralDetailWidget> createState() => _ReferralDetailState();
+}
+
+class _ReferralDetailState extends State<ReferralDetailWidget> {
+  
   @override
   Widget build(BuildContext context) {
     final Referral? referral;
@@ -91,6 +100,28 @@ class ReferralDetailWidget extends StatelessWidget {
                 ],
               ),
             ),
+            referral.status.toString() == "Pending" ?
+            Expanded(
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          referral?.status = "Denied";
+                        });   
+                        RejectReferral.rejectRefferal(context, referral);                       
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Referral afkeuren')),
+                        );
+                      },
+                      child: const Text("Afkeuren"),
+                    ),
+                  ),
+              ),
+            ) : const SizedBox.shrink(),
           ],
         ),
       );
