@@ -1,13 +1,7 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import '../../models/graph.dart';
 import '../data/graph_data.dart';
-
 
 class RefferalLineChart extends StatelessWidget {
   final List<Graph>? graph;
@@ -16,7 +10,7 @@ class RefferalLineChart extends StatelessWidget {
   const RefferalLineChart({
     super.key,
     required this.isShowingMainData,
-     required this.graph,
+    required this.graph,
   });
 
   get getSpotsOpens => getSpotsOpen();
@@ -50,6 +44,7 @@ class RefferalLineChart extends StatelessWidget {
       isShowingMainData ? StandardData : BackupData,
     );
   }
+
   LineChartData get StandardData => LineChartData(
         lineTouchData: lineTouchData1,
         gridData: gridData,
@@ -179,40 +174,40 @@ class RefferalLineChart extends StatelessWidget {
     //make a factory for this based on the data max x value
     switch (value.toInt()) {
       case 1:
-        text = const Text('January', style: style);
+        text = const Text('jan', style: style);
         break;
       case 2:
-        text = const Text('February', style: style);
+        text = const Text('feb', style: style);
         break;
       case 3:
-        text = const Text('March', style: style);
+        text = const Text('mar', style: style);
         break;
       case 4:
-        text = const Text('April', style: style);
+        text = const Text('apr', style: style);
         break;
       case 5:
-        text = const Text('May', style: style);
+        text = const Text('mei', style: style);
         break;
       case 6:
-        text = const Text('June', style: style);
+        text = const Text('jun', style: style);
         break;
       case 7:
-        text = const Text('July', style: style);
+        text = const Text('jul', style: style);
         break;
       case 8:
-        text = const Text('August', style: style);
+        text = const Text('aug', style: style);
         break;
       case 9:
-        text = const Text('September', style: style);
+        text = const Text('sep', style: style);
         break;
       case 10:
-        text = const Text('October', style: style);
+        text = const Text('oct', style: style);
         break;
       case 11:
-        text = const Text('November', style: style);
+        text = const Text('nov', style: style);
         break;
       case 12:
-        text = const Text('December', style: style);
+        text = const Text('dec', style: style);
         break;
       default:
         text = const Text('');
@@ -267,11 +262,8 @@ class RefferalLineChart extends StatelessWidget {
         spots: getSpotsClosed(),
       );
 
-  void createLines() {
-
-  }
+  void createLines() {}
 }
-
 
 class LineChartSample extends StatefulWidget {
   const LineChartSample({super.key});
@@ -301,21 +293,45 @@ class LineReferalState extends State<LineChartSample> {
                 height: 37,
               ),
               const Text(
-                'Referals',
+                'Aandrachten',
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Colors.red,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2,
                 ),
                 textAlign: TextAlign.center,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    color: Colors.teal,
+                    width: 10.0,
+                    height: 10.0,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                    child: Text('Totaal aantal aandrachten'),
+                  ),
+                  Container(
+                    color: Colors.orange,
+                    width: 10.0,
+                    height: 10.0,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5.0),
+                    child: Text('Aantal succesvolle aandrachten'),
+                  ),
+                ],
+              ),
               const SizedBox(
                 height: 37,
               ),
               FutureBuilder<List<Graph>>(
                 future: fetchGraphData(),
-                builder: (BuildContext context, AsyncSnapshot<List<Graph>> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Graph>> snapshot) {
                   if (snapshot.hasData) {
                     return Expanded(
                       child: Padding(
@@ -328,7 +344,8 @@ class LineReferalState extends State<LineChartSample> {
                     );
                   } else if (snapshot.hasError) {
                     debugPrint("${snapshot.error}");
-                    return const Text("there has been a error while loading the data");
+                    return const Text(
+                        "there has been a error while loading the data");
                   } else {
                     return const Expanded(
                       child: Center(
