@@ -14,11 +14,16 @@ class RefferalLineChart extends StatelessWidget {
   });
 
   get getSpotsOpens => getSpotsOpen();
+
   get getSpotsCloseds => getSpotsClosed();
 
-  get value => graph?.reduce(
-          (prev, current) => prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals ? prev : current
-  ).AmmountOfNewReferrals;
+  get value => graph
+      ?.reduce((prev, current) =>
+          prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals
+              ? prev
+              : current)
+      .AmmountOfNewReferrals;
+
   List<FlSpot> getSpotsOpen() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
@@ -123,11 +128,10 @@ class RefferalLineChart extends StatelessWidget {
     return Text(text, style: style, textAlign: TextAlign.center);
   }
 
-
   SideTitles leftTitles() => SideTitles(
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
-        interval: (value < 20) ? 1 : (value / 20).floor(),
+        interval: (value < 20) ? 1.0 : (value / 20).floor().toDouble(),
         reservedSize: 40,
       );
 
@@ -204,6 +208,7 @@ class RefferalLineChart extends StatelessWidget {
           top: BorderSide(color: Colors.white12),
         ),
       );
+
   LineChartBarData get lineChartBarDataOpenReferals => LineChartBarData(
         isCurved: true,
         color: Colors.teal,
@@ -268,28 +273,41 @@ class LineReferalState extends State<LineChartSample> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    color: Colors.teal,
-                    width: 10.0,
-                    height: 10.0,
+              SizedBox(
+                width: double.maxFinite,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Container(
+                            color: Colors.teal,
+                            width: 10.0,
+                            height: 10.0,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                            child: Text('Totaal aantal aandrachten'),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            color: Colors.orange,
+                            width: 10.0,
+                            height: 10.0,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 5.0),
+                            child: Text('Aantal succesvolle aandrachten'),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: Text('Totaal aantal aandrachten'),
-                  ),
-                  Container(
-                    color: Colors.orange,
-                    width: 10.0,
-                    height: 10.0,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 5.0),
-                    child: Text('Aantal succesvolle aandrachten'),
-                  ),
-                ],
+                ),
               ),
               const SizedBox(
                 height: 37,
