@@ -478,3 +478,4 @@ $RECYCLE.BIN/
 *.lnk
 cz_app/coverage/lcov.info
 backend/obj
+backend.tests/.idea/.idea.backend.tests.dir/.idea/discord.xml
