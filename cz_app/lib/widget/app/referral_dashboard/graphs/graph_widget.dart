@@ -15,12 +15,15 @@ class RefferalLineChart extends StatelessWidget {
 
   get getSpotsOpens => getSpotsOpen();
   get getSpotsCloseds => getSpotsClosed();
+
+  get value => graph?.reduce(
+          (prev, current) => prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals ? prev : current
+  ).AmmountOfNewReferrals;
   List<FlSpot> getSpotsOpen() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
       double x = obj.Id;
       double y = obj.AmmountOfNewReferrals;
-      //y = y / 10;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -31,7 +34,6 @@ class RefferalLineChart extends StatelessWidget {
     for (var obj in graph!) {
       double x = obj.Id;
       double y = obj.AmmountOfApprovedReferrals;
-      //y = y / 10;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -53,9 +55,7 @@ class RefferalLineChart extends StatelessWidget {
         lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 14,
-        maxY: graph?.reduce(
-                (prev, current) => prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals ? prev : current
-        ).AmmountOfNewReferrals,
+        maxY: value,
         minY: 0,
       );
 
@@ -127,7 +127,7 @@ class RefferalLineChart extends StatelessWidget {
   SideTitles leftTitles() => SideTitles(
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
-        interval: 1,
+        interval: (value < 20) ? 1 : (value / 20).floor(),
         reservedSize: 40,
       );
 
