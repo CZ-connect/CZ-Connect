@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import '../../models/graph.dart';
+
 Future<List<Graph>> fetchGraphData() async {
   final response = await http.get(Uri.parse('http://localhost:3000/api/graphdata'));
   if (response.statusCode == 200) {

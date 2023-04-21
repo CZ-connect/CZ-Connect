@@ -18,9 +18,9 @@ class RefferalLineChart extends StatelessWidget {
   List<FlSpot> getSpotsOpen() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Id as double;
-      double y = obj.AmmountOfNewReferrals as double;
-      y = y / 10;
+      double x = obj.Id;
+      double y = obj.AmmountOfNewReferrals;
+      //y = y / 10;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -29,9 +29,9 @@ class RefferalLineChart extends StatelessWidget {
   List<FlSpot> getSpotsClosed() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Id as double;
-      double y = obj.AmmountOfApprovedReferrals as double;
-      y = y / 10;
+      double x = obj.Id;
+      double y = obj.AmmountOfApprovedReferrals;
+      //y = y / 10;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -53,7 +53,9 @@ class RefferalLineChart extends StatelessWidget {
         lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 14,
-        maxY: 10,
+        maxY: graph?.reduce(
+                (prev, current) => prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals ? prev : current
+        ).AmmountOfNewReferrals,
         minY: 0,
       );
 
@@ -117,46 +119,10 @@ class RefferalLineChart extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-
-    //make a factory for this based on the data max y value
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10';
-        break;
-      case 2:
-        text = '20';
-        break;
-      case 3:
-        text = '30';
-        break;
-      case 4:
-        text = '40';
-        break;
-      case 5:
-        text = '50';
-        break;
-      case 6:
-        text = '60';
-        break;
-      case 7:
-        text = '70';
-        break;
-      case 8:
-        text = '80';
-        break;
-      case 9:
-        text = '90';
-        break;
-      case 10:
-        text = '100';
-        break;
-      default:
-        return Container();
-    }
-
+    final text = ((value).toString());
     return Text(text, style: style, textAlign: TextAlign.center);
   }
+
 
   SideTitles leftTitles() => SideTitles(
         getTitlesWidget: leftTitleWidgets,
