@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -13,8 +16,32 @@ class RefferalLineChart extends StatelessWidget {
   const RefferalLineChart({
     super.key,
     required this.isShowingMainData,
-     this.graph,
+     required this.graph,
   });
+
+  get getSpotsOpens => getSpotsOpen();
+  get getSpotsCloseds => getSpotsClosed();
+  List<FlSpot> getSpotsOpen() {
+    List<FlSpot> spotlist = [];
+    for (var obj in graph!) {
+      double x = obj.Id as double;
+      double y = obj.AmmountOfNewReferrals as double;
+      y = y / 10;
+      spotlist.add(FlSpot(x, y));
+    }
+    return spotlist;
+  }
+
+  List<FlSpot> getSpotsClosed() {
+    List<FlSpot> spotlist = [];
+    for (var obj in graph!) {
+      double x = obj.Id as double;
+      double y = obj.AmmountOfApprovedReferrals as double;
+      y = y / 10;
+      spotlist.add(FlSpot(x, y));
+    }
+    return spotlist;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +50,6 @@ class RefferalLineChart extends StatelessWidget {
       isShowingMainData ? StandardData : BackupData,
     );
   }
-
-
   LineChartData get StandardData => LineChartData(
         lineTouchData: lineTouchData1,
         gridData: gridData,
@@ -218,7 +243,6 @@ class RefferalLineChart extends StatelessWidget {
           top: BorderSide(color: Colors.white12),
         ),
       );
-
   LineChartBarData get lineChartBarDataOpenReferals => LineChartBarData(
         isCurved: true,
         color: Colors.teal,
@@ -226,15 +250,7 @@ class RefferalLineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 0),
-          FlSpot(3, 4),
-          FlSpot(5, 6),
-          FlSpot(7, 7),
-          FlSpot(10, 8),
-          FlSpot(12, 10),
-          FlSpot(12, 0),
-        ],
+        spots: getSpotsOpens,
       );
 
   // bar beween 1 and 2
@@ -248,14 +264,7 @@ class RefferalLineChart extends StatelessWidget {
           show: false,
           color: Colors.teal,
         ),
-        spots: const [
-          FlSpot(1, 0),
-          FlSpot(3, 2),
-          FlSpot(7, 3),
-          FlSpot(10, 4),
-          FlSpot(12, 8),
-          FlSpot(13, 9),
-        ],
+        spots: getSpotsClosed(),
       );
 
   void createLines() {
@@ -294,7 +303,7 @@ class LineReferalState extends State<LineChartSample> {
               const Text(
                 'Referals',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.white70,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2,
