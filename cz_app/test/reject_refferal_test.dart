@@ -66,24 +66,19 @@ void main() {
             200,
             expectedJsonResponse,
       );
-      nock.put("/referral/13").reply(200, null);
 
-      await tester.runAsync(() async {
-        await tester.pumpWidget(myapp);
-        await tester.pumpAndSettle();
-      });
+      await tester.pumpWidget(myapp);
+      await tester.pumpAndSettle();
 
       expect(interceptor.isDone, true);
 
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
-
-
-      await tester.tap(find.byType(ElevatedButton).first);
+      await tester.tap(find.byKey(const ValueKey('reject_key')));
       await tester.pumpAndSettle();
 
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
-      expect(find.text("Denied"), findsOneWidget); 
+      expect(find.text("Denied"), findsOneWidget);
     });
 
     testWidgets('Can not reject a already denied referral ',

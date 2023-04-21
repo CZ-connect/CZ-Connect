@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using CZConnect.Models;
 
 namespace CZConnect.Models;
 

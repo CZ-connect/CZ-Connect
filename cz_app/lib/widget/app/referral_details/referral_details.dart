@@ -1,10 +1,7 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'services/reject_refferal.dart';
-
-void main() => runApp(const ReferralDetailWidget());
 
 class ReferralDetailWidget extends StatefulWidget {
   const ReferralDetailWidget({super.key});
@@ -114,10 +111,11 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     margin: const EdgeInsets.all(5),
                     width: double.infinity,
                     child: ElevatedButton(
+                      key: const Key('reject_key'),
                       onPressed: () {
                         setState(() {
                           referral?.status = "Denied";
-                        });   
+                        });
                         RejectReferral.rejectRefferal(context, referral);                       
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Referral afkeuren')),

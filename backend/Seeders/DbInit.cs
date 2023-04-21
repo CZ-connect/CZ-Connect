@@ -10,8 +10,8 @@ internal class DbInit
         {
             var employees = new Employee[] 
             {
-                new Employee{EmployeeName = "Jan van Loon"},
-                new Employee{EmployeeName = "Miri Ham"},
+                new Employee{EmployeeName = "Karel de Groot"},
+                new Employee{EmployeeName = "Wilfred de Kok"},
             };
             foreach(var e in employees)
                 dbContext.Employees.Add(e);
@@ -22,7 +22,7 @@ internal class DbInit
             {   
                 new Referral{ParticipantName = "Coen", ParticipantEmail = "koen@mail.com",
                             Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22), EmployeeId = 1, Employee = null},  
-                new Referral{ParticipantName = "Koen van den Heuvel", ParticipantEmail = "jos@exmaple.com",
+                new Referral{ParticipantName = "Joost Voogd", ParticipantEmail = "joost@exmaple.com",
                             Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22), EmployeeId = 1, Employee = null},
                 new Referral{ParticipantName = "Koen van den Heuvel", ParticipantEmail = "koen@mail.com",
                             Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22), EmployeeId = 1, Employee = null},
