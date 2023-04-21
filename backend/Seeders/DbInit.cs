@@ -20,6 +20,7 @@ internal class DbInit
 
         if (!dbContext.Referrals.Any()) 
         {
+
             var referrals = new Referral[]
             {
                 new Referral{ ParticipantName = "Coen", ParticipantEmail = "koen@mail.com",
@@ -40,6 +41,7 @@ internal class DbInit
                 new Referral{ ParticipantName = "Marin Kieplant", ParticipantEmail = "plantje@mail.com",
                             Status = ReferralStatus.Pending, RegistrationDate = new DateTime(2022, 8, 18),
                             EmployeeId = 2, Employee = null },
+
             };
             foreach(var r in referrals)
                 dbContext.Referrals.Add(r);

@@ -33,8 +33,6 @@ class _DashboardRow extends State<DashboardRow> {
     return DataRow(
       color: MaterialStateColor.resolveWith((states) => Colors.grey),
       cells: <DataCell>[
-        DataCell(referralRowPhoto),
-        DataCell(Text(referral.status)),
         DataCell(
           MouseRegion(
             cursor: SystemMouseCursors.click,
@@ -50,7 +48,9 @@ class _DashboardRow extends State<DashboardRow> {
             ),
           ),
         ),
-        DataCell(Text(referral.participantEmail)),
+        DataCell(Text(referral.participantEmail ?? "-")),
+        DataCell(Text(referral.participantPhoneNumber ?? "-")),
+        DataCell(Text(referral.status)),
       ],
     );
   }
@@ -73,16 +73,16 @@ class _DashboardRow extends State<DashboardRow> {
                     // ignore: prefer_const_literals_to_create_immutables
                     columns: <DataColumn>[
                       const DataColumn(
-                        label: Expanded(child: Text("")),
-                      ),
-                      const DataColumn(
-                        label: Expanded(child: Text("Status")),
-                      ),
-                      const DataColumn(
                         label: Expanded(child: Text("Naam sollicitant")),
                       ),
                       const DataColumn(
-                        label: Expanded(child: Text("Email sollicitant")),
+                        label: Expanded(child: Text("Email")),
+                      ),
+                      const DataColumn(
+                        label: Expanded(child: Text("Telefoonnummer")),
+                      ),
+                      const DataColumn(
+                        label: Expanded(child: Text("Status")),
                       ),
                     ],
                     rows: snapshot.data!.map<DataRow>(
