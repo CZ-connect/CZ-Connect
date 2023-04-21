@@ -61,7 +61,13 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                   DataRow(
                     cells: <DataCell>[
                       const DataCell(Text("Email:")),
-                      DataCell(Text(referral.participantEmail))
+                      DataCell(Text(referral.participantEmail ?? "-"))
+                    ],
+                  ),
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("Telefoonnummer:")),
+                      DataCell(Text(referral.participantPhoneNumber ?? "-"))
                     ],
                   ),
                   DataRow(
