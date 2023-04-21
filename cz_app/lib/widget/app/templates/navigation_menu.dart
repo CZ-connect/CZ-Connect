@@ -30,18 +30,21 @@ class NavigationMenu extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Referral Dashboard'),
+              key: const Key('referral_dashboard_menu_item'),
               onTap: () {
                 Navigator.popAndPushNamed(context, '/referraldashboard');
               },
             ),
             ListTile(
               title: const Text('Application Form'),
+              key: const Key('application_form_menu_item'),
               onTap: () {
                 Navigator.popAndPushNamed(context, '/');
               },
             ),
             ListTile(
               title: const Text('Referral Overzicht'),
+              key: const Key('referral_overview_menu_item'),
               onTap: () {
                 Navigator.popAndPushNamed(context, '/loading');
               },

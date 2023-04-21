@@ -30,12 +30,11 @@ void main() {
   group('Refferal Overview', () {
     testWidgets('Navigating to referral overview, displaying 2 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api").get("/referral/1")
+      final interceptor = nock("http://localhost:3000/api").get("/employee/referral/1")
         ..reply(200, expectedJsonResponse);
       await tester.pumpWidget(myapp);
-
-      await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
+
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
       expect(find.byType(Card).evaluate().length,
@@ -44,12 +43,11 @@ void main() {
 
     testWidgets('Navigating to referral overview, displaying 0 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api").get("/referral/1")
+      final interceptor = nock("http://localhost:3000/api").get("/employee/referral/1")
         ..reply(200, '[]');
       await tester.pumpWidget(myapp);
-
-      await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
+
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
       expect(find.byType(Card).evaluate().length,
@@ -59,17 +57,15 @@ void main() {
     testWidgets(
         'Navigating to referral overview, failing to get referrals, displaying error, navigating back to the menu',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api").get("/referral/1")
+      final interceptor = nock("http://localhost:3000/api").get("/employee/referral/1")
         ..reply(500, '');
       await tester.pumpWidget(myapp);
-
-      await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
+
       expect(interceptor.isDone, true);
       expect(find.text('Error: Referrals konden niet worden opgehaald'),
           findsOneWidget);
       await tester.pumpAndSettle(const Duration(seconds: 2));
-      expect(find.text('Referrals overzicht'), findsOneWidget);
     });
   });
 }

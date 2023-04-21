@@ -7,7 +7,7 @@ class RejectReferral {
 
   static Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
     var id = referral.id.toString();
-    var url = Uri.http('localhost:3000', '/api/referral/individual/$id');
+    var url = Uri.http('localhost:3000', '/api/referral/$id');
 
     DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(referral.registrationDate.toString());
     String formattedDateString = dateTime.toString().replaceFirst(' ', 'T');

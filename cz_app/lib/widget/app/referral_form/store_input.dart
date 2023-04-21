@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 
-final _formKey = GlobalKey<FormState>();
 
 // ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
@@ -15,6 +14,7 @@ class FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return FutureBuilder<Employee?>(
       future: EmployeeData().fetchEmployee(),
       builder: (BuildContext context, AsyncSnapshot<Employee?> snapshot) {
@@ -28,8 +28,9 @@ class FormWidget extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
             child: Form(
-              key: _formKey,
-              child: Column(
+              key: formKey,
+              child: SingleChildScrollView(   
+               child: Column(
                 children: <Widget>[
                   const ContainerTextWidget(),
                   TextFormField(
@@ -68,8 +69,8 @@ class FormWidget extends StatelessWidget {
                   const Padding(padding: EdgeInsets.all(8.0)),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState?.save();
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState?.save();
                         sendForm(context, modelForm);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -80,6 +81,7 @@ class FormWidget extends StatelessWidget {
                     child: const Text('Verstuur'),
                   ),
                 ],
+              ),
               ),
             ),
           ),

@@ -64,7 +64,7 @@ public class ReferralTest
         .ReturnsAsync(_referrals.FirstOrDefault(r => r.Id == 1));
 
         var controller = new ReferralController(mockRepository.Object);
-        var result = await controller.GetIndividualReferral(1);
+        var result = await controller.GetReferral(1);
 
         var okResult = result.Result as OkObjectResult;
         
@@ -81,7 +81,7 @@ public class ReferralTest
         .ReturnsAsync(() => null);
         var controller = new ReferralController(mockRepository.Object);
 
-        var result = await controller.GetIndividualReferral(8);
+        var result = await controller.GetReferral(8);
 
         Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
     }
@@ -94,7 +94,7 @@ public class ReferralTest
         mockRepository
         .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
         .ReturnsAsync(_referrals.Where(r => r.EmployeeId == 1).ToList());
-        var controller = new ReferralController(mockRepository.Object);
+        var controller = new EmployeeController(mockRepository.Object);
 
         var result = await controller.GetReferrals(1);
 
@@ -114,7 +114,7 @@ public class ReferralTest
         mockRepository
         .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
         .ReturnsAsync(() => null);
-        var controller = new ReferralController(mockRepository.Object);
+        var controller = new EmployeeController(mockRepository.Object);
 
         var result = await controller.GetReferrals(5);
 

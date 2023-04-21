@@ -26,21 +26,8 @@ public class ReferralController : ControllerBase
         return Ok(referralsResponse);
     }
 
-    [HttpGet("{id}")] //Get Refferals from a employee
-    public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
-    {
-        var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
-
-        if (referrals == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(referrals);
-    }
-
-    [HttpGet("individual/{id}")]
-    public async Task<ActionResult<Referral>> GetIndividualReferral(long id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Referral>> GetReferral(long id)
     {
         var referral = await _repository.SelectByIdAsync<Referral>(id);
 
@@ -52,7 +39,7 @@ public class ReferralController : ControllerBase
         return Ok(referral);
     }
 
-    [HttpPut("individual/{id}")]
+    [HttpPut("{id}")]
     public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
     {
         if(referral == null) 
