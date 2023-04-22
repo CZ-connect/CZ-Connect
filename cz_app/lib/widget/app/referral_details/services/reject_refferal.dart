@@ -33,12 +33,7 @@ class RejectReferral {
           SnackBar(content: Text('Client error: ${response.statusCode}')),
         );
          throw Exception('Client error: ${response.statusCode}');
-     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
-        );
-        throw Exception('Server error: ${response.statusCode}'); 
-      }
+     }
     } catch (exception) {}
   }
 }
