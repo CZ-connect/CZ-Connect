@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../navigation_menu.dart';
 
 class ScreenTemplate extends StatelessWidget {
   final Widget header;
@@ -15,7 +16,12 @@ class ScreenTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+//        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+        elevation: 0,
+      ),
       bottomNavigationBar: null,
       body: Column(
         children: [
@@ -47,6 +53,7 @@ class ScreenTemplate extends StatelessWidget {
           ),
         ],
       ),
+      drawer: const NavigationMenu(),
     );
   }
 }

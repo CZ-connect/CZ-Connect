@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230418073449_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230421132402_init_migration")]
+    partial class init_migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,7 @@ namespace backend.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("ParticipantEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParticipantName")
