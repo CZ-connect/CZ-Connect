@@ -11,8 +11,8 @@ internal class DbInit
         {
             var employees = new Employee[] 
             {
-                new Employee { EmployeeName = "Jan van Loon", Role = EmployeeRole.Admin },
-                new Employee { EmployeeName = "Miri Ham", Role = EmployeeRole.Recruitment }
+                new() { EmployeeName = "Jan van Loon", Role = EmployeeRole.Admin },
+                new() { EmployeeName = "Miri Ham", Role = EmployeeRole.Recruitment }
             };
             foreach(var e in employees)
                 dbContext.Employees.Add(e);
