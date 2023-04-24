@@ -68,7 +68,7 @@ void main() {
       await tester.pumpWidget(myapp);
 
       await tester.tap(find.text('Referrals overzicht'));
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
       expect(find.byType(Card).evaluate().length,
@@ -83,7 +83,7 @@ void main() {
       _router.go("/");
       await tester.pumpWidget(myapp);
       await tester.tap(find.text('Referrals overzicht'));
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
       expect(find.byType(Card).evaluate().length,
@@ -98,7 +98,7 @@ void main() {
       _router.go("/");
       await tester.pumpWidget(myapp);
       await tester.tap(find.text('Referrals overzicht'));
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
       expect(find.text('Error: Iets ging verkeerd'),
           findsOneWidget);
@@ -114,7 +114,7 @@ void main() {
         _router.go("/");
         await tester.pumpWidget(myapp);
         await tester.tap(find.text('Referrals overzicht'));
-        await tester.pumpAndSettle(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
         expect(interceptor.isDone, true);
         await tester.pumpAndSettle();
         await tester.tap(find.byType(FloatingActionButton));
