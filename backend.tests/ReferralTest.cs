@@ -4,6 +4,7 @@ using CZConnect.Controllers;
 using Moq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
+
 namespace backend.tests;
 
 [TestClass]
@@ -29,13 +30,71 @@ public class ReferralTest
     }
 
     [TestMethod]
+    public async Task UpdateReferralStatus_Should_Succeed() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.RejectReferral(_referrals.First());
+        
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(OkResult));
+    }
+
+    [TestMethod]
+    public async Task UpdateReferralStatus_Should_Fail() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.UpdateAsync(_referrals.First())).Verifiable();
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.RejectReferral(null);
+        
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+    }
+
+
+    [TestMethod]
+    public async Task GetIndividualReferral_Should_Succeed() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(1))
+        .ReturnsAsync(_referrals.FirstOrDefault(r => r.Id == 1));
+
+        var controller = new ReferralController(mockRepository.Object);
+        var result = await controller.GetReferral(1);
+
+        var okResult = result.Result as OkObjectResult;
+        
+        Assert.IsNotNull(okResult);
+        Assert.AreEqual(200, okResult.StatusCode);
+        Assert.IsInstanceOfType(okResult.Value, typeof(Referral)); 
+    }
+
+    [TestMethod]
+    public async Task GetIndividualReferral_Should_Give_NotFound() 
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(8))
+        .ReturnsAsync(() => null);
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.GetReferral(8);
+
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+    }
+
+
+    [TestMethod]
     public async Task GetRefferalById_Should_Succeed()
     {
         var mockRepository = new Mock<IRepository>();
         mockRepository
         .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
         .ReturnsAsync(_referrals.Where(r => r.EmployeeId == 1).ToList());
-        var controller = new ReferralController(mockRepository.Object);
+        var controller = new EmployeeController(mockRepository.Object);
 
         var result = await controller.GetReferrals(1);
 
@@ -55,7 +114,7 @@ public class ReferralTest
         mockRepository
         .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
         .ReturnsAsync(() => null);
-        var controller = new ReferralController(mockRepository.Object);
+        var controller = new EmployeeController(mockRepository.Object);
 
         var result = await controller.GetReferrals(5);
 

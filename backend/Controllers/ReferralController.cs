@@ -27,16 +27,28 @@ public class ReferralController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
+    public async Task<ActionResult<Referral>> GetReferral(long id)
     {
-        var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+        var referral = await _repository.SelectByIdAsync<Referral>(id);
 
-        if (referrals == null)
+        if(referral == null) 
         {
             return NotFound();
         }
 
-        return Ok(referrals);
+        return Ok(referral);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
+    {
+        if(referral == null) 
+        {
+            return NotFound();
+        }
+        referral.Status = ReferralStatus.Denied;
+        await _repository.UpdateAsync(referral);
+        return Ok();
     }
 }
    

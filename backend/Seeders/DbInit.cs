@@ -11,8 +11,10 @@ internal class DbInit
         {
             var employees = new Employee[] 
             {
+
                 new() { EmployeeName = "Jan van Loon", Role = EmployeeRole.Admin },
                 new() { EmployeeName = "Miri Ham", Role = EmployeeRole.Recruitment }
+
             };
             foreach(var e in employees)
                 dbContext.Employees.Add(e);
@@ -20,8 +22,7 @@ internal class DbInit
 
         if (!dbContext.Referrals.Any()) 
         {
-
-            var referrals = new Referral[]
+            var referrals = new[]
             {
                 new Referral{ ParticipantName = "Coen", ParticipantEmail = "koen@mail.com",
                             Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22),
@@ -41,7 +42,6 @@ internal class DbInit
                 new Referral{ ParticipantName = "Marin Kieplant", ParticipantEmail = "plantje@mail.com",
                             Status = ReferralStatus.Pending, RegistrationDate = new DateTime(2022, 8, 18),
                             EmployeeId = 2, Employee = null },
-
             };
             foreach(var r in referrals)
                 dbContext.Referrals.Add(r);
@@ -49,7 +49,7 @@ internal class DbInit
 
         if (!dbContext.GraphData.Any()) 
         {
-            var graphData = new GraphData[]
+            var graphData = new[]
             {
                 new GraphData{ Year = 2023, Month = 4, AmmountOfNewReferrals = 12, AmmountOfApprovedReferrals = 2 },
                 new GraphData{ Year = 2023, Month = 3, AmmountOfNewReferrals = 8, AmmountOfApprovedReferrals = 4 },
