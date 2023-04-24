@@ -19,9 +19,9 @@ class RecruitmentData {
     }
   }
 
-  Future<List<Employee>> fetchEmployees() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:3000/api/employee'));
+  Future<List<Employee>> fetchEmployees(int departmentId) async {
+    final response = await http.get(Uri.parse(
+        'http://localhost:3000/api/employee/department/$departmentId'));
 
     if (response.statusCode == 200) {
       var employeeObjsJson = jsonDecode(response.body)['departments'] as List;
@@ -30,7 +30,7 @@ class RecruitmentData {
           .toList();
       return employeeObjs;
     } else {
-      throw Exception('Failed to load departments');
+      throw Exception('Failed to load employees');
     }
   }
 
