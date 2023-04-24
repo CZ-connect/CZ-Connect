@@ -1,9 +1,9 @@
 using CZConnect.Models;
 using CZConnect.DAL;
-using Microsoft.AspNetCore.Mvc;
+using CZConnect.Controllers;
 using Moq;
 using System.Linq.Expressions;
-using CZConnect.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.tests;
 

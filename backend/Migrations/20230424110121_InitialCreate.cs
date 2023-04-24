@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class init_migration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,11 +31,28 @@ namespace backend.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GraphData",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    AmmountOfNewReferrals = table.Column<int>(type: "int", nullable: false),
+                    AmmountOfApprovedReferrals = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GraphData", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,8 +62,8 @@ namespace backend.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ParticipantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParticipantPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: false)
@@ -73,6 +90,9 @@ namespace backend.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ApplicantForms");
+
+            migrationBuilder.DropTable(
+                name: "GraphData");
 
             migrationBuilder.DropTable(
                 name: "Referrals");

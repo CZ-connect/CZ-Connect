@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
@@ -22,13 +23,22 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
+        '/graph': (context) => const Scaffold(
+              body: ReferralDashboardTemplate(
+                header: ReferralDashboardTopWidget(),
+                body: ReferralDashboardBottomWidget(
+                  child: ReferralDashboardContainerWidget(
+                    child: LineChartSample(),
+                  ),
+                ),
+              ),
+            ),
         '/referraldashboard': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),

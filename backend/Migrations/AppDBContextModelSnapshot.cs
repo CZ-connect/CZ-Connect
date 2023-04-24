@@ -55,9 +55,38 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("CZConnect.Models.GraphData", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AmmountOfApprovedReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmmountOfNewReferrals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GraphData");
                 });
 
             modelBuilder.Entity("CZConnect.Models.Referral", b =>
@@ -72,7 +101,6 @@ namespace backend.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("ParticipantEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParticipantName")
