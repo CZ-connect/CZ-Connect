@@ -70,7 +70,7 @@ class RefferalLineChart extends StatelessWidget {
   LineTouchData get lineTouchData1 => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.red,
+          tooltipBgColor: Colors.white24,
         ),
       );
 
@@ -279,31 +279,38 @@ class LineReferalState extends State<LineChartSample> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Container(
-                            color: Colors.teal,
-                            width: 10.0,
-                            height: 10.0,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                            child: Text('Totaal aantal aandrachten'),
-                          )
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              color: Colors.teal,
+                              width: 10.0,
+                              height: 10.0,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15.0, right: 5.0),
+                              child: Text('Totaal aantal aandrachten'),
+                            )
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            color: Colors.orange,
-                            width: 10.0,
-                            height: 10.0,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: Text('Aantal succesvolle aandrachten'),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+
+                            Container(
+                              color: Colors.orange,
+                              width: 10.0,
+                              height: 10.0,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text('Aantal succesvolle aandrachten'),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
