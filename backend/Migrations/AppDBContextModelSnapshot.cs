@@ -71,6 +71,10 @@ namespace backend.Migrations
                     b.Property<long>("DepartmentId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("EmployeeEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EmployeeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

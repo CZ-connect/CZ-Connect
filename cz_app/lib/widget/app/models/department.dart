@@ -1,6 +1,9 @@
+import 'package:cz_app/widget/app/models/employee.dart';
+
 class Department {
   int id;
   String departmentName;
+
   Department({required this.id, required this.departmentName});
 
   factory Department.fromJson(Map<String, dynamic> json) {

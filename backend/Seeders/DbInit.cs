@@ -42,7 +42,10 @@ internal class DbInit
         int departmentId = 1;
         for(int i=0; i < amount; i++)
         {
-            employees.Add(new Employee(){EmployeeName = GetDutchName(i), DepartmentId = departmentId });
+            employees.Add(new Employee(){
+                EmployeeName = GetDutchName(i),
+                EmployeeEmail = String.Concat(GetDutchName(i).Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                DepartmentId = departmentId });
             if(i % 6 == 0)
             {
                 departmentId+=1;

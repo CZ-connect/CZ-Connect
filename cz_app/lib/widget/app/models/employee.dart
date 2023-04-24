@@ -1,8 +1,8 @@
 class Employee {
   int id;
   int departmentId;
-  String? name;
-  String? email;
+  String name;
+  String email;
 
   Employee(
       {required this.id,
@@ -14,8 +14,8 @@ class Employee {
     return Employee(
       id: json['id'],
       departmentId: json['departmentId'],
-      name: json['name'],
-      email: json['email'],
+      name: json['employeeName'],
+      email: json['employeeEmail'],
     );
   }
 }

@@ -45,6 +45,7 @@ namespace backend.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
