@@ -51,7 +51,7 @@ public class ReferralController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("{accept/id}")]
+    [HttpPut("accept/{id}")]
     public async Task<ActionResult<Referral>> AcceptReferral(Referral referral)
     {
         if(referral == null) 
