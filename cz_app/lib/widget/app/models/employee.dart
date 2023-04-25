@@ -20,7 +20,7 @@ class Employee {
         departmentId: json['employee']['departmentId'],
         name: json['employee']['employeeName'],
         email: json['employee']['employeeEmail'],
-        json['role'] as String?,
+        role: json['employee']['role'] as String?,
         referralCount: json['referralCount']);
   }
 }

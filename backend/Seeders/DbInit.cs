@@ -34,65 +34,6 @@ internal class DbInit
                 dbContext.Referrals.Add(r);
         }
         
-        dbContext.Database.EnsureCreated();
-
-        if (!dbContext.Employees.Any()) 
-        {
-            var departments = new Department[]
-            {
-
-                new() { EmployeeName = "Jan van Loon", Role = EmployeeRole.Admin },
-                new() { EmployeeName = "Miri Ham", Role = EmployeeRole.Recruitment }
-
-                new Department{DepartmentName = "Sales"},
-                new Department{DepartmentName = "Finance"},
-                new Department{DepartmentName = "Human Resources"},
-                new Department{DepartmentName = "Marketing"},
-                new Department{DepartmentName = "ICT"},
-                new Department{DepartmentName = "Recruitment"},
-            };
-            foreach(var d in departments)
-                dbContext.Departments.Add(d);
-        }
-        if (!dbContext.Employees.Any()) 
-        {
-            List<Employee> employees = GenerateRandomEmployees(30);
-            foreach(var e in employees)
-                dbContext.Employees.Add(e);
-        }
-
-        if (!dbContext.Referrals.Any()) 
-        } 
-       
-        if(!dbContext.Referrals.Any()) 
-        {
-            var referrals = new[]
-            {
-                new Referral{ ParticipantName = "Coen", ParticipantEmail = "koen@mail.com",
-                            Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22),
-                            EmployeeId = 1, Employee = null },  
-                new Referral{ ParticipantName = "Koen van den Heuvel", ParticipantEmail = "jos@exmaple.com",
-                            Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22),
-                            EmployeeId = 1, Employee = null },
-                new Referral{ ParticipantName = "Koen van den Heuvel", ParticipantEmail = "koen@mail.com",
-                            Status = ReferralStatus.Approved, RegistrationDate = new DateTime(2023, 3, 22),
-                            EmployeeId = 1, Employee = null },
-                new Referral{ ParticipantName = "Willem Bollekam", ParticipantEmail = "willi@mail.com",
-                            Status = ReferralStatus.Pending, RegistrationDate = new DateTime(2023, 2, 8),
-                            EmployeeId = 1, Employee = null },
-                new Referral{ ParticipantName = "Martijn van den Woud", ParticipantEmail = "mvdw@mail.com",
-                            Status = ReferralStatus.Denied, RegistrationDate = new DateTime(2023, 1, 5),
-                            EmployeeId = 1, Employee = null },
-                new Referral{ ParticipantName = "Marin Kieplant", ParticipantEmail = "plantje@mail.com",
-                            Status = ReferralStatus.Pending, RegistrationDate = new DateTime(2022, 8, 18),
-                            EmployeeId = 2, Employee = null },
-            };
-            List<Referral> referrals = GenerateRandomReferrals(100);
-            foreach(var r in referrals)
-                dbContext.Referrals.Add(r);
-        }
-        
-
         if (!dbContext.GraphData.Any()) 
         {
             var graphData = new[]
@@ -190,11 +131,11 @@ internal class DbInit
         };
         return dutchNames[position];
     }
-    private static string GetRandomStatus()
-    {
-        string[] status = { "Goedgekeurd", "In Afwachting", "Afgewezen" };
+    private static ReferralStatus GetRandomStatus()
+    { 
+        ReferralStatus[] statuses = (ReferralStatus[])Enum.GetValues(typeof(ReferralStatus));
         Random random = new Random();
-        return status[random.Next(0, status.Length)];
+        return statuses[random.Next(0, statuses.Length)];
     }
     private static DateTime GetRandomDate()
     { 

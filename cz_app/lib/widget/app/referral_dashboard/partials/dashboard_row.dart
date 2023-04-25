@@ -20,10 +20,6 @@ class _DashboardRow extends State<DashboardRow> {
     super.initState();
   }
 
-  void reloadData() {
-    referrals = ReferralData().fetchReferrals();
-  }
-
   final referralRowPhoto = Container(
     decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
     child: Image.asset(
