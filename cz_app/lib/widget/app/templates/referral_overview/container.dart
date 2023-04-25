@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ReferralDashboardContainerWidget extends StatelessWidget {
+class ReferralOverviewContainerWidget extends StatelessWidget {
   final Widget child;
-
-  const ReferralDashboardContainerWidget({Key? key, required this.child});
+  const ReferralOverviewContainerWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         decoration: const BoxDecoration(color: Colors.white24),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width - 350,
+        width: MediaQuery.of(context).size.width - 150,
+        height: MediaQuery.of(context).size.height - 250,
         child: child,
       ),
     );

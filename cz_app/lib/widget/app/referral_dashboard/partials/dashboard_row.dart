@@ -20,6 +20,10 @@ class _DashboardRow extends State<DashboardRow> {
     super.initState();
   }
 
+  void reloadData() {
+    referrals = ReferralData().fetchReferrals();
+  }
+
   final referralRowPhoto = Container(
     decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
     child: Image.asset(
@@ -52,7 +56,8 @@ class _DashboardRow extends State<DashboardRow> {
               ),
             ),
           ),
-          DataCell(Text(referrals[index].participantEmail)),
+          DataCell(Text(referrals[index].participantEmail ?? "-")),
+          DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
         ],
       );
     });
@@ -95,6 +100,10 @@ class _DashboardRow extends State<DashboardRow> {
                     ),
                     const DataColumn(
                       label: Expanded(child: Text("Email sollicitant")),
+                    ),
+                    const DataColumn(
+                      label:
+                          Expanded(child: Text("Telefoonnummer sollicitant")),
                     ),
                   ],
                   rows: buildRows(referrals),

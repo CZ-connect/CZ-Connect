@@ -5,11 +5,13 @@ class Employee {
   String email;
   int? referralCount;
 
+  String? role;
   Employee(
       {required this.id,
       required this.departmentId,
       required this.name,
       required this.email,
+      this.role,
       this.referralCount});
 
   factory Employee.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,7 @@ class Employee {
         departmentId: json['employee']['departmentId'],
         name: json['employee']['employeeName'],
         email: json['employee']['employeeEmail'],
+        json['role'] as String?,
         referralCount: json['referralCount']);
   }
 }

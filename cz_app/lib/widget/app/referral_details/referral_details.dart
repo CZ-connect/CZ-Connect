@@ -1,11 +1,17 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'services/reject_refferal.dart';
 
-void main() => runApp(const ReferralDetailWidget());
-
-class ReferralDetailWidget extends StatelessWidget {
+class ReferralDetailWidget extends StatefulWidget {
   const ReferralDetailWidget({super.key});
+
+  @override
+  State<ReferralDetailWidget> createState() => _ReferralDetailState();
+}
+
+class _ReferralDetailState extends State<ReferralDetailWidget> {
+  
   @override
   Widget build(BuildContext context) {
     final Referral? referral;
@@ -52,7 +58,13 @@ class ReferralDetailWidget extends StatelessWidget {
                   DataRow(
                     cells: <DataCell>[
                       const DataCell(Text("Email:")),
-                      DataCell(Text(referral.participantEmail))
+                      DataCell(Text(referral.participantEmail ?? "-"))
+                    ],
+                  ),
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("Telefoonnummer:")),
+                      DataCell(Text(referral.participantPhoneNumber ?? "-"))
                     ],
                   ),
                   DataRow(
@@ -91,6 +103,28 @@ class ReferralDetailWidget extends StatelessWidget {
                 ],
               ),
             ),
+            referral.status.toString() == "Pending" ?
+            Expanded(
+              child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      key: const Key('reject_key'),
+                      onPressed: () => {
+                        setState(() {
+                          referral?.status = "Denied";
+                          rejectRefferal(context, referral);
+                        }),                                            
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Referral afkeuren')),
+                        ),
+                      },
+                      child: const Text("Afkeuren"),
+                    ),
+                  ),
+              ),
+            ) : const SizedBox.shrink(),
           ],
         ),
       );

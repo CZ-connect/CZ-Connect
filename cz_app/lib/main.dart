@@ -1,10 +1,10 @@
 import 'package:cz_app/widget/app/recruitment_dashboard/recruitment_index.dart';
+import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/menu.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
@@ -14,6 +14,9 @@ import 'package:cz_app/widget/app/templates/referral_form/app_main_container.dar
 import 'package:cz_app/widget/app/templates/referral_form/top_app_layout.dart';
 import 'package:cz_app/widget/app/templates/referral_form/bottom_app_layout.dart';
 import 'package:cz_app/widget/app/templates/referral_form/screen_template.dart';
+import 'package:cz_app/widget/app/templates/referral_overview/container.dart';
+import 'package:cz_app/widget/app/templates/referral_overview/template.dart';
+import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +24,6 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,6 +40,16 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
+        '/graph': (context) => const Scaffold(
+              body: ReferralDashboardTemplate(
+                header: ReferralDashboardTopWidget(),
+                body: ReferralDashboardBottomWidget(
+                  child: ReferralDashboardContainerWidget(
+                    child: LineChartSample(),
+                  ),
+                ),
+              ),
+            ),
         '/referraldashboard': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),
@@ -48,8 +60,13 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-        '/referralMenu': (context) => const Menu(),
-        '/referralOverview': (context) => const ReferralOverview(),
+        '/referralOverview': (context) => const Scaffold(
+              body: ReferralOverviewTemplate(
+                header: ReferralOverviewTopWidget(),
+                body:
+                    ReferralOverviewContainerWidget(child: ReferralOverview()),
+              ),
+            ),
         '/referraldetail': (context) => const Scaffold(
               body: ReferralDashboardTemplate(
                 header: ReferralDashboardTopWidget(),

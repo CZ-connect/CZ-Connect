@@ -20,8 +20,8 @@ public class ReferralController : ControllerBase
 
         referralsResponse.referrals = await _repository.AllAsync<Referral>();
 
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
 
         return Ok(referralsResponse);
     }
@@ -33,8 +33,8 @@ public class ReferralController : ControllerBase
         ReferralResponse referralsResponse = new ReferralResponse();
         referralsResponse.referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
 
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
 
         if (referralsResponse == null)
         {
@@ -42,6 +42,18 @@ public class ReferralController : ControllerBase
         }
 
         return Ok(referralsResponse);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
+    {
+        if(referral == null) 
+        {
+            return NotFound();
+        }
+        referral.Status = ReferralStatus.Denied;
+        await _repository.UpdateAsync(referral);
+        return Ok();
     }
 }
    

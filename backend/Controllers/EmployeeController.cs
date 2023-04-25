@@ -53,5 +53,18 @@ namespace CZConnect.Controllers
 
             return Ok(employeeWithReferralCounter);
         }
+
+        [HttpGet("referral/{id}")] //Get Refferals from a employee
+        public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
+        {
+            var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+
+            if (referrals == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(referrals);
+        }
     }
 }

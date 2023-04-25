@@ -7,4 +7,5 @@ public class Employee
     public string EmployeeEmail { get; set; }
     public long DepartmentId { get;set; }
     public Department? Department { get;set; }
+    public EmployeeRole Role { get; set; }
 }
