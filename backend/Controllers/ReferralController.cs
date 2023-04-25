@@ -14,29 +14,34 @@ public class ReferralController : ControllerBase
         this._repository = repository;
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Referral>>> GetReferral()
+    public async Task<ActionResult<IEnumerable<Referral>>> GetAllReferrals()
     {
         ReferralResponse referralsResponse = new ReferralResponse();
 
         referralsResponse.referrals = await _repository.AllAsync<Referral>();
 
         referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");;
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");
 
         return Ok(referralsResponse);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<Referral>>> GetReferrals(long id)
+    [HttpGet]
+    [Route("employee/{id}")]
+    public async Task<ActionResult<IEnumerable<Referral>>> GetReferralsPerEmployee(long id)
     {
-        var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+        ReferralResponse referralsResponse = new ReferralResponse();
+        referralsResponse.referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
 
-        if (referrals == null)
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == "Goedgekeurd");
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == "In Afwachting");
+
+        if (referralsResponse == null)
         {
             return NotFound();
         }
 
-        return Ok(referrals);
+        return Ok(referralsResponse);
     }
 }
    

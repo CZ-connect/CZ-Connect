@@ -24,7 +24,8 @@ class ReferralDashboardTemplate extends StatelessWidget {
       backgroundColor: Colors.black12,
       body: SingleChildScrollView(
         child: Column(
-          children: [ // margin top of 20 pixels
+          children: [
+            // margin top of 20 pixels
             header,
             Column(children: [
               body,

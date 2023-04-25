@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:http/http.dart' as http;
@@ -39,11 +41,5 @@ class RecruitmentData {
     } else {
       throw Exception('Failed to load employees');
     }
-  }
-
-  Future<int> fetchReferralsPerEmployee() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:3000/api/employee'));
-    return jsonDecode(response.body)['referralCounter'];
   }
 }

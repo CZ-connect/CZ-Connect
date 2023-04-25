@@ -1,3 +1,5 @@
+import 'package:cz_app/widget/app/models/employee.dart';
+
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
@@ -14,88 +16,93 @@ class _DashboardRow extends State<DashboardRow> {
 
   @override
   void initState() {
-    referrals = ReferralData().fetchReferrals();
+    referrals = ReferralData().fetchReferrals(2);
     super.initState();
   }
 
   final referralRowPhoto = Container(
-    width: 70,
-    height: 70,
     decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
     child: Image.asset(
       'assets/images/profile_placeholder.png',
       width: 70,
-      height: 70,
+      height: 50,
     ),
   );
 
-  DataRow getReferralsRow(Referral referral) {
-    return DataRow(
-      color: MaterialStateColor.resolveWith((states) => Colors.grey),
-      cells: <DataCell>[
-        DataCell(referralRowPhoto),
-        DataCell(Text(referral.status)),
-        DataCell(
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              child: Text(
-                referral.participantName,
-                style: const TextStyle(color: Colors.blueAccent),
+  List<DataRow> buildRows(List<Referral> referrals) {
+    return List.generate(referrals.length, (index) {
+      final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
+      return DataRow(
+        color: MaterialStateProperty.all<Color>(color!),
+        cells: <DataCell>[
+          DataCell(referralRowPhoto),
+          DataCell(Text(referrals[index].status)),
+          DataCell(
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                child: Text(
+                  referrals[index].participantName,
+                  style: const TextStyle(color: Colors.blueAccent),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/referraldetail",
+                      arguments: referrals[index]);
+                },
               ),
-              onTap: () {
-                Navigator.pushNamed(context, "/referraldetail",
-                    arguments: referral);
-              },
             ),
           ),
-        ),
-        DataCell(Text(referral.participantEmail)),
-      ],
-    );
+          DataCell(Text(referrals[index].participantEmail)),
+        ],
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final Employee? employee;
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      employee = ModalRoute.of(context)?.settings.arguments as Employee;
+      referrals = ReferralData().fetchReferrals(employee.id);
+    } else {
+      referrals = ReferralData().fetchReferrals(2);
+    }
     return FutureBuilder<List<Referral>>(
       future: referrals,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            return CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  hasScrollBody: true,
-                  child: DataTable(
-                    showCheckboxColumn: false,
-                    headingRowColor:
-                        MaterialStateColor.resolveWith((states) => Colors.grey),
-                    // ignore: prefer_const_literals_to_create_immutables
-                    columns: <DataColumn>[
-                      const DataColumn(
-                        label: Expanded(child: Text("")),
-                      ),
-                      const DataColumn(
-                        label: Expanded(child: Text("Status")),
-                      ),
-                      const DataColumn(
-                        label: Expanded(child: Text("Naam sollicitant")),
-                      ),
-                      const DataColumn(
-                        label: Expanded(child: Text("Email sollicitant")),
-                      ),
-                    ],
-                    rows: snapshot.data!.map<DataRow>(
-                      (referral) {
-                        return getReferralsRow(referral);
-                      },
-                    ).toList(),
-                  ),
+            List<Referral> referrals = snapshot.data!;
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DataTable(
+                  columnSpacing: 100,
+                  dataRowHeight: 75,
+                  headingRowColor:
+                      MaterialStateColor.resolveWith((states) => Colors.grey),
+                  // ignore: prefer_const_literals_to_create_immutables
+                  columns: <DataColumn>[
+                    const DataColumn(
+                      label: Expanded(child: Text("")),
+                    ),
+                    const DataColumn(
+                      label: Expanded(child: Text("Status")),
+                    ),
+                    const DataColumn(
+                      label: Expanded(child: Text("Naam sollicitant")),
+                    ),
+                    const DataColumn(
+                      label: Expanded(child: Text("Email sollicitant")),
+                    ),
+                  ],
+                  rows: buildRows(referrals),
                 ),
-              ],
+              ),
             );
           } else {
-            return const Text('No data found!');
+            return const Text("No data found.");
           }
         } else {
           return const CircularProgressIndicator();

@@ -29,7 +29,7 @@ namespace CZConnect.Controllers
             if (departments == null){
                 return NotFound();
             }
-            return Ok(departments); // Pass the JsonSerializerOptions to Ok method
+            return Ok(departments); 
         }
     }
 }

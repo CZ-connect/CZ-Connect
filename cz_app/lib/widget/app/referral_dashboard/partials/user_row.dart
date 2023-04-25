@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 
 class UserRow extends StatelessWidget {
@@ -5,6 +6,12 @@ class UserRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Employee? employee;
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      employee = ModalRoute.of(context)?.settings.arguments as Employee;
+    } else {
+      employee = null;
+    }
     return FractionallySizedBox(
       widthFactor: 1.0,
       heightFactor: 0.3,
@@ -19,9 +26,8 @@ class UserRow extends StatelessWidget {
             Expanded(
                 child: Image.asset('assets/images/profile_placeholder.png',
                     width: 70, height: 70)),
-            const Text(
-              'Coen van den Berge',
-            )
+            Text(employee?.name ??
+                'Coen van den Berge'), // TO-DO Change hardcoded name to logged in user.
           ],
         ),
       ),

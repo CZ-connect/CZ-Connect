@@ -37,66 +37,93 @@ class _DashboardRow extends State<DashboardRow> {
     });
   }
 
+  List<DataColumn> buildColumns() {
+    return <DataColumn>[
+      const DataColumn(label: Text("Medewerker")),
+      const DataColumn(label: Text("Email")),
+      const DataColumn(label: Text("Referrals"))
+    ];
+  }
+
+  List<DataRow> buildRows(List<Employee> employees) {
+    return List.generate(
+      employees.length,
+      (index) {
+        final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
+        return DataRow(
+          color: MaterialStateProperty.all<Color>(color!),
+          cells: [
+            DataCell(
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  child: Text(
+                    employees[index].name,
+                    style: const TextStyle(color: Colors.blueAccent),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, "/referraldashboard",
+                        arguments: employees[index]);
+                  },
+                ),
+              ),
+            ),
+            DataCell(Text(employees[index].email)),
+            DataCell(Text("Referrals: ${employees[index].referralCount}")),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text(
-            'Departments',
-            style: TextStyle(fontSize: 24.0),
-          ),
-        ),
-        FutureBuilder<List<Department>>(
-          future: departments,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Text('No departments found.');
-            } else {
-              return Wrap(
-                children: snapshot.data!
-                    .map(
-                      (dept) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () => selectDepartment(dept.id),
-                          child: Text(dept.departmentName),
-                        ),
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([departments, employees]),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text('No departments found.');
+        } else {
+          List<Department> departments = snapshot.data![0] as List<Department>;
+          List<Employee> employees = snapshot.data![1] as List<Employee>;
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  for (Department department in departments)
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          selectDepartment(department.id);
+                        },
+                        child: Text(department.departmentName),
                       ),
-                    )
-                    .toList(),
-              );
-            }
-          },
-        ),
-        Expanded(
-          child: FutureBuilder<List<Employee>>(
-            future: employees,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Text('No departments found.');
-              } else {
-                List<Employee> employees = snapshot.data!;
-                return ListView.builder(
-                  itemCount: employees.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(employees[index].name),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: DataTable(
+                    columnSpacing: 100,
+                    dataRowHeight: 56,
+                    columns: buildColumns(),
+                    rows: buildRows(employees),
                   ),
-                );
-              }
-            },
-          ),
-        ),
-      ],
+                ),
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 }

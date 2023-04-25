@@ -10,7 +10,7 @@ class ReferralDashboardContainerWidget extends StatelessWidget {
       child: Container(
         decoration: const BoxDecoration(color: Colors.white24),
         width: MediaQuery.of(context).size.width - 350,
-        height: MediaQuery.of(context).size.height - 250,
+        height: MediaQuery.of(context).size.height,
         child: child,
       ),
     );
