@@ -141,6 +141,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         child: const Text("Goedkeuren"),
                       ),
                     ],
+
                   ),
                 ),
               )
