@@ -2,6 +2,7 @@ import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'services/reject_refferal.dart';
+import 'services/accept_refferal.dart';
 
 class ReferralDetailWidget extends StatefulWidget {
   const ReferralDetailWidget({super.key});
@@ -11,7 +12,6 @@ class ReferralDetailWidget extends StatefulWidget {
 }
 
 class _ReferralDetailState extends State<ReferralDetailWidget> {
-  
   @override
   Widget build(BuildContext context) {
     final Referral? referral;
@@ -130,7 +130,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         onPressed: () {
                           setState(() {
                             referral?.status = "Approved";
-                            rejectRefferal(context, referral);
+                            acceptReffal(context, referral);
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -149,7 +149,6 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
           ],
         ),
       );
-
     } else {
       return SizedBox.expand(
         key: const Key("referral_details"),
