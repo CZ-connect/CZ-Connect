@@ -149,6 +149,7 @@ void main() {
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
 
+
       final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
@@ -188,6 +189,7 @@ void main() {
 
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
+
       final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();

@@ -18,6 +18,10 @@ class _DashboardRow extends State<DashboardRow> {
     super.initState();
   }
 
+  void reloadData() {
+    referrals = ReferralData().fetchReferrals();
+  }
+
   final referralRowPhoto = Container(
     width: 70,
     height: 70,
@@ -43,7 +47,11 @@ class _DashboardRow extends State<DashboardRow> {
               ),
               onTap: () {
                 Navigator.pushNamed(context, "/referraldetail",
-                    arguments: referral);
+                    arguments: referral).then((_) {
+                      setState(() {
+                        reloadData();
+                      });
+                    });
               },
             ),
           ),
