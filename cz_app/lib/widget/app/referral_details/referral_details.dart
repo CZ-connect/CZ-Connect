@@ -103,28 +103,49 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 ],
               ),
             ),
-            referral.status.toString() == "Pending" ?
-            Expanded(
-              child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: const EdgeInsets.all(20),
-                    child: ElevatedButton(
-                      key: const Key('reject_key'),
-                      onPressed: () => {
-                        setState(() {
-                          referral?.status = "Denied";
-                          rejectRefferal(context, referral);
-                        }),                                            
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Referral afkeuren')),
-                        ),
-                      },
-                      child: const Text("Afkeuren"),
-                    ),
+            if (referral.status == "Pending")
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        key: const Key('reject_key'),
+                        onPressed: () {
+                          setState(() {
+                            referral?.status = "Denied";
+                            rejectRefferal(context, referral);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Referral afkeuren'),
+                            ),
+                          );
+                        },
+                        child: const Text("Afkeuren"),
+                      ),
+                      ElevatedButton(
+                        key: const Key('approved_key'),
+                        onPressed: () {
+                          setState(() {
+                            referral?.status = "Approved";
+                            rejectRefferal(context, referral);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Referral goedkeuren'),
+                            ),
+                          );
+                        },
+                        child: const Text("Goedkeuren"),
+                      ),
+                    ],
                   ),
-              ),
-            ) : const SizedBox.shrink(),
+                ),
+              )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       );
