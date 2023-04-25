@@ -1,5 +1,3 @@
-import 'package:cz_app/widget/app/models/employee.dart';
-
 class Department {
   int id;
   String departmentName;

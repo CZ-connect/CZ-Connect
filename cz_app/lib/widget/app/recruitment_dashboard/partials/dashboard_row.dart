@@ -99,6 +99,7 @@ class _DashboardRow extends State<DashboardRow> {
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
+                        key: const Key('departmentButton'),
                         onPressed: () {
                           selectDepartment(department.id);
                         },

@@ -5,14 +5,12 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cz_app/widget/app/referral_dashboard/data/graph_data.dart';
-import 'package:nock/nock.dart';
 
 void main() {
-  final TestWidgetsFlutterBinding binding = TestWidgetsFlutterBinding.ensureInitialized();
+  final TestWidgetsFlutterBinding binding =
+      TestWidgetsFlutterBinding.ensureInitialized();
   group('RefferalLineChart', () {
     testWidgets('should render a line chart', (tester) async {
       // Given
@@ -41,7 +39,6 @@ void main() {
       expect(find.byType(LineChart), findsOneWidget);
     });
 
-
     test('should return correct spots for open referrals', () {
       // Given
       final List<Graph> graph = [
@@ -63,7 +60,6 @@ void main() {
       expect(spots.length, graph.length);
       expect(spots[0].x, graph[0].Id.toDouble());
       expect(spots[0].y, graph[0].AmmountOfNewReferrals.toDouble());
-
 
       // Add more assertions as needed
     });
@@ -93,7 +89,7 @@ void main() {
   });
 
   testWidgets('should render a line chart with referral data', (tester) async {
-      await binding.setSurfaceSize(const Size(900, 900));
+    await binding.setSurfaceSize(const Size(900, 900));
     // Given
     final mockGraphData = [
       Graph(1, 1, 10, 5),
@@ -103,26 +99,20 @@ void main() {
       Graph(5, 5, 50, 25),
     ];
 
-    await tester.pumpWidget(
-        const MaterialApp(
-         home: Scaffold(
-          body: ReferralDashboardTemplate(
-            header: ReferralDashboardTopWidget(),
-            body: ReferralDashboardBottomWidget(
-              child: ReferralDashboardContainerWidget(
-                child: LineChartSample())
-            ,
+    await tester.pumpWidget(const MaterialApp(
+      home: Scaffold(
+        body: ReferralDashboardTemplate(
+          header: ReferralDashboardTopWidget(),
+          body: ReferralDashboardBottomWidget(
+            child: ReferralDashboardContainerWidget(child: LineChartSample()),
           ),
         ),
-      ),)
-    );
+      ),
+    ));
 
     // Then
     final textFinder = find.text('Aandrachten');
 
     expect(textFinder, findsOneWidget);
-
   });
-
-
 }

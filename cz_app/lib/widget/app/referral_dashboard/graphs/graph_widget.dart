@@ -252,6 +252,7 @@ class LineReferalState extends State<LineChartSample> {
     isShowingMainData = true;
   }
 
+  @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:http/http.dart' as http;
