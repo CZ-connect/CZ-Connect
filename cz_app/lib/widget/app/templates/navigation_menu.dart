@@ -43,6 +43,13 @@ class NavigationMenu extends StatelessWidget {
               },
             ),
             ListTile(
+              title: const Text('Graph Referals'),
+              key: const Key('Graph_refferals_menu_item'),
+              onTap: () {
+                Navigator.popAndPushNamed(context, '/graph');
+              },
+            ),
+            ListTile(
               title: const Text('Referral Overzicht'),
               key: const Key('referral_overview_menu_item'),
               onTap: () {
