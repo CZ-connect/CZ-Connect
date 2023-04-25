@@ -110,38 +110,43 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                   margin: const EdgeInsets.all(20),
                   child: Row(
                     children: [
-                      ElevatedButton(
-                        key: const Key('reject_key'),
-                        onPressed: () {
-                          setState(() {
-                            referral?.status = "Denied";
-                            rejectRefferal(context, referral);
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Referral afkeuren'),
-                            ),
-                          );
-                        },
-                        child: const Text("Afkeuren"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('reject_key'),
+                          onPressed: () {
+                            setState(() {
+                              referral?.status = "Denied";
+                              rejectRefferal(context, referral);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral afkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Afkeuren"),
+                        ),
                       ),
-                      ElevatedButton(
-                        key: const Key('approved_key'),
-                        onPressed: () {
-                          setState(() {
-                            referral?.status = "Approved";
-                            acceptReffal(context, referral);
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Referral goedkeuren'),
-                            ),
-                          );
-                        },
-                        child: const Text("Goedkeuren"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('approved_key'),
+                          onPressed: () {
+                            setState(() {
+                              referral?.status = "Approved";
+                              acceptReffal(context, referral);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral goedkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Goedkeuren"),
+                        ),
                       ),
                     ],
-
                   ),
                 ),
               )
