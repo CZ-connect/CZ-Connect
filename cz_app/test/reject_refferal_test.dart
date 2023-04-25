@@ -1,6 +1,7 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
+import 'package:cz_app/widget/app/referral_details/services/accept_refferal.dart';
 import 'package:cz_app/widget/app/referral_details/services/reject_refferal.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
@@ -148,7 +149,8 @@ void main() {
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
 
-      final BuildContext context = tester.element(find.byType(ElevatedButton));
+
+      final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
@@ -187,7 +189,8 @@ void main() {
 
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
-      final BuildContext context = tester.element(find.byType(ElevatedButton));
+
+      final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
@@ -195,4 +198,83 @@ void main() {
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
   });
+  testWidgets('accept Referral service succeeds ',
+          (WidgetTester tester) async {
+        Referral ref = Referral(
+            id: 1,
+            status: "Pending",
+            participantName: "Coen",
+            employeeId: 1,
+            registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+        final interceptor = nock.get("/referral")
+          ..reply(
+            200,
+            expectedJsonResponse,
+          );
+        nock.get("/referral").reply(
+          200,
+          expectedJsonResponse,
+        );
+        nock.get("/referral").reply(
+          200,
+          expectedJsonResponse,
+        );
+        nock.put("/referral/1", referral).reply(200, {});
+
+        await tester.runAsync(() async {
+          await tester.pumpWidget(myapp);
+          await tester.pumpAndSettle();
+        });
+
+        expect(interceptor.isDone, true);
+
+        await tester.tap(find.text("Coen"));
+        await tester.pumpAndSettle();
+
+        final BuildContext context = tester.element(find.byKey(const Key('approved_key'),skipOffstage: false));
+        await acceptReffal(context, ref);
+        await tester.pumpAndSettle();
+        expect(find.text('Server Error: 500'), findsNothing);
+        expect(find.text('Client Error: 400'), findsNothing);
+        expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
+      });
+
+  testWidgets('Reject Referral service bad request ',
+          (WidgetTester tester) async {
+        Referral ref = Referral(
+            id: 1,
+            employeeId: 1,
+            status: "Pending",
+            participantName: "Coen",
+            registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+
+        final interceptor = nock.get("/referral")
+          ..reply(
+            200,
+            expectedJsonResponse,
+          );
+        nock.get("/referral").reply(
+          200,
+          expectedJsonResponse,
+        );
+        nock.get("/referral").reply(
+          200,
+          expectedJsonResponse,
+        );
+        nock.put("/referral/1", referral).reply(400, {});
+
+        await tester.pumpWidget(myapp);
+        await tester.pumpAndSettle();
+
+        expect(interceptor.isDone, true);
+
+        await tester.tap(find.text("Coen"));
+        await tester.pumpAndSettle();
+        final BuildContext context = tester.element(find.byKey(const Key('approved_key'),skipOffstage: false));
+        await acceptReffal(context, ref);
+        await tester.pumpAndSettle();
+        expect(find.text('Server Error: 500'), findsNothing);
+        expect(find.text('Client Error: 400'), findsNothing);
+        expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
+      });
 }

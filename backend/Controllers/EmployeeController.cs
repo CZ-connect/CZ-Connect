@@ -12,7 +12,7 @@ namespace CZConnect.Controllers
 
         public EmployeeController(IRepository repository)
         {
-            this._repository = repository;
+            _repository = repository;
         }
 
         [HttpGet]
