@@ -12,7 +12,7 @@ namespace CZConnect.Controllers
 
         public EmployeeController(IRepository repository)
         {
-            this._repository = repository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace CZConnect.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(long id)
         {
-            var employee = await _repository.SelectByIdAsync<Employee>(id);
+            var employee = await _repository.SelectByIdAsync<Employee>(id); 
 
             if (employee == null)
             {
