@@ -12,6 +12,14 @@ public class ReferralController : ControllerBase
 
     public ReferralController(IRepository repository) =>
         this._repository = repository;
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Referral>> GetReferralById(long id)
+    {
+        var referral = await _repository.SelectByIdAsync<Referral>(id);
+        return Ok(referral);
+    }
     
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Referral>>> GetAllReferrals()
@@ -44,7 +52,8 @@ public class ReferralController : ControllerBase
         return Ok(referralsResponse);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
+    [Route("{id}")]
     public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
     {
         if(referral == null) 
@@ -56,7 +65,8 @@ public class ReferralController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("accept/{id}")]
+    [HttpPut]
+    [Route("accept/{id}")]
     public async Task<ActionResult<Referral>> AcceptReferral(Referral referral)
     {
         if(referral == null) 
