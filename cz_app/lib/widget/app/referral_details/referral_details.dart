@@ -128,6 +128,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
           ],
         ),
       );
+
     } else {
       return SizedBox.expand(
         key: const Key("referral_details"),

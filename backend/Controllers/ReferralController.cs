@@ -50,5 +50,17 @@ public class ReferralController : ControllerBase
         await _repository.UpdateAsync(referral);
         return Ok();
     }
+    
+    [HttpPut("{accept/id}")]
+    public async Task<ActionResult<Referral>> AcceptReferral(Referral referral)
+    {
+        if(referral == null) 
+        {
+            return NotFound();
+        }
+        referral.Status = ReferralStatus.Approved;
+        await _repository.UpdateAsync(referral);
+        return Ok();
+    }
 }
    

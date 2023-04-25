@@ -6,7 +6,6 @@ public enum ReferralStatus
 {
     Denied,
     Approved,
-    Pending
-
+    Pending,
 }
 
