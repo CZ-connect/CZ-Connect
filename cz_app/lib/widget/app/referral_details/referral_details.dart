@@ -106,16 +106,16 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
             referral.status.toString() == "Pending" ?
             Expanded(
               child: Align(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.topRight,
                   child: Container(
-                    margin: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(20),
                     child: ElevatedButton(
                       key: const Key('reject_key'),
                       onPressed: () => {
                         setState(() {
                           referral?.status = "Denied";
-                        }),
-                        RejectReferral.rejectRefferal(context, referral),                                            
+                          rejectRefferal(context, referral);
+                        }),                                            
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Referral afkeuren')),
                         ),

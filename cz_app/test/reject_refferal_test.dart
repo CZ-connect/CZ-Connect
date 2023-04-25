@@ -48,7 +48,7 @@ void main() {
   );
 
   const referral =
-      '{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Approved","participantPhoneNumber":null,"registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}';
+      '{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Pending","participantPhoneNumber":null,"registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}';
   const expectedJsonResponse =
       '{"referrals":[{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Pending","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}],"completed":0,"pending":1}';
   const deniedReferralJsonResponse =
@@ -117,6 +117,12 @@ void main() {
 
     testWidgets('Reject Referral service succeeds ',
         (WidgetTester tester) async {
+      Referral ref = Referral(
+          id: 1,
+          status: "Pending",
+          participantName: "Coen",
+          employeeId: 1,
+          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
       final interceptor = nock.get("/referral")
         ..reply(
           200,
@@ -130,7 +136,7 @@ void main() {
             200,
             expectedJsonResponse,
           );
-      nock.put("/referral/1", referral).reply(200, referral);
+      nock.put("/referral/1", referral).reply(200, {});
 
       await tester.runAsync(() async {
         await tester.pumpWidget(myapp);
@@ -142,14 +148,9 @@ void main() {
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
 
-      Referral ref = Referral(
-          id: 1,
-          status: "Approved",
-          participantName: "Coen",
-          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
-
       final BuildContext context = tester.element(find.byType(ElevatedButton));
-      await RejectReferral.rejectRefferal(context, ref);
+      await rejectRefferal(context, ref);
+      await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
       expect(find.text('Client Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
@@ -157,6 +158,13 @@ void main() {
 
     testWidgets('Reject Referral service bad request ',
         (WidgetTester tester) async {
+      Referral ref = Referral(
+          id: 1,
+          employeeId: 1,
+          status: "Pending",
+          participantName: "Coen",
+          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+
       final interceptor = nock.get("/referral")
         ..reply(
           200,
@@ -179,15 +187,9 @@ void main() {
 
       await tester.tap(find.text("Coen"));
       await tester.pumpAndSettle();
-
-      Referral ref = Referral(
-          id: 1,
-          status: "Pending",
-          participantName: "Coen",
-          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
       final BuildContext context = tester.element(find.byType(ElevatedButton));
-      await RejectReferral.rejectRefferal(context, ref);
-      await tester.pump();
+      await rejectRefferal(context, ref);
+      await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
       expect(find.text('Client Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);

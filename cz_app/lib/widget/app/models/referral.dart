@@ -5,6 +5,7 @@ class Referral {
   String? participantEmail;
   String? participantPhoneNumber;
   DateTime registrationDate;
+  int employeeId;
 
   Referral(
       {required this.id,
@@ -12,6 +13,7 @@ class Referral {
       required this.participantName,
       this.participantEmail,
       this.participantPhoneNumber,
+      required this.employeeId,
       required this.registrationDate});
 
   factory Referral.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Referral {
       participantEmail: json['participantEmail'],
       participantPhoneNumber: json['participantPhoneNumber'],
       status: json['status'],
+      employeeId: json['employeeId'],
       registrationDate: DateTime.parse(json['registrationDate']),
     );
   }
