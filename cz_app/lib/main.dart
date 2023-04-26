@@ -44,8 +44,10 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/referralOverview',
       builder: (context, state){
-        List<Referral> referrals = state.extra as List<Referral>;
-
+        List<Referral>? referrals = state.extra as List<Referral>?;
+        if(referrals == null){
+          context.go('/loading');
+        }
         return Scaffold(
             body: ReferralOverviewTemplate(
               header: const ReferralOverviewTopWidget(),
@@ -58,13 +60,17 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-        Referral referral = state.extra as Referral;
+        Referral? referral = state.extra as Referral?;
+        if (referral == null) {
+          context.go('/referraldashboard');
+          return const Scaffold();
+        }
         return Scaffold(
           body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
-                child: ReferralDetailWidget(referral: referral),
+                child: ReferralDetailWidget(referral: referral!),
               ),
             ),
           ),
