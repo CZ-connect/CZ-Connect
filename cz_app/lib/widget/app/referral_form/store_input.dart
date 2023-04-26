@@ -78,7 +78,7 @@ class FormWidget extends StatelessWidget {
     Map<String, dynamic> jsonMap = {
       'participantName': modelForm.name.toString(),
       'participantEmail': modelForm.email.toString(),
-      'status': 'In Afwachting',
+      'status': 'Pending',
       'registrationDate': DateTime.now().toIso8601String(),
       'employeeId': (referral != null) ? referral! : null
     };
