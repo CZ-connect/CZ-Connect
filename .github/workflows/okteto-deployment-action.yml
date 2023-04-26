@@ -17,4 +17,4 @@ jobs:
       - name: "Create devlopment environments namespace"
         uses: okteto/create-namespace@latest
         with:
-          namespace: devenvs-marijnbos
+          namespace: cz_app
