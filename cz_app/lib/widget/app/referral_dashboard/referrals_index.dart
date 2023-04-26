@@ -1,6 +1,6 @@
-import 'package:cz_app/widget/app/referral_dashboard/partials/DashboardRow.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/ReferralStatus.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/UserRow.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/dashboard_row.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/user_row.dart';
+import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ReferralDashboardIndexWidget());

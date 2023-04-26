@@ -1,21 +1,24 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'services/reject_refferal.dart';
+import 'services/accept_refferal.dart';
 
-void main() => runApp(const ReferralDetailWidget());
+class ReferralDetailWidget extends StatefulWidget {
+  final Referral? referral;
+  const ReferralDetailWidget({super.key, this.referral});
 
-class ReferralDetailWidget extends StatelessWidget {
-  const ReferralDetailWidget({super.key});
+  @override
+  State<ReferralDetailWidget> createState() => _ReferralDetailState();
+}
+
+class _ReferralDetailState extends State<ReferralDetailWidget> {
   @override
   Widget build(BuildContext context) {
-    final Referral? referral;
-    if (ModalRoute.of(context)?.settings.arguments != null) {
-      referral = ModalRoute.of(context)?.settings.arguments as Referral;
-    } else {
-      referral = null;
-    }
 
-    if (referral != null) {
+    if (widget.referral != null) {
+      Referral referral = widget.referral!;
       return SizedBox.expand(
         key: const Key("referral_details"),
         child: Column(
@@ -26,7 +29,7 @@ class ReferralDetailWidget extends StatelessWidget {
               child: DataTable(
                 showCheckboxColumn: false,
                 headingRowColor:
-                    MaterialStateColor.resolveWith((states) => Colors.grey),
+                    MaterialStateColor.resolveWith((states) => Colors.white12),
                 columns: <DataColumn>[
                   const DataColumn(
                     label: Expanded(
@@ -52,7 +55,13 @@ class ReferralDetailWidget extends StatelessWidget {
                   DataRow(
                     cells: <DataCell>[
                       const DataCell(Text("Email:")),
-                      DataCell(Text(referral.participantEmail))
+                      DataCell(Text(referral.participantEmail ?? "-"))
+                    ],
+                  ),
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("Telefoonnummer:")),
+                      DataCell(Text(referral.participantPhoneNumber ?? "-"))
                     ],
                   ),
                   DataRow(
@@ -80,8 +89,7 @@ class ReferralDetailWidget extends StatelessWidget {
                               style: TextStyle(color: Colors.blue),
                             ),
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, "/referraldashboard");
+                              context.go("/referraldashboard");
                             },
                           ),
                         ),
@@ -91,6 +99,55 @@ class ReferralDetailWidget extends StatelessWidget {
                 ],
               ),
             ),
+            if (referral.status == "Pending")
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('reject_key'),
+                          onPressed: () {
+                            setState(() {
+                              referral?.status = "Denied";
+                              rejectRefferal(context, referral);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral afkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Afkeuren"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('approved_key'),
+                          onPressed: () {
+                            setState(() {
+                              referral?.status = "Approved";
+                              acceptReffal(context, referral);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral goedkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Goedkeuren"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       );
@@ -108,7 +165,7 @@ class ReferralDetailWidget extends StatelessWidget {
                   style: TextStyle(color: Colors.blue),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, "/referraldashboard");
+                  context.go("/referraldashboard");
                 },
               ),
             ),

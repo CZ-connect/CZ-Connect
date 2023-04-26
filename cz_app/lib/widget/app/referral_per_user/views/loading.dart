@@ -1,4 +1,4 @@
-import 'package:cz_app/widget/app/referral_per_user/services/referralService.dart';
+import 'package:cz_app/widget/app/referral_per_user/services/referral_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

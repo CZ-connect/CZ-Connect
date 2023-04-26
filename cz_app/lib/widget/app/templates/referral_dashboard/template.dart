@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../navigation_menu.dart';
+
 // top level ScreenTemplate
 class ReferralDashboardTemplate extends StatelessWidget {
   // container for the header
@@ -21,9 +23,16 @@ class ReferralDashboardTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationMenu(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+        elevation: 0,
+      ),
+      backgroundColor: Colors.black12,
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: [ // margin top of 20 pixels
             header,
             Column(children: [
               body,

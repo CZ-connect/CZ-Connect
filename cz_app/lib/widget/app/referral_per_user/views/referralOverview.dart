@@ -19,10 +19,12 @@ class _ReferralOverviewState extends State<ReferralOverview> {
   Widget build(BuildContext context) {
     if (widget.referrals != null) {
       return Scaffold(
-        appBar:
-            AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
+        appBar: null,
         key: const Key('referral_overview'),
-        body: ListView(
+    body: MediaQuery.removePadding(
+    context: context,
+    removeTop: true,
+    child: ListView(
           children: [
             for (var referral in widget.referrals!)
               Card(
@@ -82,14 +84,14 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                 ),
               ),
           ],
+        )
         ),
         //extract it so that it is accessible in two places
         floatingActionButton: const ReferralLinkShareButton()
       );
     } else {
       return Scaffold(
-        appBar:
-            AppBar(title: const Text('Referral Overzicht'), centerTitle: true),
+        appBar: null,
         key: const Key('referral_overview'),
         body: ListView(
           children: const [
