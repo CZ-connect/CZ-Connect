@@ -1,5 +1,6 @@
 import 'package:cz_app/widget/app/referral_per_user/services/referral_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoadingWidget extends StatefulWidget {
   const LoadingWidget({super.key});
@@ -13,14 +14,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     ReferralService instance = ReferralService(userId: 1);
     try {
       await instance.getData();
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, '/referralOverview',
-          arguments: {'referrals': instance.referrals});
+      context.go(Uri(path: '/referralOverview').toString(), extra: instance.referrals);
     } catch (e) {
-      Navigator.pushReplacementNamed(context, '/error',
-          arguments: {'message': 'Referrals konden niet worden opgehaald'});
+      context.go(Uri(path: '/error').toString(), extra: {'message': 'Referrals konden niet worden opgehaald'});
     }
-    // ignore: use_build_context_synchronously
   }
 
   @override

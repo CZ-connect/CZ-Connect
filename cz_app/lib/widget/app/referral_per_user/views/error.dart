@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ErrorScreen extends StatefulWidget {
   const ErrorScreen({super.key});
@@ -9,22 +10,15 @@ class ErrorScreen extends StatefulWidget {
 }
 
 class _ErrorScreenState extends State<ErrorScreen> {
-  Map? data = {};
 
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      Navigator.pop(context);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    data = (data?.isNotEmpty ?? false)
-        ? data
-        : ModalRoute.of(context)!.settings.arguments as Map?;
-    String message = data?['message'] ?? 'Iets ging verkeerd';
+    String message = 'Iets ging verkeerd';
 
     return Scaffold(
         key: const Key('error_screen'),

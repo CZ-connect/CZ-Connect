@@ -1,11 +1,13 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'services/reject_refferal.dart';
 import 'services/accept_refferal.dart';
 
 class ReferralDetailWidget extends StatefulWidget {
-  const ReferralDetailWidget({super.key});
+  final Referral referral;
+  const ReferralDetailWidget({super.key, required this.referral});
 
   @override
   State<ReferralDetailWidget> createState() => _ReferralDetailState();
@@ -14,14 +16,8 @@ class ReferralDetailWidget extends StatefulWidget {
 class _ReferralDetailState extends State<ReferralDetailWidget> {
   @override
   Widget build(BuildContext context) {
-    final Referral? referral;
-    if (ModalRoute.of(context)?.settings.arguments != null) {
-      referral = ModalRoute.of(context)?.settings.arguments as Referral;
-    } else {
-      referral = null;
-    }
 
-    if (referral != null) {
+      Referral referral = widget.referral!;
       return SizedBox.expand(
         key: const Key("referral_details"),
         child: Column(
@@ -92,8 +88,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                               style: TextStyle(color: Colors.blue),
                             ),
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, "/referraldashboard");
+                              context.go("/referraldashboard");
                             },
                           ),
                         ),
@@ -155,27 +150,5 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
           ],
         ),
       );
-    } else {
-      return SizedBox.expand(
-        key: const Key("referral_details"),
-        child: Column(
-          children: [
-            const Text("No data found"),
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: const Text(
-                  "Terug naar overzicht",
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, "/referraldashboard");
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    }
   }
 }

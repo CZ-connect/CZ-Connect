@@ -9,7 +9,55 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nock/nock.dart';
+
+
+GoRouter _router = GoRouter(
+  routes: [
+    GoRoute(
+        path: '/referraldetail',
+        builder: (context, state) {
+          Referral referral = state.extra as Referral;
+          return Scaffold(
+            body: ReferralDashboardTemplate(
+              header: ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
+                  child: ReferralDetailWidget(referral: referral),
+                ),
+              ),
+            ),
+          );
+        }
+    ),
+    GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state){
+          return const Scaffold(
+            body: ReferralDashboardTemplate(
+              header: ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
+                  child: ReferralDashboardIndexWidget(),
+                ),
+              ),
+            ),
+          );}
+    ),
+  ],
+);
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: _router,
+    );
+  }
+}
 
 void main() {
   setUpAll(() {
@@ -21,33 +69,7 @@ void main() {
     nock.cleanAll();
   });
 
-  Widget myapp = MaterialApp(
-    title: 'CZ_connect',
-    initialRoute: '/referraldashboard',
-    routes: {
-      '/referraldashboard': (context) => const Scaffold(
-            body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
-              body: ReferralDashboardBottomWidget(
-                child: ReferralDashboardContainerWidget(
-                  child: ReferralDashboardIndexWidget(),
-                ),
-              ),
-            ),
-          ),
-      '/referraldetail': (context) => const Scaffold(
-            body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
-              body: ReferralDashboardBottomWidget(
-                child: ReferralDashboardContainerWidget(
-                  child: ReferralDetailWidget(),
-                ),
-              ),
-            ),
-          ),
-    },
-  );
-
+  Widget myapp = const MyApp();
   const referral =
       '{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Pending","participantPhoneNumber":null,"registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}';
   const expectedJsonResponse =
@@ -100,6 +122,7 @@ void main() {
             deniedReferralJsonResponse,
           );
 
+      _router.go("/");
       await tester.runAsync(() async {
         await tester.pumpWidget(myapp);
         await tester.pumpAndSettle();
@@ -139,6 +162,7 @@ void main() {
           );
       nock.put("/referral/1", referral).reply(200, {});
 
+      _router.go("/");
       await tester.runAsync(() async {
         await tester.pumpWidget(myapp);
         await tester.pumpAndSettle();
@@ -182,6 +206,7 @@ void main() {
           );
       nock.put("/referral/1", referral).reply(400, {});
 
+      _router.go("/");
       await tester.pumpWidget(myapp);
       await tester.pumpAndSettle();
 
@@ -221,6 +246,7 @@ void main() {
         );
         nock.put("/referral/1", referral).reply(200, {});
 
+        _router.go("/");
         await tester.runAsync(() async {
           await tester.pumpWidget(myapp);
           await tester.pumpAndSettle();
@@ -263,6 +289,7 @@ void main() {
         );
         nock.put("/referral/1", referral).reply(400, {});
 
+        _router.go("/");
         await tester.pumpWidget(myapp);
         await tester.pumpAndSettle();
 

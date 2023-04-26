@@ -14,11 +14,11 @@ void main() {
     });
     late ModelForm modelForm;
     setUp(() {
-      modelForm = ModelForm(null, null, null);
+      modelForm = ModelForm(null, null);
     });
 
     testWidgets('testing form for formdata', (WidgetTester tester) async {
-      const widget = MaterialApp(
+      Widget widget = MaterialApp(
         home: Scaffold(
           body: FormWidget(),
         ),
@@ -43,7 +43,7 @@ void main() {
 
     testWidgets('Submitting invalid form should show error message',
         (WidgetTester tester) async {
-      const widget = MaterialApp(
+      Widget widget = MaterialApp(
         home: Scaffold(
           body: FormWidget(),
         ),

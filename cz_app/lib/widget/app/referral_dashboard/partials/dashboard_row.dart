@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
@@ -46,12 +48,8 @@ class _DashboardRow extends State<DashboardRow> {
                 style: const TextStyle(color: Colors.blueAccent),
               ),
               onTap: () {
-                Navigator.pushNamed(context, "/referraldetail",
-                    arguments: referral).then((_) {
-                      setState(() {
-                        reloadData();
-                      });
-                    });
+                context.go("/referraldetail",
+                    extra: referral);
               },
             ),
           ),

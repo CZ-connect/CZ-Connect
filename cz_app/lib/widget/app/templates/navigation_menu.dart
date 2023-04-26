@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key}) : super(key: key);
@@ -32,28 +33,28 @@ class NavigationMenu extends StatelessWidget {
               title: const Text('Referral Dashboard'),
               key: const Key('referral_dashboard_menu_item'),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/referraldashboard');
+                context.go('/referraldashboard');
               },
             ),
             ListTile(
               title: const Text('Application Form'),
               key: const Key('application_form_menu_item'),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/');
+                context.go('/');
               },
             ),
             ListTile(
               title: const Text('Graph Referals'),
               key: const Key('Graph_refferals_menu_item'),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/graph');
+                context.go('/graph');
               },
             ),
             ListTile(
               title: const Text('Referral Overzicht'),
               key: const Key('referral_overview_menu_item'),
               onTap: () {
-                Navigator.popAndPushNamed(context, '/loading');
+                context.go('/loading');
               },
             ),
           ],
