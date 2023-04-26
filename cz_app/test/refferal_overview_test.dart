@@ -2,7 +2,6 @@ import 'package:cz_app/main.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/menu.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referralOverview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,10 +12,6 @@ GoRouter _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Menu(),
-    ),
-    GoRoute(
-      path: '/loading',
       builder: (context, state) => const LoadingWidget(),
     ),
     GoRoute(
@@ -64,8 +59,6 @@ void main() {
       final interceptor = nock("http://localhost:3000/api").get("/employee/referral/1")
         ..reply(200, expectedJsonResponse);
       await tester.pumpWidget(myapp);
-
-      await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
@@ -80,9 +73,7 @@ void main() {
         ..reply(200, '[]');
       _router.go("/");
       await tester.pumpWidget(myapp);
-      await tester.tap(find.text('Referrals overzicht'));
       await tester.pumpAndSettle();
-
       expect(interceptor.isDone, true);
       expect(find.byKey(const ValueKey('referral_overview')), findsOneWidget);
       expect(find.byType(Card).evaluate().length,
@@ -90,20 +81,15 @@ void main() {
     });
 
     testWidgets(
-        'Navigating to referral overview, failing to get referrals, displaying error, navigating back to the menu',
+        'Navigating to referral overview, failing to get referrals and displaying error',
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/employee/referral/1")
           ..reply(404, '');
       _router.go("/");
       await tester.pumpWidget(myapp);
-      await tester.tap(find.text('Referrals overzicht'));
-      await tester.pumpWidget(myapp);
-      await tester.pumpAndSettle();
-
       expect(interceptor.isDone, true);
-      expect(find.text('Error: Iets ging verkeerd'),
-          findsOneWidget);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+      expect(find.byType(ErrorScreen), findsOneWidget);
     });
 
     testWidgets(
@@ -113,7 +99,6 @@ void main() {
           ..reply(200, expectedJsonResponse);
         _router.go("/");
         await tester.pumpWidget(myapp);
-        await tester.tap(find.text('Referrals overzicht'));
         await tester.pumpAndSettle();
         expect(interceptor.isDone, true);
         await tester.pumpAndSettle();
