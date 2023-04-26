@@ -108,7 +108,7 @@ final GoRouter _router = GoRouter(
             header: const TopAppWidget(),
             body: BottemAppWidget(
               child: AppMainContainer(
-                child: FormWidget(),
+                child: FormWidget(referral: referral),
               ),
             ),
             ),
