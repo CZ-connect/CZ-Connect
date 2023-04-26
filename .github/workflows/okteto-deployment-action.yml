@@ -1,0 +1,20 @@
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+   branches: [ "main" ]
+
+name: okteto devflow
+
+jobs:
+
+  devflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: okteto/context@latest
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+      - name: "Create devlopment environments namespace"
+        uses: okteto/create-namespace@latest
+        with:
+          namespace: devenvs-marijnbos
