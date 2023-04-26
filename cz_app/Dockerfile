@@ -1,8 +1,8 @@
 FROM ubuntu:22.04 AS builder
 
 # Prerequisites
-RUN apt update
-RUN apt install -y \
+RUN apt-get update
+RUN apt-get install -y \
             curl \
             git \
             unzip \
