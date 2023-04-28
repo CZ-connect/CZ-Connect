@@ -37,7 +37,7 @@ class _DashboardRow extends State<DashboardRow> {
 
   DataRow getReferralsRow(Referral referral) {
     return DataRow(
-      color: MaterialStateColor.resolveWith((states) => Colors.grey),
+      color: MaterialStateColor.resolveWith((states) => Colors.white24),
       cells: <DataCell>[
         DataCell(
           MouseRegion(
@@ -75,7 +75,7 @@ class _DashboardRow extends State<DashboardRow> {
                   child: DataTable(
                     showCheckboxColumn: false,
                     headingRowColor:
-                        MaterialStateColor.resolveWith((states) => Colors.grey),
+                        MaterialStateColor.resolveWith((states) => Colors.white24),
                     // ignore: prefer_const_literals_to_create_immutables
                     columns: <DataColumn>[
                       const DataColumn(
