@@ -1,5 +1,4 @@
 import 'package:cz_app/widget/app/models/employee.dart';
-
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';

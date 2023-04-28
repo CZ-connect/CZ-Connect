@@ -48,30 +48,31 @@ void main() {
   );
   group('OverViewWidget', () {
     const expectedJsonResponse =
-        '{"referrals":[{"id":1,"employeeName":"CZ-Medewerker","participantEmail":"cmberge@avans.nl","participantName":"Coen","registrationDate":"2023-03-23T13:18:26.3107564","status":"Afgerond","employeeId": 1},{"id":2,"employeeName":"CZ-Medewerker","participantEmail":"m1@avans.nl","participantName":"Marijn 1","registrationDate":"2023-03-23T13:18:26.3107634","status":"In afwachting","employeeId": 1},{"id":3,"employeeName":"CZ-Medewerker","participantEmail":"m2@avans.nl","participantName":"Marijn 2","registrationDate":"2023-03-23T13:18:26.3107638","status":"Afgerond","employeeId": 1},{"id":4,"employeeName":"CZ-Medewerker","participantEmail":"jos@example.com","participantName":"Jos","registrationDate":"2023-03-23T13:18:26.3107643","status":"Afgerond","employeeId": 1},{"id":5,"employeeName":"CZ-Medewerker","participantEmail":"jedrek@avans.nl","participantName":"Jedrek","registrationDate":"2023-03-23T13:18:26.3107647","status":"Afgerond","employeeId": 2},{"id":6,"employeeName":"CZ-Medewerker","participantEmail":"wballeko@avans.nl","participantName":"William","registrationDate":"2023-03-23T13:18:26.3107652","status":"In afwachting","employeeId": 2}],"completed":3,"pending":2}';
+        '{"referrals":[{"id":63,"participantName":"Thijs Kuijpers","status":"Denied","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-31T00:00:00","employeeId":2,"employee":null},{"id":78,"participantName":"Isa van der Velde","status":"Approved","participantEmail":"IsavanderVelde@example.com","participantPhoneNumber":null,"registrationDate":"2022-07-20T00:00:00","employeeId":2,"employee":null},{"id":87,"participantName":"Luuk Willemsen","status":"Approved","participantEmail":"LuukWillemsen@example.com","participantPhoneNumber":null,"registrationDate":"2022-03-02T00:00:00","employeeId":2,"employee":null},{"id":98,"participantName":" Mees van Dijk","status":"Denied","participantEmail":"MeesvanDijk@example.com","participantPhoneNumber":null,"registrationDate":"2023-04-07T00:00:00","employeeId":2,"employee":null}],"completed":2,"pending":0}';
     testWidgets('renders UI components correctly', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
       // Build the OverViewWidget
       await tester.pumpWidget(referralDashboard);
+      await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
-      expect(find.text('CZ-connect-dashboard'), findsOneWidget);
+      expect(find.text('CZ Connect - Dashboard'), findsOneWidget);
 
       // Verify that the UserRow and ReferralStatus widgets are being rendered
       expect(find.byType(UserRow), findsOneWidget);
@@ -83,24 +84,25 @@ void main() {
     });
 
     testWidgets('renders three rows', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
       // Build the widget
       await tester.pumpWidget(referralDashboard);
+      await tester.pumpAndSettle();
       expect(interceptor.isDone, true);
 
       // Find the three row widgets
@@ -115,18 +117,18 @@ void main() {
     });
 
     testWidgets('renders async data', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -140,13 +142,15 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Display the amount of completed and pending referrals
-      await expectLater(find.text("3", skipOffstage: false), findsWidgets);
       await expectLater(find.text("2", skipOffstage: false), findsWidgets);
+      await expectLater(find.text("0", skipOffstage: false), findsWidgets);
 
       // Display the name and email of some referrals
-      await expectLater(find.text("Coen", skipOffstage: false), findsWidgets);
       await expectLater(
-          find.text("jos@example.com", skipOffstage: false), findsWidgets);
+          find.text("Thijs Kuijpers", skipOffstage: false), findsWidgets);
+      await expectLater(
+          find.text("ThijsKuijpers@example.com", skipOffstage: false),
+          findsWidgets);
     });
   });
 }
