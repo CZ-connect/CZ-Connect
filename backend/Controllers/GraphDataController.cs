@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CZConnect.Models;
 using CZConnect.DAL;
-
+using Microsoft.Data.SqlClient;
 
 namespace CZConnect.Controllers
 {
@@ -25,8 +25,10 @@ namespace CZConnect.Controllers
                 year = DateTime.Now.Year;
             }
 
-            var graphData = await _repository
-                    .AllAsync<GraphData>(x => x.Year == year);
+            var graphData = await _repository.ExecuteStoredProcedureAsync<GraphData>(
+                "GetReferralStats",
+                new SqlParameter("@Year", year)
+            );
 
             return Ok(new { graph_data = graphData });
         }
