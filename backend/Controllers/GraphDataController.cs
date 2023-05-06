@@ -13,24 +13,29 @@ namespace CZConnect.Controllers
 
         public GraphDataController(IRepository repository)
         {
-            this._repository = repository;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GraphData>>> GetGraphData([FromQuery(Name = "year")] int year)
         {
-            if (year == 0)
-            {
-                Console.WriteLine("year query parameter is empty, setting to current year . . .");
-                year = DateTime.Now.Year;
-            }
-
-            var graphData = await _repository.ExecuteStoredProcedureAsync<GraphData>(
+            
+            var results = await _repository.ExecuteStoredProcedureAsync<GraphData>(
                 "GetReferralStats",
                 new SqlParameter("@Year", year)
             );
 
+            // Map the results to the GraphData model
+            var graphData = results.Select(r => new GraphData
+            {
+                Year = r.Year,
+                Month = r.Month,
+                AmmountOfNewReferrals = r.AmmountOfNewReferrals,
+                AmmountOfApprovedReferrals = r.AmmountOfApprovedReferrals
+            });
+
             return Ok(new { graph_data = graphData });
         }
+
     }
 }
