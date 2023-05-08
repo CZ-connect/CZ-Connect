@@ -6,7 +6,7 @@ class Referral {
   String? participantPhoneNumber;
   DateTime registrationDate;
   int? employeeId;
-  String linkedin;
+  String? linkedin;
 
   Referral(
       {required this.id,
