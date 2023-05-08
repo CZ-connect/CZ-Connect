@@ -92,23 +92,30 @@ class _DashboardRow extends State<DashboardRow> {
           List<Employee> employees = snapshot.data![1] as List<Employee>;
           return Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (Department department in departments)
-                    SizedBox(
-                      width: 200,
-                      child: ElevatedButton(
-                        key: const Key('departmentButton'),
-                        onPressed: () {
-                          selectDepartment(department.id);
-                        },
-                        child: Text(department.departmentName),
-                      ),
-                    ),
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: GridView.count(
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (departments.length * 35),
+                  crossAxisCount: departments.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: departments.map((department) {
+                    return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ElevatedButton(
+                          key: const Key('departmentButton'),
+                          onPressed: () {
+                            selectDepartment(department.id);
+                          },
+                          child: Text(department.departmentName),
+                        ));
+                  }).toList(),
+                ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(
+                height: 10,
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: SizedBox(

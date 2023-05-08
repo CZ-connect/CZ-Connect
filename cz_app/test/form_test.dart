@@ -14,8 +14,17 @@ void main() {
     // ignore: unused_local_variable
     late MockEmployeeData mockEmployeeData;
     // ignore: unused_local_variable
-    final employee =
-        Employee.fromJson({'name': 'John Doe', 'email': 'test@gmail.com'});
+    final employee = Employee.fromJson({
+      'employee': {
+        "id": 1,
+        "employeeName": "Daan de Vries",
+        "employeeEmail": "DaandeVries@example.com",
+        "departmentId": 1,
+        "department": null,
+        "role": "Admin"
+      },
+      'referralCount': 1
+    });
     final modelForm = ModelForm(null, null, null);
 
     setUpAll(() {
