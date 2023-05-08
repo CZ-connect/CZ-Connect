@@ -9,6 +9,6 @@ public class Referral
 
     public string? ParticipantPhoneNumber { get; set; }
     public DateTime RegistrationDate { get; set; }
-    public long EmployeeId { get; set; }
+    public long? EmployeeId { get; set; }
     public Employee? Employee { get; set; }
 }
