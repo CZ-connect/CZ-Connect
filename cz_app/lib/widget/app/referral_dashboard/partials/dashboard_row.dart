@@ -47,8 +47,7 @@ class _DashboardRow extends State<DashboardRow> {
                   style: const TextStyle(color: Colors.blueAccent),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, "/referraldetail",
-                      arguments: referrals[index]);
+                  context.go("/referraldetail", extra: referrals[index]);
                 },
               ),
             ),
@@ -65,9 +64,11 @@ class _DashboardRow extends State<DashboardRow> {
     final Employee? employee;
     if (ModalRoute.of(context)?.settings.arguments != null) {
       employee = ModalRoute.of(context)?.settings.arguments as Employee;
-      referrals = ReferralData().fetchReferrals(employee.id);
-    } else {
-      referrals = ReferralData().fetchReferrals(2);
+      if (employee.id == 0) {
+        referrals = ReferralData().fetchReferrals(2);
+      } else {
+        referrals = ReferralData().fetchReferrals(employee.id);
+      }
     }
     return FutureBuilder<List<Referral>>(
       future: referrals,

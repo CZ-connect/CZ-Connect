@@ -29,6 +29,19 @@ void main() => runApp(const MyApp());
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
+    path: '/recruitmentdashboard',
+    builder: (context, state) => const Scaffold(
+      body: ReferralDashboardTemplate(
+        header: ReferralDashboardTopWidget(),
+        body: ReferralDashboardBottomWidget(
+          child: ReferralDashboardContainerWidget(
+            child: RecruitmentDashboardIndexWidget(),
+          ),
+        ),
+      ),
+    ),
+  ),
+  GoRoute(
     path: '/referraldashboard',
     builder: (context, state) => const Scaffold(
       body: ReferralDashboardTemplate(

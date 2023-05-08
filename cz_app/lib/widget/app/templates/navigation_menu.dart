@@ -28,6 +28,13 @@ class NavigationMenu extends StatelessWidget {
             ),
           ),
           ListTile(
+            title: const Text('Recruitment Dashboard'),
+            key: const Key('recruitment_dashboard_menu_item'),
+            onTap: () {
+              context.go('/recruitmentdashboard');
+            },
+          ),
+          ListTile(
             title: const Text('Referral Dashboard'),
             key: const Key('referral_dashboard_menu_item'),
             onTap: () {
