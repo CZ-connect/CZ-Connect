@@ -66,7 +66,7 @@ public class ReferralController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Referral>> InsertReferral(Referral referral)
     {
-        await _repository.CreateAsync<Referral>(referral);
+        await _repository.CreateAsync(referral);
         return Ok();
     }   
 }

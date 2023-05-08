@@ -22,6 +22,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
         key: const Key("referral_details"),
         child: Column(
           children: [
+
             FractionallySizedBox(
               alignment: Alignment.topCenter,
               widthFactor: 1.0,
@@ -61,6 +62,12 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     cells: <DataCell>[
                       const DataCell(Text("Telefoonnummer:")),
                       DataCell(Text(referral.participantPhoneNumber ?? "-"))
+                    ],
+                  ),
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("Linkedin:")),
+                      DataCell(Text(referral.linkedin ?? "-"))
                     ],
                   ),
                   DataRow(
