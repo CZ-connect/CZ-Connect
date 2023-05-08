@@ -10,6 +10,7 @@ Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
     DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
         .parse(referral.registrationDate.toString());
     String formattedDateString = dateTime.toString().replaceFirst(' ', 'T');
+    
     var phone;
     if(referral.participantPhoneNumber != null) {
       phone = referral.participantPhoneNumber.toString();
@@ -22,7 +23,7 @@ Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
       'participantPhoneNumber': phone,
       'status': referral.status.toString(),
       'registrationDate': formattedDateString,
-      'employeeId': referral.employeeId.toString(),
+      'employeeId': referral.employeeId,
       'employee': null
     };
 
