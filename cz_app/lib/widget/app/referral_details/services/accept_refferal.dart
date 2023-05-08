@@ -23,7 +23,7 @@ Future<void> acceptReffal(BuildContext context, dynamic referral) async {
     'participantPhoneNumber': phone,
     'status': referral.status.toString(),
     'registrationDate': formattedDateString,
-    'employeeId': referral.employeeId.toString(),
+    'employeeId': referral.employeeId,
     'employee': null
   };
 
