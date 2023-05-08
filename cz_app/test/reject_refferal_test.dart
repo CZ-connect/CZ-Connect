@@ -51,22 +51,21 @@ void main() {
   const referral =
       '{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Pending","participantPhoneNumber":null,"registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}';
   const expectedJsonResponse =
-      '{"referrals":[{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Pending","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null}],"completed":0,"pending":1}';
+      '{"referrals":[{"id":15,"participantName":"Jesse Smit","status":"Pending","participantEmail":"JesseSmit@example.com","participantPhoneNumber":null,"registrationDate":"2022-11-02T00:00:00","employeeId":2,"employee":null},{"id":16,"participantName":"Noa van Beek","status":"Pending","participantEmail":"NoavanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-01-24T00:00:00","employeeId":2,"employee":null},{"id":37,"participantName":"Noud Smits","status":"Pending","participantEmail":"NoudSmits@example.com","participantPhoneNumber":null,"registrationDate":"2022-06-11T00:00:00","employeeId":2,"employee":null},{"id":63,"participantName":"Thijs Kuijpers","status":"Approved","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-06T00:00:00","employeeId":2,"employee":null},{"id":65,"participantName":"Mees van Beek","status":"Approved","participantEmail":"MeesvanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-09-02T00:00:00","employeeId":2,"employee":null},{"id":67,"participantName":"Sem Peters","status":"Approved","participantEmail":"SemPeters@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-08T00:00:00","employeeId":2,"employee":null},{"id":70,"participantName":"Tess Vermeer","status":"Approved","participantEmail":"TessVermeer@example.com","participantPhoneNumber":null,"registrationDate":"2023-02-10T00:00:00","employeeId":2,"employee":null}],"completed":4,"pending":3}';
   const deniedReferralJsonResponse =
-      '{"referrals":[{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Denied","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":2,"participantName":"Koen van den Heuvel","participantEmail":"jos@exmaple.com","status":"Goedgekeurd","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":3,"participantName":"Koen van den Heuvel","participantEmail":"koen@mail.com","status":"Goedgekeurd","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":4,"participantName":"Willem Bollekam","participantEmail":"willi@mail.com","status":"In Afwachting","registrationDate":"2023-02-08T00:00:00","employeeId":1,"employee":null},{"id":5,"participantName":"Martijn van den Woud","participantEmail":"mvdw@mail.com","status":"Afgewezen","registrationDate":"2023-01-05T00:00:00","employeeId":1,"employee":null},{"id":6,"participantName":"Marin Kieplant","participantEmail":"plantje@mail.com","status":"In Afwachting","registrationDate":"2022-08-18T00:00:00","employeeId":2,"employee":null}],"completed":3,"pending":2}';
-
+      '{"referrals":[{"id":15,"participantName":"Jesse Smit","status":"Denied","participantEmail":"JesseSmit@example.com","participantPhoneNumber":null,"registrationDate":"2022-11-02T00:00:00","employeeId":2,"employee":null},{"id":16,"participantName":"Noa van Beek","status":"Pending","participantEmail":"NoavanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-01-24T00:00:00","employeeId":2,"employee":null},{"id":37,"participantName":"Noud Smits","status":"Pending","participantEmail":"NoudSmits@example.com","participantPhoneNumber":null,"registrationDate":"2022-06-11T00:00:00","employeeId":2,"employee":null},{"id":63,"participantName":"Thijs Kuijpers","status":"Approved","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-06T00:00:00","employeeId":2,"employee":null},{"id":65,"participantName":"Mees van Beek","status":"Approved","participantEmail":"MeesvanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-09-02T00:00:00","employeeId":2,"employee":null},{"id":67,"participantName":"Sem Peters","status":"Approved","participantEmail":"SemPeters@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-08T00:00:00","employeeId":2,"employee":null},{"id":70,"participantName":"Tess Vermeer","status":"Approved","participantEmail":"TessVermeer@example.com","participantPhoneNumber":null,"registrationDate":"2023-02-10T00:00:00","employeeId":2,"employee":null}],"completed":4,"pending":3}';
   group('Reject Referral', () {
     testWidgets('Click on a Referral succeeds', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -74,7 +73,7 @@ void main() {
       await tester.pumpWidget(myapp);
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text("Coen"));
+      await tester.tap(find.text("Jesse"));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(const ValueKey('reject_key')));
@@ -86,16 +85,16 @@ void main() {
 
     testWidgets('Can not reject a already denied referral ',
         (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           deniedReferralJsonResponse,
         );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             deniedReferralJsonResponse,
           );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             deniedReferralJsonResponse,
           );
@@ -107,7 +106,7 @@ void main() {
 
       expect(interceptor.isDone, true);
 
-      await tester.tap(find.text("Coen"));
+      await tester.tap(find.text("Jesse"));
       await tester.pumpAndSettle();
 
       expect(interceptor.isDone, true);
@@ -121,19 +120,19 @@ void main() {
       Referral ref = Referral(
           id: 1,
           status: "Pending",
-          participantName: "Coen",
+          participantName: "Jesse Smit",
           employeeId: 1,
           registrationDate: DateTime.parse("2023-03-22T00:00:00"));
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -146,11 +145,11 @@ void main() {
 
       expect(interceptor.isDone, true);
 
-      await tester.tap(find.text("Coen"));
+      await tester.tap(find.text("Jesse"));
       await tester.pumpAndSettle();
 
-
-      final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
+      final BuildContext context = tester
+          .element(find.byKey(const Key('reject_key'), skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
@@ -164,19 +163,19 @@ void main() {
           id: 1,
           employeeId: 1,
           status: "Pending",
-          participantName: "Coen",
+          participantName: "Jesse Smit",
           registrationDate: DateTime.parse("2023-03-22T00:00:00"));
 
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -187,10 +186,11 @@ void main() {
 
       expect(interceptor.isDone, true);
 
-      await tester.tap(find.text("Coen"));
+      await tester.tap(find.text("Jesse"));
       await tester.pumpAndSettle();
 
-      final BuildContext context = tester.element(find.byKey(const Key('reject_key'),skipOffstage: false));
+      final BuildContext context = tester
+          .element(find.byKey(const Key('reject_key'), skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
       expect(find.text('Server Error: 500'), findsNothing);
@@ -198,83 +198,84 @@ void main() {
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
   });
-  testWidgets('accept Referral service succeeds ',
-          (WidgetTester tester) async {
-        Referral ref = Referral(
-            id: 1,
-            status: "Pending",
-            participantName: "Coen",
-            employeeId: 1,
-            registrationDate: DateTime.parse("2023-03-22T00:00:00"));
-        final interceptor = nock.get("/referral")
-          ..reply(
-            200,
-            expectedJsonResponse,
-          );
-        nock.get("/referral").reply(
+  testWidgets('accept Referral service succeeds ', (WidgetTester tester) async {
+    Referral ref = Referral(
+        id: 1,
+        status: "Pending",
+        participantName: "Jesse Smit",
+        employeeId: 1,
+        registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+    final interceptor = nock.get("/referral/employee/2")
+      ..reply(
+        200,
+        expectedJsonResponse,
+      );
+    nock.get("/referral/employee/2").reply(
           200,
           expectedJsonResponse,
         );
-        nock.get("/referral").reply(
+    nock.get("/referral/employee/2").reply(
           200,
           expectedJsonResponse,
         );
-        nock.put("/referral/1", referral).reply(200, {});
+    nock.put("/referral/1", referral).reply(200, {});
 
-        await tester.runAsync(() async {
-          await tester.pumpWidget(myapp);
-          await tester.pumpAndSettle();
-        });
+    await tester.runAsync(() async {
+      await tester.pumpWidget(myapp);
+      await tester.pumpAndSettle();
+    });
 
-        expect(interceptor.isDone, true);
+    expect(interceptor.isDone, true);
 
-        await tester.tap(find.text("Coen"));
-        await tester.pumpAndSettle();
+    await tester.tap(find.text("Jesse"));
+    await tester.pumpAndSettle();
 
-        final BuildContext context = tester.element(find.byKey(const Key('approved_key'),skipOffstage: false));
-        await acceptReffal(context, ref);
-        await tester.pumpAndSettle();
-        expect(find.text('Server Error: 500'), findsNothing);
-        expect(find.text('Client Error: 400'), findsNothing);
-        expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
-      });
+    final BuildContext context = tester
+        .element(find.byKey(const Key('approved_key'), skipOffstage: false));
+    await acceptReffal(context, ref);
+    await tester.pumpAndSettle();
+    expect(find.text('Server Error: 500'), findsNothing);
+    expect(find.text('Client Error: 400'), findsNothing);
+    expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
+  });
 
   testWidgets('Reject Referral service bad request ',
-          (WidgetTester tester) async {
-        Referral ref = Referral(
-            id: 1,
-            employeeId: 1,
-            status: "Pending",
-            participantName: "Coen",
-            registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+      (WidgetTester tester) async {
+    Referral ref = Referral(
+        id: 1,
+        employeeId: 1,
+        status: "Pending",
+        participantName: "Jesse Smit",
+        registrationDate: DateTime.parse("2023-03-22T00:00:00"));
 
-        final interceptor = nock.get("/referral")
-          ..reply(
-            200,
-            expectedJsonResponse,
-          );
-        nock.get("/referral").reply(
+    final interceptor = nock.get("/referral/employee/2")
+      ..reply(
+        200,
+        expectedJsonResponse,
+      );
+    nock.get("/referral/employee/2").reply(
           200,
           expectedJsonResponse,
         );
-        nock.get("/referral").reply(
+    nock.get("/referral/employee/2").reply(
           200,
           expectedJsonResponse,
         );
-        nock.put("/referral/1", referral).reply(400, {});
+    nock.put("/referral/1", referral).reply(400, {});
 
-        await tester.pumpWidget(myapp);
-        await tester.pumpAndSettle();
+    await tester.pumpWidget(myapp);
+    await tester.pumpAndSettle();
 
-        expect(interceptor.isDone, true);
+    expect(interceptor.isDone, true);
 
-        await tester.tap(find.text("Coen"));
-        await tester.pumpAndSettle();
-        final BuildContext context = tester.element(find.byKey(const Key('approved_key'),skipOffstage: false));
-        await acceptReffal(context, ref);
-        await tester.pumpAndSettle();
-        expect(find.text('Server Error: 500'), findsNothing);
-        expect(find.text('Client Error: 400'), findsNothing);
-        expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
-      });
+    await tester.tap(find.text("Jesse"));
+    await tester.pumpAndSettle();
+    final BuildContext context = tester
+        .element(find.byKey(const Key('approved_key'), skipOffstage: false));
+    await acceptReffal(context, ref);
+    await tester.pumpAndSettle();
+    expect(find.text('Server Error: 500'), findsNothing);
+    expect(find.text('Client Error: 400'), findsNothing);
+    expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
+  });
 }

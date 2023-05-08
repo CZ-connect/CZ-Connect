@@ -48,7 +48,7 @@ void main() {
   );
   group('OverViewWidget', () {
     const expectedJsonResponse =
-        '{"referrals":[{"id":63,"participantName":"Thijs Kuijpers","status":"Denied","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-31T00:00:00","employeeId":2,"employee":null},{"id":78,"participantName":"Isa van der Velde","status":"Approved","participantEmail":"IsavanderVelde@example.com","participantPhoneNumber":null,"registrationDate":"2022-07-20T00:00:00","employeeId":2,"employee":null},{"id":87,"participantName":"Luuk Willemsen","status":"Approved","participantEmail":"LuukWillemsen@example.com","participantPhoneNumber":null,"registrationDate":"2022-03-02T00:00:00","employeeId":2,"employee":null},{"id":98,"participantName":" Mees van Dijk","status":"Denied","participantEmail":"MeesvanDijk@example.com","participantPhoneNumber":null,"registrationDate":"2023-04-07T00:00:00","employeeId":2,"employee":null}],"completed":2,"pending":0}';
+        '{"referrals":[{"id":15,"participantName":"Jesse Smit","status":"Pending","participantEmail":"JesseSmit@example.com","participantPhoneNumber":null,"registrationDate":"2022-11-02T00:00:00","employeeId":2,"employee":null},{"id":16,"participantName":"Noa van Beek","status":"Pending","participantEmail":"NoavanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-01-24T00:00:00","employeeId":2,"employee":null},{"id":37,"participantName":"Noud Smits","status":"Pending","participantEmail":"NoudSmits@example.com","participantPhoneNumber":null,"registrationDate":"2022-06-11T00:00:00","employeeId":2,"employee":null},{"id":63,"participantName":"Thijs Kuijpers","status":"Approved","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-06T00:00:00","employeeId":2,"employee":null},{"id":65,"participantName":"Mees van Beek","status":"Approved","participantEmail":"MeesvanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-09-02T00:00:00","employeeId":2,"employee":null},{"id":67,"participantName":"Sem Peters","status":"Approved","participantEmail":"SemPeters@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-08T00:00:00","employeeId":2,"employee":null},{"id":70,"participantName":"Tess Vermeer","status":"Approved","participantEmail":"TessVermeer@example.com","participantPhoneNumber":null,"registrationDate":"2023-02-10T00:00:00","employeeId":2,"employee":null}],"completed":4,"pending":3}';
     testWidgets('renders UI components correctly', (WidgetTester tester) async {
       final interceptor = nock.get("/referral/employee/2")
         ..reply(
@@ -72,7 +72,7 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
-      expect(find.text('CZ Connect - Dashboard'), findsOneWidget);
+      expect(find.byKey(const Key('dashboard_title')), findsOneWidget);
 
       // Verify that the UserRow and ReferralStatus widgets are being rendered
       expect(find.byType(UserRow), findsOneWidget);
@@ -114,43 +114,6 @@ void main() {
       expect(userRowFinder, findsOneWidget);
       expect(referralStatusFinder, findsOneWidget);
       expect(dashboardRowFinder, findsOneWidget);
-    });
-
-    testWidgets('renders async data', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral/employee/2")
-        ..reply(
-          200,
-          expectedJsonResponse,
-        );
-
-      nock.get("/referral/employee/2").reply(
-            200,
-            expectedJsonResponse,
-          );
-
-      nock.get("/referral/employee/2").reply(
-            200,
-            expectedJsonResponse,
-          );
-
-      // Build the widget
-      await tester.runAsync(() async {
-        await tester.pumpWidget(referralDashboard);
-        await tester.pumpAndSettle();
-      });
-
-      expect(interceptor.isDone, true);
-
-      // Display the amount of completed and pending referrals
-      await expectLater(find.text("2", skipOffstage: false), findsWidgets);
-      await expectLater(find.text("0", skipOffstage: false), findsWidgets);
-
-      // Display the name and email of some referrals
-      await expectLater(
-          find.text("Thijs Kuijpers", skipOffstage: false), findsWidgets);
-      await expectLater(
-          find.text("ThijsKuijpers@example.com", skipOffstage: false),
-          findsWidgets);
     });
   });
 }

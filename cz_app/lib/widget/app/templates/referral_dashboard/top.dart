@@ -38,6 +38,7 @@ class ReferralDashboardTopWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
+                  key: Key('dashboard_title'),
                   'CZ Connect - Dashboard',
                   style: TextStyle(
                     fontSize: 34,

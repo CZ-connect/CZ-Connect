@@ -78,6 +78,7 @@ class _DashboardRow extends State<DashboardRow> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: DataTable(
+                  key: const Key('dashboard_table'),
                   columnSpacing: 100,
                   dataRowHeight: 75,
                   headingRowColor:
