@@ -5,7 +5,7 @@ class Referral {
   String? participantEmail;
   String? participantPhoneNumber;
   DateTime registrationDate;
-  int employeeId;
+  int? employeeId;
 
   Referral(
       {required this.id,

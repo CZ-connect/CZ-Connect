@@ -8,6 +8,7 @@ public class AppDBContext : DbContext
     public DbSet<Referral> Referrals { get; set; }
     public DbSet<Employee> Employees { get; set;}
     public DbSet<ApplicantForm> ApplicantForms { get; set; }
+    
     public DbSet<GraphData> GraphData { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
