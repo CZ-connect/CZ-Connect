@@ -47,7 +47,8 @@ class _DashboardRow extends State<DashboardRow> {
                   style: const TextStyle(color: Colors.blueAccent),
                 ),
                 onTap: () {
-                  context.go("/referraldetail", extra: referrals[index]);
+                  context.go("/referraldetail",
+                      extra: {"referral": referrals[index]});
                 },
               ),
             ),

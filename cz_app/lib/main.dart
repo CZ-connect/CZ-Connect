@@ -78,7 +78,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         }
         return Scaffold(
           body: ReferralDashboardTemplate(
-            header: ReferralDashboardTopWidget(),
+            header: const ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
                 child: ReferralDetailWidget(referral: referral!),

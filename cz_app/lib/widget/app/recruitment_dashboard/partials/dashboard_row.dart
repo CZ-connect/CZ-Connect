@@ -1,5 +1,6 @@
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/recruitment_dashboard/data/recruitment_data.dart';
+import 'package:go_router/go_router.dart';
 import '../../models/department.dart' show Department;
 import 'package:flutter/material.dart';
 
@@ -62,8 +63,7 @@ class _DashboardRow extends State<DashboardRow> {
                     style: const TextStyle(color: Colors.blueAccent),
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, "/referraldashboard",
-                        arguments: employees[index]);
+                    context.go("/referraldashboard", extra: employees[index]);
                   },
                 ),
               ),
