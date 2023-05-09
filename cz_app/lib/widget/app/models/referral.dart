@@ -6,13 +6,14 @@ class Referral {
   String? participantPhoneNumber;
   DateTime registrationDate;
   int? employeeId;
+  String? linkedin;
 
   Referral(
       {required this.id,
       required this.status,
       required this.participantName,
       this.participantEmail,
-      this.participantPhoneNumber,
+      this.participantPhoneNumber, required this.linkedin,
       required this.employeeId,
       required this.registrationDate});
 
@@ -25,6 +26,7 @@ class Referral {
       status: json['status'],
       employeeId: json['employeeId'],
       registrationDate: DateTime.parse(json['registrationDate']),
+      linkedin: json['linkedin']??  "-",
     );
   }
 }

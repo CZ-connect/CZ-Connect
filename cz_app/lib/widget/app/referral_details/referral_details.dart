@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'services/reject_refferal.dart';
 import 'services/accept_refferal.dart';
+import 'package:flutter/services.dart';
 
 class ReferralDetailWidget extends StatefulWidget {
   final Referral referral;
@@ -22,6 +23,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
         key: const Key("referral_details"),
         child: Column(
           children: [
+
             FractionallySizedBox(
               alignment: Alignment.topCenter,
               widthFactor: 1.0,
@@ -61,6 +63,20 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     cells: <DataCell>[
                       const DataCell(Text("Telefoonnummer:")),
                       DataCell(Text(referral.participantPhoneNumber ?? "-"))
+                    ],
+                  ),
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("Linkedin:")),
+                      DataCell(
+                        Text(referral.linkedin ?? "-"),
+                        onTap: () {
+                          Clipboard.setData(ClipboardData(text: referral.linkedin ?? ""));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Link copied to clipboard")),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   DataRow(
