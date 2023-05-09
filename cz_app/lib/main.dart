@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/recruitment_dashboard/recruitment_index.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
@@ -42,18 +43,20 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
     ),
   ),
   GoRoute(
-    path: '/referraldashboard',
-    builder: (context, state) => const Scaffold(
-      body: ReferralDashboardTemplate(
-        header: ReferralDashboardTopWidget(),
-        body: ReferralDashboardBottomWidget(
-          child: ReferralDashboardContainerWidget(
-            child: ReferralDashboardIndexWidget(),
+      path: '/referraldashboard',
+      builder: (context, state) {
+        Employee? employee = state.extra as Employee?;
+        return Scaffold(
+          body: ReferralDashboardTemplate(
+            header: const ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: ReferralDashboardIndexWidget(employee: employee),
+              ),
+            ),
           ),
-        ),
-      ),
-    ),
-  ),
+        );
+      }),
   GoRoute(
       path: '/referralOverview',
       builder: (context, state) {

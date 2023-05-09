@@ -116,8 +116,7 @@ class _DashboardRow extends State<DashboardRow> {
               const SizedBox(
                 height: 10,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
+              Flexible(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: DataTable(

@@ -1,33 +1,46 @@
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
+import 'package:go_router/go_router.dart';
 
 class ReferralStatus extends StatefulWidget {
-  const ReferralStatus({super.key});
+  final Employee? employee;
+  const ReferralStatus({super.key, this.employee});
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _ReferralStatus();
 }
 
 class _ReferralStatus extends State<ReferralStatus> {
+  late Future<int> completedCounter;
+  late Future<int> pendingCounter;
+
+  void setupReference() async {
+    try {
+      if (widget.employee == null) {
+        completedCounter = ReferralData()
+            .completedCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
+        pendingCounter = ReferralData()
+            .pendingCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
+      } else {
+        completedCounter = ReferralData().completedCounter(widget.employee!.id);
+        pendingCounter = ReferralData().pendingCounter(widget.employee!.id);
+      }
+    } catch (e) {
+      context.go(Uri(path: '/error').toString(),
+          extra: {'message': 'Referrals failed.'});
+    }
+  }
+
+  @override
+  void initState() {
+    setupReference();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Employee? employee;
-    late Future<int> completedCounter;
-    late Future<int> pendingCounter;
-
-    if (ModalRoute.of(context)?.settings.arguments != null) {
-      employee = ModalRoute.of(context)?.settings.arguments as Employee;
-      completedCounter = ReferralData().completedCounter(employee.id);
-      pendingCounter = ReferralData().pendingCounter(employee.id);
-    } else {
-      employee = null;
-      completedCounter = ReferralData()
-          .completedCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
-      pendingCounter =
-          ReferralData().pendingCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
-    }
-
     final referralCompleted = Container(
       width: 70,
       height: 70,

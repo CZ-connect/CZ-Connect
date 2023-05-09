@@ -1,14 +1,15 @@
 import 'package:go_router/go_router.dart';
-
 import 'package:cz_app/widget/app/models/employee.dart';
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
 
 class DashboardRow extends StatefulWidget {
-  const DashboardRow({super.key});
+  final Employee? employee;
+  const DashboardRow({super.key, this.employee});
 
   @override
+  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _DashboardRow();
 }
 
@@ -17,7 +18,11 @@ class _DashboardRow extends State<DashboardRow> {
 
   @override
   void initState() {
-    referrals = ReferralData().fetchReferrals(2);
+    if (widget.employee != null) {
+      referrals = ReferralData().fetchReferrals(widget.employee!.id);
+    } else {
+      referrals = ReferralData().fetchReferrals(2);
+    }
     super.initState();
   }
 
@@ -47,8 +52,7 @@ class _DashboardRow extends State<DashboardRow> {
                   style: const TextStyle(color: Colors.blueAccent),
                 ),
                 onTap: () {
-                  context.go("/referraldetail",
-                      extra: {"referral": referrals[index]});
+                  context.go("/referraldetail", extra: referrals[index]);
                 },
               ),
             ),
@@ -62,15 +66,6 @@ class _DashboardRow extends State<DashboardRow> {
 
   @override
   Widget build(BuildContext context) {
-    final Employee? employee;
-    if (ModalRoute.of(context)?.settings.arguments != null) {
-      employee = ModalRoute.of(context)?.settings.arguments as Employee;
-      if (employee.id == 0) {
-        referrals = ReferralData().fetchReferrals(2);
-      } else {
-        referrals = ReferralData().fetchReferrals(employee.id);
-      }
-    }
     return FutureBuilder<List<Referral>>(
       future: referrals,
       builder: (context, snapshot) {

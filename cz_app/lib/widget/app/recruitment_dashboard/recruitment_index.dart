@@ -14,12 +14,6 @@ class RecruitmentDashboardIndexWidget extends StatelessWidget {
           Flexible(
             child: Row(
               // ignore: prefer_const_literals_to_create_immutables
-              children: [],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
               children: [
                 const Flexible(child: DashboardRow()),
               ],
