@@ -143,7 +143,7 @@ void main() {
           status: "Pending",
           participantName: "Jesse Smit",
           employeeId: 2,
-          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+          registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
       final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
@@ -186,7 +186,7 @@ void main() {
           employeeId: 1,
           status: "Pending",
           participantName: "Jesse Smit",
-          registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+          registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
 
       final interceptor = nock.get("/referral/employee/2")
         ..reply(
@@ -227,7 +227,7 @@ void main() {
         status: "Pending",
         participantName: "Jesse Smit",
         employeeId: 1,
-        registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+        registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
     final interceptor = nock.get("/referral/employee/2")
       ..reply(
         200,
@@ -270,7 +270,7 @@ void main() {
         employeeId: 1,
         status: "Pending",
         participantName: "Jesse Smit",
-        registrationDate: DateTime.parse("2023-03-22T00:00:00"));
+        registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
 
     final interceptor = nock.get("/referral/employee/2")
       ..reply(
