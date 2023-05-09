@@ -14,7 +14,7 @@ class BottemAppWidget extends StatelessWidget {
           ),
           color: Colors.black12),
       width: double.maxFinite,
-      height: MediaQuery.of(context).size.height - 250,
+      height: MediaQuery.of(context).size.height,
       child: child,
     );
   }

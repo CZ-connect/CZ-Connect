@@ -21,6 +21,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 
 var app = builder.Build();
+
+//todo remove this
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()

@@ -27,7 +27,7 @@ class RefferalLineChart extends StatelessWidget {
   List<FlSpot> getSpotsOpen() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Id;
+      double x = obj.Month;
       double y = obj.AmmountOfNewReferrals;
       spotlist.add(FlSpot(x, y));
     }
@@ -37,7 +37,7 @@ class RefferalLineChart extends StatelessWidget {
   List<FlSpot> getSpotsClosed() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Id;
+      double x = obj.Month;
       double y = obj.AmmountOfApprovedReferrals;
       spotlist.add(FlSpot(x, y));
     }
