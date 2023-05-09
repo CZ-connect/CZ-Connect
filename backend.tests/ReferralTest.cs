@@ -5,6 +5,7 @@ using Moq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace backend.tests;
 
 [TestClass]
@@ -64,7 +65,7 @@ public class ReferralTest
         .ReturnsAsync(_referrals.FirstOrDefault(r => r.Id == 1));
 
         var controller = new ReferralController(mockRepository.Object);
-        var result = await controller.GetReferral(1);
+        var result = await controller.GetReferralById(1);
 
         var okResult = result.Result as OkObjectResult;
         
@@ -81,7 +82,7 @@ public class ReferralTest
         .ReturnsAsync(() => null);
         var controller = new ReferralController(mockRepository.Object);
 
-        var result = await controller.GetReferral(8);
+        var result = await controller.GetReferralById(8);
 
         Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
     }

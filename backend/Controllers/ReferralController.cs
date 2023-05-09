@@ -18,6 +18,10 @@ public class ReferralController : ControllerBase
     public async Task<ActionResult<Referral>> GetReferralById(long id)
     {
         var referral = await _repository.SelectByIdAsync<Referral>(id);
+        if (referral == null)
+        {
+            return NotFound();
+        }
         return Ok(referral);
     }
     
