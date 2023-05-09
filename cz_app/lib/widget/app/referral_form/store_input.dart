@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -54,6 +55,21 @@ class FormWidget extends StatelessWidget {
                     modelForm.email = value;
                   },
                 ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Website/Linkedin: linkedin.com/in/naam',
+                  ),
+                  validator: (String? value) {
+                    RegExp regex = RegExp(r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
+                    if (!regex.hasMatch(value!) && value.isNotEmpty) {
+                      return 'Dat is geen valide url';
+                    }
+                    return null;
+                  },
+                  onSaved: (String? value) {
+                    modelForm.linkedin = value;
+                  },
+                ),
                 const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   onPressed: () {
@@ -80,8 +96,11 @@ class FormWidget extends StatelessWidget {
       'participantEmail': modelForm.email.toString(),
       'status': 'Pending',
       'registrationDate': DateTime.now().toIso8601String(),
-      'employeeId': (referral != null) ? referral! : null
+      'employeeId': (referral != null) ? referral! : null,
+      'linkedin':  modelForm.linkedin.toString().isEmpty ? null : modelForm.linkedin.toString(),
     };
+
+
     var body = json.encode(jsonMap);
     try {
       var response = await http.post(url,
