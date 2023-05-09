@@ -29,7 +29,7 @@ internal class DbInit
        
         if(!dbContext.Referrals.Any()) 
         {
-            List<Referral> referrals = GenerateRandomReferrals(100);
+            List<Referral> referrals = GenerateRandomReferrals(1000);
             foreach(var r in referrals)
                 dbContext.Referrals.Add(r);
         }
@@ -104,7 +104,7 @@ internal class DbInit
     private static DateTime GetRandomDate()
     { 
         Random random = new Random();
-        DateTime start = new DateTime(2022, 1, 1);
+        DateTime start = new DateTime(2023, 1, 1);
         int range = (DateTime.Today - start).Days;
         return start.AddDays(random.Next(range));
     }
