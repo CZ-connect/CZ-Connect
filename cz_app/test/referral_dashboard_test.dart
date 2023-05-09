@@ -137,18 +137,18 @@ void main() {
     });
 
     testWidgets('renders async data', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -162,13 +162,14 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Display the amount of completed and pending referrals
+      await expectLater(find.text("4", skipOffstage: false), findsWidgets);
       await expectLater(find.text("3", skipOffstage: false), findsWidgets);
-      await expectLater(find.text("2", skipOffstage: false), findsWidgets);
 
       // Display the name and email of some referrals
-      await expectLater(find.text("Coen", skipOffstage: false), findsWidgets);
       await expectLater(
-          find.text("jos@example.com", skipOffstage: false), findsWidgets);
+          find.text("Jesse Smit", skipOffstage: false), findsWidgets);
+      await expectLater(find.text("JesseSmit@example.com", skipOffstage: false),
+          findsWidgets);
     });
   });
 }

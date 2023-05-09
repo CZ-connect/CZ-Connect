@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
@@ -18,7 +19,7 @@ GoRouter _router = GoRouter(
           Referral referral = state.extra as Referral;
           return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
                   child: ReferralDetailWidget(referral: referral),
@@ -26,22 +27,22 @@ GoRouter _router = GoRouter(
               ),
             ),
           );
-        }
-    ),
+        }),
     GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state){
-          return const Scaffold(
+        path: '/referraldashboard',
+        builder: (context, state) {
+          Employee? employee = state.extra as Employee?;
+          return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
-                  child: ReferralDashboardIndexWidget(),
+                  child: ReferralDashboardIndexWidget(employee: employee),
                 ),
               ),
             ),
-          );}
-    ),
+          );
+        }),
   ],
 );
 
@@ -67,6 +68,7 @@ void main() {
   });
   const expectedJsonResponse =
       '{"referrals":[{"id":50,"participantName":"Vera Meijer","status":"Approved","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":2,"employee":null},{"id":56,"participantName":"Liv van Dijk","status":"Denied","participantEmail":"LivvanDijk@example.com","participantPhoneNumber":null,"registrationDate":"2022-02-05T00:00:00","employeeId":2,"employee":null}],"completed":1,"pending":0}';
+
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
         (WidgetTester tester) async {
@@ -93,7 +95,7 @@ void main() {
       //Expect the data is loaded
       expect(interceptor.isDone, true);
       //Find text within table and click it
-      await tester.tap(find.text("Jesse Smit"));
+      await tester.tap(find.text("Vera Meijer"));
       //Wait for next widget to open
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
