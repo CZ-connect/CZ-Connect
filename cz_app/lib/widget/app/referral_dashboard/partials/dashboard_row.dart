@@ -78,7 +78,6 @@ class _DashboardRow extends State<DashboardRow> {
                 width: MediaQuery.of(context).size.width,
                 child: DataTable(
                   key: const Key('dashboard_table'),
-                  columnSpacing: 100,
                   dataRowHeight: 75,
                   headingRowColor:
                       MaterialStateColor.resolveWith((states) => Colors.grey),
@@ -98,7 +97,7 @@ class _DashboardRow extends State<DashboardRow> {
                     ),
                     const DataColumn(
                       label:
-                          Expanded(child: Text("Telefoonnummer sollicitant")),
+                          Expanded(child: Text("Telefoonnummer")),
                     ),
                   ],
                   rows: buildRows(referrals),

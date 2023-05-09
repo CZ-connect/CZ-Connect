@@ -17,7 +17,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
   @override
   Widget build(BuildContext context) {
     Referral referral = widget.referral;
-    return SizedBox.expand(
+    return SizedBox(
       key: const Key("referral_details"),
       child: Column(
         children: [

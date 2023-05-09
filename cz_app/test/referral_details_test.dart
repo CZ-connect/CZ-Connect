@@ -29,7 +29,7 @@ GoRouter _router = GoRouter(
           );
         }),
     GoRoute(
-        path: '/referraldashboard',
+        path: '/',
         builder: (context, state) {
           Employee? employee = state.extra as Employee?;
           return Scaffold(
@@ -51,6 +51,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? hitTestWarningShouldBeFatal;
+    hitTestWarningShouldBeFatal = true;
     return MaterialApp.router(
       routerConfig: _router,
     );
@@ -67,7 +69,7 @@ void main() {
     nock.cleanAll();
   });
   const expectedJsonResponse =
-      '{"referrals":[{"id":50,"participantName":"Vera Meijer","status":"Approved","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":2,"employee":null},{"id":56,"participantName":"Liv van Dijk","status":"Denied","participantEmail":"LivvanDijk@example.com","participantPhoneNumber":null,"registrationDate":"2022-02-05T00:00:00","employeeId":2,"employee":null}],"completed":1,"pending":0}';
+      '{"referrals":[{"id":1,"participantName":"Vera Meijer","status":"pending","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":2,"employee":null}],"completed":1,"pending":0}';
 
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
@@ -95,7 +97,8 @@ void main() {
       //Expect the data is loaded
       expect(interceptor.isDone, true);
       //Find text within table and click it
-      await tester.tap(find.text("Vera Meijer"));
+      expect(find.text("Vera Meijer"), findsOneWidget);
+      await tester.tap(find.text("Vera Meijer"), warnIfMissed: true);
       //Wait for next widget to open
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);

@@ -66,7 +66,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
             header: ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
-                child: ReferralDetailWidget(referral: referral!),
+                child: ReferralDetailWidget(referral: referral),
               ),
             ),
           ),
