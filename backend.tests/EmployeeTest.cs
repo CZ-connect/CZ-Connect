@@ -72,19 +72,23 @@ public class EmployeeTest
     [TestMethod]
     public async Task getEmployeeShouldSuceed()
     {
+        // Arrange
+        long existingId = 456;
         var mockRepository = new Mock<IRepository>();
-        mockRepository.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
         var controller = new EmployeeController(mockRepository.Object);
+        Employee employee = new Employee { Id = existingId };
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Employee>(existingId)).ReturnsAsync(employee);
 
-        var result = await controller.GetEmployee(_employees.First().Id);
-        Assert.IsNotNull(result);
+        // Act
+        var result = await controller.GetEmployee(existingId);
+
+        // Assert
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
     }
     [TestMethod]
     public async Task getEmployeeShouldFail()
     {
         var mockRepository = new Mock<IRepository>();
-        mockRepository.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
         var controller = new EmployeeController(mockRepository.Object);
 
         var result = await controller.GetEmployee(200);
@@ -98,7 +102,6 @@ public class EmployeeTest
         var mockRepositoryEmployee = new Mock<IRepository>();
         mockRepositoryEmployee.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
         var controllerEmployee = new EmployeeController(mockRepositoryEmployee.Object);
-        
         var result = await controllerEmployee.GetEmployees();
         Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
@@ -112,9 +115,9 @@ public class EmployeeTest
         mockRepositoryEmployee .Setup(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
             .ReturnsAsync((List<Referral>) null);
         var controllerEmployee = new EmployeeController(mockRepositoryEmployee.Object);
-        var  result = controllerEmployee.GetReferrals(_employees.First().Id);
+        var  result = controllerEmployee.GetReferrals(200);
         Assert.IsNotNull(result);
-        Assert.IsInstanceOfType(result.Result, typeof(NotFound));
+        Assert.IsInstanceOfType(result.Result.Result, typeof(NotFoundResult));
     }
     [TestMethod]
     public async Task getRefferalsShouldSucceed()
