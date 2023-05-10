@@ -1,5 +1,6 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/services/delete_referral.dart';
+import 'package:cz_app/widget/app/referral_details/partials/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -125,13 +126,32 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                       padding: const EdgeInsets.only(left: 5.0, right: 40.0),
                       child: ElevatedButton(
                         child: const Text("Verwijderen"),
-                        onPressed: () {
-                          deleteReferral(context, referral.id);
-                          context.go('/referraldashboard');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Referral verwijderen'),
-                            ),
+                        onPressed: () async {
+                           showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Referral Verwijderen"),
+                                content: const Text("Weet u zeker dat u deze referral wilt gaan verwijderen?"),
+                                actionsAlignment: MainAxisAlignment.spaceBetween,
+                                actions: [
+                                  TextButton(
+                                    child: const Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text("Verwijder"),
+                                    onPressed: () {
+                                      deleteReferral(context, referral.id);
+                                      context.go("/referraldashboard");
+                                    },
+                                  )
+                                ],
+                              );
+                            }
                           );
                         }
                       ),

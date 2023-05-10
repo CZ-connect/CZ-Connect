@@ -107,7 +107,12 @@ void main() {
 
       await tester.tap(find.text("Verwijderen").first, warnIfMissed: true);
       await tester.pumpAndSettle();
-      expect(find.text("Jesse Smit"), findsNothing);
+      expect(find.text("Referral Verwijderen"), findsOneWidget);
+      expect(find.text("Cancel"), findsOneWidget);
+      await tester.tap(find.text("Cancel"));
+      await tester.pumpAndSettle();
+      expect(find.text("Noa van Beek"), findsOneWidget);
+     
     });
   });
 }
