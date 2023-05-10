@@ -1,4 +1,3 @@
-import 'package:cz_app/widget/app/referral_dashboard/services/delete_referral.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import '../../models/referral.dart' show Referral;
@@ -60,14 +59,6 @@ class _DashboardRow extends State<DashboardRow> {
           ),
           DataCell(Text(referrals[index].participantEmail ?? "-")),
           DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
-          DataCell(
-            ElevatedButton(
-              child: const Text("Verwijderen"),
-              onPressed: () {
-                 deleteReferral(context, referrals[index].id);
-                 context.push("/referraldashboard");
-              })
-          )
         ],
       );
     });
@@ -107,9 +98,6 @@ class _DashboardRow extends State<DashboardRow> {
                     const DataColumn(
                       label:
                           Expanded(child: Text("Telefoonnummer")),
-                    ),
-                    const DataColumn(
-                      label: Expanded(child: Text(""))
                     ),
                   ],
                   rows: buildRows(referrals),

@@ -89,6 +89,10 @@ void main() {
             200,
             expectedJsonResponse,
           );
+      nock.delete("/referral/15").reply(
+        200,
+        "{}"
+      );
 
       // Build the OverViewWidget
       await tester.runAsync(() async {
@@ -98,6 +102,9 @@ void main() {
       //Expect the data is loaded
       expect(interceptor.isDone, true);
       expect(find.text("Jesse Smit"), findsOneWidget);
+      await tester.tap(find.text("Jesse Smit"));
+      await tester.pumpAndSettle();
+
       await tester.tap(find.text("Verwijderen").first, warnIfMissed: true);
       await tester.pumpAndSettle();
       expect(find.text("Jesse Smit"), findsNothing);
