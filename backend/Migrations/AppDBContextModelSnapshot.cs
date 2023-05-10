@@ -39,23 +39,6 @@ namespace backend.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("CZConnect.Models.Department", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments");
-                });
-
             modelBuilder.Entity("CZConnect.Models.Employee", b =>
                 {
                     b.Property<long>("Id")
