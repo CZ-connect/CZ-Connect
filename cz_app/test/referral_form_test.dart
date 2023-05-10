@@ -54,7 +54,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('De naam is een verplicht veld'), findsOneWidget);
-      expect(find.text('Het emailadres is een verplicht veld'), findsOneWidget);
+      expect(find.text('Het emailadress of het telefoonnummer is een verplicht veld'), findsWidgets);
     });
 
     test('Email validation', () {
