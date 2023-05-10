@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230510082703_GraphData")]
+    [Migration("20230510100206_GraphData")]
     partial class GraphData
     {
         /// <inheritdoc />

@@ -44,16 +44,15 @@ public class ReferralController : ControllerBase
     {
         ReferralResponse referralsResponse = new ReferralResponse();
         referralsResponse.referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
-
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
-
         if (referralsResponse.referrals == null)
         {
             return NotFound();
         }
-
+        else{
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
         return Ok(referralsResponse);
+        }
     }
 
     [HttpPut]
