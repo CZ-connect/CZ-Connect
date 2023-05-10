@@ -12,7 +12,7 @@ class FormWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
   String? referral;
   FormWidget({super.key, this.referral});
-
+  bool EmailNumberFlag = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,11 +44,12 @@ class FormWidget extends StatelessWidget {
                     hintText: 'voorbeeld@email.nl',
                   ),
                   validator: (String? value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !EmailValidator.validate(value)) {
-                      return 'Het emailadres is een verplicht veld';
+                     if (!EmailValidator.validate(value!) && value!.isNotEmpty) {
+                      return 'Voer een geldig emailadres in';
+                    } else if (modelForm.phoneNumber == null && value.isEmpty) {
+                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
                     }
+                     EmailNumberFlag = true;
                     return null;
                   },
                   onSaved: (String? value) {
@@ -57,18 +58,19 @@ class FormWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'voorbeeld@email.nl',
+                    hintText: '0612345678',
                   ),
                   validator: (String? value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !EmailValidator.validate(value)) {
-                      return 'Het emailadres is een verplicht veld';
+                    RegExp regex =  RegExp(r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+                    if (!regex.hasMatch(value!) && value.isNotEmpty) {
+                      return 'Voer een geldig telefoonnummer in';
+                    } else if (modelForm.email == null && value.isEmpty) {
+                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
                     }
                     return null;
                   },
                   onSaved: (String? value) {
-                    modelForm.email = value;
+                    modelForm.phoneNumber = value;
                   },
                 ),
                 TextFormField(
@@ -89,6 +91,7 @@ class FormWidget extends StatelessWidget {
                 const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   onPressed: () {
+                    _formKey.currentState?.save();
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
                       sendform(context);
@@ -137,3 +140,5 @@ class FormWidget extends StatelessWidget {
     } catch (exception) {}
   }
 }
+
+
