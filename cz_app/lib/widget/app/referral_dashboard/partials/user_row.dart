@@ -1,8 +1,16 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 
-class UserRow extends StatelessWidget {
-  const UserRow({super.key});
+class UserRow extends StatefulWidget {
+  final Employee? employee;
+  const UserRow({super.key, this.employee});
 
+  @override
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _UserRow();
+}
+
+class _UserRow extends State<UserRow> {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -19,9 +27,8 @@ class UserRow extends StatelessWidget {
             Expanded(
                 child: Image.asset('assets/images/profile_placeholder.png',
                     width: 70, height: 70)),
-            const Text(
-              'Coen van den Berge',
-            )
+            Text(widget.employee?.name ??
+                'Coen van den Berge'), // TO-DO Change hardcoded name to logged in user.
           ],
         ),
       ),

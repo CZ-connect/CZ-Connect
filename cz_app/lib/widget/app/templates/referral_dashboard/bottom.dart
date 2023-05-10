@@ -13,7 +13,7 @@ class ReferralDashboardBottomWidget extends StatelessWidget {
         margin: const EdgeInsets.all(15.0),
         width: double.maxFinite,
         height: MediaQuery.of(context).size.height,
-          child: child,
+        child: child,
       ),
     );
   }

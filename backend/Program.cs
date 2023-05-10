@@ -12,12 +12,12 @@ builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
-    
+
 builder.Services.AddScoped<DbInit>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddJsonOptions(options =>
-        options.JsonSerializerOptions.Converters
-            .Add(new JsonStringEnumConverter()));
+    options.JsonSerializerOptions.Converters
+        .Add(new JsonStringEnumConverter()));
 
 
 var app = builder.Build();
@@ -42,7 +42,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
     db.Database.Migrate();
-    app.UseItToSeedSqlServer(); 
+    app.UseItToSeedSqlServer();
 }
 
 app.Run();

@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
@@ -18,7 +19,7 @@ GoRouter _router = GoRouter(
           Referral referral = state.extra as Referral;
           return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
                   child: ReferralDetailWidget(referral: referral),
@@ -26,22 +27,22 @@ GoRouter _router = GoRouter(
               ),
             ),
           );
-        }
-    ),
+        }),
     GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state){
-          return const Scaffold(
+        builder: (context, state) {
+          Employee? employee = state.extra as Employee?;
+          return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
-                  child: ReferralDashboardIndexWidget(),
+                  child: ReferralDashboardIndexWidget(employee: employee),
                 ),
               ),
             ),
-          );}
-    ),
+          );
+        }),
   ],
 );
 
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? hitTestWarningShouldBeFatal;
+    hitTestWarningShouldBeFatal = true;
     return MaterialApp.router(
       routerConfig: _router,
     );
@@ -66,22 +69,23 @@ void main() {
     nock.cleanAll();
   });
   const expectedJsonResponse =
-      '{"referrals":[{"id":1,"participantName":"Coen","participantEmail":"koen@mail.com","status":"Goedgekeurd","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":2,"participantName":"Koen van den Heuvel","participantEmail":"jos@exmaple.com","status":"Goedgekeurd","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":3,"participantName":"Koen van den Heuvel","participantEmail":"koen@mail.com","status":"Goedgekeurd","registrationDate":"2023-03-22T00:00:00","employeeId":1,"employee":null},{"id":4,"participantName":"Willem Bollekam","participantEmail":"willi@mail.com","status":"In Afwachting","registrationDate":"2023-02-08T00:00:00","employeeId":1,"employee":null},{"id":5,"participantName":"Martijn van den Woud","participantEmail":"mvdw@mail.com","status":"Afgewezen","registrationDate":"2023-01-05T00:00:00","employeeId":1,"employee":null},{"id":6,"participantName":"Marin Kieplant","participantEmail":"plantje@mail.com","status":"In Afwachting","registrationDate":"2022-08-18T00:00:00","employeeId":2,"employee":null}],"completed":3,"pending":2}';
+      '{"referrals":[{"id":1,"participantName":"Vera Meijer","status":"pending","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":2,"employee":null}],"completed":1,"pending":0}';
+
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
         (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -93,7 +97,8 @@ void main() {
       //Expect the data is loaded
       expect(interceptor.isDone, true);
       //Find text within table and click it
-      await tester.tap(find.text("Coen"));
+      expect(find.text("Vera Meijer"), findsOneWidget);
+      await tester.tap(find.text("Vera Meijer"), warnIfMissed: true);
       //Wait for next widget to open
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);

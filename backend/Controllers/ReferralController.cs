@@ -12,9 +12,21 @@ public class ReferralController : ControllerBase
 
     public ReferralController(IRepository repository) =>
         this._repository = repository;
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<Referral>> GetReferralById(long id)
+    {
+        var referral = await _repository.SelectByIdAsync<Referral>(id);
+        if (referral == null)
+        {
+            return NotFound();
+        }
+        return Ok(referral);
+    }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Referral>>> GetReferral()
+    public async Task<ActionResult<IEnumerable<Referral>>> GetAllReferrals()
     {
         ReferralResponse referralsResponse = new ReferralResponse();
 
@@ -26,20 +38,26 @@ public class ReferralController : ControllerBase
         return Ok(referralsResponse);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Referral>> GetReferral(long id)
+    [HttpGet]
+    [Route("employee/{id}")]
+    public async Task<ActionResult<IEnumerable<Referral>>> GetReferralsPerEmployee(long id)
     {
-        var referral = await _repository.SelectByIdAsync<Referral>(id);
+        ReferralResponse referralsResponse = new ReferralResponse();
+        referralsResponse.referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
 
-        if(referral == null) 
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
+
+        if (referralsResponse.referrals == null)
         {
             return NotFound();
         }
 
-        return Ok(referral);
+        return Ok(referralsResponse);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
+    [Route("{id}")]
     public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
     {
         if(referral == null) 
@@ -51,7 +69,8 @@ public class ReferralController : ControllerBase
         return Ok();
     }
     
-    [HttpPut("accept/{id}")]
+    [HttpPut]
+    [Route("accept/{id}")]
     public async Task<ActionResult<Referral>> AcceptReferral(Referral referral)
     {
         if(referral == null) 

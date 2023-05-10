@@ -19,20 +19,39 @@ namespace CZConnect.Controllers
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
             var employees = await _repository.AllAsync<Employee>();
+           
             return Ok(employees);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(long id)
         {
             var employee = await _repository.SelectByIdAsync<Employee>(id); 
+           
+            return Ok(employee);
+        }
 
-            if (employee == null)
+        [HttpGet]
+        [Route("department/{departmentId}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartment(long departmentId)
+        {
+            var employeesPerDepartment = await _repository.AllAsync<Employee>(e => e.DepartmentId == departmentId);
+            var referrals = await _repository.AllAsync<Referral>();
+            var employeeWithReferralCounter = employeesPerDepartment.Select(employee => {
+                var referralCount = referrals.Count(r => r.EmployeeId == employee.Id);
+                return new {
+                    Employee = employee,
+                    ReferralCount = referralCount
+                };
+            }).ToList();
+        
+            if(employeesPerDepartment == null)
             {
                 return NotFound();
             }
 
-            return Ok(employee);
+            return Ok(employeeWithReferralCounter);
         }
 
         [HttpGet("referral/{id}")] //Get Refferals from a employee

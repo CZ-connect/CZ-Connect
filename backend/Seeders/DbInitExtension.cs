@@ -16,7 +16,7 @@ internal static class DbInitExtension
         }
         catch (Exception ex)
         {
-            throw ex;
+            throw new Exception(ex.Message + ""+ ex.Data);
         }
 
         return app;

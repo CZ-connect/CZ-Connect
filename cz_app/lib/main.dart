@@ -1,4 +1,6 @@
+import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:cz_app/widget/app/recruitment_dashboard/recruitment_index.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
@@ -26,38 +28,50 @@ void main() => runApp(const MyApp());
 
 /// The route configuration.
 
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/referraldashboard',
-      builder: (context, state) => const Scaffold(
-        body: ReferralDashboardTemplate(
-          header: ReferralDashboardTopWidget(),
-          body: ReferralDashboardBottomWidget(
-            child: ReferralDashboardContainerWidget(
-              child: ReferralDashboardIndexWidget(),
-            ),
+final GoRouter _router = GoRouter(routes: <RouteBase>[
+  GoRoute(
+    path: '/recruitmentdashboard',
+    builder: (context, state) => const Scaffold(
+      body: ReferralDashboardTemplate(
+        header: ReferralDashboardTopWidget(),
+        body: ReferralDashboardBottomWidget(
+          child: ReferralDashboardContainerWidget(
+            child: RecruitmentDashboardIndexWidget(),
           ),
         ),
       ),
     ),
-    GoRoute(
+  ),
+  GoRoute(
+      path: '/referraldashboard',
+      builder: (context, state) {
+        Employee? employee = state.extra as Employee?;
+        return Scaffold(
+          body: ReferralDashboardTemplate(
+            header: const ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: ReferralDashboardIndexWidget(employee: employee),
+              ),
+            ),
+          ),
+        );
+      }),
+  GoRoute(
       path: '/referralOverview',
-      builder: (context, state){
+      builder: (context, state) {
         List<Referral>? referrals = state.extra as List<Referral>?;
-        if(referrals == null){
+        if (referrals == null) {
           context.go('/loading');
         }
         return Scaffold(
             body: ReferralOverviewTemplate(
-              header: const ReferralOverviewTopWidget(),
-              body: ReferralOverviewContainerWidget(
-                  child: ReferralOverview(referrals: referrals)
-              ),
-            ));
-      }
-    ),
-    GoRoute(
+          header: const ReferralOverviewTopWidget(),
+          body: ReferralOverviewContainerWidget(
+              child: ReferralOverview(referrals: referrals)),
+        ));
+      }),
+  GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
         Referral? referral = state.extra as Referral?;
@@ -67,61 +81,60 @@ final GoRouter _router = GoRouter(
         }
         return Scaffold(
           body: ReferralDashboardTemplate(
-            header: ReferralDashboardTopWidget(),
+            header: const ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
-                child: ReferralDetailWidget(referral: referral!),
+                child: ReferralDetailWidget(referral: referral),
               ),
             ),
           ),
         );
-      }
-    ),
-    GoRoute(
-      path: '/loading',
-      builder: (context, state) => const LoadingWidget(),
-    ),
-    GoRoute(
-      path: '/error',
-      builder: (context, state) => const ErrorScreen(),
-    ),
-    GoRoute(path: '/graph',
+      }),
+  GoRoute(
+    path: '/loading',
+    builder: (context, state) => const LoadingWidget(),
+  ),
+  GoRoute(
+    path: '/error',
+    builder: (context, state) => const ErrorScreen(),
+  ),
+  GoRoute(
+      path: '/graph',
       builder: (context, state) => const Scaffold(
-      body: ReferralDashboardTemplate(
-      header: ReferralDashboardTopWidget(),
-      body: ReferralDashboardBottomWidget(
-      child: ReferralDashboardContainerWidget(
-      child: LineChartSample(),
-      ),
-      ),
-      )
-      )
-    ),
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state){
-      String? referral = state.queryParams['referral'];
-      return Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFE40429), Color(0xFFFF9200)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: ScreenTemplate(
-            header: const TopAppWidget(),
-            body: BottemAppWidget(
-              child: AppMainContainer(
-                child: FormWidget(referral: referral),
+              body: ReferralDashboardTemplate(
+            header: ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: LineChartSample(),
               ),
             ),
+          ))),
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        String? referral = state.queryParams['referral'];
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: ScreenTemplate(
+              header: const TopAppWidget(),
+              body: BottemAppWidget(
+                child: AppMainContainer(
+                  child: FormWidget(referral: referral),
+                ),
+              ),
             ),
           ),
-      );}
-    ),
+        );
+      }),
 ]);
+
 /// The main app.
 class MyApp extends StatelessWidget {
   /// Constructs a [MyApp]
@@ -130,12 +143,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _router,
+        routerConfig: _router,
         theme: ThemeData(
-        primarySwatch: Colors.red,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: GoogleFonts.poppinsTextTheme(
-        Theme.of(context).textTheme,
-    )));
+            primarySwatch: Colors.red,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            textTheme: GoogleFonts.poppinsTextTheme(
+              Theme.of(context).textTheme,
+            )));
   }
 }

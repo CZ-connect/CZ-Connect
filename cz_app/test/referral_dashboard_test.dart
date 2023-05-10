@@ -29,11 +29,10 @@ GoRouter _router = GoRouter(
               ),
             ),
           );
-        }
-    ),
+        }),
     GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state){
+        builder: (BuildContext context, GoRouterState state) {
           return const Scaffold(
             body: ReferralDashboardTemplate(
               header: ReferralDashboardTopWidget(),
@@ -43,8 +42,8 @@ GoRouter _router = GoRouter(
                 ),
               ),
             ),
-          );}
-    ),
+          );
+        }),
   ],
 );
 
@@ -59,9 +58,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
-
 void main() {
   setUpAll(() {
     nock.defaultBase = "http://localhost:3000/api";
@@ -74,20 +70,20 @@ void main() {
 
   group('OverViewWidget', () {
     const expectedJsonResponse =
-        '{"referrals":[{"id":1,"employeeName":"CZ-Medewerker","participantEmail":"cmberge@avans.nl","participantName":"Coen","registrationDate":"2023-03-23T13:18:26.3107564","status":"Afgerond","employeeId": 1},{"id":2,"employeeName":"CZ-Medewerker","participantEmail":"m1@avans.nl","participantName":"Marijn 1","registrationDate":"2023-03-23T13:18:26.3107634","status":"In afwachting","employeeId": 1},{"id":3,"employeeName":"CZ-Medewerker","participantEmail":"m2@avans.nl","participantName":"Marijn 2","registrationDate":"2023-03-23T13:18:26.3107638","status":"Afgerond","employeeId": 1},{"id":4,"employeeName":"CZ-Medewerker","participantEmail":"jos@example.com","participantName":"Jos","registrationDate":"2023-03-23T13:18:26.3107643","status":"Afgerond","employeeId": 1},{"id":5,"employeeName":"CZ-Medewerker","participantEmail":"jedrek@avans.nl","participantName":"Jedrek","registrationDate":"2023-03-23T13:18:26.3107647","status":"Afgerond","employeeId": 2},{"id":6,"employeeName":"CZ-Medewerker","participantEmail":"wballeko@avans.nl","participantName":"William","registrationDate":"2023-03-23T13:18:26.3107652","status":"In afwachting","employeeId": 2}],"completed":3,"pending":2}';
+        '{"referrals":[{"id":15,"participantName":"Jesse Smit","status":"Pending","participantEmail":"JesseSmit@example.com","participantPhoneNumber":null,"registrationDate":"2022-11-02T00:00:00","employeeId":2,"employee":null},{"id":16,"participantName":"Noa van Beek","status":"Pending","participantEmail":"NoavanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-01-24T00:00:00","employeeId":2,"employee":null},{"id":37,"participantName":"Noud Smits","status":"Pending","participantEmail":"NoudSmits@example.com","participantPhoneNumber":null,"registrationDate":"2022-06-11T00:00:00","employeeId":2,"employee":null},{"id":63,"participantName":"Thijs Kuijpers","status":"Approved","participantEmail":"ThijsKuijpers@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-06T00:00:00","employeeId":2,"employee":null},{"id":65,"participantName":"Mees van Beek","status":"Approved","participantEmail":"MeesvanBeek@example.com","participantPhoneNumber":null,"registrationDate":"2022-09-02T00:00:00","employeeId":2,"employee":null},{"id":67,"participantName":"Sem Peters","status":"Approved","participantEmail":"SemPeters@example.com","participantPhoneNumber":null,"registrationDate":"2023-03-08T00:00:00","employeeId":2,"employee":null},{"id":70,"participantName":"Tess Vermeer","status":"Approved","participantEmail":"TessVermeer@example.com","participantPhoneNumber":null,"registrationDate":"2023-02-10T00:00:00","employeeId":2,"employee":null}],"completed":4,"pending":3}';
     testWidgets('renders UI components correctly', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -97,7 +93,7 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
-      expect(find.text('CZ-connect-dashboard'), findsOneWidget);
+      expect(find.byKey(const Key('dashboard_title')), findsOneWidget);
 
       // Verify that the UserRow and ReferralStatus widgets are being rendered
       expect(find.byType(UserRow), findsOneWidget);
@@ -109,18 +105,18 @@ void main() {
     });
 
     testWidgets('renders three rows', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -141,18 +137,18 @@ void main() {
     });
 
     testWidgets('renders async data', (WidgetTester tester) async {
-      final interceptor = nock.get("/referral")
+      final interceptor = nock.get("/referral/employee/2")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral").reply(
+      nock.get("/referral/employee/2").reply(
             200,
             expectedJsonResponse,
           );
@@ -166,13 +162,14 @@ void main() {
       expect(interceptor.isDone, true);
 
       // Display the amount of completed and pending referrals
+      await expectLater(find.text("4", skipOffstage: false), findsWidgets);
       await expectLater(find.text("3", skipOffstage: false), findsWidgets);
-      await expectLater(find.text("2", skipOffstage: false), findsWidgets);
 
       // Display the name and email of some referrals
-      await expectLater(find.text("Coen", skipOffstage: false), findsWidgets);
       await expectLater(
-          find.text("jos@example.com", skipOffstage: false), findsWidgets);
+          find.text("Jesse Smit", skipOffstage: false), findsWidgets);
+      await expectLater(find.text("JesseSmit@example.com", skipOffstage: false),
+          findsWidgets);
     });
   });
 }
