@@ -1,6 +1,5 @@
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/services/delete_referral.dart';
-import 'package:cz_app/widget/app/referral_details/partials/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
