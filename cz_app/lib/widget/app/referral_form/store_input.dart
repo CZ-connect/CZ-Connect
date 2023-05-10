@@ -46,7 +46,7 @@ class FormWidget extends StatelessWidget {
                   validator: (String? value) {
                      if (!EmailValidator.validate(value!) && value!.isNotEmpty) {
                       return 'Voer een geldig emailadres in';
-                    } else if (modelForm.phoneNumber == null && value.isEmpty) {
+                    } else if (modelForm.phoneNumber!.isEmpty && value.isEmpty) {
                       return 'Het emailadress of het telefoonnummer is een verplicht veld';
                     }
                      EmailNumberFlag = true;
@@ -64,7 +64,7 @@ class FormWidget extends StatelessWidget {
                     RegExp regex =  RegExp(r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
                       return 'Voer een geldig telefoonnummer in';
-                    } else if (modelForm.email == null && value.isEmpty) {
+                    } else if (modelForm.email!.isEmpty && value.isEmpty) {
                       return 'Het emailadress of het telefoonnummer is een verplicht veld';
                     }
                     return null;
