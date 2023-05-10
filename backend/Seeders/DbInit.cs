@@ -4,37 +4,46 @@ internal class DbInit
 {
     internal static void Initialize(AppDBContext dbContext)
     {
-        ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
-        dbContext.Database.EnsureCreated(); 
-        if (!dbContext.Departments.Any())
+        try
         {
-            var departments = new Department[]
+            ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
+            dbContext.Database.EnsureCreated(); 
+            if (!dbContext.Departments.Any())
             {
-                new() {DepartmentName = "Sales"},
-                new() {DepartmentName = "Finance"},
-                new() {DepartmentName = "Human Resources"},
-                new() {DepartmentName = "Marketing"},
-                new() {DepartmentName = "ICT"},
-                new() {DepartmentName = "Recruitment"},
-            };
-            foreach(var d in departments)
-                dbContext.Departments.Add(d);
-        }
-        if (!dbContext.Employees.Any()) 
-        {
-            List<Employee> employees = GenerateRandomEmployees(30);
-            foreach(var e in employees)
-                dbContext.Employees.Add(e);
-        } 
+                var departments = new Department[]
+                {
+                    new() {DepartmentName = "Sales"},
+                    new() {DepartmentName = "Finance"},
+                    new() {DepartmentName = "Human Resources"},
+                    new() {DepartmentName = "Marketing"},
+                    new() {DepartmentName = "ICT"},
+                    new() {DepartmentName = "Recruitment"},
+                };
+                foreach(var d in departments)
+                    dbContext.Departments.Add(d);
+            }
+            if (!dbContext.Employees.Any()) 
+            {
+                List<Employee> employees = GenerateRandomEmployees(30);
+                foreach(var e in employees)
+                    dbContext.Employees.Add(e);
+            } 
        
-        if(!dbContext.Referrals.Any()) 
+            if(!dbContext.Referrals.Any()) 
+            {
+                List<Referral> referrals = GenerateRandomReferrals(1000);
+                foreach(var r in referrals)
+                    dbContext.Referrals.Add(r);
+            }
+        
+            dbContext.SaveChanges();
+        }
+        catch (Exception e)
         {
-            List<Referral> referrals = GenerateRandomReferrals(1000);
-            foreach(var r in referrals)
-                dbContext.Referrals.Add(r);
+            Console.WriteLine(e);
+            throw;
         }
         
-        dbContext.SaveChanges();
     }
 
     private static List<Employee> GenerateRandomEmployees(int amount)
@@ -44,8 +53,8 @@ internal class DbInit
         for(int i=0; i < amount; i++)
         {
             employees.Add(new Employee(){
-                EmployeeName = GetDutchName(i),
-                EmployeeEmail = String.Concat(GetDutchName(i).Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                EmployeeName = GetDutchName(),
+                EmployeeEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
                 DepartmentId = departmentId });
             if(i % 6 == 0)
             {
@@ -64,8 +73,8 @@ internal class DbInit
         {
             Referral referral = new Referral
             {
-                ParticipantName = GetDutchName(i),
-                ParticipantEmail = String.Concat(GetDutchName(i).Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                ParticipantName = GetDutchName(),
+                ParticipantEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
                 Status = GetRandomStatus(),
                 RegistrationDate = GetRandomDate(),
                 EmployeeId = random.Next(1,30),
@@ -76,8 +85,10 @@ internal class DbInit
         return referrals;
     }
 
-    private static string GetDutchName(int position)
+    private static string GetDutchName()
     {
+        Random random = new Random();
+        
         string[] dutchNames = new string[] 
         { "Daan de Vries", "Sofie Jansen", "Liam van der Berg", "Emma van Dijk", "Lucas de Boer", "Julia Peters", "Milan Bakker", "Sara van der Meer",
             "Levi Visser", "Lotte de Jong", "Luuk van den Brink", "Zoë Hendriks", "Bram van Leeuwen", "Anna van der Linden", "Jesse Smit", "Noa van Beek",
@@ -93,7 +104,7 @@ internal class DbInit
             "Timo Dekker", "Elin Koning", "Jayden Meijer", "Sophie van Vliet", "Jelle Willems", "Lotte Smits", "Stijn van der Poel", " Mees van Dijk",
             "Julia de Wit", "Evi van Veen",
         };
-        return dutchNames[position];
+        return dutchNames[random.Next(0, dutchNames.Length)];
     }
     private static ReferralStatus GetRandomStatus()
     { 

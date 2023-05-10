@@ -57,6 +57,22 @@ class FormWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
+                    hintText: 'voorbeeld@email.nl',
+                  ),
+                  validator: (String? value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !EmailValidator.validate(value)) {
+                      return 'Het emailadres is een verplicht veld';
+                    }
+                    return null;
+                  },
+                  onSaved: (String? value) {
+                    modelForm.email = value;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
                     hintText: 'Website/Linkedin: linkedin.com/in/naam',
                   ),
                   validator: (String? value) {
@@ -96,6 +112,7 @@ class FormWidget extends StatelessWidget {
       'participantEmail': modelForm.email.toString(),
       'status': 'Pending',
       'registrationDate': DateTime.now().toIso8601String(),
+      'participantPhoneNumber': modelForm.phoneNumber.toString().isEmpty ? null : modelForm.phoneNumber.toString(),
       'employeeId': (referral != null) ? referral! : null,
       'linkedin':  modelForm.linkedin.toString().isEmpty ? null : modelForm.linkedin.toString(),
     };

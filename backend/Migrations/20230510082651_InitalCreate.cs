@@ -6,25 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ApplicantForms",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApplicantForms", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
@@ -85,6 +71,7 @@ namespace backend.Migrations
                     ParticipantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParticipantEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    linkedin = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParticipantPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: true)
@@ -96,8 +83,7 @@ namespace backend.Migrations
                         name: "FK_Referrals_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -114,9 +100,6 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApplicantForms");
-
             migrationBuilder.DropTable(
                 name: "GraphData");
 
