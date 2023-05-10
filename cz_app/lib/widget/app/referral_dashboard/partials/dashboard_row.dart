@@ -109,7 +109,7 @@ class _DashboardRow extends State<DashboardRow> {
                           Expanded(child: Text("Telefoonnummer")),
                     ),
                     const DataColumn(
-                      label: Expanded(child: Text("Verwijderen"))
+                      label: Expanded(child: Text(""))
                     ),
                   ],
                   rows: buildRows(referrals),
