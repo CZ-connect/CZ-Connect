@@ -124,6 +124,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0, right: 40.0),
                       child: ElevatedButton(
+                        key: const Key('delete_referral_key'),
                         child: const Text("Verwijderen"),
                         onPressed: () async {
                            showDialog(
