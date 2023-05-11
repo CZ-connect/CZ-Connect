@@ -12,5 +12,6 @@ namespace CZConnect.DAL
         Task UpdateAsync<T>(T entity) where T : class;
         Task DeleteAsync<T>(T entity) where T : class;
         Task<List<T>> ExecuteStoredProcedureAsync<T>(string storedProcedureName, params SqlParameter[] parameters) where T : class;
+        Task<T?> FindByAsync<T>(Expression<Func<T, bool>> filter) where T : class;
     }
 }

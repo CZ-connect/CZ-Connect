@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using CZConnect.Models;
 using CZConnect.DAL;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerUI();
 }
-
 // Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
 {
