@@ -11,6 +11,7 @@ public class AppDBContext : DbContext
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Department> Departments { get; set; }
      public DbSet<GraphData> GraphData { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder

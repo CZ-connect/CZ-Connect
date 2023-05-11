@@ -28,7 +28,10 @@ namespace CZConnect.Controllers
         public async Task<ActionResult<Employee>> GetEmployee(long id)
         {
             var employee = await _repository.SelectByIdAsync<Employee>(id); 
-           
+            if (employee == null)
+            {
+                return NotFound();
+            }
             return Ok(employee);
         }
 
