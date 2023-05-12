@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import '../../models/referral.dart' show Referral;
@@ -52,7 +53,7 @@ class _DashboardRow extends State<DashboardRow> {
                   style: const TextStyle(color: Colors.blueAccent),
                 ),
                 onTap: () {
-                  context.go("/referraldetail", extra: referrals[index]);
+                  context.go("/referraldetail", extra: EmployeeReferralViewModel(widget.employee, referrals[index]));
                 },
               ),
             ),

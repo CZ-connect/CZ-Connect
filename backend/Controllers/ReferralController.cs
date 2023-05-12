@@ -44,16 +44,15 @@ public class ReferralController : ControllerBase
     {
         ReferralResponse referralsResponse = new ReferralResponse();
         referralsResponse.referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
-
-        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
-        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
-
         if (referralsResponse.referrals == null)
         {
             return NotFound();
         }
-
+        else{
+        referralsResponse.completed = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Approved);
+        referralsResponse.pending = referralsResponse.referrals.Count(r => r.Status == ReferralStatus.Pending);
         return Ok(referralsResponse);
+        }
     }
 
     [HttpPut]
@@ -87,6 +86,19 @@ public class ReferralController : ControllerBase
     {
         await _repository.CreateAsync(referral);
         return Ok();
-    }   
+    } 
+
+    [HttpDelete]  
+    [Route("{id}")]
+    public async Task<ActionResult<Referral>> DeleteReferral(long id) 
+    {
+        var referral = await _repository.SelectByIdAsync<Referral>(id);
+        if(referral == null) 
+        {
+            return NotFound();
+        }
+        await _repository.DeleteAsync(referral);
+        return Ok();
+    }  
 }
    
