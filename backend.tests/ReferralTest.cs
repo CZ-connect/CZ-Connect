@@ -132,6 +132,38 @@ public class ReferralTest
     }
 
     [TestMethod]
+    public async Task DeleteReferral_Succeeds() 
+    {
+        var count = _referrals.Count;
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First())).Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id)).ReturnsAsync(_referrals.First());
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.DeleteReferral(_referrals.First().Id);
+
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(OkResult));
+        Assert.AreNotEqual(count, _referrals.Count);
+    }
+
+    [TestMethod]
+    public async Task DeleteReferral_Fails() 
+    {
+        var count = _referrals.Count;
+        var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First())).Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id)).ReturnsAsync(_referrals.First());
+        var controller = new ReferralController(mockRepository.Object);
+
+        var result = await controller.DeleteReferral(8);
+
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
+        Assert.AreEqual(count, _referrals.Count);
+    }
+
+    [TestMethod]
     public async Task GetReferralsPerEmployeeFails()
     {
         var mockRepository = new Mock<IRepository>();
@@ -150,6 +182,7 @@ public class ReferralTest
         Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
         mockRepository.Verify(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()), Times.Once);
     }
+    
     [TestMethod]
     public async Task GetReferralsPerEmployeeSucceeds()
     {

@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
@@ -56,8 +57,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-        Referral? referral = state.extra as Referral?;
-        if (referral == null) {
+         EmployeeReferralViewModel? employeeReferral = state.extra as EmployeeReferralViewModel?;
+        if (employeeReferral?.referral == null) {
           context.go('/referraldashboard');
           return const Scaffold();
         }
@@ -66,7 +67,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
             header: ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
-                child: ReferralDetailWidget(referral: referral),
+                child: ReferralDetailWidget(employeeReferral: employeeReferral),
               ),
             ),
           ),

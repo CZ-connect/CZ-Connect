@@ -1,14 +1,17 @@
+import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:cz_app/widget/app/referral_dashboard/services/delete_referral.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../models/employee.dart';
 import 'services/reject_refferal.dart';
 import 'services/accept_refferal.dart';
 import 'package:flutter/services.dart';
 
 class ReferralDetailWidget extends StatefulWidget {
-  final Referral referral;
-  const ReferralDetailWidget({super.key, required this.referral});
+  final EmployeeReferralViewModel? employeeReferral;
+  const ReferralDetailWidget({super.key, this.employeeReferral});
 
   @override
   State<ReferralDetailWidget> createState() => _ReferralDetailState();
@@ -18,7 +21,8 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
   @override
   Widget build(BuildContext context) {
 
-    Referral referral = widget.referral;
+    Referral? referral = widget.employeeReferral?.referral;
+    Employee? employee = widget.employeeReferral?.employee;
     return SizedBox.expand(
       key: const Key("referral_details"),
       child: Column(
@@ -42,7 +46,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 ),
                 DataColumn(
                   label: Expanded(
-                    child: Text(referral.participantName),
+                    child: Text(referral!.participantName),
                   ),
                 ),
               ],
@@ -104,7 +108,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                             style: TextStyle(color: Colors.blue),
                           ),
                           onTap: () {
-                            context.go("/referraldashboard");
+                            context.go("/referraldashboard", extra: employee);
                           },
                         ),
                       ),
@@ -114,7 +118,6 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
               ],
             ),
           ),
-          if (referral.status == "Pending")
             Align(
               alignment: Alignment.topRight,
               child: Container(
@@ -122,47 +125,82 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
+                      padding: const EdgeInsets.only(left: 5.0, right: 40.0),
                       child: ElevatedButton(
-                        key: const Key('reject_key'),
-                        onPressed: () {
-                          setState(() {
-                            referral?.status = "Denied";
+                        key: const Key('delete_referral_key'),
+                        child: const Text("Verwijderen"),
+                        onPressed: () async {
+                           showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Referral Verwijderen"),
+                                content: const Text("Weet u zeker dat u deze referral wilt gaan verwijderen?"),
+                                actionsAlignment: MainAxisAlignment.spaceBetween,
+                                actions: [
+                                  TextButton(
+                                    child: const Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text("Verwijder"),
+                                    onPressed: () {
+                                      deleteReferral(context, referral.id);
+                                      context.go("/referraldashboard", extra: employee);
+                                    },
+                                  )
+                                ],
+                              );
+                            }
+                          );
+                        }
+                      ),
+                    ),
+                    if (referral.status == "Pending") ...[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('reject_key'),
+                          onPressed: () {
+                            setState(() {
+                            referral.status = "Denied";
                             rejectRefferal(context, referral);
                           });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Referral afkeuren'),
-                            ),
-                          );
-                        },
-                        child: const Text("Afkeuren"),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral afkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Afkeuren"),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: ElevatedButton(
-                        key: const Key('approved_key'),
-                        onPressed: () {
-                          setState(() {
-                            referral?.status = "Approved";
-                            acceptReffal(context, referral);
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Referral goedkeuren'),
-                            ),
-                          );
-                        },
-                        child: const Text("Goedkeuren"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: ElevatedButton(
+                          key: const Key('approved_key'),
+                          onPressed: () {
+                            setState(() {
+                              referral.status = "Approved";
+                              acceptReffal(context, referral);
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Referral goedkeuren'),
+                              ),
+                            );
+                          },
+                          child: const Text("Goedkeuren"),
+                        ),
                       ),
-                    ),
-                  ],
+                    ]
+                    ],
+                  ),
                 ),
-              ),
-            )
-          else
-            const SizedBox.shrink(),
+              )
         ],
       ),
     );

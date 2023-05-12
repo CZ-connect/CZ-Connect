@@ -86,6 +86,19 @@ public class ReferralController : ControllerBase
     {
         await _repository.CreateAsync(referral);
         return Ok();
-    }   
+    } 
+
+    [HttpDelete]  
+    [Route("{id}")]
+    public async Task<ActionResult<Referral>> DeleteReferral(long id) 
+    {
+        var referral = await _repository.SelectByIdAsync<Referral>(id);
+        if(referral == null) 
+        {
+            return NotFound();
+        }
+        await _repository.DeleteAsync(referral);
+        return Ok();
+    }  
 }
    
