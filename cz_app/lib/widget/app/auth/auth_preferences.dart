@@ -34,9 +34,10 @@ class UserPreferences {
     return token;
   }
 
-  static String getUserId() {
+  static int getUserId() {
     checkSavedToken();
-    return _prefs?.getString(_keyUserId) ?? '';
+    String userIdString = _prefs?.getString(_keyUserId) ?? '';
+    return int.tryParse(userIdString) ?? 0;
   }
 
   static String getUserName() {
