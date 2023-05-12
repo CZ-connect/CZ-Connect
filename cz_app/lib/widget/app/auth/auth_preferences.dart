@@ -17,10 +17,7 @@ class UserPreferences {
   }
 
   static Future setUserFromToken(String token) async {
-    // decode the JWT token to extract user information
-    // here we assume the token payload contains the following fields: userId, userName, userEmail
     Map<String, dynamic> decodedToken = decodeJWT(token);
-      // save the user information in SharedPreferences
     await _prefs?.setString(_keyToken, token);
     await _prefs?.setString(_keyUserId, decodedToken['id']);
     await _prefs?.setString(_keyUserName, decodedToken['displayname']);
@@ -30,7 +27,7 @@ class UserPreferences {
 
   static String checkSavedToken() {
     String token = _prefs?.getString(_keyToken) ?? '';
-    checkToken(token); // check if the token is still valid
+    checkToken(token);
     return token;
   }
 
@@ -67,7 +64,6 @@ class UserPreferences {
 
   static void checkToken(String token) {
     if (token.isNotEmpty && Jwt.isExpired(token)) {
-      // token is expired, log out the user
       logOut();
     }
   }
