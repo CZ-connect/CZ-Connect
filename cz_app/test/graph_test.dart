@@ -58,8 +58,8 @@ void main() {
 
       // Then
       expect(spots.length, graph.length);
-      expect(spots[0].x, graph[0].Id.toDouble());
-      expect(spots[0].y, graph[0].AmmountOfNewReferrals.toDouble());
+      expect(spots[0].x, graph[0].id.toDouble());
+      expect(spots[0].y, graph[0].ammountOfNewReferrals.toDouble());
 
       // Add more assertions as needed
     });
@@ -90,14 +90,6 @@ void main() {
 
   testWidgets('should render a line chart with referral data', (tester) async {
     await binding.setSurfaceSize(const Size(900, 900));
-    // Given
-    final mockGraphData = [
-      Graph(1, 1, 10, 5),
-      Graph(2, 2, 20, 10),
-      Graph(3, 3, 30, 15),
-      Graph(4, 4, 40, 20),
-      Graph(5, 5, 50, 25),
-    ];
 
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(

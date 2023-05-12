@@ -8,7 +8,6 @@ class TopAppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO make this fillable with widgets
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,

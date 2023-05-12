@@ -53,7 +53,9 @@ class _DashboardRow extends State<DashboardRow> {
                   style: const TextStyle(color: Colors.blueAccent),
                 ),
                 onTap: () {
-                  context.go("/referraldetail", extra: EmployeeReferralViewModel(widget.employee, referrals[index]));
+                  context.go("/referraldetail",
+                      extra: EmployeeReferralViewModel(
+                          widget.employee, referrals[index]));
                 },
               ),
             ),
@@ -97,8 +99,7 @@ class _DashboardRow extends State<DashboardRow> {
                       label: Expanded(child: Text("Email sollicitant")),
                     ),
                     const DataColumn(
-                      label:
-                          Expanded(child: Text("Telefoonnummer")),
+                      label: Expanded(child: Text("Telefoonnummer")),
                     ),
                   ],
                   rows: buildRows(referrals),

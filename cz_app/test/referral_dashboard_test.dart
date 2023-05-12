@@ -1,5 +1,4 @@
 import 'package:cz_app/widget/app/models/employee_referral.dart';
-import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/user_row.dart';
 import 'package:cz_app/widget/app/referral_dashboard/partials/dashboard_row.dart';
@@ -19,13 +18,15 @@ GoRouter _router = GoRouter(
     GoRoute(
         path: '/referraldetail',
         builder: (context, state) {
-          EmployeeReferralViewModel? employeeReferral = state.extra as EmployeeReferralViewModel?;
+          EmployeeReferralViewModel? employeeReferral =
+              state.extra as EmployeeReferralViewModel?;
           return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
-                  child: ReferralDetailWidget(employeeReferral: employeeReferral),
+                  child:
+                      ReferralDetailWidget(employeeReferral: employeeReferral),
                 ),
               ),
             ),
@@ -90,7 +91,7 @@ void main() {
           );
 
       // Build the OverViewWidget
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       expect(interceptor.isDone, true);
 
       // Verify that the app bar title is correct
@@ -123,7 +124,7 @@ void main() {
           );
 
       // Build the widget
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
       expect(interceptor.isDone, true);
 
       // Find the three row widgets
@@ -156,7 +157,7 @@ void main() {
 
       // Build the widget
       await tester.runAsync(() async {
-        await tester.pumpWidget(MyApp());
+        await tester.pumpWidget(const MyApp());
         await tester.pumpAndSettle();
       });
 

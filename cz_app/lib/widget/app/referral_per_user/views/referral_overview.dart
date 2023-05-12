@@ -1,5 +1,5 @@
 import 'package:cz_app/widget/app/models/referral.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/ReferralLinkShareButton.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referral_link_share_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

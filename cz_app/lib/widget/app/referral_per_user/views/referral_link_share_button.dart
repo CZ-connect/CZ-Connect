@@ -1,4 +1,4 @@
-import 'package:cz_app/widget/app/referral_per_user/views/referralLinkShareDialog.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referral_link_share_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ReferralLinkShareButton extends StatelessWidget {

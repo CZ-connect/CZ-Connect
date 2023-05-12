@@ -23,7 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'widget/app/referral_per_user/views/referralOverview.dart';
+import 'widget/app/referral_per_user/views/referral_overview.dart';
 
 void main() => runApp(const MyApp());
 
@@ -75,7 +75,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-        EmployeeReferralViewModel? myExtra = state.extra as EmployeeReferralViewModel?;
+        EmployeeReferralViewModel? myExtra =
+            state.extra as EmployeeReferralViewModel?;
         if (myExtra?.referral == null) {
           context.go('/referraldashboard');
           return const Scaffold();
@@ -144,12 +145,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        routerConfig: _router,
-        theme: ThemeData(
-            primarySwatch: Colors.red,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: GoogleFonts.poppinsTextTheme(
-              Theme.of(context).textTheme,
-            )));
+      routerConfig: _router,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+    );
   }
 }

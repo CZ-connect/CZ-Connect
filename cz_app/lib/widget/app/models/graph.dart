@@ -1,11 +1,11 @@
 class Graph {
-  double Id;
-  double Month;
-  double AmmountOfNewReferrals;
-  double AmmountOfApprovedReferrals;
+  double id;
+  double month;
+  double ammountOfNewReferrals;
+  double ammountOfApprovedReferrals;
 
-  Graph(this.Id, this.Month, this.AmmountOfNewReferrals,
-      this.AmmountOfApprovedReferrals);
+  Graph(this.id, this.month, this.ammountOfNewReferrals,
+      this.ammountOfApprovedReferrals);
 
   factory Graph.fromJson(Map<String, dynamic> json) {
     return Graph(
@@ -13,7 +13,6 @@ class Graph {
       json['month'] as double,
       json['ammountOfNewReferrals'] as double,
       json['ammountOfApprovedReferrals'] as double,
-
     );
   }
 }

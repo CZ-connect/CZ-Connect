@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -8,11 +7,12 @@ import 'package:http/http.dart' as http;
 
 final _formKey = GlobalKey<FormState>();
 
+// ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
   ModelForm modelForm = ModelForm(null, null);
   String? referral;
   FormWidget({super.key, this.referral});
-  bool EmailNumberFlag = false;
+  bool emailNumberFlag = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,12 +44,13 @@ class FormWidget extends StatelessWidget {
                     hintText: 'voorbeeld@email.nl',
                   ),
                   validator: (String? value) {
-                     if (!EmailValidator.validate(value!) && value!.isNotEmpty) {
+                    if (!EmailValidator.validate(value!) && value.isNotEmpty) {
                       return 'Voer een geldig emailadres in';
-                    } else if (modelForm.phoneNumber!.isEmpty && value.isEmpty) {
+                    } else if (modelForm.phoneNumber!.isEmpty &&
+                        value.isEmpty) {
                       return 'Het emailadress of het telefoonnummer is een verplicht veld';
                     }
-                     EmailNumberFlag = true;
+                    emailNumberFlag = true;
                     return null;
                   },
                   onSaved: (String? value) {
@@ -61,7 +62,8 @@ class FormWidget extends StatelessWidget {
                     hintText: '0612345678',
                   ),
                   validator: (String? value) {
-                    RegExp regex =  RegExp(r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+                    RegExp regex = RegExp(
+                        r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
                       return 'Voer een geldig telefoonnummer in';
                     } else if (modelForm.email!.isEmpty && value.isEmpty) {
@@ -78,7 +80,8 @@ class FormWidget extends StatelessWidget {
                     hintText: 'Website/Linkedin: linkedin.com/in/naam',
                   ),
                   validator: (String? value) {
-                    RegExp regex = RegExp(r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
+                    RegExp regex = RegExp(
+                        r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
                       return 'Dat is geen valide url';
                     }
@@ -115,30 +118,35 @@ class FormWidget extends StatelessWidget {
       'participantEmail': modelForm.email.toString(),
       'status': 'Pending',
       'registrationDate': DateTime.now().toIso8601String(),
-      'participantPhoneNumber': modelForm.phoneNumber.toString().isEmpty ? null : modelForm.phoneNumber.toString(),
+      'participantPhoneNumber': modelForm.phoneNumber.toString().isEmpty
+          ? null
+          : modelForm.phoneNumber.toString(),
       'employeeId': (referral != null) ? referral! : null,
-      'linkedin':  modelForm.linkedin.toString().isEmpty ? null : modelForm.linkedin.toString(),
+      'linkedin': modelForm.linkedin.toString().isEmpty
+          ? null
+          : modelForm.linkedin.toString(),
     };
-
 
     var body = json.encode(jsonMap);
     try {
       var response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Client error: ${response.statusCode}')),
         );
         throw Exception('Client error: ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Server error: ${response.statusCode}')),
         );
         throw Exception('Server error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      throw Exception(exception);
+    }
   }
 }
-
-

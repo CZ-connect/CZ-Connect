@@ -113,6 +113,19 @@ class _DashboardRow extends State<DashboardRow> {
                   }).toList(),
                 ),
               ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ElevatedButton(
+                    key: const Key('departmentButton'),
+                    onPressed: () {
+                      //run stored procedure
+                    },
+                    child: const Text("Unlinked referrals"),
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
