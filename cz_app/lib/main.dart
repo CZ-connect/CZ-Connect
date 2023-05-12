@@ -1,3 +1,5 @@
+import 'package:cz_app/widget/app/auth/auth_preferences.dart';
+import 'package:cz_app/widget/app/auth/login.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
@@ -121,6 +123,29 @@ final GoRouter _router = GoRouter(
           ),
       );}
     ),
+    GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state){
+          return Scaffold(
+            body: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: ScreenTemplate(
+                header: const TopAppWidget(),
+                body: BottemAppWidget(
+                  child: AppMainContainer(
+                    child: LoginWidget(),
+                  ),
+                ),
+              ),
+            ),
+          );}
+    ),
 ]);
 /// The main app.
 class MyApp extends StatelessWidget {
@@ -129,6 +154,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
         theme: ThemeData(

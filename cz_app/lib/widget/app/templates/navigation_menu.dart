@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../auth/auth_preferences.dart';
+
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key}) : super(key: key);
 
@@ -28,6 +30,30 @@ class NavigationMenu extends StatelessWidget {
                     ),
                   ),
                 ),
+            ),
+            if (UserPreferences.isLoggedIn())
+              ListTile(
+                title: Text('Logged in as ${UserPreferences.getUserName()}'),
+                key: const Key('logged_in_user_menu_item'),
+              ),
+            if (!UserPreferences.isLoggedIn())
+              ListTile(
+              title: const Text('Inloggen'),
+              key: const Key('login_menu_item'),
+              onTap: () {
+                context.go('/login');
+              },
+              enabled: !UserPreferences.isLoggedIn(),
+            ),
+            if (UserPreferences.isLoggedIn())
+              ListTile(
+              title: const Text('Uitloggen'),
+              key: const Key('logout_menu_item'),
+              onTap: () {
+                UserPreferences.logOut();
+                context.pop();
+              },
+              enabled: UserPreferences.isLoggedIn(),
             ),
             ListTile(
               title: const Text('Referral Dashboard'),

@@ -70,6 +70,7 @@ namespace CZConnect.Controllers
             };
             claims.Add(new Claim("displayname", employee.EmployeeName));
             claims.Add(new Claim("role", employee.Role.ToString()));
+            claims.Add(new Claim("id", employee.Id.ToString()));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("Jwt:Key").Value!
