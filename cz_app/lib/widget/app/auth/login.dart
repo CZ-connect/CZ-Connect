@@ -97,6 +97,8 @@ class LoginWidget extends StatelessWidget {
           );
         } else {
           context.go('/');
+          if()
+
         }
       }
       else if (response.statusCode >= 500 && response.statusCode <= 599) {
