@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../auth/user_preferences.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key}) : super(key: key);
@@ -27,6 +28,30 @@ class NavigationMenu extends StatelessWidget {
               ),
             ),
           ),
+          if (UserPreferences.isLoggedIn())
+            ListTile(
+              title: Text('Ingelogd als ${UserPreferences.getUserName()}'),
+              key: const Key('logged_in_user_menu_item'),
+            ),
+          if (!UserPreferences.isLoggedIn())
+            ListTile(
+              title: const Text('Inloggen'),
+              key: const Key('login_menu_item'),
+              onTap: () {
+                context.go('/login');
+              },
+              enabled: !UserPreferences.isLoggedIn(),
+            ),
+          if (UserPreferences.isLoggedIn())
+            ListTile(
+              title: const Text('Uitloggen'),
+              key: const Key('logout_menu_item'),
+              onTap: () {
+                UserPreferences.logOut();
+                context.pop();
+              },
+              enabled: UserPreferences.isLoggedIn(),
+            ),
           ListTile(
             title: const Text('Recruitment Dashboard'),
             key: const Key('recruitment_dashboard_menu_item'),

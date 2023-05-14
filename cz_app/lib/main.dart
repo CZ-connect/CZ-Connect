@@ -1,3 +1,5 @@
+import 'package:cz_app/widget/app/auth/login.dart';
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
@@ -30,6 +32,29 @@ void main() => runApp(const MyApp());
 /// The route configuration.
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[
+  GoRoute(
+      path: '/login',
+      builder: (BuildContext context, GoRouterState state){
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFE40429), Color(0xFFFF9200)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: ScreenTemplate(
+              header: const TopAppWidget(),
+              body: BottemAppWidget(
+                child: AppMainContainer(
+                  child: LoginWidget(),
+                ),
+              ),
+            ),
+          ),
+        );}
+  ),
   GoRoute(
     path: '/recruitmentdashboard',
     builder: (context, state) => const Scaffold(
@@ -143,6 +168,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
         routerConfig: _router,
         theme: ThemeData(

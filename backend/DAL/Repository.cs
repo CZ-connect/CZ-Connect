@@ -56,4 +56,8 @@ public class Repository<TDbContext> : IRepository where TDbContext : DbContext
         return _db.Set<T>().FromSqlRaw(storedProcedureName, parameters).ToListAsync();
     }
 
+    public async Task<T?> FindByAsync<T>(Expression<Func<T, bool>> filter) where T : class
+    {
+        return await _db.Set<T>().FirstOrDefaultAsync(filter);
+    }
 }
