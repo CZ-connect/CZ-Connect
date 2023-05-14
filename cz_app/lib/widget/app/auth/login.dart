@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/login_form.dart';
+import 'package:cz_app/widget/app/auth/login_form_text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:go_router/go_router.dart';
-import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
-
-import 'login_from_text_widget.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -60,7 +56,7 @@ class LoginWidget extends StatelessWidget {
                     modelForm.password = value;
                   },
                 ),
-                const Padding(padding: EdgeInsets.all(8.0)),
+               const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
