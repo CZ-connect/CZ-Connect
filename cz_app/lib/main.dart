@@ -60,8 +60,10 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/logout',
       builder: (BuildContext context, GoRouterState state) {
-        UserPreferences.logOut();
-        context.go('/');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          UserPreferences.logOut();
+          context.go('/');
+        });
         return const Scaffold(); // Placeholder widget
       }
   ),
@@ -116,7 +118,10 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
         if (UserPreferences.isLoggedIn()) {
           List<Referral>? referrals = state.extra as List<Referral>?;
           if (referrals == null) {
-            context.go('/loading');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go('/');
+            });
+            return const Scaffold();
           }
           return Scaffold(
               body: ReferralOverviewTemplate(
@@ -138,7 +143,9 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
       if (UserPreferences.isLoggedIn()) {
         EmployeeReferralViewModel? myExtra = state.extra as EmployeeReferralViewModel?;
         if (myExtra?.referral == null) {
-          context.go('/referraldashboard');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/referraldashboard');
+          });
           return const Scaffold();
         }
       return Scaffold(

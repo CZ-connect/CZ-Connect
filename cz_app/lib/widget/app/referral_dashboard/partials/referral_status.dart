@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
@@ -20,9 +21,9 @@ class _ReferralStatus extends State<ReferralStatus> {
     try {
       if (widget.employee == null) {
         completedCounter = ReferralData()
-            .completedCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
+            .completedCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
         pendingCounter = ReferralData()
-            .pendingCounter(2); // TO-DO CHANGE 2 TO LOGGED IN USER
+            .pendingCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
       } else {
         completedCounter = ReferralData().completedCounter(widget.employee!.id);
         pendingCounter = ReferralData().pendingCounter(widget.employee!.id);
