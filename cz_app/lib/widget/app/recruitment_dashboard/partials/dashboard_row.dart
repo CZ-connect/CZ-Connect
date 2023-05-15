@@ -90,7 +90,7 @@ class _DashboardRow extends State<DashboardRow> {
                         onPressed: () {
                           toggleExpansion();
                         },
-                        child: const Text("Unlinked Referrals"),
+                        child: const Text("Open sollicitaties"),
                       ),
                     ),
                   ],
@@ -170,7 +170,7 @@ class _DashboardRow extends State<DashboardRow> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No unlinked found.');
+          return const Text('Op dit moment zijn er geen open sollicitaties.');
         } else {
           List<Referral> referrals = snapshot.data as List<Referral>;
           return Flexible(
