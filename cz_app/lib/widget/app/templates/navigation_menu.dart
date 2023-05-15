@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/models/roles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../auth/user_preferences.dart';
@@ -47,11 +48,11 @@ class NavigationMenu extends StatelessWidget {
               title: const Text('Uitloggen'),
               key: const Key('logout_menu_item'),
               onTap: () {
-                UserPreferences.logOut();
-                context.pop();
+                context.go('/logout');
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
+          if (UserPreferences.isLoggedIn())
           ListTile(
             title: const Text('Recruitment Dashboard'),
             key: const Key('recruitment_dashboard_menu_item'),
@@ -59,6 +60,7 @@ class NavigationMenu extends StatelessWidget {
               context.go('/recruitmentdashboard');
             },
           ),
+          if (UserPreferences.isLoggedIn())
           ListTile(
             title: const Text('Referral Dashboard'),
             key: const Key('referral_dashboard_menu_item'),
@@ -73,6 +75,7 @@ class NavigationMenu extends StatelessWidget {
               context.go('/');
             },
           ),
+          if (UserPreferences.isLoggedIn() && UserPreferences.getUserRole() == Roles.Admin.name)
           ListTile(
             title: const Text('Graph Referals'),
             key: const Key('Graph_refferals_menu_item'),
@@ -80,7 +83,8 @@ class NavigationMenu extends StatelessWidget {
               context.go('/graph');
             },
           ),
-          ListTile(
+          if (UserPreferences.isLoggedIn())
+            ListTile(
             title: const Text('Referral Overzicht'),
             key: const Key('referral_overview_menu_item'),
             onTap: () {

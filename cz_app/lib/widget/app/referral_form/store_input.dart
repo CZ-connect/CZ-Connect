@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
 
-final _formKey = GlobalKey<FormState>();
+
 
 class FormWidget extends StatelessWidget {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   ModelForm modelForm = ModelForm(null, null);
   String? referral;
   FormWidget({super.key, this.referral});

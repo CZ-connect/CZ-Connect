@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:cz_app/widget/app/models/roles.dart';
 import 'package:cz_app/widget/app/recruitment_dashboard/recruitment_index.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
@@ -55,22 +56,41 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           ),
         );}
   ),
+
   GoRoute(
-    path: '/recruitmentdashboard',
-    builder: (context, state) => const Scaffold(
-      body: ReferralDashboardTemplate(
-        header: ReferralDashboardTopWidget(),
-        body: ReferralDashboardBottomWidget(
-          child: ReferralDashboardContainerWidget(
-            child: RecruitmentDashboardIndexWidget(),
-          ),
-        ),
-      ),
-    ),
+      path: '/logout',
+      builder: (BuildContext context, GoRouterState state) {
+        UserPreferences.logOut();
+        context.go('/');
+        return const Scaffold(); // Placeholder widget
+      }
   ),
   GoRoute(
-      path: '/referraldashboard',
-      builder: (context, state) {
+    path: '/recruitmentdashboard',
+    builder: (BuildContext context, GoRouterState state) {
+      if (UserPreferences.isLoggedIn()) {
+        return const Scaffold(
+          body: ReferralDashboardTemplate(
+            header: ReferralDashboardTopWidget(),
+            body: ReferralDashboardBottomWidget(
+              child: ReferralDashboardContainerWidget(
+                child: RecruitmentDashboardIndexWidget(),
+              ),
+            ),
+          ),
+        );
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      }
+    },
+  ),
+  GoRoute(
+    path: '/referraldashboard',
+    builder: (BuildContext context, GoRouterState state) {
+      if (UserPreferences.isLoggedIn()) {
         Employee? employee = state.extra as Employee?;
         return Scaffold(
           body: ReferralDashboardTemplate(
@@ -82,30 +102,46 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
             ),
           ),
         );
-      }),
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      }
+    },
+  ),
   GoRoute(
       path: '/referralOverview',
       builder: (context, state) {
-        List<Referral>? referrals = state.extra as List<Referral>?;
-        if (referrals == null) {
-          context.go('/loading');
+        if (UserPreferences.isLoggedIn()) {
+          List<Referral>? referrals = state.extra as List<Referral>?;
+          if (referrals == null) {
+            context.go('/loading');
+          }
+          return Scaffold(
+              body: ReferralOverviewTemplate(
+                header: const ReferralOverviewTopWidget(),
+                body: ReferralOverviewContainerWidget(
+                    child: ReferralOverview(referrals: referrals)),
+              ));
         }
-        return Scaffold(
-            body: ReferralOverviewTemplate(
-          header: const ReferralOverviewTopWidget(),
-          body: ReferralOverviewContainerWidget(
-              child: ReferralOverview(referrals: referrals)),
-        ));
+        else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold(); // Placeholder widget
+        }
       }),
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
+      if (UserPreferences.isLoggedIn()) {
         EmployeeReferralViewModel? myExtra = state.extra as EmployeeReferralViewModel?;
         if (myExtra?.referral == null) {
           context.go('/referraldashboard');
           return const Scaffold();
         }
-        return Scaffold(
+      return Scaffold(
           body: ReferralDashboardTemplate(
             header: const ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
@@ -115,26 +151,62 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
             ),
           ),
         );
-      }),
+      }
+    else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go('/');
+      });
+      return const Scaffold(); // Placeholder widget
+    }
+  }),
   GoRoute(
     path: '/loading',
-    builder: (context, state) => const LoadingWidget(),
+    builder: (BuildContext context, GoRouterState state) {
+      if (UserPreferences.isLoggedIn()) {
+        return const LoadingWidget();
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      }
+    },
   ),
   GoRoute(
     path: '/error',
-    builder: (context, state) => const ErrorScreen(),
+    builder: (BuildContext context, GoRouterState state) {
+      if (UserPreferences.isLoggedIn()) {
+        return const ErrorScreen();
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      }
+    },
   ),
   GoRoute(
-      path: '/graph',
-      builder: (context, state) => const Scaffold(
-              body: ReferralDashboardTemplate(
+    path: '/graph',
+    builder: (context, state) {
+      if (UserPreferences.isLoggedIn() && UserPreferences.getUserRole() == Roles.Admin.name) {
+        return const Scaffold(
+          body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
                 child: LineChartSample(),
               ),
             ),
-          ))),
+          ),
+        );
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      }
+    },
+  ),
   GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {

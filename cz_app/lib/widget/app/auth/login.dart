@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
-final _formKey = GlobalKey<FormState>();
 
 class LoginWidget extends StatelessWidget {
+  GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
   LoginForm modelForm = LoginForm(null, null);
   LoginWidget({super.key});
 
@@ -19,7 +19,7 @@ class LoginWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Form(
-            key: _formKey,
+            key: _formKeyLogin,
             child: Column(
               children: <Widget>[
                 const LoginContainerTextWidget(),
@@ -59,8 +59,8 @@ class LoginWidget extends StatelessWidget {
                const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState?.save();
+                    if (_formKeyLogin.currentState!.validate()) {
+                      _formKeyLogin.currentState?.save();
                       sendform(context);
                     }
                   },
