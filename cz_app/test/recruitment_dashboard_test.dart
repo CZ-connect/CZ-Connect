@@ -47,6 +47,8 @@ void main() {
   // Mock response for /api/employees API call for department 1
   const employeeMock =
       '[{"employee":{"id":1,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
+  const unlinkedReferralsMock =
+      '{"referral_data":[{"id":1001,"participantName":"test","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:41.896","employeeId":null,"employee":null},{"id":1002,"participantName":"test2","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:46.483","employeeId":null,"employee":null}]}';
   group('Recruitment Dashboard', () {
     testWidgets('test the dashboard row widget', (WidgetTester tester) async {
       // Set up the mocks
@@ -55,12 +57,15 @@ void main() {
 
       final employeeInterceptor = nock.get("/employee/department/1")
         ..reply(200, employeeMock);
+      final unlinkedReferralsInterceptor = nock.get("/referral/unlinked")
+        ..reply(200, unlinkedReferralsMock);
       // Build the widget
       await tester.pumpWidget(recruitmentDashboard);
       await tester.pumpAndSettle();
 
       expect(departmentInterceptor.isDone, true);
       expect(employeeInterceptor.isDone, true);
+      expect(unlinkedReferralsInterceptor.isDone, true);
 
       // Verify that the widget displays the correct data
       expect(find.text('Sales'), findsOneWidget);
