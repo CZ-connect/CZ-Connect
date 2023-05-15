@@ -55,6 +55,26 @@ public class ReferralController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("unlinked")]
+    public async Task<ActionResult<IEnumerable<Referral>>> GetUnlinkedReferrals()
+    {
+        var referrals = await _repository.ExecuteStoredProcedureAsync<Referral>("GetUnlinkedReferrals");
+        
+        var referralData = referrals.Select(r => new Referral{
+            Id = r.Id,
+            ParticipantName = r.ParticipantName,
+            ParticipantEmail = r.ParticipantEmail,
+            ParticipantPhoneNumber = r.ParticipantPhoneNumber,
+            linkedin = r.linkedin,
+            Status = r.Status,
+            RegistrationDate = r.RegistrationDate,
+            EmployeeId = null
+        });
+
+        return Ok(new {referral_data = referralData});
+    }
+
     [HttpPut]
     [Route("{id}")]
     public async Task<ActionResult<Referral>> RejectReferral(Referral referral)
