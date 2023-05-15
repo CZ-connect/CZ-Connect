@@ -1,4 +1,5 @@
 import 'package:cz_app/widget/app/models/employee.dart';
+import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/recruitment_dashboard/data/recruitment_data.dart';
 import 'package:flutter/services.dart';
@@ -169,7 +170,7 @@ class _DashboardRow extends State<DashboardRow> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No departments found.');
+          return const Text('No unlinked found.');
         } else {
           List<Referral> referrals = snapshot.data as List<Referral>;
           return Flexible(
@@ -193,7 +194,25 @@ class _DashboardRow extends State<DashboardRow> {
                     return DataRow(
                       color: MaterialStateProperty.all<Color>(color!),
                       cells: [
-                        DataCell(Text(referrals[index].participantName)),
+                        DataCell(
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              child: Text(
+                                referrals[index].participantName,
+                                style:
+                                    const TextStyle(color: Colors.blueAccent),
+                              ),
+                              onTap: () {
+                                context.go(
+                                  "/referraldetail",
+                                  extra: EmployeeReferralViewModel(
+                                      null, referrals[index]),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                         DataCell(
                             Text(referrals[index].participantEmail ?? "-")),
                         DataCell(Text(

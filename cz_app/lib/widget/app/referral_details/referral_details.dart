@@ -20,21 +20,19 @@ class ReferralDetailWidget extends StatefulWidget {
 class _ReferralDetailState extends State<ReferralDetailWidget> {
   @override
   Widget build(BuildContext context) {
-
     Referral? referral = widget.employeeReferral?.referral;
     Employee? employee = widget.employeeReferral?.employee;
     return SizedBox.expand(
       key: const Key("referral_details"),
       child: Column(
         children: [
-
           FractionallySizedBox(
             alignment: Alignment.topCenter,
             widthFactor: 1.0,
             child: DataTable(
               showCheckboxColumn: false,
               headingRowColor:
-              MaterialStateColor.resolveWith((states) => Colors.white12),
+                  MaterialStateColor.resolveWith((states) => Colors.white12),
               columns: <DataColumn>[
                 const DataColumn(
                   label: Expanded(
@@ -75,9 +73,11 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     DataCell(
                       Text(referral.linkedin ?? "-"),
                       onTap: () {
-                        Clipboard.setData(ClipboardData(text: referral.linkedin ?? ""));
+                        Clipboard.setData(
+                            ClipboardData(text: referral.linkedin ?? ""));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Link copied to clipboard")),
+                          const SnackBar(
+                              content: Text("Link copied to clipboard")),
                         );
                       },
                     ),
@@ -96,111 +96,113 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         .format(referral.registrationDate)))
                   ],
                 ),
-                DataRow(
-                  cells: <DataCell>[
-                    const DataCell(Text("")),
-                    DataCell(
-                      MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          child: const Text(
-                            "Terug naar overzicht",
-                            style: TextStyle(color: Colors.blue),
+                if (widget.employeeReferral?.employee != null)
+                  DataRow(
+                    cells: <DataCell>[
+                      const DataCell(Text("")),
+                      DataCell(
+                        MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            child: const Text(
+                              "Terug naar overzicht",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                            onTap: () {
+                              context.go("/referraldashboard", extra: employee);
+                            },
                           ),
-                          onTap: () {
-                            context.go("/referraldashboard", extra: employee);
-                          },
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               ],
             ),
           ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5.0, right: 40.0),
-                      child: ElevatedButton(
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0, right: 40.0),
+                    child: ElevatedButton(
                         key: const Key('delete_referral_key'),
                         child: const Text("Verwijderen"),
                         onPressed: () async {
-                           showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Referral Verwijderen"),
-                                content: const Text("Weet u zeker dat u deze referral wilt gaan verwijderen?"),
-                                actionsAlignment: MainAxisAlignment.spaceBetween,
-                                actions: [
-                                  TextButton(
-                                    child: const Text("Cancel"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text("Verwijder"),
-                                    onPressed: () {
-                                      deleteReferral(context, referral.id);
-                                      context.go("/referraldashboard", extra: employee);
-                                    },
-                                  )
-                                ],
-                              );
-                            }
-                          );
-                        }
-                      ),
-                    ),
-                    if (referral.status == "Pending") ...[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: ElevatedButton(
-                          key: const Key('reject_key'),
-                          onPressed: () {
-                            setState(() {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Referral Verwijderen"),
+                                  content: const Text(
+                                      "Weet u zeker dat u deze referral wilt gaan verwijderen?"),
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  actions: [
+                                    TextButton(
+                                      child: const Text("Cancel"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text("Verwijder"),
+                                      onPressed: () {
+                                        deleteReferral(context, referral.id);
+                                        context.go("/referraldashboard",
+                                            extra: employee);
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }),
+                  ),
+                  if (referral.status == "Pending") ...[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: ElevatedButton(
+                        key: const Key('reject_key'),
+                        onPressed: () {
+                          setState(() {
                             referral.status = "Denied";
                             rejectRefferal(context, referral);
                           });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Referral afkeuren'),
-                              ),
-                            );
-                          },
-                          child: const Text("Afkeuren"),
-                        ),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Referral afkeuren'),
+                            ),
+                          );
+                        },
+                        child: const Text("Afkeuren"),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: ElevatedButton(
-                          key: const Key('approved_key'),
-                          onPressed: () {
-                            setState(() {
-                              referral.status = "Approved";
-                              acceptReffal(context, referral);
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Referral goedkeuren'),
-                              ),
-                            );
-                          },
-                          child: const Text("Goedkeuren"),
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: ElevatedButton(
+                        key: const Key('approved_key'),
+                        onPressed: () {
+                          setState(() {
+                            referral.status = "Approved";
+                            acceptReffal(context, referral);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Referral goedkeuren'),
+                            ),
+                          );
+                        },
+                        child: const Text("Goedkeuren"),
                       ),
-                    ]
-                    ],
-                  ),
-                ),
-              )
+                    ),
+                  ]
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
