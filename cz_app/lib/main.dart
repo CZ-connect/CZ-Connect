@@ -70,7 +70,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/recruitmentdashboard',
     builder: (BuildContext context, GoRouterState state) {
-      if (UserPreferences.isLoggedIn()) {
+      String role = UserPreferences.getUserRole();
+      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
         return const Scaffold(
           body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),
@@ -92,7 +93,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/referraldashboard',
     builder: (BuildContext context, GoRouterState state) {
-      if (UserPreferences.isLoggedIn()) {
+    String role = UserPreferences.getUserRole();
+    if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
         Employee? employee = state.extra as Employee?;
         return Scaffold(
           body: ReferralDashboardTemplate(
@@ -140,7 +142,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-      if (UserPreferences.isLoggedIn()) {
+      String role = UserPreferences.getUserRole();
+      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
         EmployeeReferralViewModel? myExtra = state.extra as EmployeeReferralViewModel?;
         if (myExtra?.referral == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -195,7 +198,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/graph',
     builder: (context, state) {
-      if (UserPreferences.isLoggedIn() && UserPreferences.getUserRole() == Roles.Admin.name) {
+      String role = UserPreferences.getUserRole();
+      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
         return const Scaffold(
           body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),

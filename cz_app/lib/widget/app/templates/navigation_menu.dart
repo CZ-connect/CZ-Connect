@@ -8,6 +8,8 @@ class NavigationMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String role = UserPreferences.getUserRole();
+    //role == Roles.Admin.name || role == Roles.Recruitment.name
     return Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
@@ -52,7 +54,7 @@ class NavigationMenu extends StatelessWidget {
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
-          if (UserPreferences.isLoggedIn())
+          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
           ListTile(
             title: const Text('Recruitment Dashboard'),
             key: const Key('recruitment_dashboard_menu_item'),
@@ -60,7 +62,7 @@ class NavigationMenu extends StatelessWidget {
               context.go('/recruitmentdashboard');
             },
           ),
-          if (UserPreferences.isLoggedIn())
+          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
           ListTile(
             title: const Text('Referral Dashboard'),
             key: const Key('referral_dashboard_menu_item'),
@@ -75,7 +77,7 @@ class NavigationMenu extends StatelessWidget {
               context.go('/');
             },
           ),
-          if (UserPreferences.isLoggedIn() && UserPreferences.getUserRole() == Roles.Admin.name)
+          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
           ListTile(
             title: const Text('Graph Referals'),
             key: const Key('Graph_refferals_menu_item'),
