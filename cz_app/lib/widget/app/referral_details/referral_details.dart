@@ -96,26 +96,29 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         .format(referral.registrationDate)))
                   ],
                 ),
-                if (widget.employeeReferral?.employee != null)
-                  DataRow(
-                    cells: <DataCell>[
-                      const DataCell(Text("")),
-                      DataCell(
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            child: const Text(
-                              "Terug naar overzicht",
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            onTap: () {
-                              context.go("/referraldashboard", extra: employee);
-                            },
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text("")),
+                    DataCell(
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          child: const Text(
+                            "Terug naar overzicht",
+                            style: TextStyle(color: Colors.blue),
                           ),
+                          onTap: () {
+                            if (widget.employeeReferral?.employee != null) {
+                              context.go("/referraldashboard", extra: employee);
+                            } else {
+                              context.go("/recruitmentdashboard");
+                            }
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

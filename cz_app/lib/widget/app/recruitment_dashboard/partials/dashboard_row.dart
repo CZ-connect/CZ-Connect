@@ -28,7 +28,7 @@ class _DashboardRow extends State<DashboardRow> {
     super.initState();
   }
 
-  bool showDepartments = true;
+  bool showDepartments = false;
   int selectedDepartment = 0;
 
   void toggleExpansion() {
@@ -69,6 +69,18 @@ class _DashboardRow extends State<DashboardRow> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: ElevatedButton(
+                        key: const Key('departmentButton'),
+                        onPressed: () {
+                          if (showDepartments) {
+                            toggleExpansion();
+                          }
+                        },
+                        child: const Text("Open sollicitaties"),
+                      ),
+                    ),
                     for (Department department in departments)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -83,16 +95,6 @@ class _DashboardRow extends State<DashboardRow> {
                           child: Text(department.departmentName),
                         ),
                       ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: ElevatedButton(
-                        key: const Key('departmentButton'),
-                        onPressed: () {
-                          toggleExpansion();
-                        },
-                        child: const Text("Open sollicitaties"),
-                      ),
-                    ),
                   ],
                 ),
               ),
