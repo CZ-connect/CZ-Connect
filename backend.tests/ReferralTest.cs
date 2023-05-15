@@ -1,9 +1,12 @@
 using CZConnect.Models;
 using CZConnect.DAL;
-using CZConnect.Controllers;
 using Moq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using BCrypt.Net;
+using Castle.Core.Configuration;
+using CZConnect.Controllers;
+using Microsoft.Extensions.Configuration;
 
 
 namespace backend.tests;
@@ -12,6 +15,7 @@ namespace backend.tests;
 public class ReferralTest
 {
     private List<Referral> _referrals;
+
 
     [TestInitialize]
     public void Initialize()
@@ -104,7 +108,9 @@ public class ReferralTest
         mockRepository
             .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
             .ReturnsAsync(_referrals.Where(r => r.EmployeeId == 1).ToList());
-        var controller = new EmployeeController(mockRepository.Object);
+     
+        
+        var controller = new EmployeeController(null,mockRepository.Object);
 
         var result = await controller.GetReferrals(1);
 
@@ -124,7 +130,7 @@ public class ReferralTest
         mockRepository
             .Setup(repo => repo.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
             .ReturnsAsync(() => null);
-        var controller = new EmployeeController(mockRepository.Object);
+        var controller = new EmployeeController(null,mockRepository.Object);
 
         var result = await controller.GetReferrals(5);
 
@@ -140,6 +146,7 @@ public class ReferralTest
         mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id)).ReturnsAsync(_referrals.First());
         var controller = new ReferralController(mockRepository.Object);
 
+        
         var result = await controller.DeleteReferral(_referrals.First().Id);
 
         Assert.IsNotNull(result);
