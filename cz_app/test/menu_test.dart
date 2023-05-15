@@ -1,9 +1,6 @@
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/user_row.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/dashboard_row.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
@@ -24,7 +21,6 @@ import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nock/nock.dart';
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
