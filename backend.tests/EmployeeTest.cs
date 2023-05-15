@@ -5,6 +5,8 @@ using CZConnect.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using BCrypt.Net;
+
 
 namespace backend.tests;
 
@@ -75,7 +77,7 @@ public class EmployeeTest
         // Arrange
         long existingId = 456;
         var mockRepository = new Mock<IRepository>();
-        var controller = new EmployeeController(mockRepository.Object);
+        var controller = new EmployeeController(null,mockRepository.Object);
         Employee employee = new Employee { Id = existingId };
         mockRepository.Setup(repo => repo.SelectByIdAsync<Employee>(existingId)).ReturnsAsync(employee);
 
@@ -89,7 +91,7 @@ public class EmployeeTest
     public async Task getEmployeeShouldFail()
     {
         var mockRepository = new Mock<IRepository>();
-        var controller = new EmployeeController(mockRepository.Object);
+        var controller = new EmployeeController(null,mockRepository.Object);
 
         var result = await controller.GetEmployee(200);
         Assert.IsNotNull(result);
@@ -101,7 +103,7 @@ public class EmployeeTest
         //employee mock
         var mockRepositoryEmployee = new Mock<IRepository>();
         mockRepositoryEmployee.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
-        var controllerEmployee = new EmployeeController(mockRepositoryEmployee.Object);
+        var controllerEmployee = new EmployeeController(null,mockRepositoryEmployee.Object);
         var result = await controllerEmployee.GetEmployees();
         Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
@@ -114,7 +116,7 @@ public class EmployeeTest
         var mockRepositoryEmployee = new Mock<IRepository>();
         mockRepositoryEmployee .Setup(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
             .ReturnsAsync((List<Referral>) null);
-        var controllerEmployee = new EmployeeController(mockRepositoryEmployee.Object);
+        var controllerEmployee = new EmployeeController(null,mockRepositoryEmployee.Object);
         var  result = controllerEmployee.GetReferrals(200);
         Assert.IsNotNull(result);
         Assert.IsInstanceOfType(result.Result.Result, typeof(NotFoundResult));
@@ -126,7 +128,7 @@ public class EmployeeTest
         var mockRepositoryEmployee = new Mock<IRepository>();
         mockRepositoryEmployee .Setup(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
             .ReturnsAsync((List<Referral>) _referrals);
-        var controllerEmployee = new EmployeeController(mockRepositoryEmployee.Object);
+        var controllerEmployee = new EmployeeController(null,mockRepositoryEmployee.Object);
         var  result = controllerEmployee.GetReferrals(_employees.First().Id);
         Assert.IsNotNull(result);
         //first result in the list is the same as the first referral in the list
