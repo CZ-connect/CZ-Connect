@@ -1,15 +1,12 @@
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/graphs/graph_widget.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/referral_status.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/user_row.dart';
-import 'package:cz_app/widget/app/referral_dashboard/partials/dashboard_row.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/referralOverview.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
@@ -24,7 +21,6 @@ import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nock/nock.dart';
 
 final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
@@ -57,14 +53,15 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-         EmployeeReferralViewModel? employeeReferral = state.extra as EmployeeReferralViewModel?;
+        EmployeeReferralViewModel? employeeReferral =
+            state.extra as EmployeeReferralViewModel?;
         if (employeeReferral?.referral == null) {
           context.go('/referraldashboard');
           return const Scaffold();
         }
         return Scaffold(
           body: ReferralDashboardTemplate(
-            header: ReferralDashboardTopWidget(),
+            header: const ReferralDashboardTopWidget(),
             body: ReferralDashboardBottomWidget(
               child: ReferralDashboardContainerWidget(
                 child: ReferralDetailWidget(employeeReferral: employeeReferral),
@@ -130,29 +127,9 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
-  setUpAll(() {
-    nock.defaultBase = "http://localhost:3000/api";
-    nock.init();
-  });
-
-  setUp(() {
-    nock.cleanAll();
-  });
-
   group('Menu test', () {
-    const expectedJsonResponse =
-        '{"referrals":[{"id":1,"employeeName":"CZ-Medewerker","participantEmail":"cmberge@avans.nl","participantName":"Coen","registrationDate":"2023-03-23T13:18:26.3107564","status":"Afgerond"},{"id":2,"employeeName":"CZ-Medewerker","participantEmail":"m1@avans.nl","participantName":"Marijn 1","registrationDate":"2023-03-23T13:18:26.3107634","status":"In afwachting"},{"id":3,"employeeName":"CZ-Medewerker","participantEmail":"m2@avans.nl","participantName":"Marijn 2","registrationDate":"2023-03-23T13:18:26.3107638","status":"Afgerond"},{"id":4,"employeeName":"CZ-Medewerker","participantEmail":"jos@example.com","participantName":"Jos","registrationDate":"2023-03-23T13:18:26.3107643","status":"Afgerond"},{"id":5,"employeeName":"CZ-Medewerker","participantEmail":"jedrek@avans.nl","participantName":"Jedrek","registrationDate":"2023-03-23T13:18:26.3107647","status":"Afgerond"},{"id":6,"employeeName":"CZ-Medewerker","participantEmail":"wballeko@avans.nl","participantName":"William","registrationDate":"2023-03-23T13:18:26.3107652","status":"In afwachting"}],"completed":3,"pending":2}';
-    testWidgets('Go to the dashboard by menu', (WidgetTester tester) async {
-      final referralInterceptor = nock.get("/referral/employee/2")
-        ..reply(200, expectedJsonResponse);
-      nock.get("/referral/employee/2").reply(
-            200,
-            expectedJsonResponse,
-          );
-      nock.get("/referral/employee/2").reply(
-            200,
-            expectedJsonResponse,
-          );
+    testWidgets('Go to the applicant form by menu',
+        (WidgetTester tester) async {
       FlutterError.onError = ignoreOverflowErrors;
       await tester.pumpWidget(const MyApp());
       await tester.pumpAndSettle();
@@ -160,13 +137,10 @@ void main() {
       await tester.tap(find.byIcon(Icons.menu));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key('referral_dashboard_menu_item')));
+      await tester.tap(find.byKey(const Key('application_form_menu_item')));
       await tester.pumpAndSettle();
-      expect(referralInterceptor.isDone, true);
-      expect(find.text('CZ Connect - Dashboard'), findsOneWidget);
-      expect(find.byType(UserRow), findsOneWidget);
-      expect(find.byType(ReferralStatus), findsOneWidget);
-      expect(find.byType(DashboardRow), findsOneWidget);
+      expect(find.text('CZ-connect'), findsOneWidget);
+      expect(find.byKey(const ValueKey('nameField')), findsOneWidget);
     });
   });
 }
