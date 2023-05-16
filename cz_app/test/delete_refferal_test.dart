@@ -74,14 +74,8 @@ void main() {
   });
 
   setUpAll(() async {
-    // final mockUserPreferences = MockUserPreferences();
-    // when(mockUserPreferences.getUserId()).thenAnswer((_) => Future.value(31));
-    // final userId = UserPreferences.getUserId();
     nock.defaultBase = "http://localhost:3000/api";
     nock.init();
-    // UserPreferences.init();
-    // UserPreferences.setUserFromToken(
-    //     "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiamVsbEBvLmNvbSIsImRpc3BsYXluYW1lIjoiSmVsbC1vIiwicm9sZSI6IkFkbWluIiwiaWQiOiIzMSIsImV4cCI6MjU0ODE0MTYxN30.mG3yfO2u5JT2NfSepbWWFYaKg1NWeQ6sccr8Tfh6b3Wa6zEsSbx0l0_m7IxjEXAbRfCoNZh48JrMRfXPCmoODg");
   });
   group('Delete referrals', () {
     const expectedJsonResponse =
