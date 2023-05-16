@@ -129,7 +129,7 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
               body: ReferralOverviewTemplate(
                 header: const ReferralOverviewTopWidget(),
                 body: ReferralOverviewContainerWidget(
-                    child: ReferralOverview(referrals: referrals)),
+                    child: ReferralOverview(referrals: referrals!)),
               ));
         }
         else {

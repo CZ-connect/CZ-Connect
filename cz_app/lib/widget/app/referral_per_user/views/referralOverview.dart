@@ -14,7 +14,7 @@ class ReferralOverview extends StatefulWidget {
 class _ReferralOverviewState extends State<ReferralOverview> {
   @override
   Widget build(BuildContext context) {
-    if (widget.referrals != null && !widget.referrals!.isEmpty) {
+    if (!widget.referrals.isEmpty) {
       return Scaffold(
           appBar: null,
           key: const Key('referral_overview'),
