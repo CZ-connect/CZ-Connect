@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
@@ -22,7 +23,7 @@ class _DashboardRow extends State<DashboardRow> {
     if (widget.employee != null) {
       referrals = ReferralData().fetchReferrals(widget.employee!.id);
     } else {
-      referrals = ReferralData().fetchReferrals(2);
+      referrals = ReferralData().fetchReferrals(UserPreferences.getUserId());
     }
     super.initState();
   }

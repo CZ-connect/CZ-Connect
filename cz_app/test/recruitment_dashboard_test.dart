@@ -42,11 +42,11 @@ void main() {
   });
   // Mock response for /api/departments API call
   const departmentsMock =
-      '[{"id":1,"departmentName":"Sales"},{"id":2,"departmentName":"Finance"},{"id":3,"departmentName":"Human Resources"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recruitment"}]';
+      '[{"id":0,"departmentName":"Sales"},{"id":2,"departmentName":"Finance"},{"id":3,"departmentName":"Human Resources"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recruitment"}]';
 
   // Mock response for /api/employees API call for department 1
   const employeeMock =
-      '[{"employee":{"id":1,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
+      '[{"employee":{"id":0,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
   const unlinkedReferralsMock =
       '{"referral_data":[{"id":1001,"participantName":"Bob de Vries","status":"Pending","participantEmail":"bobdevries@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:41.896","employeeId":null,"employee":null},{"id":1002,"participantName":"test2","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:46.483","employeeId":null,"employee":null}]}';
   group('Recruitment Dashboard', () {

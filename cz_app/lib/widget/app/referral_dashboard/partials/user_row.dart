@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class _UserRow extends State<UserRow> {
                 child: Image.asset('assets/images/profile_placeholder.png',
                     width: 70, height: 70)),
             Text(widget.employee?.name ??
-                'Coen van den Berge'), // TO-DO Change hardcoded name to logged in user.
+                UserPreferences.getUserName()),
           ],
         ),
       ),

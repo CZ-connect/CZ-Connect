@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/referral_per_user/services/referral_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +12,7 @@ class LoadingWidget extends StatefulWidget {
 
 class _LoadingWidgetState extends State<LoadingWidget> {
   void setupReference() async {
-    ReferralService instance = ReferralService(userId: 1);
+    ReferralService instance = ReferralService(userId: UserPreferences.getUserId());
     try {
       await instance.getData();
       // ignore: use_build_context_synchronously

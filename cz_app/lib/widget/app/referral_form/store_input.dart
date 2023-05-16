@@ -5,10 +5,11 @@ import 'package:email_validator/email_validator.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
 
-final _formKey = GlobalKey<FormState>();
+
 
 // ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   ModelForm modelForm = ModelForm(null, null);
   String? referral;
   FormWidget({super.key, this.referral});

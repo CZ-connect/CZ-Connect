@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ReferralOverview extends StatefulWidget {
-  final List<Referral>? referrals;
-  const ReferralOverview({super.key, this.referrals});
+  final List<Referral> referrals;
+  const ReferralOverview({super.key, required this.referrals});
 
   @override
   State<ReferralOverview> createState() => _ReferralOverviewState();
@@ -14,7 +14,7 @@ class ReferralOverview extends StatefulWidget {
 class _ReferralOverviewState extends State<ReferralOverview> {
   @override
   Widget build(BuildContext context) {
-    if (widget.referrals != null) {
+    if (!widget.referrals.isEmpty) {
       return Scaffold(
           appBar: null,
           key: const Key('referral_overview'),
@@ -90,11 +90,14 @@ class _ReferralOverviewState extends State<ReferralOverview> {
       return Scaffold(
           appBar: null,
           key: const Key('referral_overview'),
-          body: ListView(
-            children: const [
-              Text('No data found.'),
-            ],
-          ),
+        body: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+          child:Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Center(child: Text('Geen gegevens gevonden')),
+            )),
+
           floatingActionButton: const ReferralLinkShareButton());
     }
   }
