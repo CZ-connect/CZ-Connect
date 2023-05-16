@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ReferralOverview extends StatefulWidget {
-  final List<Referral>? referrals;
-  const ReferralOverview({super.key, this.referrals});
+  final List<Referral> referrals;
+  const ReferralOverview({super.key, required this.referrals});
 
   @override
   State<ReferralOverview> createState() => _ReferralOverviewState();
