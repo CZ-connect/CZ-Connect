@@ -170,8 +170,6 @@ void main() {
       // Display the name and email of some referrals
       await expectLater(
           find.text("Jesse Smit", skipOffstage: false), findsWidgets);
-      await expectLater(find.text("JesseSmit@example.com", skipOffstage: false),
-          findsWidgets);
     });
   });
 }

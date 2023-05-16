@@ -8,6 +8,7 @@ import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
 
 class DashboardRow extends StatefulWidget {
   final Employee? employee;
+
   const DashboardRow({super.key, this.employee});
 
   @override
@@ -63,8 +64,6 @@ class _DashboardRow extends State<DashboardRow> {
                 ),
               ),
             ),
-            DataCell(Text(referrals[index].participantEmail ?? "-")),
-            DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
           ],
         );
       },
@@ -98,12 +97,6 @@ class _DashboardRow extends State<DashboardRow> {
                     ),
                     const DataColumn(
                       label: Expanded(child: Text("Naam sollicitant")),
-                    ),
-                    const DataColumn(
-                      label: Expanded(child: Text("Email sollicitant")),
-                    ),
-                    const DataColumn(
-                      label: Expanded(child: Text("Telefoonnummer")),
                     ),
                   ],
                   rows: buildRows(referrals),
