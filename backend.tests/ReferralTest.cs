@@ -5,7 +5,6 @@ using Moq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace backend.tests;
 
 [TestClass]
@@ -132,12 +131,14 @@ public class ReferralTest
     }
 
     [TestMethod]
-    public async Task DeleteReferral_Succeeds() 
+    public async Task DeleteReferral_Succeeds()
     {
         var count = _referrals.Count;
         var mockRepository = new Mock<IRepository>();
-        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First())).Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
-        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id)).ReturnsAsync(_referrals.First());
+        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First()))
+            .Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id))
+            .ReturnsAsync(_referrals.First());
         var controller = new ReferralController(mockRepository.Object);
 
         var result = await controller.DeleteReferral(_referrals.First().Id);
@@ -148,12 +149,14 @@ public class ReferralTest
     }
 
     [TestMethod]
-    public async Task DeleteReferral_Fails() 
+    public async Task DeleteReferral_Fails()
     {
         var count = _referrals.Count;
         var mockRepository = new Mock<IRepository>();
-        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First())).Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
-        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id)).ReturnsAsync(_referrals.First());
+        mockRepository.Setup(repo => repo.DeleteAsync<Referral>(_referrals.First()))
+            .Callback<Referral>((entity) => _referrals.Remove(_referrals.First()));
+        mockRepository.Setup(repo => repo.SelectByIdAsync<Referral>(_referrals.First().Id))
+            .ReturnsAsync(_referrals.First());
         var controller = new ReferralController(mockRepository.Object);
 
         var result = await controller.DeleteReferral(8);
@@ -182,7 +185,7 @@ public class ReferralTest
         Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
         mockRepository.Verify(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()), Times.Once);
     }
-    
+
     [TestMethod]
     public async Task GetReferralsPerEmployeeSucceeds()
     {
@@ -196,5 +199,21 @@ public class ReferralTest
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
         mockRepository.Verify(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()), Times.Once);
+    }
+
+    [TestMethod]
+    public async Task GetUnlinkedRefferalSucceeds()
+    {
+        var mockRepository = new Mock<IRepository>();
+        mockRepository
+            .Setup(x => x.AllAsync<Referral>(It.IsAny<Expression<Func<Referral, bool>>>()))
+            .ReturnsAsync((List<Referral>) _referrals);
+        var controller = new ReferralController(mockRepository.Object);
+        controller.GetUnlinkedReferrals();
+        // Act
+        var result = await controller.GetUnlinkedReferrals();
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult));
     }
 }

@@ -60,7 +60,10 @@ public class ReferralController : ControllerBase
     public async Task<ActionResult<IEnumerable<Referral>>> GetUnlinkedReferrals()
     {
         var referrals = await _repository.ExecuteStoredProcedureAsync<Referral>("GetUnlinkedReferrals");
-        
+        if (referrals == null)
+        {
+            return NotFound();
+        }
         var referralData = referrals.Select(r => new Referral{
             Id = r.Id,
             ParticipantName = r.ParticipantName,
