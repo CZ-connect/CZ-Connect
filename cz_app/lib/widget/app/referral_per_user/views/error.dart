@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ErrorScreen extends StatefulWidget {
   const ErrorScreen({super.key});
@@ -10,7 +8,6 @@ class ErrorScreen extends StatefulWidget {
 }
 
 class _ErrorScreenState extends State<ErrorScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -23,8 +20,8 @@ class _ErrorScreenState extends State<ErrorScreen> {
     return Scaffold(
         key: const Key('error_screen'),
         body: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Center(child: Text('Error: $message')),
-    ));
+          padding: const EdgeInsets.all(50.0),
+          child: Center(child: Text('Error: $message')),
+        ));
   }
 }

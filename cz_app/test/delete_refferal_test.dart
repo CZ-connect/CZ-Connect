@@ -1,6 +1,5 @@
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
-import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
@@ -18,15 +17,15 @@ GoRouter _router = GoRouter(
     GoRoute(
         path: '/referraldetail',
         builder: (context, state) {
-          EmployeeReferralViewModel? employeeReferral = state
-              .extra as EmployeeReferralViewModel?;
+          EmployeeReferralViewModel? employeeReferral =
+              state.extra as EmployeeReferralViewModel?;
           return Scaffold(
             body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
+              header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
-                  child: ReferralDetailWidget(
-                      employeeReferral: employeeReferral),
+                  child:
+                      ReferralDetailWidget(employeeReferral: employeeReferral),
                 ),
               ),
             ),

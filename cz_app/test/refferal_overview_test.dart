@@ -1,8 +1,7 @@
-import 'package:cz_app/main.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
-import 'package:cz_app/widget/app/referral_per_user/views/referralOverview.dart';
+import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -16,11 +15,10 @@ GoRouter _router = GoRouter(
     ),
     GoRoute(
         path: '/referralOverview',
-        builder: (context, state){
+        builder: (context, state) {
           List<Referral> referrals = state.extra as List<Referral>;
           return ReferralOverview(referrals: referrals);
-        }
-    ),
+        }),
     GoRoute(
       path: '/error',
       builder: (context, state) => const ErrorScreen(),
@@ -38,6 +36,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 void main() {
   setUpAll(() {
     nock.init();
@@ -53,7 +52,6 @@ void main() {
   MyApp myapp = const MyApp();
 
   group('Refferal Overview', () {
-
     testWidgets('Navigating to referral overview, displaying 2 referrals',
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/employee/referral/0")
@@ -67,7 +65,6 @@ void main() {
     });
 
     testWidgets('Navigating to referral overview, displaying 0 referrals',
-
         (WidgetTester tester) async {
       final interceptor = nock("http://localhost:3000/api").get("/employee/referral/0")
         ..reply(200, '[]');

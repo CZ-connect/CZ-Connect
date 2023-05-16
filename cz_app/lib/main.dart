@@ -26,7 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'widget/app/referral_per_user/views/referralOverview.dart';
+import 'widget/app/referral_per_user/views/referral_overview.dart';
 
 void main() => runApp(const MyApp());
 
@@ -253,12 +253,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     UserPreferences.init();
     return MaterialApp.router(
-        routerConfig: _router,
-        theme: ThemeData(
-            primarySwatch: Colors.red,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: GoogleFonts.poppinsTextTheme(
-              Theme.of(context).textTheme,
-            )));
+      routerConfig: _router,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+    );
   }
 }

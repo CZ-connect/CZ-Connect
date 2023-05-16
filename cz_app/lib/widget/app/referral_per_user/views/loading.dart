@@ -15,9 +15,12 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     ReferralService instance = ReferralService(userId: UserPreferences.getUserId());
     try {
       await instance.getData();
-      context.go(Uri(path: '/referralOverview').toString(), extra: instance.referrals);
+      // ignore: use_build_context_synchronously
+      context.go(Uri(path: '/referralOverview').toString(),
+          extra: instance.referrals);
     } catch (e) {
-      context.go(Uri(path: '/error').toString(), extra: {'message': 'Referrals konden niet worden opgehaald'});
+      context.go(Uri(path: '/error').toString(),
+          extra: {'message': 'Referrals konden niet worden opgehaald'});
     }
   }
 

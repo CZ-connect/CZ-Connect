@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ReferralDashboardContainerWidget extends StatelessWidget {
   final Widget child;
 
-  const ReferralDashboardContainerWidget({Key? key, required this.child});
+  const ReferralDashboardContainerWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

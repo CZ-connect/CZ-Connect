@@ -19,16 +19,16 @@ class RefferalLineChart extends StatelessWidget {
 
   get value => graph
       ?.reduce((prev, current) =>
-          prev.AmmountOfNewReferrals > current.AmmountOfNewReferrals
+          prev.ammountOfNewReferrals > current.ammountOfNewReferrals
               ? prev
               : current)
-      .AmmountOfNewReferrals;
+      .ammountOfNewReferrals;
 
   List<FlSpot> getSpotsOpen() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Month;
-      double y = obj.AmmountOfNewReferrals;
+      double x = obj.month;
+      double y = obj.ammountOfNewReferrals;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -37,8 +37,8 @@ class RefferalLineChart extends StatelessWidget {
   List<FlSpot> getSpotsClosed() {
     List<FlSpot> spotlist = [];
     for (var obj in graph!) {
-      double x = obj.Month;
-      double y = obj.AmmountOfApprovedReferrals;
+      double x = obj.month;
+      double y = obj.ammountOfApprovedReferrals;
       spotlist.add(FlSpot(x, y));
     }
     return spotlist;
@@ -48,11 +48,11 @@ class RefferalLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     createLines();
     return LineChart(
-      isShowingMainData ? StandardData : BackupData,
+      isShowingMainData ? standardData : backupData,
     );
   }
 
-  LineChartData get StandardData => LineChartData(
+  LineChartData get standardData => LineChartData(
         lineTouchData: lineTouchData1,
         gridData: gridData,
         titlesData: titlesData1,
@@ -65,7 +65,7 @@ class RefferalLineChart extends StatelessWidget {
       );
 
   //empty so that if backup is fetched, it will be empty
-  LineChartData get BackupData => LineChartData();
+  LineChartData get backupData => LineChartData();
 
   LineTouchData get lineTouchData1 => LineTouchData(
         handleBuiltInTouches: true,

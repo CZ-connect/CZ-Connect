@@ -71,15 +71,29 @@ internal class DbInit
         
         for(int i=0; i < amount; i++)
         {
-            Referral referral = new Referral
+            if(i < 6)
             {
-                ParticipantName = GetDutchName(),
-                ParticipantEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
-                Status = GetRandomStatus(),
-                RegistrationDate = GetRandomDate(),
-                EmployeeId = random.Next(1,30),
-            };
+                Referral referral = new Referral
+                {
+                    ParticipantName = GetDutchName(),
+                    ParticipantEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                    Status = GetRandomStatus(),
+                    RegistrationDate = GetRandomDate(),
+                    EmployeeId = null,
+                };
             referrals.Add(referral);
+            } else {
+                Referral referral = new Referral
+                {
+                    ParticipantName = GetDutchName(),
+                    ParticipantEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                    Status = GetRandomStatus(),
+                    RegistrationDate = GetRandomDate(),
+                    EmployeeId = random.Next(1,30),
+                };
+            referrals.Add(referral);
+            }
+
         }
 
         return referrals;

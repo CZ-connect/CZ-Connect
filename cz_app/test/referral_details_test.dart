@@ -1,6 +1,5 @@
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
-import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
@@ -17,13 +16,15 @@ GoRouter _router = GoRouter(
     GoRoute(
         path: '/referraldetail',
         builder: (context, state) {
-          EmployeeReferralViewModel? employeeReferral = state.extra as EmployeeReferralViewModel?;
+          EmployeeReferralViewModel? employeeReferral =
+              state.extra as EmployeeReferralViewModel?;
           return Scaffold(
             body: ReferralDashboardTemplate(
               header: const ReferralDashboardTopWidget(),
               body: ReferralDashboardBottomWidget(
                 child: ReferralDashboardContainerWidget(
-                  child: ReferralDetailWidget(employeeReferral: employeeReferral),
+                  child:
+                      ReferralDetailWidget(employeeReferral: employeeReferral),
                 ),
               ),
             ),
@@ -52,8 +53,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool? hitTestWarningShouldBeFatal;
-    hitTestWarningShouldBeFatal = true;
     return MaterialApp.router(
       routerConfig: _router,
     );

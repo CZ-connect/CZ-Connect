@@ -1,5 +1,6 @@
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
+import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode;
 
@@ -38,6 +39,20 @@ class RecruitmentData {
       return employeeObjs;
     } else {
       throw Exception('Failed to load employees');
+    }
+  }
+
+  Future<List<Referral>> fetchUnlinkedReferrals() async {
+    final response = await http
+        .get(Uri.parse('http://localhost:3000/api/referral/unlinked'));
+    if (response.statusCode == 200) {
+      var unlinkedReferrals =
+          jsonDecode(response.body)['referral_data'] as List;
+      List<Referral> referrals =
+          unlinkedReferrals.map((r) => Referral.fromJson(r)).toList();
+      return referrals;
+    } else {
+      throw Exception('Failed to load unlinked referrals');
     }
   }
 }
