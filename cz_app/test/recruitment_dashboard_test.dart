@@ -48,9 +48,11 @@ void main() {
   const employeeMock =
       '[{"employee":{"id":1,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
   const unlinkedReferralsMock =
-      '{"referral_data":[{"id":1001,"participantName":"test","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:41.896","employeeId":null,"employee":null},{"id":1002,"participantName":"test2","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:46.483","employeeId":null,"employee":null}]}';
+      '{"referral_data":[{"id":1001,"participantName":"Bob de Vries","status":"Pending","participantEmail":"bobdevries@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:41.896","employeeId":null,"employee":null},{"id":1002,"participantName":"test2","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:46.483","employeeId":null,"employee":null}]}';
   group('Recruitment Dashboard', () {
     testWidgets('test the dashboard row widget', (WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
+      tester.binding.window.devicePixelRatioTestValue = 1.0;
       // Set up the mocks
       final departmentInterceptor = nock.get("/department")
         ..reply(200, departmentsMock);
@@ -70,8 +72,8 @@ void main() {
       // Verify that the widget displays the correct data
       expect(find.text('Sales'), findsOneWidget);
       expect(find.text('Finance'), findsOneWidget);
-      expect(find.text('Daan de Vries'), findsOneWidget);
-      expect(find.text('DaandeVries@example.com'), findsOneWidget);
+      expect(find.text('Bob de Vries'), findsOneWidget);
+      expect(find.text('bobdevries@example.com'), findsOneWidget);
     });
   });
 }

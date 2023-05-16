@@ -37,34 +37,37 @@ class _DashboardRow extends State<DashboardRow> {
   );
 
   List<DataRow> buildRows(List<Referral> referrals) {
-    return List.generate(referrals.length, (index) {
-      final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
-      return DataRow(
-        color: MaterialStateProperty.all<Color>(color!),
-        cells: <DataCell>[
-          DataCell(referralRowPhoto),
-          DataCell(Text(referrals[index].status)),
-          DataCell(
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                child: Text(
-                  referrals[index].participantName,
-                  style: const TextStyle(color: Colors.blueAccent),
+    return List.generate(
+      referrals.length,
+      (index) {
+        final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
+        return DataRow(
+          color: MaterialStateProperty.all<Color>(color!),
+          cells: <DataCell>[
+            DataCell(referralRowPhoto),
+            DataCell(Text(referrals[index].status)),
+            DataCell(
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  child: Text(
+                    referrals[index].participantName,
+                    style: const TextStyle(color: Colors.blueAccent),
+                  ),
+                  onTap: () {
+                    context.go("/referraldetail",
+                        extra: EmployeeReferralViewModel(
+                            widget.employee, referrals[index]));
+                  },
                 ),
-                onTap: () {
-                  context.go("/referraldetail",
-                      extra: EmployeeReferralViewModel(
-                          widget.employee, referrals[index]));
-                },
               ),
             ),
-          ),
-          DataCell(Text(referrals[index].participantEmail ?? "-")),
-          DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
-        ],
-      );
-    });
+            DataCell(Text(referrals[index].participantEmail ?? "-")),
+            DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
+          ],
+        );
+      },
+    );
   }
 
   @override
