@@ -1,10 +1,11 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
   const ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = "localhost:5555/#/?referral=1";
+  final String link = "localhost:5555/#/?referral=";
 
   @override
   Widget build(BuildContext context) {
@@ -14,28 +15,25 @@ class ReferralLinkShareDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text(
-              'Gebruik de onderstaande referentielink om nieuwe gebruikers aan te brengen'),
+          const Text('Gebruik de onderstaande referentielink om nieuwe gebruikers aan te brengen'),
           const SizedBox(height: 8),
-          Center(child: SelectableText(link)),
+          Center(child:SelectableText(link + UserPreferences.getUserId().toString())),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
             child: const Text("Kopiëer de link"),
-            onPressed: () async {
-              //todo get user ID
-              await Clipboard.setData(ClipboardData(text: link));
-              // ignore: use_build_context_synchronously
+            onPressed:  () async {
+              await Clipboard.setData(ClipboardData(text: link + UserPreferences.getUserId().toString()));
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Link gekopieerd!"),
                   duration: Duration(seconds: 1),
                 ),
               );
-              // ignore: use_build_context_synchronously
               context.pop();
-            }),
+            }
+        ),
       ],
     );
   }
