@@ -62,7 +62,6 @@ class NavigationMenu extends StatelessWidget {
               context.go('/recruitmentdashboard');
             },
           ),
-          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
           ListTile(
             title: const Text('Application Form'),
             key: const Key('application_form_menu_item'),
