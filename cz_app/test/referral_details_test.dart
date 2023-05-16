@@ -70,23 +70,23 @@ void main() {
     nock.cleanAll();
   });
   const expectedJsonResponse =
-      '{"referrals":[{"id":1,"participantName":"Vera Meijer","status":"pending","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":2,"employee":null}],"completed":1,"pending":0}';
+      '{"referrals":[{"id":1,"participantName":"Vera Meijer","status":"pending","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":0,"employee":null}],"completed":1,"pending":0}';
 
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
         (WidgetTester tester) async {
-      final interceptor = nock.get("/referral/employee/2")
+      final interceptor = nock.get("/referral/employee/0")
         ..reply(
           200,
           expectedJsonResponse,
         );
 
-      nock.get("/referral/employee/2").reply(
+      nock.get("/referral/employee/0").reply(
             200,
             expectedJsonResponse,
           );
 
-      nock.get("/referral/employee/2").reply(
+      nock.get("/referral/employee/0").reply(
             200,
             expectedJsonResponse,
           );

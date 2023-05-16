@@ -42,11 +42,11 @@ void main() {
   });
   // Mock response for /api/departments API call
   const departmentsMock =
-      '[{"id":1,"departmentName":"Sales"},{"id":2,"departmentName":"Finance"},{"id":3,"departmentName":"Human Resources"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recruitment"}]';
+      '[{"id":0,"departmentName":"Sales"},{"id":2,"departmentName":"Finance"},{"id":3,"departmentName":"Human Resources"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recruitment"}]';
 
   // Mock response for /api/employees API call for department 1
   const employeeMock =
-      '[{"employee":{"id":1,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
+      '[{"employee":{"id":0,"employeeName":"Daan de Vries","employeeEmail":"DaandeVries@example.com","departmentId":1,"department":null,"role":"Admin"},"referralCount":6}]';
   group('Recruitment Dashboard', () {
     testWidgets('test the dashboard row widget', (WidgetTester tester) async {
       // Set up the mocks
