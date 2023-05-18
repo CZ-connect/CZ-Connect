@@ -46,7 +46,7 @@ class _DashboardRow extends State<DashboardRow> {
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
           cells: <DataCell>[
-            DataCell(referralRowPhoto),
+
             DataCell(Text(referrals[index].status)),
             DataCell(
               MouseRegion(
@@ -89,9 +89,6 @@ class _DashboardRow extends State<DashboardRow> {
                       MaterialStateColor.resolveWith((states) => Colors.grey),
                   // ignore: prefer_const_literals_to_create_immutables
                   columns: <DataColumn>[
-                    const DataColumn(
-                      label: Expanded(child: Text("")),
-                    ),
                     const DataColumn(
                       label: Expanded(child: Text("Status")),
                     ),
