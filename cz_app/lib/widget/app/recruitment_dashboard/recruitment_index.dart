@@ -155,7 +155,6 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: DataTable(
-          dataRowHeight: 75,
           columns: buildDepartmentColumns(),
           rows: buildDepartmentRows(employees),
         ),
@@ -221,11 +220,10 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   Widget buildUnlinkedTable(List<Referral> referrals) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: DataTable(
-          dataRowHeight: 75,
           columns: buildUnlinkedColumns(),
           rows: buildUnlinkedRows(referrals),
         ),
@@ -236,10 +234,8 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
   List<DataColumn> buildUnlinkedColumns() {
     return <DataColumn>[
       const DataColumn(label: Text("Naam")),
-      const DataColumn(label: Text("Email")),
-      const DataColumn(label: Text("Telefoonnummer")),
-      const DataColumn(label: Text("LinkedIn")),
       const DataColumn(label: Text("Status")),
+      const DataColumn(label: Text("Linkedin")),
       const DataColumn(label: Text("Gesolliciteerd op"))
     ];
   }
@@ -269,8 +265,6 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                 ),
               ),
             ),
-            DataCell(Text(referrals[index].participantEmail ?? "-")),
-            DataCell(Text(referrals[index].participantPhoneNumber ?? "-")),
             DataCell(
               Text(referrals[index].linkedin ?? "-"),
               onTap: () {

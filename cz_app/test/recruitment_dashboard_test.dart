@@ -73,7 +73,6 @@ void main() {
       expect(find.text('Sales'), findsOneWidget);
       expect(find.text('Finance'), findsOneWidget);
       expect(find.text('Bob de Vries'), findsOneWidget);
-      expect(find.text('bobdevries@example.com'), findsOneWidget);
     });
   });
 }
