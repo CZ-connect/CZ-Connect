@@ -77,7 +77,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                             ClipboardData(text: referral.linkedin ?? ""));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text("Link copied to clipboard")),
+                              content: Text("De link is gekopieerd")),
                         );
                       },
                     ),
