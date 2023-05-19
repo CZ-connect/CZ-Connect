@@ -86,7 +86,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text("Status:")),
-                    DataCell(Text(referral.status))
+                    DataCell(Text(referral.translateStatus())),
                   ],
                 ),
                 DataRow(
@@ -184,7 +184,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Referral afkeuren'),
+                              content: Text('Aandracht afkeuren'),
                             ),
                           );
                         },
@@ -204,7 +204,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Referral goedkeuren'),
+                              content: Text('Aandracht goedkeuren'),
                             ),
                           );
                         },

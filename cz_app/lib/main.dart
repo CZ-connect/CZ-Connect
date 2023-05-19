@@ -35,7 +35,7 @@ void main() => runApp(const MyApp());
 final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/login',
-      builder: (BuildContext context, GoRouterState state){
+      builder: (BuildContext context, GoRouterState state) {
         return Scaffold(
           body: Container(
             decoration: const BoxDecoration(
@@ -54,9 +54,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
               ),
             ),
           ),
-        );}
-  ),
-
+        );
+      }),
   GoRoute(
       path: '/logout',
       builder: (BuildContext context, GoRouterState state) {
@@ -65,13 +64,13 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           context.go('/');
         });
         return const Scaffold(); // Placeholder widget
-      }
-  ),
+      }),
   GoRoute(
     path: '/recruitmentdashboard',
     builder: (BuildContext context, GoRouterState state) {
       String role = UserPreferences.getUserRole();
-      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
+      if (UserPreferences.isLoggedIn() &&
+          (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
         return const Scaffold(
           body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),
@@ -93,8 +92,9 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/referraldashboard',
     builder: (BuildContext context, GoRouterState state) {
-    String role = UserPreferences.getUserRole();
-    if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
+      String role = UserPreferences.getUserRole();
+      if (UserPreferences.isLoggedIn() &&
+          (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
         Employee? employee = state.extra as Employee?;
         return Scaffold(
           body: ReferralDashboardTemplate(
@@ -127,12 +127,11 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
           }
           return Scaffold(
               body: ReferralOverviewTemplate(
-                header: const ReferralOverviewTopWidget(),
-                body: ReferralOverviewContainerWidget(
-                    child: ReferralOverview(referrals: referrals!)),
-              ));
-        }
-        else {
+            header: const ReferralOverviewTopWidget(),
+            body: ReferralOverviewContainerWidget(
+                child: ReferralOverview(referrals: referrals!)),
+          ));
+        } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.go('/');
           });
@@ -142,33 +141,34 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
   GoRoute(
       path: '/referraldetail',
       builder: (context, state) {
-      String role = UserPreferences.getUserRole();
-      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
-        EmployeeReferralViewModel? myExtra = state.extra as EmployeeReferralViewModel?;
-        if (myExtra?.referral == null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.go('/referraldashboard');
-          });
-          return const Scaffold();
-        }
-      return Scaffold(
-          body: ReferralDashboardTemplate(
-            header: const ReferralDashboardTopWidget(),
-            body: ReferralDashboardBottomWidget(
-              child: ReferralDashboardContainerWidget(
-                child: ReferralDetailWidget(employeeReferral: myExtra),
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          EmployeeReferralViewModel? myExtra =
+              state.extra as EmployeeReferralViewModel?;
+          if (myExtra?.referral == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.go('/referraldashboard');
+            });
+            return const Scaffold();
+          }
+          return Scaffold(
+            body: ReferralDashboardTemplate(
+              header: const ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
+                  child: ReferralDetailWidget(employeeReferral: myExtra),
+                ),
               ),
             ),
-          ),
-        );
-      }
-    else {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go('/');
-      });
-      return const Scaffold(); // Placeholder widget
-    }
-  }),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold(); // Placeholder widget
+        }
+      }),
   GoRoute(
     path: '/loading',
     builder: (BuildContext context, GoRouterState state) {
@@ -199,7 +199,8 @@ final GoRouter _router = GoRouter(routes: <RouteBase>[
     path: '/graph',
     builder: (context, state) {
       String role = UserPreferences.getUserRole();
-      if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name) ) {
+      if (UserPreferences.isLoggedIn() &&
+          (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
         return const Scaffold(
           body: ReferralDashboardTemplate(
             header: ReferralDashboardTopWidget(),

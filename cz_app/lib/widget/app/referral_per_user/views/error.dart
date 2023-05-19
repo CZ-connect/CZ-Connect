@@ -15,7 +15,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String message = 'Iets ging verkeerd';
+    String message = 'Aandrachten ophalen vanuit de backend is mislukt.';
 
     return Scaffold(
         key: const Key('error_screen'),

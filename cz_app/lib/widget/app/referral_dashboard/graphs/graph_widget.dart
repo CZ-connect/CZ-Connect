@@ -336,7 +336,7 @@ class LineReferalState extends State<LineChartSample> {
                   } else if (snapshot.hasError) {
                     debugPrint("${snapshot.error}");
                     return const Text(
-                        "there has been a error while loading the data");
+                        "Er is iets fout gegaan met het inladen van de data.");
                   } else {
                     return const Expanded(
                       child: Center(

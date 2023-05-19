@@ -20,17 +20,17 @@ class _ReferralStatus extends State<ReferralStatus> {
   void setupReference() async {
     try {
       if (widget.employee == null) {
-        completedCounter = ReferralData()
-            .completedCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
-        pendingCounter = ReferralData()
-            .pendingCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
+        completedCounter = ReferralData().completedCounter(
+            UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
+        pendingCounter = ReferralData().pendingCounter(
+            UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
       } else {
         completedCounter = ReferralData().completedCounter(widget.employee!.id);
         pendingCounter = ReferralData().pendingCounter(widget.employee!.id);
       }
     } catch (e) {
       context.go(Uri(path: '/error').toString(),
-          extra: {'message': 'Referrals failed.'});
+          extra: {'message': 'Aandrachten inladen mislukt.'});
     }
   }
 

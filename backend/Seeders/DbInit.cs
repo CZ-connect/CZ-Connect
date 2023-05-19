@@ -31,7 +31,7 @@ internal class DbInit
        
             if(!dbContext.Referrals.Any()) 
             {
-                List<Referral> referrals = GenerateRandomReferrals(1000);
+                List<Referral> referrals = GenerateRandomReferrals(500);
                 foreach(var r in referrals)
                     dbContext.Referrals.Add(r);
             }

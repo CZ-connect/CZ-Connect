@@ -13,7 +13,8 @@ class Referral {
       required this.status,
       required this.participantName,
       this.participantEmail,
-      this.participantPhoneNumber, required this.linkedin,
+      this.participantPhoneNumber,
+      required this.linkedin,
       required this.employeeId,
       required this.registrationDate});
 
@@ -26,7 +27,18 @@ class Referral {
       status: json['status'],
       employeeId: json['employeeId'],
       registrationDate: DateTime.parse(json['registrationDate']),
-      linkedin: json['linkedin']??  "-",
+      linkedin: json['linkedin'] ?? "-",
     );
+  }
+
+  translateStatus() {
+    switch (status) {
+      case "Approved":
+        return "Geaccepteerd";
+      case "Denied":
+        return "Afgekeurd";
+      case "Pending":
+        return "In Afwachting";
+    }
   }
 }

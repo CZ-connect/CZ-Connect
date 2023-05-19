@@ -38,7 +38,7 @@ class ReferralOverviewTopWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Referral Overview',
+                  'Aandrachten overzicht',
                   style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,

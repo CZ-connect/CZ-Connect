@@ -46,8 +46,6 @@ class _DashboardRow extends State<DashboardRow> {
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
           cells: <DataCell>[
-
-            DataCell(Text(referrals[index].status)),
             DataCell(
               MouseRegion(
                 cursor: SystemMouseCursors.click,
@@ -64,6 +62,7 @@ class _DashboardRow extends State<DashboardRow> {
                 ),
               ),
             ),
+            DataCell(Text(referrals[index].translateStatus())),
           ],
         );
       },
@@ -90,10 +89,10 @@ class _DashboardRow extends State<DashboardRow> {
                   // ignore: prefer_const_literals_to_create_immutables
                   columns: <DataColumn>[
                     const DataColumn(
-                      label: Expanded(child: Text("Status")),
+                      label: Expanded(child: Text("Naam sollicitant")),
                     ),
                     const DataColumn(
-                      label: Expanded(child: Text("Naam sollicitant")),
+                      label: Expanded(child: Text("Status")),
                     ),
                   ],
                   rows: buildRows(referrals),
@@ -101,7 +100,7 @@ class _DashboardRow extends State<DashboardRow> {
               ),
             );
           } else {
-            return const Text("No data found.");
+            return const Text("Geen aandrachten gevonden.");
           }
         } else {
           return const CircularProgressIndicator();

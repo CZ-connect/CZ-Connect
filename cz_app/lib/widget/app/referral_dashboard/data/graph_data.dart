@@ -10,6 +10,6 @@ Future<List<Graph>> fetchGraphData() async {
     List<Graph> graph = graphJson.map((e) => Graph.fromJson(e)).toList();
     return graph;
   } else {
-    throw Exception('Failed to load graph data');
+    throw Exception('Grafiek data ophalen vanuit de backend is mislukt.');
   }
 }
