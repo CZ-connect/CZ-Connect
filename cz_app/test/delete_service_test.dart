@@ -81,14 +81,14 @@ void main() {
           200,
           expectedJsonResponse,
         );
-        nock.get("/referral/employee/0").reply(
+      nock.get("/referral/employee/0").reply(
             200,
             expectedJsonResponse,
-        );
-        nock.get("/referral/employee/0").reply(
-          200,
-          expectedJsonResponse,
-        );
+          );
+      nock.get("/referral/employee/0").reply(
+            200,
+            expectedJsonResponse,
+          );
       nock.delete("/referral/15").reply(400, {});
 
       await tester.pumpWidget(const MyApp());
@@ -108,8 +108,8 @@ void main() {
           find.byKey(const Key('delete_referral_key'), skipOffstage: false));
       await deleteReferral(context, 15);
       await tester.pumpAndSettle();
-      expect(find.text('Server Error: 500'), findsNothing);
-      expect(find.text('Client Error: 400'), findsNothing);
+      expect(find.text('Applicatie Error: 500'), findsNothing);
+      expect(find.text('Applicatie Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
   });

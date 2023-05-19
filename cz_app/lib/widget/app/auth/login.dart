@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
-
 class LoginWidget extends StatelessWidget {
   GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
   LoginForm modelForm = LoginForm(null, null);
@@ -46,8 +45,7 @@ class LoginWidget extends StatelessWidget {
                     hintText: 'Wachtwoord',
                   ),
                   validator: (String? value) {
-                    if (value == null ||
-                        value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Het wachtwoordveld is een verplicht veld';
                     }
                     return null;
@@ -56,7 +54,7 @@ class LoginWidget extends StatelessWidget {
                     modelForm.password = value;
                   },
                 ),
-               const Padding(padding: EdgeInsets.all(8.0)),
+                const Padding(padding: EdgeInsets.all(8.0)),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKeyLogin.currentState!.validate()) {
@@ -87,9 +85,8 @@ class LoginWidget extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${response.body}')),
         );
-        throw Exception('Client error: ${response.statusCode}');
-      }
-      else if (response.statusCode == 200) {
+        throw Exception('Applicatie error: ${response.statusCode}');
+      } else if (response.statusCode == 200) {
         await UserPreferences.setUserFromToken(response.body);
         if (!UserPreferences.isLoggedIn()) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -98,12 +95,11 @@ class LoginWidget extends StatelessWidget {
         } else {
           context.go('/');
         }
-      }
-      else if (response.statusCode >= 500 && response.statusCode <= 599) {
+      } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
+          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
         );
-        throw Exception('Server error: ${response.statusCode}');
+        throw Exception('Applicatie error: ${response.statusCode}');
       }
       // return response.body;
     } catch (exception) {}

@@ -151,7 +151,8 @@ void main() {
           status: "Pending",
           participantName: "Jesse Smit",
           employeeId: 0,
-          registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
+          registrationDate: DateTime.parse("2023-03-22T00:00:00"),
+          linkedin: '');
       final interceptor = nock.get("/referral/employee/0")
         ..reply(
           200,
@@ -182,8 +183,8 @@ void main() {
           .element(find.byKey(const Key('reject_key'), skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
-      expect(find.text('Server Error: 500'), findsNothing);
-      expect(find.text('Client Error: 400'), findsNothing);
+      expect(find.text('Applicatie Error: 500'), findsNothing);
+      expect(find.text('Applicatie Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
 
@@ -227,8 +228,8 @@ void main() {
           .element(find.byKey(const Key('reject_key'), skipOffstage: false));
       await rejectRefferal(context, ref);
       await tester.pumpAndSettle();
-      expect(find.text('Server Error: 500'), findsNothing);
-      expect(find.text('Client Error: 400'), findsNothing);
+      expect(find.text('Applicatie Error: 500'), findsNothing);
+      expect(find.text('Applicatie Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
   });
@@ -240,7 +241,8 @@ void main() {
         status: "Pending",
         participantName: "Jesse Smit",
         employeeId: 0,
-        registrationDate: DateTime.parse("2023-03-22T00:00:00"), linkedin: '');
+        registrationDate: DateTime.parse("2023-03-22T00:00:00"),
+        linkedin: '');
     final interceptor = nock.get("/referral/employee/0")
       ..reply(
         200,
@@ -271,8 +273,8 @@ void main() {
         .element(find.byKey(const Key('approved_key'), skipOffstage: false));
     await acceptReffal(context, ref);
     await tester.pumpAndSettle();
-    expect(find.text('Server Error: 500'), findsNothing);
-    expect(find.text('Client Error: 400'), findsNothing);
+    expect(find.text('Applicatie Error: 500'), findsNothing);
+    expect(find.text('Applicatie Error: 400'), findsNothing);
     expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
   });
 
@@ -315,8 +317,8 @@ void main() {
         .element(find.byKey(const Key('approved_key'), skipOffstage: false));
     await acceptReffal(context, ref);
     await tester.pumpAndSettle();
-    expect(find.text('Server Error: 500'), findsNothing);
-    expect(find.text('Client Error: 400'), findsNothing);
+    expect(find.text('Applicatie Error: 500'), findsNothing);
+    expect(find.text('Applicatie Error: 400'), findsNothing);
     expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
   });
 }
