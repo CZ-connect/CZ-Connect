@@ -1,13 +1,10 @@
 name: cz-backend-deployment
-"on":
-    pull_request:
-        branches:
-            -main
-            -development
-    push:
-        branches:
-            - main
-    workflow_dispatch: {}
+on:
+  push:
+    branches: [ "main", "development" ]
+  pull_request:
+    branches: [ "main", "development" ]
+
 env:
     ACR_RESOURCE_GROUP: cz-app
     AZURE_CONTAINER_REGISTRY: acrworkflow1684760245334
