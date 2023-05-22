@@ -12,7 +12,8 @@ class LoadingWidget extends StatefulWidget {
 
 class _LoadingWidgetState extends State<LoadingWidget> {
   void setupReference() async {
-    ReferralService instance = ReferralService(userId: UserPreferences.getUserId());
+    ReferralService instance =
+        ReferralService(userId: UserPreferences.getUserId());
     try {
       await instance.getData();
       // ignore: use_build_context_synchronously
@@ -20,7 +21,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
           extra: instance.referrals);
     } catch (e) {
       context.go(Uri(path: '/error').toString(),
-          extra: {'message': 'Referrals konden niet worden opgehaald'});
+          extra: {'message': 'Aandrachten konden niet worden opgehaald.'});
     }
   }
 

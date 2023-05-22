@@ -85,7 +85,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No departments found.');
+          return const Text('Er zijn geen afdelingen gevonden.');
         } else {
           List<Department> departments = snapshot.data as List<Department>;
           return SizedBox(
@@ -140,7 +140,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No employees found.');
+          return const Text('Er zijn geen medewerkers gevonden.');
         } else {
           List<Employee> employees = snapshot.data as List<Employee>;
           return buildDepartmentTable(employees);
@@ -166,7 +166,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
     return <DataColumn>[
       const DataColumn(label: Text("Medewerker")),
       const DataColumn(label: Text("Email")),
-      const DataColumn(label: Text("Referrals"))
+      const DataColumn(label: Text("Aantal aandrachten"))
     ];
   }
 
@@ -193,7 +193,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
               ),
             ),
             DataCell(Text(employees[index].email)),
-            DataCell(Text("Referrals: ${employees[index].referralCount}")),
+            DataCell(Text("Aandrachten: ${employees[index].referralCount}")),
           ],
         );
       },
@@ -265,17 +265,18 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                 ),
               ),
             ),
+            DataCell(Text(referrals[index].translateStatus())),
             DataCell(
               Text(referrals[index].linkedin ?? "-"),
               onTap: () {
                 Clipboard.setData(
                     ClipboardData(text: referrals[index].linkedin ?? ""));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Link copied to clipboard")),
+                  const SnackBar(
+                      content: Text("De link is gekopieerd naar je klipbord.")),
                 );
               },
             ),
-            DataCell(Text(referrals[index].status)),
             DataCell(Text(DateFormat('d, MMM, yyyy')
                 .format(referrals[index].registrationDate))),
           ],

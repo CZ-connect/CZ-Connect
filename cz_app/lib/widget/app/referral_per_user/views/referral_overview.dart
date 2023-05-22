@@ -40,14 +40,14 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          'Referral voor ${referral.participantName}',
+                                          'Aangedragen kandidaat: ${referral.participantName}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Flexible(
                                         child: Text(
-                                          referral.status,
+                                          referral.translateStatus(),
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -90,14 +90,13 @@ class _ReferralOverviewState extends State<ReferralOverview> {
       return Scaffold(
           appBar: null,
           key: const Key('referral_overview'),
-        body: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-          child:Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Center(child: Text('Geen gegevens gevonden')),
-            )),
-
+          body: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: const Padding(
+                padding: EdgeInsets.all(50.0),
+                child: Center(child: Text('Geen gegevens gevonden')),
+              )),
           floatingActionButton: const ReferralLinkShareButton());
     }
   }

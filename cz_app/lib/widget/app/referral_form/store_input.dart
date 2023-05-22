@@ -5,8 +5,6 @@ import 'package:email_validator/email_validator.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
 
-
-
 // ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -32,7 +30,7 @@ class FormWidget extends StatelessWidget {
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'De naam is een verplicht veld';
+                      return 'De naam is een verplicht veld.';
                     }
                     return null;
                   },
@@ -49,7 +47,7 @@ class FormWidget extends StatelessWidget {
                       return 'Voer een geldig emailadres in';
                     } else if (modelForm.phoneNumber!.isEmpty &&
                         value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
+                      return 'Het emailadress of het telefoonnummer is een verplicht veld.';
                     }
                     emailNumberFlag = true;
                     return null;
@@ -66,9 +64,9 @@ class FormWidget extends StatelessWidget {
                     RegExp regex = RegExp(
                         r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Voer een geldig telefoonnummer in';
+                      return 'Voer een geldig telefoonnummer in.';
                     } else if (modelForm.email!.isEmpty && value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
+                      return 'Het emailadress of het telefoonnummer is een verplicht veld.';
                     }
                     return null;
                   },
@@ -78,13 +76,13 @@ class FormWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Website/Linkedin: linkedin.com/in/naam',
+                    hintText: 'Website/Linkedin',
                   ),
                   validator: (String? value) {
                     RegExp regex = RegExp(
                         r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Dat is geen valide url';
+                      return 'Dat is geen valide url.';
                     }
                     return null;
                   },
@@ -135,15 +133,15 @@ class FormWidget extends StatelessWidget {
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Client error: ${response.statusCode}')),
+          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
         );
-        throw Exception('Client error: ${response.statusCode}');
+        throw Exception('Applicatie error: ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
+          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
         );
-        throw Exception('Server error: ${response.statusCode}');
+        throw Exception('Applicatie error: ${response.statusCode}');
       }
       // return response.body;
     } catch (exception) {

@@ -61,15 +61,12 @@ void main() {
   testWidgets('Form submission should work', (WidgetTester tester) async {
     nock.post("/employee/login", login).reply(200, {});
     // // Verify the mock http client was called
-    expect(find.text('Server Error: 500'), findsNothing);
-    expect(find.text('Client Error: 400'), findsNothing);
+    expect(find.text('Applicatie Error: 500'), findsNothing);
+    expect(find.text('Applicatie Error: 400'), findsNothing);
     expect(find.text('Error: iets ging verkeerd'), findsNothing);
 
     var recordedRequest = nock.activeMocks.first;
     expect(recordedRequest, isNotNull);
     expect(recordedRequest.statusCode, 200);
-
   });
-
-
 }

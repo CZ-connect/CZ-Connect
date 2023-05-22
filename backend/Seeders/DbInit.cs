@@ -12,12 +12,12 @@ internal class DbInit
             {
                 var departments = new Department[]
                 {
-                    new() {DepartmentName = "Sales"},
-                    new() {DepartmentName = "Finance"},
-                    new() {DepartmentName = "Human Resources"},
+                    new() {DepartmentName = "Klantenservice"},
+                    new() {DepartmentName = "Financiën"},
+                    new() {DepartmentName = "Personeelszaken"},
                     new() {DepartmentName = "Marketing"},
                     new() {DepartmentName = "ICT"},
-                    new() {DepartmentName = "Recruitment"},
+                    new() {DepartmentName = "Recrutering"},
                 };
                 foreach(var d in departments)
                     dbContext.Departments.Add(d);
@@ -31,7 +31,7 @@ internal class DbInit
        
             if(!dbContext.Referrals.Any()) 
             {
-                List<Referral> referrals = GenerateRandomReferrals(1000);
+                List<Referral> referrals = GenerateRandomReferrals(500);
                 foreach(var r in referrals)
                     dbContext.Referrals.Add(r);
             }

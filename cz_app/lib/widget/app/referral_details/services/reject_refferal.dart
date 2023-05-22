@@ -40,15 +40,15 @@ Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
     if (response.statusCode >= 400 && response.statusCode <= 499) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Client error: ${response.statusCode}')),
+        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
       );
-      throw Exception('Client error: ${response.statusCode}');
+      throw Exception('Applicatie error: ${response.statusCode}');
     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Server error: ${response.statusCode}')),
+        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
       );
-      throw Exception('Server error: ${response.statusCode}');
+      throw Exception('Applicatie error: ${response.statusCode}');
     }
   } catch (exception) {
     ScaffoldMessenger.of(context).showSnackBar(

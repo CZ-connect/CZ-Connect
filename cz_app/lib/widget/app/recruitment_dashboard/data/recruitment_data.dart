@@ -17,7 +17,7 @@ class RecruitmentData {
 
       return departmentObjs;
     } else {
-      throw Exception('Failed to load departments');
+      throw Exception('Afdelingen ophalen vanuit de backend is mislukt.');
     }
   }
 
@@ -38,7 +38,7 @@ class RecruitmentData {
           .toList();
       return employeeObjs;
     } else {
-      throw Exception('Failed to load employees');
+      throw Exception('Medewerkers ophalen vanuit de backend is mislukt.');
     }
   }
 
@@ -52,7 +52,8 @@ class RecruitmentData {
           unlinkedReferrals.map((r) => Referral.fromJson(r)).toList();
       return referrals;
     } else {
-      throw Exception('Failed to load unlinked referrals');
+      throw Exception(
+          'Open sollicitaties ophalen vanuit de backend is mislukt.');
     }
   }
 }

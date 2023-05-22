@@ -54,37 +54,39 @@ class NavigationMenu extends StatelessWidget {
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
-          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('Recruitment Dashboard'),
+              key: const Key('recruitment_dashboard_menu_item'),
+              onTap: () {
+                context.go('/recruitmentdashboard');
+              },
+            ),
           ListTile(
-            title: const Text('Recruitment Dashboard'),
-            key: const Key('recruitment_dashboard_menu_item'),
-            onTap: () {
-              context.go('/recruitmentdashboard');
-            },
-          ),
-          ListTile(
-            title: const Text('Application Form'),
+            title: const Text('Sollicitatie formulier'),
             key: const Key('application_form_menu_item'),
             onTap: () {
               context.go('/');
             },
           ),
-          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
-          ListTile(
-            title: const Text('Graph Referals'),
-            key: const Key('Graph_refferals_menu_item'),
-            onTap: () {
-              context.go('/graph');
-            },
-          ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('Grafieken'),
+              key: const Key('Graph_refferals_menu_item'),
+              onTap: () {
+                context.go('/graph');
+              },
+            ),
           if (UserPreferences.isLoggedIn())
             ListTile(
-            title: const Text('Referral Overzicht'),
-            key: const Key('referral_overview_menu_item'),
-            onTap: () {
-              context.go('/loading');
-            },
-          ),
+              title: const Text('Aandrachten Overzicht'),
+              key: const Key('referral_overview_menu_item'),
+              onTap: () {
+                context.go('/loading');
+              },
+            ),
         ],
       ),
     );

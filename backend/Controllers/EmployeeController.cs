@@ -26,7 +26,7 @@ namespace CZConnect.Controllers
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
-                return BadRequest("Invalid role value");
+                return BadRequest("Ongeldige rol toegevoegd.");
             }
 
             Employee employee = new Employee
