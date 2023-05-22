@@ -1,5 +1,9 @@
 name: cz-backend-deployment
 "on":
+    pull_request:
+        branches:
+            -main
+            -development
     push:
         branches:
             - main
