@@ -69,11 +69,13 @@ void main() {
     nock.cleanAll();
   });
   const expectedJsonResponse =
-      '{"referrals":[{"id":1,"participantName":"Vera Meijer","status":"pending","participantEmail":"VeraMeijer@example.com","participantPhoneNumber":null,"registrationDate":"2022-08-31T00:00:00","employeeId":0,"employee":null}],"completed":1,"pending":0}';
+      '{"referrals":[{"id":52,"participantName":"Lynn van der Poel","status":"Pending","participantEmail":"EvivanVeen@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-04-02T00:00:00","employeeId":1,"employee":null}],"completed":1,"pending":0}';
 
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
         (WidgetTester tester) async {
+      tester.binding.window.physicalSizeTestValue = const Size(1920, 1080);
+      tester.binding.window.devicePixelRatioTestValue = 1.0;
       final interceptor = nock.get("/referral/employee/0")
         ..reply(
           200,
@@ -97,8 +99,8 @@ void main() {
       //Expect the data is loaded
       expect(interceptor.isDone, true);
       //Find text within table and click it
-      expect(find.text("Vera Meijer"), findsOneWidget);
-      await tester.tap(find.text("Vera Meijer"), warnIfMissed: true);
+      expect(find.text("Lynn van der Poel"), findsOneWidget);
+      await tester.tap(find.text("Lynn van der Poel"), warnIfMissed: true);
       //Wait for next widget to open
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
