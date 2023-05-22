@@ -69,7 +69,7 @@ void main() {
     nock.cleanAll();
   });
   const expectedJsonResponse =
-      '{"referrals":[{"id":52,"participantName":"Lynn van der Poel","status":"Pending","participantEmail":"EvivanVeen@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-04-02T00:00:00","employeeId":1,"employee":null}],"completed":1,"pending":0}';
+      '{"referrals":[{"id":52,"participantName":"Lynn van der Poel","status":"Pending","participantEmail":"EvivanVeen@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-04-02T00:00:00","employeeId":0,"employee":null}],"completed":1,"pending":0}';
 
   group('Referral Details', () {
     testWidgets("Navigating to referral details page",
