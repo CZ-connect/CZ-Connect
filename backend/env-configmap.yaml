@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  ASPNETCORE_URLS: http://*:3000
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: czconnect-backend-env
+  name: env
