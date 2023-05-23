@@ -1,9 +1,11 @@
 name: cz-backend-deployment
+
 "on":
     push:
         branches:
             - development
     workflow_dispatch: {}
+
 env:
     ACR_RESOURCE_GROUP: cz-app
     AZURE_CONTAINER_REGISTRY: czRegistryFlutter
@@ -11,7 +13,8 @@ env:
     CLUSTER_RESOURCE_GROUP: cz-app
     CONTAINER_NAME: czbackend
     DEPLOYMENT_MANIFEST_PATH: |
-        ./backend/docker-compose.yml
+        ./docker-compose.yml
+
 jobs:
     buildImage:
         permissions:
@@ -20,6 +23,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+            - name: Change to backend directory
+              run: cd ./backend
             - uses: azure/login@v1.4.3
               name: Azure login
               with:
@@ -27,7 +32,8 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             - name: Build and push image to ACR
-              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f ./backend/Dockerfile ./
+              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f ./Dockerfile .
+
     deploy:
         permissions:
             actions: read
@@ -38,6 +44,8 @@ jobs:
             - buildImage
         steps:
             - uses: actions/checkout@v3
+            - name: Change to backend directory
+              run: cd ./backend
             - uses: azure/login@v1.4.3
               name: Azure login
               with:
