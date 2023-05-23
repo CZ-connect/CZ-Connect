@@ -29,12 +29,19 @@ namespace CZConnect.Controllers
                 return BadRequest("Ongeldige rol toegevoegd.");
             }
 
+            Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
+            if (department == null)
+            {
+                return BadRequest("Ongeldige afdeling.");
+            }
+            int departmentId = (int)department.Id;	      	
+
             Employee employee = new Employee
             {
                 EmployeeEmail= request.Email,
                 EmployeeName = request.Name,
                 PasswordHash = passwordHash,
-		DepartmentId = 1,
+		DepartmentId = departmentId,
                 Role = role
             };
 
@@ -42,6 +49,34 @@ namespace CZConnect.Controllers
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
         }
 
+        [HttpPost("route/{id}/verify")]
+        public async Task<ActionResult<Employee>> VerifyEmployee(long id)
+        {
+            Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            employee.Verified = true;
+            await _repository.UpdateAsync<Employee>(employee);
+            return Ok(employee);
+        }
+
+        [HttpPost("route/{id}/unverify")]
+        public async Task<ActionResult<Employee>> UnverifyEmployee(long id)
+        {
+            Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            employee.Verified = false;
+
+            await _repository.UpdateAsync(employee);
+            return Ok(employee);
+        }
 
 
         [HttpPost("login")]
@@ -108,6 +143,21 @@ namespace CZConnect.Controllers
             }
             return Ok(employee);
         }
+
+        [HttpDelete("id}")]
+        public async Task<ActionResult> RemoveEmployee(long id)
+        {
+            Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            await _repository.DeleteAsync(employee);
+            return NoContent();
+        }
+
+
 
         [HttpGet]
         [Route("department/{departmentId}")]
