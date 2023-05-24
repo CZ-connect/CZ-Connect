@@ -18,8 +18,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-mssql
+    container_name: mssql-db
     image: czfluttercontainers.azurecr.io/mssql-db:latest
-    user: root
     ports:
       - 1433:1433
     environment:
