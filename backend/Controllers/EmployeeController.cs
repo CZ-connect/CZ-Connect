@@ -18,12 +18,21 @@ namespace CZConnect.Controllers
         public EmployeeController(IConfiguration configuration, IRepository repository){
             _configuration = configuration;
             _repository = repository;
+
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<Employee>> Register(EmployeeDto request)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            Employee? employeeCheck = await _repository.FindByAsync<Employee>(e => e.EmployeeEmail == request.Email);
+
+            if (employeeCheck != null)
+            {
+                return BadRequest("Dit e-mailadres is al geregistreerd.");
+            }
+
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
                 return BadRequest("Ongeldige rol toegevoegd.");
@@ -34,22 +43,24 @@ namespace CZConnect.Controllers
             {
                 return BadRequest("Ongeldige afdeling.");
             }
-            int departmentId = (int)department.Id;	      	
+            int departmentId = (int)department.Id;
 
             Employee employee = new Employee
             {
-                EmployeeEmail= request.Email,
+                EmployeeEmail = request.Email,
                 EmployeeName = request.Name,
                 PasswordHash = passwordHash,
-		DepartmentId = departmentId,
-                Role = role
+                DepartmentId = departmentId,
+                Verified = request.Verified,
+                Role = role,
             };
 
             await _repository.CreateAsync<Employee>(employee);
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
         }
 
-        [HttpPost("route/{id}/verify")]
+
+       [HttpPost("{id}/verify")]
         public async Task<ActionResult<Employee>> VerifyEmployee(long id)
         {
             Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
@@ -63,7 +74,7 @@ namespace CZConnect.Controllers
             return Ok(employee);
         }
 
-        [HttpPost("route/{id}/unverify")]
+        [HttpPost("{id}/unverify")]
         public async Task<ActionResult<Employee>> UnverifyEmployee(long id)
         {
             Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
@@ -144,13 +155,18 @@ namespace CZConnect.Controllers
             return Ok(employee);
         }
 
-        [HttpDelete("id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveEmployee(long id)
         {
             Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
             if (employee == null)
             {
                 return NotFound();
+            }
+            var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+            foreach (var referral in referrals) {
+                referral.Employee = null;
+                referral.EmployeeId = null;
             }
 
             await _repository.DeleteAsync(employee);
