@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:cz_app/widget/app/models/register_form.dart';
+import 'package:cz_app/widget/app/models/user_form.dart';
 import 'package:cz_app/widget/app/register/register_form_text_widget.dart';
+import 'package:cz_app/widget/app/user_dashboard/user_update_form_text_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +22,7 @@ class UserUpdateWidget extends StatefulWidget {
 
 class _UserUpdateWidget extends State<UserUpdateWidget> {
   final _formKeyLogin = GlobalKey<FormState>();
-  RegisterForm modelForm = RegisterForm(null, null, null, null, null);
+  UserForm modelForm = UserForm(null, null,  null, null);
   List<String> departmentNames = [];
   String? selectedDepartment;
 
@@ -28,6 +30,8 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   void initState() {
     super.initState();
     fetchDepartments();
+    modelForm.department = widget.user.department;
+    modelForm.role = widget.user.role;
   }
 
   Future<void> fetchDepartments() async {
@@ -40,7 +44,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
             .toList();
       });
     } else {
-       context.go('/');
+       context.go('/userdashboard');
     }
   }
 
@@ -49,14 +53,13 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
     return
        Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
-        height: 300,
         child: Form(
           key: _formKeyLogin,
-          child: Flexible(
-            child:
+          child:
           Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const RegisterContainerTextWidget(),
+              const UserUpdateContainerTextWidget(),
               TextFormField(
                 initialValue: widget.user.name,
                 decoration: const InputDecoration(
@@ -69,7 +72,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                   return null;
                 },
                 onSaved: (String? value) {
-                  modelForm.firstname = value;
+                  modelForm.name = value;
                 },
               ),
               TextFormField(
@@ -122,7 +125,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                 value: Roles.values.firstWhere((element) => element.name == widget.user.role),
                 onChanged: (Roles? newValue) {
                   setState(() {
-                    //= newValue;
+                    modelForm.role = newValue?.name;
                   });
                 },
                 items: Roles.values.map<DropdownMenuItem<Roles>>((Roles role) {
@@ -133,7 +136,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                 }).toList(),
                 validator: (Roles? value) {
                   if (value == null) {
-                    return 'A value must be selected';
+                    return 'Een rol moet worden geselecteerd';
                   }
                   return null;
                 },
@@ -145,39 +148,39 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                     padding: EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop(false);
                       },
-                      child: Text('Anuleren'),
+                      child: const Text('Annuleren'),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKeyLogin.currentState!.validate()) {
                           _formKeyLogin.currentState?.save();
-                          sendform(context);
+                          await sendform(context);
                           Navigator.of(context).pop(true);
                         }
                       },
-                      child: Text('Update'),
+                      child: const Text('Aanpassen'),
                     ),
                   ),
                 ],
               )
             ],
-          ),
         ),
     ));
   }
 
-  Future<void> sendform(BuildContext context) async {
+  Future<bool> sendform(BuildContext context) async {
     var url = Uri.http('localhost:3000', '/api/employee/${widget.user.id}');
+    print(widget.user.id.toString());
     Map<String, dynamic> jsonMap = {
-      'email': modelForm.email.toString(),
-      'name': "$modelForm.firstname $modelForm.lastname",
+      'email': modelForm.email,
+      'name': modelForm.name,
       'department': modelForm.department,
-      'role': Roles.Employee.name,
+      'role': modelForm.role,
       'verified': widget.user.verified,
     };
 
@@ -190,11 +193,11 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
           SnackBar(content: Text('Error: ${response.body}')),
         );
         throw Exception('Applicatie error: ${response.statusCode}');
-      } else if (response.statusCode == 201) {
-        print('asdfui');
+      } else if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.')),
+            const SnackBar(content: Text('Gebruiker aangepast')),
           );
+          return true;
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
@@ -202,6 +205,8 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
         throw Exception('Applicatie error: ${response.statusCode}');
       }
     } catch (exception) {
+      return false;
     }
+    return false;
   }
 }

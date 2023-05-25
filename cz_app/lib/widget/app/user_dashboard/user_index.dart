@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/user_dashboard/user_update_form.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/department.dart';
-import '../models/roles.dart';
 import '../models/user.dart';
 
 class UserDashboard  extends StatefulWidget {
@@ -27,14 +25,20 @@ class _State extends State<UserDashboard> {
   @override
   void initState() {
     super.initState();
-    fetchDepartments();
-    fetchUsers();
+    initializeData();
   }
 
-  void refreshUsers(){
-    filteredUsers = [];
-    allUsers = [];
-    fetchUsers();
+  Future<void> initializeData() async {
+    await fetchDepartments();
+    await fetchUsers();
+  }
+
+  Future<void> refreshUsers() async {
+    setState(() {
+      filteredUsers = [];
+      allUsers = [];
+    });
+    await fetchUsers();
   }
 
   Future<void> removeUser(User user) async {
@@ -59,21 +63,21 @@ class _State extends State<UserDashboard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Gebruiker verwijderen'),
-          content: Text('Weet u zeker dat u de gebruiker wilt verwijderen?'),
+          title: const Text('Gebruiker verwijderen'),
+          content: const Text('Weet u zeker dat u de gebruiker wilt verwijderen?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('Nee'),
+              child: const Text('Nee'),
             ),
             ElevatedButton(
               onPressed: () {
                 removeUser(user);
                 Navigator.of(context).pop(true);
               },
-              child: Text('Ja'),
+              child: const Text('Ja'),
             ),
           ],
         );
@@ -81,20 +85,20 @@ class _State extends State<UserDashboard> {
     );
   }
 
-  Future<bool?> showUpdateUserPrompt(User user) {
-    return showDialog<bool>(
+  Future<bool?> showUpdateUserPrompt(User user) async {
+    final result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Gebruiker updaten'),
           content: UserUpdateWidget(user: user),
         );
       },
     );
+    if (result == true) {
+      refreshUsers();
+    }
+    return result;
   }
-
-
-
 
   Future<void> fetchUsers() async {
     final response = await http.get(
@@ -125,7 +129,7 @@ class _State extends State<UserDashboard> {
       setState(() {
         departments = fetchedDepartments;
       });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +139,7 @@ class _State extends State<UserDashboard> {
         filteredUsers = allUsers.where((user) {
           final searchTermLowerCase = searchTerm.toLowerCase();
           final verifiedText = user.verified ? 'ja' : 'nee';
-          return (user.verified) &&
+          return
               (user.name.toLowerCase().contains(searchTermLowerCase) ||
                   user.email.toLowerCase().contains(searchTermLowerCase) ||
                   verifiedText.toLowerCase().contains(searchTermLowerCase) ||
@@ -158,7 +162,7 @@ class _State extends State<UserDashboard> {
                   onChanged: (value) {
                     searchUsers(value);
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Zoeken',
                     prefixIcon: Icon(Icons.search),
                   ),
@@ -185,41 +189,46 @@ class _State extends State<UserDashboard> {
                         Text('Rol: ${user.role ?? 'Niet van toepassing'}'),
                       ],
                     ),
-                       trailing: Wrap(
-                         spacing: 2,
-                        children: [
-                         ElevatedButton(
+                    trailing: Wrap(
+                      spacing: 2,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            showRemoveUserPrompt(user);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black38,
+                          ),
+                          child: Text('Verwijderen'),
+                          ),
+                        ElevatedButton(
                             onPressed: () {
-                              showUpdateUserPrompt(user).whenComplete(() =>
-                              refreshUsers()
-                              );
+                              showUpdateUserPrompt(user);
                             },
                             child: Text('Aanpassen'),
                           ),
-                          ElevatedButton(
+                           SizedBox(
+                             width: 120,
+                           child:ElevatedButton(
                             onPressed: () {
                               verifyOrUnVerify(user);
                             },
-                            child: Text((user.verified) ?  "Onverifiëren":"Verifiëren"),
+                             style: ElevatedButton.styleFrom(
+                               primary: (user.verified) ? Colors.black38 : null,
+                             ),
+                            child: Text((user.verified) ? "Onverifiëren" : "Verifiëren"),
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              showRemoveUserPrompt(user);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.black38,
-                            ),
-                            child: Text('Verwijderen'),
-                          ),
-                       ]
-                       )
+                           ),
+
+                      ],
+                    ),
                   );
               },
             ),
           )
         else
-          Padding(
-            padding: const EdgeInsets.all(50.0),
+          const Padding(
+            padding: EdgeInsets.all(50.0),
             child: Center(child: Text('Geen data gevonden')),
           ),
       ],
