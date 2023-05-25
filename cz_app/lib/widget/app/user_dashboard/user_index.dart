@@ -178,7 +178,8 @@ class _State extends State<UserDashboard> {
               itemCount: filteredUsers.length,
               itemBuilder: (BuildContext context, int index) {
                 User user = filteredUsers[index];
-                  return ListTile(
+                return Column(
+                    children:[ListTile(
                     title: Text(user.name),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +190,7 @@ class _State extends State<UserDashboard> {
                         Text('Rol: ${user.role ?? 'Niet van toepassing'}'),
                       ],
                     ),
-                    trailing: Wrap(
+                  trailing: Wrap(
                       spacing: 2,
                       children: [
                         ElevatedButton(
@@ -222,7 +223,8 @@ class _State extends State<UserDashboard> {
 
                       ],
                     ),
-                  );
+                  ),
+                const Divider()]);
               },
             ),
           )
