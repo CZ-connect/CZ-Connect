@@ -142,6 +142,11 @@ namespace CZConnect.Controllers
             {
                 return BadRequest("Verkeerde email of wachtwoord ingevuld");
             }
+
+            if (employee.Verified!)
+            {
+                return BadRequest("Gebruiker is niet geverifieerd.");
+            }
           
             if (!BCrypt.Net.BCrypt.Verify(request.Password, employee.PasswordHash))
             {

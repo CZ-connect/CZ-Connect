@@ -21,6 +21,7 @@ class _State extends State<UserDashboard> {
   List<User> filteredUsers = [];
   List<User> allUsers = [];
   bool showUnverified = true;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -32,7 +33,6 @@ class _State extends State<UserDashboard> {
     await fetchDepartments();
     await fetchUsers();
   }
-
   Future<void> refreshUsers() async {
     setState(() {
       filteredUsers = [];
