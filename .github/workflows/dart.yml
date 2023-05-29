@@ -31,55 +31,7 @@ jobs:
       - name: Run tests
         run: flutter test
         working-directory: cz_app
-
-  Build_ios:
-    name: Build flutter (IOS)
-    needs: flutter_test
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      # Install Flutter
-      - name: Install Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.7.6'  # Set the version of Flutter to install
-
-      # Install dependencies
-      - name: Get dependencies
-        run: flutter pub get
-        working-directory: cz_app
-      - name: clean flutter
-        run: flutter clean
-        working-directory: cz_app
-      - name: build flutter (IOS)
-        run: flutter build ios --release --obfuscate --split-debug-info build/ios/outputs/symbols --no-codesign --suppress-analytics
-        working-directory: cz_app
-
-  Build_android:
-    name: Build flutter (Android)
-    needs: flutter_test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      # Install Flutter
-      - name: Install Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '3.7.6'  # Set the version of Flutter to install
-
-      # Install dependencies
-      - name: Get dependencies
-        run: flutter pub get
-        working-directory: cz_app
-      - name: clean flutter
-        run: flutter clean
-        working-directory: cz_app
-      - name: build flutter (Android)
-        run: flutter build appbundle
-        working-directory: cz_app
-
+        
   Build_web:
     name: Build flutter (Web)
     needs: flutter_test
