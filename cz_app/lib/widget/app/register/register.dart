@@ -208,7 +208,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         );
         throw Exception('Applicatie error: ${response.statusCode}');
       } else if (response.statusCode == 201) {
-        print('asdfui');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.')),
           );
