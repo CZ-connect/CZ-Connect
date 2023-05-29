@@ -30,8 +30,8 @@ RUN flutter pub get
 RUN flutter build web
 
 # Run web server from nginx
-FROM nginx:1.23 as runtime
-
-COPY --from=builder /opt/CZ-connect/build /usr/share/nginx/html
-
-EXPOSE 3011
+#FROM nginx:1.23 as runtime
+#
+#COPY --from=builder /opt/CZ-connect/build /usr/share/nginx/html
+#
+#EXPOSE 3011

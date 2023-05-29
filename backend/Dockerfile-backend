@@ -16,3 +16,4 @@ WORKDIR /usr/src/app
 COPY --from=build-env /usr/src/app/out .
 
 ENTRYPOINT [ "dotnet", "backend.dll" ]
+
