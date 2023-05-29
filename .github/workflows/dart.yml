@@ -8,7 +8,6 @@ on:
 
 jobs:
   flutter_test:
-  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +34,7 @@ jobs:
 
   Build_ios:
     name: Build flutter (IOS)
-    needs: [flutter_test]
+    needs: flutter_test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -59,7 +58,7 @@ jobs:
 
   Build_android:
     name: Build flutter (Android)
-    needs: [flutter_test]
+    needs: flutter_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -77,13 +76,13 @@ jobs:
       - name: clean flutter
         run: flutter clean
         working-directory: cz_app
-      - name: build flutter (IOS)
+      - name: build flutter (Android)
         run: flutter build appbundle --no-codesign
         working-directory: cz_app
 
   Build_web:
-    name: Build flutter (Android)
-    needs: [flutter_test]
+    name: Build flutter (Web)
+    needs: flutter_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -101,6 +100,6 @@ jobs:
       - name: clean flutter
         run: flutter clean
         working-directory: cz_app
-      - name: build flutter (IOS)
+      - name: build flutter (Web)
         run: flutter build web --no-codesign
         working-directory: cz_app
