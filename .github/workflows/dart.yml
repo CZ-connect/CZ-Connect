@@ -53,7 +53,7 @@ jobs:
         run: flutter clean
         working-directory: cz_app
       - name: build flutter (IOS)
-        run: flutter build ios --no-codesign
+        run: flutter build ios
         working-directory: cz_app
 
   Build_android:
@@ -77,7 +77,7 @@ jobs:
         run: flutter clean
         working-directory: cz_app
       - name: build flutter (Android)
-        run: flutter build appbundle --no-codesign
+        run: flutter build appbundle
         working-directory: cz_app
 
   Build_web:
@@ -101,5 +101,5 @@ jobs:
         run: flutter clean
         working-directory: cz_app
       - name: build flutter (Web)
-        run: flutter build web --no-codesign
+        run: flutter build web
         working-directory: cz_app
