@@ -21,7 +21,7 @@ namespace CZConnect.Controllers
         {
             this._repository = repository;
         }
-
+ 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         { 
@@ -31,5 +31,37 @@ namespace CZConnect.Controllers
             }
             return Ok(departments); 
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<Department>> GetDepartmentById(long id)
+        {
+            var department = await _repository.SelectByIdAsync<Department>(id);
+            if(department == null)
+            {
+                return NotFound();
+            }
+            return Ok(department);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Department>> InsertDepartment(Department department)
+        {
+            await _repository.CreateAsync(department);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<Department>> DeleteDepartment(long id)
+        {
+            var department = await _repository.SelectByIdAsync<Department>(id);
+            if(department == null)
+            {
+                return NotFound();
+            }
+            await _repository.DeleteAsync(department);
+            return Ok();
+        }  
     }
 }

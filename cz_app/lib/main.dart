@@ -1,6 +1,8 @@
 import 'package:cz_app/404.dart';
 import 'package:cz_app/widget/app/auth/login.dart';
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
+import 'package:cz_app/widget/app/departments/create.dart';
+import 'package:cz_app/widget/app/departments/index.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
@@ -12,6 +14,7 @@ import 'package:cz_app/widget/app/referral_details/referral_details.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
+import 'package:cz_app/widget/app/templates/departments/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
@@ -26,8 +29,10 @@ import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'widget/app/referral_per_user/views/referral_overview.dart';
+import 'widget/app/templates/departments/bottom.dart';
+import 'widget/app/templates/departments/container.dart';
+import 'widget/app/templates/departments/top.dart';
 
 void main() => runApp(const MyApp());
 
@@ -69,14 +74,63 @@ final GoRouter _router = GoRouter(
           );
         }),
     GoRoute(
-        path: '/logout',
-        builder: (BuildContext context, GoRouterState state) {
+      path: '/logout',
+      builder: (BuildContext context, GoRouterState state) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          UserPreferences.logOut();
+          context.go('/');
+        });
+        return const Scaffold(); // Placeholder widget
+      },
+    ),
+    GoRoute(
+      path: '/department/create',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentCreationForm(),
+                ),
+              ),
+            ),
+          );
+        } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            UserPreferences.logOut();
             context.go('/');
           });
-          return const Scaffold(); // Placeholder widget
-        }),
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/index',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentIndex(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
     GoRoute(
       path: '/recruitmentdashboard',
       builder: (BuildContext context, GoRouterState state) {
