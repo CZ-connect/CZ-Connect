@@ -8,10 +8,10 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
-  RESOURCE_GROUP: "your-resource-group"
-  CLUSTER_NAME: "your-cluster-name"
-  DOCKER_COMPOSE_FILE_PATH: "your-docker-compose-file-path"
+  AZURE_CONTAINER_REGISTRY: "czfluttercontainers"
+  RESOURCE_GROUP: "czapp"
+  CLUSTER_NAME: "czcluster"
+  DOCKER_COMPOSE_FILE_PATH: "docker-compose.yml"
 
 jobs:
   buildImage:
