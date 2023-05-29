@@ -104,4 +104,3 @@ jobs:
         run: flutter build web
         working-directory: cz_app
 
-  
