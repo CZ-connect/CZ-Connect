@@ -44,6 +44,22 @@ namespace CZConnect.Controllers
             return Ok(department);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<ActionResult<Department>> UpdateDepartment(long id, DepartmentDtoUpdate request)
+        {
+            var department = await _repository.SelectByIdAsync<Department>(id);
+
+            if(department == null)
+            {
+                return NotFound();
+            }
+            
+            department.DepartmentName = request.DepartmentName;
+            await _repository.UpdateAsync<Department>(department);
+            return Ok(department);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Department>> InsertDepartment(Department department)
         {

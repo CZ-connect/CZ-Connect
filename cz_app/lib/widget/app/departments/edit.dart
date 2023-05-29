@@ -1,19 +1,29 @@
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/department_form.dart';
 import 'package:flutter/material.dart';
 
-class DepartmentCreationForm extends StatefulWidget {
-  const DepartmentCreationForm({super.key});
+class DepartmentUpdateWidget extends StatefulWidget {
+  final Department department;
+  const DepartmentUpdateWidget({Key? key, required this.department})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _DepartmentCreationForm();
+  _DepartmentUpdateWidget createState() => _DepartmentUpdateWidget();
 }
 
-class _DepartmentCreationForm extends State<DepartmentCreationForm> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
+  final _formKeyDepartment = GlobalKey<FormState>();
   DepartmentForm departmentForm = DepartmentForm(DepartmentName: null);
+
+  @override
+  void initState() {
+    departmentForm.DepartmentName = widget.department.departmentName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +31,7 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
       child: Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Form(
-          key: formKey,
+          key: _formKeyDepartment,
           child: Column(
             children: <Widget>[
               Text("Maak hier een nieuwe afdeling.",
@@ -31,6 +41,7 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
                       fontSize: 40)),
               TextFormField(
                 key: const Key('departmentNameField'),
+                initialValue: widget.department.departmentName,
                 decoration:
                     const InputDecoration(hintText: 'Naam van de afdeling'),
                 validator: (String? value) {
@@ -46,19 +57,19 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
               const Padding(padding: EdgeInsets.all(8.0)),
               ElevatedButton(
                 onPressed: () {
-                  formKey.currentState?.save();
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState?.save();
+                  _formKeyDepartment.currentState?.save();
+                  if (_formKeyDepartment.currentState!.validate()) {
+                    _formKeyDepartment.currentState?.save();
                     sendForm(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Afdeling aangemaakt.'),
+                        content: Text('Afdeling aangepast.'),
                       ),
                     );
                   }
                   context.go('/department/index');
                 },
-                child: const Text('Afdeling aanmaken'),
+                child: const Text('Afdeling aanpassen'),
               ),
             ],
           ),
@@ -68,14 +79,15 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
   }
 
   Future<void> sendForm(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/department');
+    var url =
+        Uri.http('localhost:3000', '/api/department/${widget.department.id}');
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };
 
     var body = json.encode(jsonMap);
     try {
-      var response = await http.post(url,
+      var response = await http.put(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         // ignore: use_build_context_synchronously

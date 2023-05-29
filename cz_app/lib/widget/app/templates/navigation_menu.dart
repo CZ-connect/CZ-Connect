@@ -87,6 +87,15 @@ class NavigationMenu extends StatelessWidget {
                 context.go('/loading');
               },
             ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('Afdelingen'),
+              key: const Key('departments_menu_item'),
+              onTap: () {
+                context.go('/department/index');
+              },
+            ),
         ],
       ),
     );

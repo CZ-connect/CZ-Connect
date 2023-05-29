@@ -29,6 +29,8 @@ import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'widget/app/departments/edit.dart';
+import 'widget/app/models/department.dart';
 import 'widget/app/referral_per_user/views/referral_overview.dart';
 import 'widget/app/templates/departments/bottom.dart';
 import 'widget/app/templates/departments/container.dart';
@@ -95,6 +97,36 @@ final GoRouter _router = GoRouter(
               body: DepartmentBottomWidget(
                 child: DepartmentContainerWidget(
                   child: DepartmentCreationForm(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/:id/edit',
+      name: 'editDepartment',
+      builder: (BuildContext context, GoRouterState state) {
+        id:
+        state.params['id'];
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          Department department = state.extra as Department;
+          return Scaffold(
+            body: DepartmentTemplate(
+              header: const DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentUpdateWidget(
+                    department: department,
+                  ),
                 ),
               ),
             ),

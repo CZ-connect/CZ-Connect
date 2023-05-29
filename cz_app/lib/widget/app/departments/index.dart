@@ -13,10 +13,18 @@ class DepartmentIndex extends StatefulWidget {
 
 class _DepartmentIndex extends State<DepartmentIndex> {
   late Future<List<Department>> departments;
+
   @override
   void initState() {
     departments = DepartmentData().fetchDepartments();
     super.initState();
+  }
+
+  void refreshDepartments() {
+    setState(() {
+      departments = Future.value([]);
+      departments = DepartmentData().fetchDepartments();
+    });
   }
 
   @override
@@ -52,20 +60,24 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                         dataRowHeight: 75,
                         headingRowColor: MaterialStateColor.resolveWith(
                             (states) => Colors.grey),
-                        columns: const <DataColumn>[
-                          DataColumn(
+                        columns: <DataColumn>[
+                          const DataColumn(
                             label: Expanded(
                               child: Text("Afdelingsnaam"),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Expanded(
                               child: Text(""),
                             ),
                           ),
                           DataColumn(
-                            label: Expanded(
-                              child: Text(""),
+                            label: ElevatedButton(
+                              key: const Key('new_department_key'),
+                              onPressed: () {
+                                context.go('/department/create');
+                              },
+                              child: const Text("Nieuwe afdeling"),
                             ),
                           ),
                         ],
@@ -95,7 +107,7 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                 departments[index].departmentName,
               ),
             ),
-            DataCell(editDepartmentButton()),
+            DataCell(editDepartmentButton(departments[index])),
             DataCell(deleteDepartmentButton(departments[index])),
           ],
         );
@@ -103,13 +115,14 @@ class _DepartmentIndex extends State<DepartmentIndex> {
     );
   }
 
-  ElevatedButton editDepartmentButton() {
+  ElevatedButton editDepartmentButton(Department department) {
     return ElevatedButton(
       key: const Key('edit_department_key'),
       onPressed: () {
-        //edit department here
+        context.goNamed('editDepartment',
+            params: {'id': department.id.toString()}, extra: department);
       },
-      child: const Text("Edit"),
+      child: const Text("Bewerken"),
     );
   }
 
@@ -131,24 +144,17 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                 TextButton(
                   child: const Text("Cancel"),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
                   child: const Text("Verwijder"),
                   onPressed: () {
                     deleteDepartment(context, department.id);
-                    setState(() {});
-                    // deleteReferral(context, referral.id);
-                    // if (widget.employeeReferral?.employee !=
-                    //     null) {
-                    //   context.go("/referraldashboard",
-                    //       extra: employee);
-                    // } else {
-                    //   context.go("/recruitmentdashboard");
-                    // }
+                    refreshDepartments();
+                    Navigator.of(context).pop(true);
                   },
-                )
+                ),
               ],
             );
           },
