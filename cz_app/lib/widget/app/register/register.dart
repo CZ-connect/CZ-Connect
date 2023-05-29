@@ -165,29 +165,6 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   modelForm.department = value;
                 },
               ),
-
-              /*
-              DropdownButtonFormField<Roles>(
-                value: dropdownValue,
-                onChanged: (Roles? newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: Roles.values.map<DropdownMenuItem<Roles>>((Roles role) {
-                  return DropdownMenuItem<Roles>(
-                    value: role,
-                    child: Text(role.toString().split('.').last),
-                  );
-                }).toList(),
-                validator: (Roles? value) {
-                  if (value == null) {
-                    return 'A value must be selected';
-                  }
-                  return null;
-                },
-              ),
-              */
             const Padding(padding: EdgeInsets.all(8.0)),
               ElevatedButton(
                 onPressed: () {
@@ -196,7 +173,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     sendform(context);
                   }
                 },
-                child: const Text('Register'),
+                child: const Text('Registeren'),
               ),
             ],
           ),
