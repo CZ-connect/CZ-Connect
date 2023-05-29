@@ -12,7 +12,7 @@ env:
   RESOURCE_GROUP: "czapp"
   CLUSTER_NAME: "czcluster"
   DOCKER_COMPOSE_FILE_PATH: "docker-compose.yml"
-
+ 
 jobs:
   buildImage:
     permissions:
