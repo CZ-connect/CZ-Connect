@@ -99,4 +99,81 @@ public class LoginTest
         Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
 
     }
+    
+    
+    [TestMethod]
+    public async Task RegisterShouldPass()
+    {
+        // Arrange
+        var request = new EmployeeDto
+        {
+            Email = "test@example.com",
+            Name = "Test Employee",
+            Password = "Test123",
+            Department = "Test Department",
+            Verified = true,
+            Role = "Admin" // Use a valid role
+        };
+
+        var mockRepositoryEmployee = new Mock<IRepository>();
+        mockRepositoryEmployee
+            .Setup(x => x.FindByAsync<Employee>(It.IsAny<Expression<Func<Employee, bool>>>()))
+            .ReturnsAsync((Employee) null);
+
+        var expectedDepartment = new Department
+        {
+            Id = 1,
+            DepartmentName = request.Department
+        };
+        mockRepositoryEmployee
+            .Setup(x => x.FindByAsync<Department>(It.IsAny<Expression<Func<Department, bool>>>()))
+            .ReturnsAsync(expectedDepartment);
+
+        var controllerEmployee = new EmployeeController(null, mockRepositoryEmployee.Object);
+    
+        // Act
+        var result = await controllerEmployee.Register(request);
+
+        // Assert
+        Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult));
+    }
+    [TestMethod]
+    public async Task RegisterShouldFailOnDuplicated()
+    {
+        // Arrange
+        var request = new EmployeeDto
+        {
+            Email = "test@example.com",
+            Name = "Test Employee",
+            Password = "Test123",
+            Department = "Test Department",
+            Verified = true,
+            Role = EmployeeRole.Recruitment.ToString() // Use a valid role
+        };
+
+        var existingEmployee = new Employee 
+        {
+            EmployeeEmail = request.Email,
+            EmployeeName = request.Name,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            DepartmentId = 1,
+            Verified = request.Verified,
+            Role = EmployeeRole.Recruitment
+        };
+
+        var mockRepositoryEmployee = new Mock<IRepository>();
+        mockRepositoryEmployee
+            .Setup(x => x.FindByAsync<Employee>(It.IsAny<Expression<Func<Employee, bool>>>()))
+            .ReturnsAsync(existingEmployee);
+
+        var controllerEmployee = new EmployeeController(null, mockRepositoryEmployee.Object);
+    
+        // Act
+        var result = await controllerEmployee.Register(request);
+
+        // Assert
+        Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
+    }
+
+
 }
