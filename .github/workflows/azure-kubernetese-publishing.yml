@@ -2,7 +2,7 @@ name: Build and deploy an app to AKS with Kompose
 
 on:
   push:
-    branches: ["deployment"]
+    branches: ["*"]
   workflow_dispatch:
 
 env:
