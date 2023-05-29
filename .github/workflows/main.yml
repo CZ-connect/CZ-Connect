@@ -34,7 +34,7 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push images to ACR
         run: |
-          for container in czconnect-backend mssql-db prometheus grafana node-exporter flutter-web
+          for container in czconnect-backend mssql-db flutter-web
           do
             az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/$container:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
           done
