@@ -53,7 +53,7 @@ jobs:
         run: flutter clean
         working-directory: cz_app
       - name: build flutter (IOS)
-        run: flutter build ios
+        run: flutter build ios --release --obfuscate --split-debug-info build/ios/outputs/symbols --no-codesign --suppress-analytics
         working-directory: cz_app
 
   Build_android:
@@ -103,3 +103,26 @@ jobs:
       - name: build flutter (Web)
         run: flutter build web
         working-directory: cz_app
+
+  prepare_production:
+    needs: [Build_ios, Build_android, Build_web]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create production directory
+        run: mkdir production
+
+      - name: Download IOS build
+        uses: actions/download-artifact@v2
+        with:
+          name: ios-build
+
+          #TODO implment this if the webb app gets deployed into ios
+      - name: Download Android build
+        uses: actions/download-artifact@v2
+        with:
+          name: android-build
+        #TODO implment this if the webb app gets deployed into android
+      - name: Download Web build
+        uses: actions/download-artifact@v2
+        with:
+          name: web-build
