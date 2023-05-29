@@ -31,7 +31,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
 
   Future<void> fetchDepartments() async {
-    final response = await http.get(Uri.http('localhost:3000', '/api/department'));
+    final response =
+        await http.get(Uri.http('localhost:3000', '/api/department'));
     if (response.statusCode == 200) {
       final List<dynamic> departmentsJson = jsonDecode(response.body);
       setState(() {
@@ -40,7 +41,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             .toList();
       });
     } else {
-       context.go('/');
+      context.go('/');
     }
   }
 
@@ -101,7 +102,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   modelForm.email = value;
                 },
               ),
-             TextFormField(
+              TextFormField(
                 obscureText: !_isPasswordVisible,
                 enableSuggestions: false,
                 autocorrect: false,
@@ -110,7 +111,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   hintText: 'Wachtwoord', // Password
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: togglePasswordVisibility,
                   ),
@@ -122,7 +125,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   return null;
                 },
                 onSaved: (String? value) {
-                   modelForm.password = value;
+                  modelForm.password = value;
                 },
               ),
               TextFormField(
@@ -165,7 +168,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   modelForm.department = value;
                 },
               ),
-            const Padding(padding: EdgeInsets.all(8.0)),
+              const Padding(padding: EdgeInsets.all(8.0)),
               ElevatedButton(
                 onPressed: () {
                   if (_formKeyLogin.currentState!.validate()) {
@@ -181,6 +184,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       ),
     );
   }
+
   void togglePasswordVisibility() {
     setState(() {
       _isPasswordVisible = !_isPasswordVisible;
@@ -207,17 +211,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           SnackBar(content: Text('Error: ${response.body}')),
         );
         throw Exception('Applicatie error: ${response.statusCode}');
-      } else if (response.statusCode == 201) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.')),
-          );
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
         );
         throw Exception('Applicatie error: ${response.statusCode}');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text(
+                  'Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.')),
+        );
       }
-    } catch (exception) {
-    }
+    } catch (exception) {}
   }
 }

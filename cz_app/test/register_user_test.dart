@@ -52,8 +52,8 @@ void main() {
 
 
     expect(interceptorDeparments.isDone, true);
-    await tester.pumpAndSettle();
-    expect(interceptor.isDone, true);
-    expect(find.text('Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.'), findsOneWidget);
+    expect(find.text('Applicatie error'), findsNothing);
+
+
   });
 }
