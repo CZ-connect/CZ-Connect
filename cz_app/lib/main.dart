@@ -1,6 +1,8 @@
 import 'package:cz_app/404.dart';
 import 'package:cz_app/widget/app/auth/login.dart';
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
+import 'package:cz_app/widget/app/departments/create.dart';
+import 'package:cz_app/widget/app/departments/index.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
@@ -13,6 +15,7 @@ import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
 import 'package:cz_app/widget/app/register/register.dart';
+import 'package:cz_app/widget/app/templates/departments/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/bottom.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
@@ -28,8 +31,12 @@ import 'package:cz_app/widget/app/user_dashboard/user_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'widget/app/departments/edit.dart';
+import 'widget/app/models/department.dart';
 import 'widget/app/referral_per_user/views/referral_overview.dart';
+import 'widget/app/templates/departments/bottom.dart';
+import 'widget/app/templates/departments/container.dart';
+import 'widget/app/templates/departments/top.dart';
 
 void main() => runApp(const MyApp());
 
@@ -82,8 +89,8 @@ final GoRouter _router = GoRouter(
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: ScreenTemplate(
-                header: const TopAppWidget(),
+              child: const ScreenTemplate(
+                header: TopAppWidget(),
                 body: BottemAppWidget(
                   child: AppMainContainer(
                     child: RegisterWidget(),
@@ -123,6 +130,84 @@ final GoRouter _router = GoRouter(
             context.go('/');
           });
           return const Scaffold(); // Placeholder widget
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/create',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentCreationForm(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/:id/edit',
+      name: 'editDepartment',
+      builder: (BuildContext context, GoRouterState state) {
+        id:
+        state.params['id'];
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          Department department = state.extra as Department;
+          return Scaffold(
+            body: DepartmentTemplate(
+              header: const DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentUpdateWidget(
+                    department: department,
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/index',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentIndex(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
         }
       },
     ),

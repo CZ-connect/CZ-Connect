@@ -16,11 +16,11 @@ namespace backend.Migrations
                 AS
                 BEGIN
 
-                SELECT *
+                SELECT r.Id , r.ParticipantName , r.Status , r.ParticipantEmail , r.linkedin , r.ParticipantPhoneNumber , r.RegistrationDate , r.EmployeeId 
                 FROM
-                    Referrals r
+                    Referrals r  left join Employees e on r.EmployeeId = e.Id 
                 WHERE
-                    r.EmployeeId is null
+                    r.EmployeeId is null OR e.DepartmentId IS NULL
                 END
             ");
         }

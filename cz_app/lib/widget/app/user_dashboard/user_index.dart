@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../models/department.dart';
 import '../models/user.dart';
 
-class UserDashboard  extends StatefulWidget {
+class UserDashboard extends StatefulWidget {
   const UserDashboard({Key? key}) : super(key: key);
 
   @override
@@ -33,6 +33,7 @@ class _State extends State<UserDashboard> {
     await fetchDepartments();
     await fetchUsers();
   }
+
   Future<void> refreshUsers() async {
     setState(() {
       filteredUsers = [];
@@ -42,15 +43,15 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> removeUser(User user) async {
-    await http.delete(
-        Uri.parse('http://localhost:3000/api/employee/${user.id}'));
+    await http
+        .delete(Uri.parse('http://localhost:3000/api/employee/${user.id}'));
     refreshUsers();
   }
 
   Future<void> verifyOrUnVerify(User user) async {
-    if(user.verified) {
+    if (user.verified) {
       await http.post(
-        Uri.parse('http://localhost:3000/api/employee/${user.id}/unverify'));
+          Uri.parse('http://localhost:3000/api/employee/${user.id}/unverify'));
     } else {
       await http.post(
           Uri.parse('http://localhost:3000/api/employee/${user.id}/verify'));
@@ -64,7 +65,8 @@ class _State extends State<UserDashboard> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Gebruiker verwijderen'),
-          content: const Text('Weet u zeker dat u de gebruiker wilt verwijderen?'),
+          content:
+              const Text('Weet u zeker dat u de gebruiker wilt verwijderen?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -101,52 +103,62 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchUsers() async {
-    final response = await http.get(
-        Uri.parse('http://localhost:3000/api/employee/'));
-      final jsonData = json.decode(response.body);
-      List<User> fetchedUsers = [];
-      for (var data in jsonData) {
-        User user = User.fromJson(data);
-        Department department = departments.firstWhere((dep) => dep.id == user.departmentId);
+    final response =
+        await http.get(Uri.parse('http://localhost:3000/api/employee/'));
+    final jsonData = json.decode(response.body);
+    List<User> fetchedUsers = [];
+    for (var data in jsonData) {
+      User user = User.fromJson(data);
+      if (user.departmentId != null) {
+        Department department =
+            departments.firstWhere((dep) => dep.id == user.departmentId);
         user.department = department.departmentName;
-        fetchedUsers.add(user);
+      } else {
+        user.department == null;
       }
-      setState(() {
-        users = fetchedUsers;
-        filteredUsers = List.from(users);
-        allUsers = List.from(users);
-      });
+      fetchedUsers.add(user);
+    }
+    setState(() {
+      users = fetchedUsers;
+      filteredUsers = List.from(users);
+      allUsers = List.from(users);
+    });
   }
 
   Future<void> fetchDepartments() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/api/department/'));
-      final jsonData = json.decode(response.body);
-      List<Department> fetchedDepartments = [];
-      for (var data in jsonData) {
-        Department department = Department.fromJson(data);
-        fetchedDepartments.add(department);
-      }
+    final response =
+        await http.get(Uri.parse('http://localhost:3000/api/department/'));
+    final jsonData = json.decode(response.body);
+    List<Department> fetchedDepartments = [];
+    for (var data in jsonData) {
+      Department department = Department.fromJson(data);
+      fetchedDepartments.add(department);
+    }
+    if (fetchedDepartments.isNotEmpty) {
       setState(() {
         departments = fetchedDepartments;
       });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     void searchUsers(String searchTerm) {
-      setState(() {
-        filteredUsers = allUsers.where((user) {
-          final searchTermLowerCase = searchTerm.toLowerCase();
-          final verifiedText = user.verified ? 'ja' : 'nee';
-          return
-              (user.name.toLowerCase().contains(searchTermLowerCase) ||
-                  user.email.toLowerCase().contains(searchTermLowerCase) ||
-                  verifiedText.toLowerCase().contains(searchTermLowerCase) ||
-                  (user.role.toLowerCase().contains(searchTermLowerCase) ?? false) ||
-                  user.department!.toLowerCase().contains(searchTermLowerCase) ?? false);
-        }).toList();
-      });
+      // setState(() {
+      //   filteredUsers = allUsers.where((user) {
+      //     final searchTermLowerCase = searchTerm.toLowerCase();
+      //     final verifiedText = user.verified ? 'ja' : 'nee';
+      //     return (user.name.toLowerCase().contains(searchTermLowerCase) ||
+      //             user.email.toLowerCase().contains(searchTermLowerCase) ||
+      //             verifiedText.toLowerCase().contains(searchTermLowerCase) ||
+      //             (user.role.toLowerCase().contains(searchTermLowerCase) ??
+      //                 false) ||
+      //             user.department!
+      //                 .toLowerCase()
+      //                 .contains(searchTermLowerCase) ??
+      //         false);
+      //   }).toList();
+      // });
     }
 
     return Column(
@@ -155,7 +167,7 @@ class _State extends State<UserDashboard> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              SizedBox(width: 8.0),
+              const SizedBox(width: 8.0),
               Expanded(
                 child: TextField(
                   controller: searchController,
@@ -178,19 +190,20 @@ class _State extends State<UserDashboard> {
               itemCount: filteredUsers.length,
               itemBuilder: (BuildContext context, int index) {
                 User user = filteredUsers[index];
-                return Column(
-                    children:[ListTile(
+                return Column(children: [
+                  ListTile(
                     title: Text(user.name),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(user.email),
-                        Text('Afdeling: ${user.department ?? 'Niet van toepassing'}'),
+                        Text(
+                            'Afdeling: ${user.department ?? 'Niet van toepassing'}'),
                         Text('Geverifieerd: ${user.verified ? 'Ja' : 'Nee'}'),
                         Text('Rol: ${user.role ?? 'Niet van toepassing'}'),
                       ],
                     ),
-                  trailing: Wrap(
+                    trailing: Wrap(
                       spacing: 2,
                       children: [
                         ElevatedButton(
@@ -201,30 +214,32 @@ class _State extends State<UserDashboard> {
                             primary: Colors.black38,
                           ),
                           child: Text('Verwijderen'),
-                          ),
+                        ),
                         ElevatedButton(
-                            onPressed: () {
-                              showUpdateUserPrompt(user);
-                            },
-                            child: Text('Aanpassen'),
-                          ),
-                           SizedBox(
-                             width: 120,
-                           child:ElevatedButton(
+                          onPressed: () {
+                            showUpdateUserPrompt(user);
+                          },
+                          child: Text('Aanpassen'),
+                        ),
+                        SizedBox(
+                          width: 120,
+                          child: ElevatedButton(
                             onPressed: () {
                               verifyOrUnVerify(user);
                             },
-                             style: ElevatedButton.styleFrom(
-                               primary: (user.verified) ? Colors.black38 : null,
-                             ),
-                            child: Text((user.verified) ? "Onverifiëren" : "Verifiëren"),
+                            style: ElevatedButton.styleFrom(
+                              primary: (user.verified) ? Colors.black38 : null,
+                            ),
+                            child: Text((user.verified)
+                                ? "Onverifiëren"
+                                : "Verifiëren"),
                           ),
-                           ),
-
+                        ),
                       ],
                     ),
                   ),
-                const Divider()]);
+                  const Divider()
+                ]);
               },
             ),
           )
@@ -237,5 +252,3 @@ class _State extends State<UserDashboard> {
     );
   }
 }
-
-
