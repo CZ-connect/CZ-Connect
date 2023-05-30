@@ -9,5 +9,5 @@ public class Employee
     public string EmployeeName { get; set; } = string.Empty;
     public EmployeeRole Role { get; set; }
     public string PasswordHash {get;set;} = string.Empty;
-    
+    public bool Verified {get;set;} = false;
 }

@@ -18,30 +18,119 @@ namespace CZConnect.Controllers
         public EmployeeController(IConfiguration configuration, IRepository repository){
             _configuration = configuration;
             _repository = repository;
+
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<Employee>> Register(EmployeeDto request)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            Employee? employeeCheck = await _repository.FindByAsync<Employee>(e => e.EmployeeEmail == request.Email);
+
+            if (employeeCheck != null)
+            {
+                return BadRequest("Dit e-mailadres is al geregistreerd.");
+            }
+
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
                 return BadRequest("Ongeldige rol toegevoegd.");
             }
 
+            Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
+            if (department == null)
+            {
+                return BadRequest("Ongeldige afdeling.");
+            }
+            int departmentId = (int)department.Id;
+
             Employee employee = new Employee
             {
-                EmployeeEmail= request.Email,
+                EmployeeEmail = request.Email,
                 EmployeeName = request.Name,
                 PasswordHash = passwordHash,
-		DepartmentId = 1,
-                Role = role
+                DepartmentId = departmentId,
+                Verified = request.Verified,
+                Role = role,
             };
 
             await _repository.CreateAsync<Employee>(employee);
             return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Employee>> UpdateEmployee(long id, EmployeeDtoUpdate request)
+        {
+            Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            Employee? existingEmployee = await _repository.FindByAsync<Employee>(e => e.EmployeeEmail == request.Email && e.Id != id);
+
+
+            if (existingEmployee != null)
+            {
+
+            Console.WriteLine(existingEmployee.Id);
+            Console.WriteLine(employee.Id);
+                return BadRequest("Dit e-mailadres is al geregistreerd.");
+            }
+
+            if (!Enum.TryParse(request.Role, out EmployeeRole role))
+            {
+                return BadRequest("Ongeldige rol toegevoegd.");
+            }
+
+            Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
+            if (department == null)
+            {
+                return BadRequest("Ongeldige afdeling.");
+            }
+            int departmentId = (int)department.Id;
+
+            employee.EmployeeEmail = request.Email;
+            employee.EmployeeName = request.Name;
+            employee.DepartmentId = departmentId;
+            employee.Verified = request.Verified;
+            employee.Role = role;
+
+            await _repository.UpdateAsync<Employee>(employee);
+
+            return Ok(employee);
+        }
+
+        [HttpPost("{id}/verify")]
+            public async Task<ActionResult<Employee>> VerifyEmployee(long id)
+            {
+                Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                employee.Verified = true;
+                await _repository.UpdateAsync<Employee>(employee);
+                return Ok(employee);
+            }
+
+            [HttpPost("{id}/unverify")]
+            public async Task<ActionResult<Employee>> UnverifyEmployee(long id)
+            {
+                Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                employee.Verified = false;
+
+                await _repository.UpdateAsync(employee);
+                return Ok(employee);
+            }
 
 
         [HttpPost("login")]
@@ -52,6 +141,11 @@ namespace CZConnect.Controllers
             if (employee == null)
             {
                 return BadRequest("Verkeerde email of wachtwoord ingevuld");
+            }
+
+            if (!employee.Verified)
+            {
+                return BadRequest("Gebruiker is niet geverifieerd.");
             }
           
             if (!BCrypt.Net.BCrypt.Verify(request.Password, employee.PasswordHash))
@@ -108,6 +202,26 @@ namespace CZConnect.Controllers
             }
             return Ok(employee);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> RemoveEmployee(long id)
+        {
+            Employee? employee = await _repository.SelectByIdAsync<Employee>(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            var referrals = await _repository.AllAsync<Referral>(x => x.EmployeeId == id);
+            foreach (var referral in referrals) {
+                referral.Employee = null;
+                referral.EmployeeId = null;
+            }
+
+            await _repository.DeleteAsync(employee);
+            return NoContent();
+        }
+
+
 
         [HttpGet]
         [Route("department/{departmentId}")]

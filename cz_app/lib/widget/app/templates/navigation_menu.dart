@@ -54,6 +54,23 @@ class NavigationMenu extends StatelessWidget {
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
+          if (!UserPreferences.isLoggedIn())
+            ListTile(
+              title: const Text('Registreren'),
+              key: const Key('register_menu_item'),
+              onTap: () {
+                context.go('/register');
+              },
+           ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('User Dashboard'),
+              key: const Key('user_dashboard_menu_item'),
+              onTap: () {
+                context.go('/userdashboard');
+              },
+            ),
           if (UserPreferences.isLoggedIn() &&
               (role == Roles.Admin.name || role == Roles.Recruitment.name))
             ListTile(
