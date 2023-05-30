@@ -75,12 +75,14 @@ namespace CZConnect.Controllers
         public async Task<ActionResult<Department>> DeleteDepartment(long id)
         {
             var department = await _repository.SelectByIdAsync<Department>(id);
-            var departmentId = department.Id;
-            var employees = await _repository.AllAsync<Employee>();
+            
             if (department == null)
             {
                 return NotFound();
             }
+
+            var departmentId = department.Id;
+            var employees = await _repository.AllAsync<Employee>();
             
             var employeesInDepartment = employees.Where(e => e.DepartmentId == departmentId);
             foreach (var employee in employeesInDepartment)

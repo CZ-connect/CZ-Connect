@@ -10,25 +10,55 @@ namespace backend.tests;
 public class DepartmentTest
 {
     private List<Department> _departments;
+    private List<Employee> _employees;
     [TestInitialize]
     public void Initialize()
     {
+         EmployeeRole[] _roles = (EmployeeRole[]) Enum.GetValues(typeof(EmployeeRole));
         _departments = new List<Department>()
         {
             new()
             {
-                Id = 0,
+                Id = 1,
                 DepartmentName = "TestDepartment"
             },
             new()
             {
-                Id = 1,
+                Id = 2,
                 DepartmentName = "TestDepartment2"
             },
             new()
             {
-                Id = 2,
+                Id = 3,
                 DepartmentName = "TestDepartment3"
+            }
+        };
+
+        _employees = new List<Employee>
+        {
+            new()
+            {
+                Id = 1,
+                EmployeeName = "Marijn van den Bos",
+                EmployeeEmail = "m.vandenbos5@student.avans.nl",
+                DepartmentId = 1,
+                Role = _roles[1]
+            },
+            new()
+            {
+                Id = 2,
+                EmployeeName = "Coen van den Berge",
+                EmployeeEmail = "cvdb@out.look.com",
+                DepartmentId = 2,
+                Role = _roles[2]
+            },
+            new()
+            {
+                Id = 3,
+                EmployeeName = "Jos van den Berge",
+                EmployeeEmail = "j@outlook.com",
+                DepartmentId = 3,
+                Role = _roles[2]
             }
         };
     }
@@ -100,8 +130,12 @@ public class DepartmentTest
             .Callback<Department>((entity) => _departments.Remove(_departments.First()));
         mockRepository.Setup(repo => repo.SelectByIdAsync<Department>(_departments.First().Id))
             .ReturnsAsync(_departments.First());
+        mockRepository.Setup(repo => repo.AllAsync<Employee>())
+            .ReturnsAsync(_employees);
+         mockRepository.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
         var controller = new DepartmentController(mockRepository.Object);
 
+        //var result = await controller.DeleteDepartment(12);
         
         var result = await controller.DeleteDepartment(_departments.First().Id);
 
@@ -119,6 +153,9 @@ public class DepartmentTest
             .Callback<Department>((entity) => _departments.Remove(_departments.First()));
         mockRepository.Setup(repo => repo.SelectByIdAsync<Department>(_departments.First().Id))
             .ReturnsAsync(_departments.First());
+        mockRepository.Setup(repo => repo.AllAsync<Employee>())
+            .ReturnsAsync(_employees);
+         mockRepository.Setup(repo => repo.UpdateAsync(_employees.First())).Verifiable();
         var controller = new DepartmentController(mockRepository.Object);
 
         var result = await controller.DeleteDepartment(8);

@@ -101,6 +101,8 @@ void main() {
     final interceptor = nock.get("/department")
       ..reply(200, expectedDepartments);
 
+    
+
     await tester.pumpWidget(const MyApp());
     expect(find.byType(DepartmentCreationForm), findsOneWidget);
     expect(find.byType(Form), findsOneWidget);
