@@ -87,10 +87,12 @@ void main() {
   late MockDepartmentData mockDepartmentData;
   final departmentForm = DepartmentForm(DepartmentName: null);
 
-  setUpAll(() async {
-    nock.defaultBase = "http://localhost:3000/api";
+  setUpAll(() {
     nock.init();
-    HttpOverrides.global = null;
+  });
+
+  setUp(() {
+    nock.cleanAll();
   });
 
   setUp(() => mockDepartmentData = MockDepartmentData());
@@ -98,7 +100,8 @@ void main() {
       '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"}, {"id":5,"departmentName":"Test Department"}]';
 
   testWidgets('departmentForm builds', (WidgetTester tester) async {
-    final interceptor = nock.get("/department")
+    final interceptor = nock("http://localhost:3000/api")
+        .get("/department")
       ..reply(200, expectedDepartments);
 
     await tester.pumpWidget(const MyApp());
@@ -112,9 +115,9 @@ void main() {
 
     await tester.tap(find.text('Afdeling aanmaken'));
 
+    await tester.pump();
     await tester.pumpAndSettle();
     expect(interceptor.isDone, true);
-    await tester.pumpAndSettle();
 
     expect(jsonMap['DepartmentName'].toString(), 'Test Department');
   });
