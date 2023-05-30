@@ -1,6 +1,6 @@
 class User {
   int id;
-  int departmentId;
+  int? departmentId;
   String? department;
   String name;
   String email;
@@ -9,7 +9,7 @@ class User {
 
   User({
     required this.id,
-    required this.departmentId,
+    this.departmentId,
     this.department,
     required this.name,
     required this.email,
