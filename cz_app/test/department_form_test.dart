@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:nock/nock.dart';
 
 GoRouter _router = GoRouter(
   routes: [
@@ -86,8 +87,15 @@ void main() {
   late MockDepartmentData mockDepartmentData;
   final departmentForm = DepartmentForm(DepartmentName: null);
 
-  setUpAll(() => HttpOverrides.global = null);
+  setUpAll(() async {
+    nock.defaultBase = "http://localhost:3000/api";
+    nock.init();
+    HttpOverrides.global = null;
+  });
+
   setUp(() => mockDepartmentData = MockDepartmentData());
+  const expectedDepartments =
+      '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"}, {"id":5,"departmentName":"Test Department"}]';
 
   testWidgets('departmentForm builds', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
@@ -96,10 +104,14 @@ void main() {
     Map<String, dynamic> jsonMap = {'DepartmentName': 'Test Department'};
 
     await tester.enterText(find.byKey(const Key('departmentNameField')),
-        jsonMap['name'].toString());
+        jsonMap['DepartmentName'].toString());
     departmentForm.DepartmentName = jsonMap['DepartmentName'].toString();
 
     await tester.tap(find.text('Afdeling aanmaken'));
+    final interceptor = nock.get("/department")
+      ..reply(200, expectedDepartments);
+
+    expect(interceptor.isDone, true);
     await tester.pumpAndSettle();
 
     expect(jsonMap['DepartmentName'].toString(), 'Test Department');
