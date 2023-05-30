@@ -89,8 +89,8 @@ final GoRouter _router = GoRouter(
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: ScreenTemplate(
-                header: const TopAppWidget(),
+              child: const ScreenTemplate(
+                header: TopAppWidget(),
                 body: BottemAppWidget(
                   child: AppMainContainer(
                     child: RegisterWidget(),
@@ -130,6 +130,84 @@ final GoRouter _router = GoRouter(
             context.go('/');
           });
           return const Scaffold(); // Placeholder widget
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/create',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentCreationForm(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/:id/edit',
+      name: 'editDepartment',
+      builder: (BuildContext context, GoRouterState state) {
+        id:
+        state.params['id'];
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          Department department = state.extra as Department;
+          return Scaffold(
+            body: DepartmentTemplate(
+              header: const DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentUpdateWidget(
+                    department: department,
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
+        }
+      },
+    ),
+    GoRoute(
+      path: '/department/index',
+      builder: (BuildContext context, GoRouterState state) {
+        String role = UserPreferences.getUserRole();
+        if (UserPreferences.isLoggedIn() &&
+            (role == Roles.Admin.name || role == Roles.Recruitment.name)) {
+          return const Scaffold(
+            body: DepartmentTemplate(
+              header: DepartmentTopWidget(),
+              body: DepartmentBottomWidget(
+                child: DepartmentContainerWidget(
+                  child: DepartmentIndex(),
+                ),
+              ),
+            ),
+          );
+        } else {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.go('/');
+          });
+          return const Scaffold();
         }
       },
     ),
