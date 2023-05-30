@@ -23,13 +23,12 @@ RUN git config --global --add safe.directory /usr/share/flutter
 RUN flutter doctor
 
 WORKDIR ./cz_app
-
 COPY . .
 RUN echo flutter pub get
 RUN flutter pub get
 RUN flutter build web
 
-# Run web server from nginx
+#Run web server from nginx
 #FROM nginx:1.23 as runtime
 #
 #COPY --from=builder /opt/CZ-connect/build /usr/share/nginx/html
