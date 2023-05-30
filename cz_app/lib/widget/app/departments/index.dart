@@ -20,13 +20,6 @@ class _DepartmentIndex extends State<DepartmentIndex> {
     super.initState();
   }
 
-  void refreshDepartments() {
-    setState(() {
-      departments = Future.value([]);
-      departments = DepartmentData().fetchDepartments();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -149,10 +142,12 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                 ),
                 TextButton(
                   child: const Text("Verwijder"),
-                  onPressed: () {
-                    deleteDepartment(context, department.id);
-                    refreshDepartments();
-                    Navigator.of(context).pop(true);
+                  onPressed: () async {
+                    await deleteDepartment(context, department.id);
+                    setState(() {
+                      Navigator.of(context).pop(true);
+                      departments = DepartmentData().fetchDepartments();
+                    });
                   },
                 ),
               ],

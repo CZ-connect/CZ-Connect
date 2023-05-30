@@ -98,6 +98,9 @@ void main() {
       '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"}, {"id":5,"departmentName":"Test Department"}]';
 
   testWidgets('departmentForm builds', (WidgetTester tester) async {
+    final interceptor = nock.get("/department")
+      ..reply(200, expectedDepartments);
+
     await tester.pumpWidget(const MyApp());
     expect(find.byType(DepartmentCreationForm), findsOneWidget);
     expect(find.byType(Form), findsOneWidget);
@@ -108,9 +111,8 @@ void main() {
     departmentForm.DepartmentName = jsonMap['DepartmentName'].toString();
 
     await tester.tap(find.text('Afdeling aanmaken'));
-    final interceptor = nock.get("/department")
-      ..reply(200, expectedDepartments);
 
+    await tester.pumpAndSettle();
     expect(interceptor.isDone, true);
     await tester.pumpAndSettle();
 
