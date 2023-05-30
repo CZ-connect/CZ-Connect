@@ -27,6 +27,8 @@ internal class DbInit
                 List<Employee> employees = GenerateRandomEmployees(30);
                 foreach(var e in employees)
                     dbContext.Employees.Add(e);
+                dbContext.Employees.Add(CreateAdminEmployee());
+                dbContext.Employees.Add(CreateRecruiterEmployee());
             } 
        
             if(!dbContext.Referrals.Any()) 
@@ -43,7 +45,35 @@ internal class DbInit
             Console.WriteLine(e);
             throw;
         }
-        
+
+    }
+    private static Employee CreateRecruiterEmployee() {
+    Employee adminEmployee = new Employee()
+    {
+        EmployeeName = "Recruiter",
+        Verified = true,
+        Role = EmployeeRole.Recruitment,
+        PasswordHash = BCrypt.Net.BCrypt.HashPassword("jello123"),
+        EmployeeEmail = "recruiter@cz.nl",
+        DepartmentId = 6
+    };
+    
+    return adminEmployee;
+    }
+
+
+    private static Employee CreateAdminEmployee() {
+    Employee adminEmployee = new Employee()
+    {
+        EmployeeName = "Admin",
+        Verified = true,
+        Role = EmployeeRole.Admin,
+        PasswordHash = BCrypt.Net.BCrypt.HashPassword("jello123"),
+        EmployeeEmail = "admin@cz.nl",
+        DepartmentId = 1
+    };
+    
+    return adminEmployee;
     }
 
     private static List<Employee> GenerateRandomEmployees(int amount)
@@ -52,9 +82,13 @@ internal class DbInit
         int departmentId = 1;
         for(int i=0; i < amount; i++)
         {
+            string uniqueId = Guid.NewGuid().ToString().Substring(0, 3);
             employees.Add(new Employee(){
                 EmployeeName = GetDutchName(),
-                EmployeeEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + "@example.com",
+                Verified = true,
+                Role = EmployeeRole.Employee,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("jello123"),
+                EmployeeEmail = String.Concat(GetDutchName().Where(n => !Char.IsWhiteSpace(n))) + uniqueId + "@cz.nl",                 
                 DepartmentId = departmentId });
             if(i % 6 == 0)
             {

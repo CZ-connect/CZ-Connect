@@ -54,6 +54,23 @@ class NavigationMenu extends StatelessWidget {
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
+          if (!UserPreferences.isLoggedIn())
+            ListTile(
+              title: const Text('Registreren'),
+              key: const Key('register_menu_item'),
+              onTap: () {
+                context.go('/register');
+              },
+           ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('User Dashboard'),
+              key: const Key('user_dashboard_menu_item'),
+              onTap: () {
+                context.go('/userdashboard');
+              },
+            ),
           if (UserPreferences.isLoggedIn() &&
               (role == Roles.Admin.name || role == Roles.Recruitment.name))
             ListTile(
@@ -85,6 +102,15 @@ class NavigationMenu extends StatelessWidget {
               key: const Key('referral_overview_menu_item'),
               onTap: () {
                 context.go('/loading');
+              },
+            ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: const Text('Afdelingen'),
+              key: const Key('departments_menu_item'),
+              onTap: () {
+                context.go('/department/index');
               },
             ),
         ],
