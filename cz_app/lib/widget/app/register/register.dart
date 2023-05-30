@@ -196,7 +196,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'password': modelForm.password.toString(),
-      'name': "$modelForm.firstname $modelForm.lastname",
+      'name': "${modelForm.firstname} ${modelForm.lastname}",
       'department': modelForm.department,
       'role': Roles.Employee.name,
       'verified': false,
