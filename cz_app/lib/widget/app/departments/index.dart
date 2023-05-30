@@ -22,68 +22,83 @@ class _DepartmentIndex extends State<DepartmentIndex> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
+    return SizedBox.expand(
+      child: Column(
         key: const Key('Department_index_key'),
-        margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
-        child: Column(
-          children: <Widget>[
-            Text("Overzicht van alle afdelingen.",
-                style: TextStyle(
-                    color: Colors.grey[800],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40)),
-            FutureBuilder<List<Department>>(
-              future: departments,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('Er zijn geen afdelingen gevonden.');
-                } else {
-                  List<Department> departments =
-                      snapshot.data as List<Department>;
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: DataTable(
-                        dataRowHeight: 75,
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.grey),
-                        columns: <DataColumn>[
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text("Afdelingsnaam"),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text(""),
-                            ),
-                          ),
-                          DataColumn(
-                            label: ElevatedButton(
-                              key: const Key('new_department_key'),
-                              onPressed: () {
-                                context.go('/department/create');
-                              },
-                              child: const Text("Nieuwe afdeling"),
-                            ),
-                          ),
-                        ],
-                        rows: buildRows(departments),
-                      ),
-                    ),
-                  );
-                }
-              },
+        children: [
+          Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    "Overzicht van alle afdelingen.",
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40),
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+          Flexible(
+            child: Row(
+              children: [
+                Flexible(
+                  child: FutureBuilder<List<Department>>(
+                    future: departments,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text('Er zijn geen afdelingen gevonden.');
+                      } else {
+                        List<Department> departments =
+                            snapshot.data as List<Department>;
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: DataTable(
+                              dataRowHeight: 75,
+                              headingRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.grey),
+                              columns: <DataColumn>[
+                                const DataColumn(
+                                  label: Expanded(
+                                    child: Text("Afdelingsnaam"),
+                                  ),
+                                ),
+                                const DataColumn(
+                                  label: Expanded(
+                                    child: Text(""),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: ElevatedButton(
+                                    key: const Key('new_department_key'),
+                                    onPressed: () {
+                                      context.go('/department/create');
+                                    },
+                                    child: const Text("Nieuwe afdeling"),
+                                  ),
+                                ),
+                              ],
+                              rows: buildRows(departments),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
