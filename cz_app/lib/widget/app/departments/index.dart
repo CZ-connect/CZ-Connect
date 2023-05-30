@@ -25,6 +25,7 @@ class _DepartmentIndex extends State<DepartmentIndex> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        key: const Key('Department_index_key'),
         margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: Column(
           children: <Widget>[
