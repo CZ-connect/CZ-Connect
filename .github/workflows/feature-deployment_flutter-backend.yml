@@ -56,3 +56,5 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1370A76696E14BDABF3A9FBCB954BDBC }}
           package: .
+          env:
+            ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING: ${{ secrets.AZURE_DATABASE_CONNECTIONSTRING }}
