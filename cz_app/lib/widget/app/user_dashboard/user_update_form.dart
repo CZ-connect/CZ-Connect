@@ -35,7 +35,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<void> fetchDepartments() async {
-    final response = await http.get(Uri.http('localhost:3000', '/api/department'));
+    final response = await http.get(Uri.http('flutter-backend.azurewebsites', '/api/department'));
     if (response.statusCode == 200) {
       final List<dynamic> departmentsJson = jsonDecode(response.body);
       setState(() {
@@ -174,7 +174,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<bool> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/employee/${widget.user.id}');
+    var url = Uri.https('flutter-backend.azurewebsites.net', '/api/employee/${widget.user.id}');
     print(widget.user.id.toString());
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email,

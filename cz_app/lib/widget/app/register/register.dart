@@ -32,7 +32,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
   Future<void> fetchDepartments() async {
     final response =
-        await http.get(Uri.http('localhost:3000', '/api/department'));
+        await http.get(Uri.https('flutter-backend.azurewebsites.net', '/api/department'));
     if (response.statusCode == 200) {
       final List<dynamic> departmentsJson = jsonDecode(response.body);
       setState(() {
@@ -192,7 +192,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/employee/register');
+    var url = Uri.http('flutter-backend.azurewebsites.net', '/api/employee/register');
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'password': modelForm.password.toString(),

@@ -6,7 +6,8 @@ name: Build and deploy ASP.Net Core app to Azure Web App - flutter-backend
 on:
   push:
     branches:
-      - feature/deployment
+      - main
+      - development
   workflow_dispatch:
 
 jobs:

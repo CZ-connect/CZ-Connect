@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<void> deleteDepartment(BuildContext context, int id) async {
-  var url = Uri.http('localhost:3000', '/api/department/$id');
+  var url = Uri.https('flutter-backend.azurewebsites.net', '/api/department/$id');
 
   try {
     var response = await http.delete(url, headers: {
