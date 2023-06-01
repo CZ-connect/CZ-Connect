@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString({{Git}} ??"CZConnectDatabase")));
 
 builder.Services.AddScoped<DbInit>();
 builder.Services.AddSwaggerGen();
