@@ -69,7 +69,6 @@ class LoginWidget extends StatelessWidget {
       ),
     );
   }
-
   Future<void> sendform(BuildContext context) async {
     var url = Uri.http('https://flutter-backend.azurewebsites.net', '/api/employee/login');
     Map<String, dynamic> jsonMap = {
