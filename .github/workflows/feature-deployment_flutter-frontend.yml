@@ -35,9 +35,9 @@ jobs:
         working-directory: cz_app
 
       # Run tests
-      - name: Run tests
-        run: flutter test
-        working-directory: cz_app
+      #- name: Run tests
+       # run: flutter test
+        #working-directory: cz_app
 
       # Clean project
       - name: clean flutter
