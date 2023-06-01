@@ -1,4 +1,4 @@
-name: Flutter Web Test
+name: Flutter Web Test and Build
 
 on:
   push:
@@ -23,15 +23,33 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
         working-directory: cz_app
+
       # Analyse project
       - name: Run analyze
         run: flutter analyze --pub --no-fatal-infos --no-fatal-warnings
         working-directory: cz_app
+
       # Run tests
       - name: Run tests
         run: flutter test
         working-directory: cz_app
-        
+
+      # Clean project
+      - name: clean flutter
+        run: flutter clean
+        working-directory: cz_app
+
+      # Build Web
+      - name: build flutter (Web)
+        run: flutter build web
+        working-directory: cz_app
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-app
+          path: cz_app/build/web/
+
   Build_web:
     name: Build flutter (Web)
     needs: flutter_test
@@ -39,20 +57,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Install Flutter
-      - name: Install Flutter
-        uses: subosito/flutter-action@v1
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
         with:
-          flutter-version: '3.7.6'  # Set the version of Flutter to install
+          name: web-app
 
-      # Install dependencies
-      - name: Get dependencies
-        run: flutter pub get
-        working-directory: cz_app
-      - name: clean flutter
-        run: flutter clean
-        working-directory: cz_app
-      - name: build flutter (Web)
-        run: flutter build web
-        working-directory: cz_app
-
+      # Your steps to push the build app to azure goes here
