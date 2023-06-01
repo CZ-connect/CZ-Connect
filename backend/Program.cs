@@ -11,9 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Dependency injection
 builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 string connectionString;
-if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("AZURE_DATABASE_CONNECTIONSTRING")))
+if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING")))
 {
-    connectionString = builder.Configuration.GetConnectionString("AZURE_DATABASE_CONNECTIONSTRING");
+    connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING") ?? throw new InvalidOperationException();
 }
 else
 {
@@ -52,9 +52,23 @@ if (app.Environment.IsDevelopment())
 // Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
-    db.Database.Migrate();
-    app.UseItToSeedSqlServer();
+
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+        db.Database.Migrate(); // your existing line to apply migrations
+        app.UseItToSeedSqlServer(); // your existing line to seed the database
+
+        // New line: try to fetch some data
+        // Replace "YourEntity" with one of your actual entity classes
+        var data = db.Set<Employee>().FirstOrDefault();
+
+        Console.WriteLine("Connection successful.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Connection failed: {ex.Message}");
+    }
 }
 
 app.Run();
