@@ -64,6 +64,7 @@ using (var scope = app.Services.CreateScope())
         var data = db.Set<Employee>().FirstOrDefault();
 
         Console.WriteLine("Connection successful.");
+        throw new Exception("Database cleared!2");
     }
     catch (Exception ex)
     {
