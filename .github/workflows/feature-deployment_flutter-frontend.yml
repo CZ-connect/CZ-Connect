@@ -1,10 +1,6 @@
 name: Build and deploy Node.js app to Azure Web App - flutter-frontend
 
 on:
-  pull_request:
-    branches:
-      - development
-      - main
   push:
     branches:
       - development
