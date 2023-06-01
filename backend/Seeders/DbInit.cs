@@ -12,8 +12,7 @@ internal class DbInit
             dbContext.Employees.RemoveRange(dbContext.Employees);
             dbContext.Referrals.RemoveRange(dbContext.Referrals);
             dbContext.SaveChanges();
-            throw new Exception("Database cleared!");
-            
+
             if (!dbContext.Departments.Any())
             {
                 var departments = new Department[]

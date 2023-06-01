@@ -59,8 +59,7 @@ using (var scope = app.Services.CreateScope())
         var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
         db.Database.Migrate(); // your existing line to apply migrations
         app.UseItToSeedSqlServer(); // your existing line to seed the database
-
-        // New line: try to fetch some data
+        
         // Replace "YourEntity" with one of your actual entity classes
         var data = db.Set<Employee>().FirstOrDefault();
 
