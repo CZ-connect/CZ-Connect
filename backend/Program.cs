@@ -24,9 +24,6 @@ else
 }
 
 builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(connectionString));
-
-builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(connectionString)));
 
 builder.Services.AddScoped<DbInit>();
