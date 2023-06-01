@@ -13,7 +13,7 @@ builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
 string connectionString;
 if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING")))
 {
-    connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING") ?? throw new InvalidOperationException();
+    connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING")
 }
 else
 {
