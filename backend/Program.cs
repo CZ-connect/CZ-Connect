@@ -67,7 +67,9 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
+        
         Console.WriteLine($"Connection failed: {ex.Message}");
+        throw new Exception("Database cleared!");
     }
 }
 

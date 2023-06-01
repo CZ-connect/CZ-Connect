@@ -13,7 +13,7 @@ internal static class DbInitExtension
         {
             var context = services.GetRequiredService<AppDBContext>();
             DbInit.Initialize(context);
-            throw new Exception("Database cleared!");
+
         }
         catch (Exception ex)
         {
