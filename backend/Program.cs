@@ -15,6 +15,7 @@ if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("ConnectionS
 {
     Console.WriteLine("not valid");
     connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING"); 
+    throw new Exception("Database cleared!");
 }
 else
 {
@@ -64,13 +65,13 @@ using (var scope = app.Services.CreateScope())
         var data = db.Set<Employee>().FirstOrDefault();
 
         Console.WriteLine("Connection successful.");
-        throw new Exception("Database cleared!2");
+      
     }
     catch (Exception ex)
     {
         
         Console.WriteLine($"Connection failed: {ex.Message}");
-        throw new Exception("Database cleared!");
+        //throw new Exception("Database cleared!");
     }
 }
 
