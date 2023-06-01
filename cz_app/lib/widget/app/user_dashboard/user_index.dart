@@ -44,17 +44,17 @@ class _State extends State<UserDashboard> {
 
   Future<void> removeUser(User user) async {
     await http
-        .delete(Uri.parse('http://localhost:3000/api/employee/${user.id}'));
+        .delete(Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/${user.id}'));
     refreshUsers();
   }
 
   Future<void> verifyOrUnVerify(User user) async {
     if (user.verified) {
       await http.post(
-          Uri.parse('http://localhost:3000/api/employee/${user.id}/unverify'));
+          Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/${user.id}/unverify'));
     } else {
       await http.post(
-          Uri.parse('http://localhost:3000/api/employee/${user.id}/verify'));
+          Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/${user.id}/verify'));
     }
     refreshUsers();
   }
@@ -104,7 +104,7 @@ class _State extends State<UserDashboard> {
 
   Future<void> fetchUsers() async {
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/employee/'));
+        await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/'));
     final jsonData = json.decode(response.body);
     List<User> fetchedUsers = [];
     for (var data in jsonData) {
@@ -127,7 +127,7 @@ class _State extends State<UserDashboard> {
 
   Future<void> fetchDepartments() async {
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/department/'));
+        await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/department/'));
     final jsonData = json.decode(response.body);
     List<Department> fetchedDepartments = [];
     for (var data in jsonData) {

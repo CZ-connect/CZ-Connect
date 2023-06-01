@@ -68,7 +68,7 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
   }
 
   Future<void> sendForm(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/department');
+    var url = Uri.http('https://flutter-backend.azurewebsites.net', '/api/department');
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };

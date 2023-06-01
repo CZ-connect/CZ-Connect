@@ -4,7 +4,7 @@ import '../../models/graph.dart';
 
 Future<List<Graph>> fetchGraphData() async {
   final response =
-      await http.get(Uri.parse('http://localhost:3000/api/graphdata'));
+      await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/graphdata'));
   if (response.statusCode == 200) {
     var graphJson = jsonDecode(response.body)["graph_data"] as List;
     List<Graph> graph = graphJson.map((e) => Graph.fromJson(e)).toList();

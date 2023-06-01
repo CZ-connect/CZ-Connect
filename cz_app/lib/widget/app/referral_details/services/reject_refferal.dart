@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 Future<void> rejectRefferal(BuildContext context, dynamic referral) async {
   var id = referral.id.toString();
-  var url = Uri.http('localhost:3000', '/api/referral/$id');
+  var url = Uri.http('https://flutter-backend.azurewebsites.net', '/api/referral/$id');
 
   DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
       .parse(referral.registrationDate.toString());

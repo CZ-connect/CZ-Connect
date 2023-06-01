@@ -5,7 +5,7 @@ import 'dart:convert' show jsonDecode;
 class DepartmentData {
   Future<List<Department>> fetchDepartments() async {
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/department'));
+        await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/department'));
 
     if (response.statusCode == 200) {
       var departmentObjsJson = jsonDecode(response.body) as List;

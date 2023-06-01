@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class ReferralData {
   Future<List<Referral>> fetchReferrals(int id) async {
     final response = await http.get(
-        Uri.parse('http://localhost:3000/api/referral/employee/$id'),
+        Uri.parse('https://flutter-backend.azurewebsites.net/api/referral/employee/$id'),
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
@@ -25,14 +25,14 @@ class ReferralData {
 
   Future<int> completedCounter(int id) async {
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/referral/employee/$id'));
+        .get(Uri.parse('https://flutter-backend.azurewebsites.net/api/referral/employee/$id'));
 
     return jsonDecode(response.body)["completed"];
   }
 
   Future<int> pendingCounter(int id) async {
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/referral/employee/$id'));
+        .get(Uri.parse('https://flutter-backend.azurewebsites.net/api/referral/employee/$id'));
 
     return jsonDecode(response.body)["pending"];
   }

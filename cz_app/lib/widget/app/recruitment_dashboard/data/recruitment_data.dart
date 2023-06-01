@@ -7,7 +7,7 @@ import 'dart:convert' show jsonDecode;
 class RecruitmentData {
   Future<List<Department>> fetchDepartments() async {
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/department'));
+        await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/department'));
 
     if (response.statusCode == 200) {
       var departmentObjsJson = jsonDecode(response.body) as List;
@@ -24,7 +24,7 @@ class RecruitmentData {
   Future<List<Employee>> fetchEmployees(int departmentId) async {
     final response = await http.get(
         Uri.parse(
-            'http://localhost:3000/api/employee/department/$departmentId'),
+            'https://flutter-backend.azurewebsites.net/api/employee/department/$departmentId'),
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ class RecruitmentData {
 
   Future<List<Referral>> fetchUnlinkedReferrals() async {
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/referral/unlinked'));
+        .get(Uri.parse('https://flutter-backend.azurewebsites.net/api/referral/unlinked'));
     if (response.statusCode == 200) {
       var unlinkedReferrals =
           jsonDecode(response.body)['referral_data'] as List;

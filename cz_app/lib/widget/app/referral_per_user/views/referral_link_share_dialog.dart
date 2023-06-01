@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
   const ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = "localhost:5555/#/?referral=";
+  final String link = "https://flutter-backend.azurewebsites.net/#/?referral=";
 
   @override
   Widget build(BuildContext context) {

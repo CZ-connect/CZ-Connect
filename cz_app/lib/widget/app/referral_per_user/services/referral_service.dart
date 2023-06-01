@@ -10,7 +10,7 @@ class ReferralService {
 
   Future<void> getData() async {
     Response response = await get(
-        Uri.parse('http://localhost:3000/api/employee/referral/$userId'),
+        Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/referral/$userId'),
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',

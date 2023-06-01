@@ -80,7 +80,7 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
 
   Future<void> sendForm(BuildContext context) async {
     var url =
-        Uri.http('localhost:3000', '/api/department/${widget.department.id}');
+        Uri.http('https://flutter-backend.azurewebsites.net', '/api/department/${widget.department.id}');
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };
