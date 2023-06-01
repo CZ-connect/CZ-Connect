@@ -7,10 +7,9 @@ internal class DbInit
         try
         {
             ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
+        
             dbContext.Database.EnsureCreated();
-            dbContext.Departments.RemoveRange(dbContext.Departments);
-            dbContext.Employees.RemoveRange(dbContext.Employees);
-            dbContext.Referrals.RemoveRange(dbContext.Referrals);
+      
             dbContext.SaveChanges();
 
             if (!dbContext.Departments.Any())
