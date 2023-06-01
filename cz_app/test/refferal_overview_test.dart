@@ -53,7 +53,7 @@ void main() {
   group('Refferal Overview', () {
     testWidgets('Navigating to referral overview, displaying 2 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock("https://flutter-backend.azurewebsites.net/api")
           .get("/employee/referral/0")
         ..reply(200, expectedJsonResponse);
       await tester.pumpWidget(myapp);
@@ -66,7 +66,7 @@ void main() {
 
     testWidgets('Navigating to referral overview, displaying 0 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock("https://flutter-backend.azurewebsites.net/api")
           .get("/employee/referral/0")
         ..reply(200, '[]');
       _router.go("/");
@@ -81,7 +81,7 @@ void main() {
     testWidgets(
         'Navigating to referral overview, failing to get referrals and displaying error',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock("https://flutter-backend.azurewebsites.net/api")
           .get("/employee/referral/0")
         ..reply(404, '');
       _router.go("/");
@@ -94,7 +94,7 @@ void main() {
     testWidgets(
         'Navigating to referral overview, failing to get referrals, displaying error, navigating back to the menu',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock("https://flutter-backend.azurewebsites.net/api")
           .get("/employee/referral/0")
         ..reply(200, expectedJsonResponse);
       _router.go("/");

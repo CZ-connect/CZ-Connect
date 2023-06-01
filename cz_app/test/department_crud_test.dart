@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
 void main() {
   setUpAll(() {
     HttpOverrides.global = null;
-    nock.defaultBase = "http://localhost:3000/api";
+    nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
     nock.init();
   });
 

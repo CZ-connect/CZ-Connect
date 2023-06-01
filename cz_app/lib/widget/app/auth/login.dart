@@ -101,6 +101,10 @@ class LoginWidget extends StatelessWidget {
         throw Exception('Applicatie error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Applicatie error: $exception')),
+      );
+    }
   }
 }

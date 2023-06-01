@@ -67,16 +67,16 @@ services:
 #    networks:
 #      - czconnect
 
-  flutter-web:
-    image: czfluttercontainers.azurecr.io/czconnect-flutter-web:latest
-    build:
-      context: cz_app
-      dockerfile: Dockerfile
-    ports:
-      - 3011:3011
-    command: ["flutter", "run", "-d", "web-server", "--web-port", "3011", "--web-hostname", "0.0.0.0"]
-    networks:
-      - czconnect
+#  flutter-web:
+#    image: czfluttercontainers.azurecr.io/czconnect-flutter-web:latest
+#    build:
+#      context: cz_app
+#      dockerfile: Dockerfile
+#    ports:
+#      - 3011:3011
+#    command: ["flutter", "run", "-d", "web-server", "--web-port", "3011", "--web-hostname", "0.0.0.0"]
+#    networks:
+#      - czconnect
 
 networks:
   czconnect:
