@@ -53,7 +53,7 @@ if (app.Environment.IsDevelopment())
 // Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
 {
-
+ 
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
