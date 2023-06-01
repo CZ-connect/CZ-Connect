@@ -10,18 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Dependency injection
 builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
-// string connectionString;
-// if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING")))
-// {
-//     Console.WriteLine("not valid");
-//     connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING"); 
-//    
-// }
-// else
-// {
-//     connectionString = builder.Configuration.GetConnectionString("CZConnectDatabase");
-//     throw new Exception("takes the default!");
-// }
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
 
