@@ -15,11 +15,12 @@ if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString("ConnectionS
 {
     Console.WriteLine("not valid");
     connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__AZURE_DATABASE_CONNECTIONSTRING"); 
-    throw new Exception("Database cleared!");
+   
 }
 else
 {
     connectionString = builder.Configuration.GetConnectionString("CZConnectDatabase");
+    throw new Exception("takes the default!");
 }
 
 builder.Services.AddDbContext<AppDBContext>(options =>
