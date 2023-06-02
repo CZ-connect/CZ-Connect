@@ -1,4 +1,6 @@
+import 'package:cz_app/main.dart';
 import 'package:cz_app/widget/app/models/roles.dart';
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../auth/user_preferences.dart';
@@ -112,9 +114,27 @@ class NavigationMenu extends StatelessWidget {
               onTap: () {
                 context.go('/department/index');
               },
-            ),
-        ],
+    ),
+    ListTile(
+    title: Row(
+    children: [
+      IconButton(
+        icon: const Flag.fromString('nl'),
+        onPressed: () {
+          MyApp.of(context)!.setLocale(const Locale.fromSubtags(languageCode: 'nl'));
+        },
       ),
+      IconButton(
+      icon: const Flag.fromString('us'),
+      onPressed: () {
+          MyApp.of(context)!.setLocale(const Locale.fromSubtags(languageCode: 'en'));
+        },
+      ),
+    ],
+    ),
+    )
+        ]
+      )
     );
   }
 }

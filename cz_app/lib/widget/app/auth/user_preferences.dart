@@ -1,7 +1,8 @@
-
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserPreferences {
   static SharedPreferences? _prefs;
@@ -22,6 +23,7 @@ class UserPreferences {
     await _prefs?.setString(_keyUserName, decodedToken['displayname']);
     await _prefs?.setString(_keyUserRole, decodedToken['role']);
     await _prefs?.setBool(_keyIsLoggedIn, true);
+    //todo set and get locale
     checkSavedToken();
   }
 

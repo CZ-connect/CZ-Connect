@@ -29,6 +29,7 @@ import 'package:cz_app/widget/app/templates/referral_overview/template.dart';
 import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:cz_app/widget/app/user_dashboard/user_index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widget/app/departments/edit.dart';
@@ -37,8 +38,9 @@ import 'widget/app/referral_per_user/views/referral_overview.dart';
 import 'widget/app/templates/departments/bottom.dart';
 import 'widget/app/templates/departments/container.dart';
 import 'widget/app/templates/departments/top.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 /// The route configuration.
 
@@ -393,16 +395,38 @@ final GoRouter _router = GoRouter(
   ],
 );
 
-/// The main app.
-class MyApp extends StatelessWidget {
-  /// Constructs a [MyApp]
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'), // Spanish
+        Locale('en'), // English
+      ],
       theme: ThemeData(
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
