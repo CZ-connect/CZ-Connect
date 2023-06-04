@@ -1,8 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<void> deleteDepartment(BuildContext context, int id) async {
-  var url = Uri.http('localhost:3000', '/api/department/$id');
+  var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department/$id');
 
   try {
     var response = await http.delete(url, headers: {

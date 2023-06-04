@@ -1,11 +1,12 @@
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
-  const ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = "localhost:5555/#/?referral=";
+  ReferralLinkShareDialog({Key? key}) : super(key: key);
+  final String link = dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net' + '/#/?referral=';
 
   @override
   Widget build(BuildContext context) {

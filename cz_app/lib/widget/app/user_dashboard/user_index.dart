@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cz_app/widget/app/user_dashboard/user_update_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/department.dart';
@@ -43,19 +44,18 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> removeUser(User user) async {
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}');
     await http
-        .delete(Uri.parse('http://localhost:3000/api/employee/${user.id}'));
+        .delete(url);
     refreshUsers();
   }
 
   Future<void> verifyOrUnVerify(User user) async {
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}/verify');
     if (user.verified) {
-      await http.post(
-          Uri.parse('http://localhost:3000/api/employee/${user.id}/unverify'));
-    } else {
-      await http.post(
-          Uri.parse('http://localhost:3000/api/employee/${user.id}/verify'));
+      url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}/unverify');
     }
+    await http.post(url);
     refreshUsers();
   }
 
@@ -103,8 +103,9 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchUsers() async {
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/');
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/employee/'));
+        await http.get(url);
     final jsonData = json.decode(response.body);
     List<User> fetchedUsers = [];
     for (var data in jsonData) {
@@ -126,8 +127,9 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchDepartments() async {
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department/');
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/department/'));
+        await http.get(url);
     final jsonData = json.decode(response.body);
     List<Department> fetchedDepartments = [];
     for (var data in jsonData) {

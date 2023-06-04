@@ -11,7 +11,7 @@ class ReferralLinkShareButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return const ReferralLinkShareDialog();
+            return ReferralLinkShareDialog();
           },
         );
       },

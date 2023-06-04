@@ -49,6 +49,7 @@ dependencies:
   very_good_analysis: ^4.0.0+1
   google_fonts: ^4.0.3
   fl_chart: ^0.62.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,7 @@ flutter:
   assets:
     - ./assets/images/profile_placeholder.png
     - ./assets/images/logo-cz.png
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

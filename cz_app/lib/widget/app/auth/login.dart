@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/login_form.dart';
 import 'package:cz_app/widget/app/auth/login_form_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
@@ -71,7 +72,7 @@ class LoginWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/employee/login');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/login');
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'Password': modelForm.password.toString(),
