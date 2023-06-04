@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 Future<void> acceptReffal(BuildContext context, dynamic referral) async {
   var id = referral.id.toString();
-  var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/referral/accept/$id');
+  var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/accept/$id');
 
   DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
       .parse(referral.registrationDate.toString());

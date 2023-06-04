@@ -7,7 +7,7 @@ import 'dart:convert' show jsonDecode;
 
 class RecruitmentData {
   Future<List<Department>> fetchDepartments() async {
-   var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department');
+   var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/department');
     final response =
         await http.get(url);
 
@@ -24,7 +24,7 @@ class RecruitmentData {
   }
 
   Future<List<Employee>> fetchEmployees(int departmentId) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/department/$departmentId');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/department/$departmentId');
     final response = await http.get(
         url,
         headers: {
@@ -45,7 +45,7 @@ class RecruitmentData {
   }
 
   Future<List<Referral>> fetchUnlinkedReferrals() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/referral/unlinked');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/unlinked');
     final response = await http
         .get(url);
     if (response.statusCode == 200) {

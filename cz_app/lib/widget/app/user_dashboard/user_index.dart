@@ -44,16 +44,16 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> removeUser(User user) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/${user.id}');
     await http
         .delete(url);
     refreshUsers();
   }
 
   Future<void> verifyOrUnVerify(User user) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}/verify');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/${user.id}/verify');
     if (user.verified) {
-      url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/${user.id}/unverify');
+      url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/${user.id}/unverify');
     }
     await http.post(url);
     refreshUsers();
@@ -103,7 +103,7 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchUsers() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/');
     final response =
         await http.get(url);
     final jsonData = json.decode(response.body);
@@ -127,7 +127,7 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchDepartments() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department/');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/department/');
     final response =
         await http.get(url);
     final jsonData = json.decode(response.body);

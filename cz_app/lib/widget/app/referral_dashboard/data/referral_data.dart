@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class ReferralData {
   Future<List<Referral>> fetchReferrals(int id) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/referral/employee/$id');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/employee/$id');
     final response = await http.get(
         url,
         headers: {
@@ -27,7 +27,7 @@ class ReferralData {
   }
 
   Future<int> completedCounter(int id) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/referral/employee/$id');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/employee/$id');
     final response = await http
         .get(url);
 
@@ -35,7 +35,7 @@ class ReferralData {
   }
 
   Future<int> pendingCounter(int id) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/referral/employee/$id');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/employee/$id');
     final response = await http
         .get(url);
 

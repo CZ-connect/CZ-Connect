@@ -32,7 +32,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
 
   Future<void> fetchDepartments() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/department');
     final response =
         await http.get(url);
     if (response.statusCode == 200) {
@@ -194,7 +194,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/register');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/register');
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'password': modelForm.password.toString(),

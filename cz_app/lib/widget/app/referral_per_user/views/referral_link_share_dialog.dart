@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
   ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net' + '/#/?referral=';
+  final String link = dotenv.env['API_URL'] ?? 'https://flutter-frontend.azurewebsites.net' + '/#/?referral=';
 
   @override
   Widget build(BuildContext context) {

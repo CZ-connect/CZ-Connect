@@ -72,7 +72,7 @@ class LoginWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/employee/login');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/login');
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'Password': modelForm.password.toString(),

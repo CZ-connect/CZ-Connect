@@ -5,7 +5,7 @@ import 'dart:convert' show jsonDecode;
 
 class DepartmentData {
   Future<List<Department>> fetchDepartments() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'https://czbackendweb.scm.azurewebsites.net', '/api/department');
+    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/department');
     final response =
         await http.get(url);
 
