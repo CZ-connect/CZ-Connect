@@ -481,3 +481,5 @@ backend/obj
 backend.tests/.idea/.idea.backend.tests.dir/.idea/discord.xml
 backend.tests/.idea/.idea.backend.tests.dir/.idea/workspace.xml
 backend.tests/.idea/.idea.backend.tests.dir/.idea/projectSettingsUpdater.xml
+
+node_flutter/node_modules

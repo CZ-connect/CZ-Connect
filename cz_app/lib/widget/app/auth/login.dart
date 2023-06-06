@@ -70,7 +70,6 @@ class LoginWidget extends StatelessWidget {
       ),
     );
   }
-
   Future<void> sendform(BuildContext context) async {
     var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
     var route = '/api/employee/login';
@@ -108,6 +107,10 @@ class LoginWidget extends StatelessWidget {
         throw Exception('Applicatie error: ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Applicatie error: $exception')),
+      );
+    }
   }
 }

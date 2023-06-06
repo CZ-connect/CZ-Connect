@@ -1,10 +1,8 @@
-name: Dart Code Guidelines
+name: Coding guidelines and Testing
 
 on:
-  push:
-    branches: [main, development]
   pull_request:
-    branches: [main, development]
+    branches: [ main, development ]
 
 jobs:
   build:
@@ -43,3 +41,13 @@ jobs:
       - name: Run Unused Code
         run: dart run dart_code_metrics:metrics check-unused-code lib
         working-directory: cz_app
+      # Analyse project
+      - name: Run analyze
+        run: flutter analyze --pub --no-fatal-infos --no-fatal-warnings
+        working-directory: cz_app
+
+      # Run tests
+      - name: Run tests
+        run: flutter test
+        working-directory: cz_app
+
