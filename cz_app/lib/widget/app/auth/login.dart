@@ -71,11 +71,11 @@ class LoginWidget extends StatelessWidget {
     );
   }
   Future<void> sendform(BuildContext context) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/login';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
@@ -90,7 +90,7 @@ class LoginWidget extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${response.body}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('Applicatie error: ${url}');
       } else if (response.statusCode == 200) {
         await UserPreferences.setUserFromToken(response.body);
         if (!UserPreferences.isLoggedIn()) {

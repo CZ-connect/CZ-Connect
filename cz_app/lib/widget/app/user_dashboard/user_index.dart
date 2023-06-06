@@ -44,11 +44,11 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> removeUser(User user) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/${user.id}';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
 
     await http
@@ -57,16 +57,13 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> verifyOrUnVerify(User user) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/${user.id}/verify';
-
     if (user.verified) {
       route = '/api/employee/${user.id}/unverify';
     }
-
-    var url = Uri.http(host, route);
-
-    if(host != dotenv.env['API_URL']) {
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
       url = Uri.https(host, route);
     }
 
@@ -118,11 +115,11 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchUsers() async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
     
     final response =
@@ -148,12 +145,14 @@ class _State extends State<UserDashboard> {
   }
 
   Future<void> fetchDepartments() async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/department/';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
+
+
     final response =
         await http.get(url);
     final jsonData = json.decode(response.body);

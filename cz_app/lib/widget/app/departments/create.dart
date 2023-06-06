@@ -69,12 +69,13 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
   }
 
   Future<void> sendForm(BuildContext context) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/department';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
+
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };

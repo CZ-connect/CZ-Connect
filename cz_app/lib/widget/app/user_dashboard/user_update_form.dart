@@ -34,11 +34,11 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<void> fetchDepartments() async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/department/';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
 
     final response = await http.get(url);
@@ -180,11 +180,11 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<bool> sendform(BuildContext context) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/${widget.user.id}';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
     
     print(widget.user.id.toString());

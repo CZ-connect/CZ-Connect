@@ -7,12 +7,13 @@ import 'dart:convert' show jsonDecode;
 
 class RecruitmentData {
   Future<List<Department>> fetchDepartments() async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/department';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
+
     final response =
         await http.get(url);
 
@@ -29,12 +30,13 @@ class RecruitmentData {
   }
 
   Future<List<Employee>> fetchEmployees(int departmentId) async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/employee/department/$departmentId';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
+    
     final response = await http.get(
         url,
         headers: {
@@ -55,11 +57,11 @@ class RecruitmentData {
   }
 
   Future<List<Referral>> fetchUnlinkedReferrals() async {
-    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var host = dotenv.env['API_URL'];
     var route = '/api/referral/unlinked';
-    var url = Uri.http(host, route);
-    if(host != dotenv.env['API_URL']) {
-      url = Uri.https(host, route);
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
     
     final response = await http

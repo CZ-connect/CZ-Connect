@@ -3,11 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<void> deleteDepartment(BuildContext context, int id) async {
-  var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+  var host = dotenv.env['API_URL'];
   var route = '/api/department/$id';
-  var url = Uri.http(host, route);
-  if(host != dotenv.env['API_URL']) {
-    url = Uri.https(host, route);
+  var url = Uri.http(host!, route);
+  if(host.isEmpty) {
+    url = Uri.https('flutter-backend.azurewebsites.net', route);
   }
 
   try {
