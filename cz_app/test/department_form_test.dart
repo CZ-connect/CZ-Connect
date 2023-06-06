@@ -4,6 +4,7 @@ import 'package:cz_app/widget/app/templates/departments/bottom.dart';
 import 'package:cz_app/widget/app/templates/departments/container.dart';
 import 'package:cz_app/widget/app/templates/departments/template.dart';
 import 'package:cz_app/widget/app/templates/departments/top.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/departments/create.dart';
 import 'package:cz_app/widget/app/models/department_form.dart';
@@ -59,8 +60,10 @@ class MyApp extends StatelessWidget {
 
 void main() {
   late DepartmentForm departmentForm;
-  setUpAll(() {
+  setUpAll(() async {
     nock.init();
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(); // Load dotenv parameters
     HttpOverrides.global = null;
   });
 

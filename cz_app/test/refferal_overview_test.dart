@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nock/nock.dart';
@@ -38,7 +39,10 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
-  setUpAll(() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(); // Load dotenv parameters
+    nock.defaultBase = "http://localhost:3000/api";
     nock.init();
   });
 

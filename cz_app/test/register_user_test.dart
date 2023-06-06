@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cz_app/widget/app/register/register.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,7 +10,10 @@ import 'package:nock/nock.dart';
 
 void main() {
 
-  setUpAll(() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(); // Load dotenv parameters
+    nock.defaultBase = "http://localhost:3000/api";
     nock.init();
   });
 
