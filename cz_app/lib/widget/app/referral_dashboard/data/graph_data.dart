@@ -4,7 +4,13 @@ import 'package:http/http.dart' as http;
 import '../../models/graph.dart';
 
 Future<List<Graph>> fetchGraphData() async {
-  var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/graphdata');
+  var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+  var route = '/api/graphdata';
+  var url = Uri.http(host, route);
+  if(host != dotenv.env['API_URL']) {
+    url = Uri.https(host, route);
+  }
+
   final response =
       await http.get(url);
   if (response.statusCode == 200) {

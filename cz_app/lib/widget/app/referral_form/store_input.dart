@@ -112,7 +112,13 @@ class FormWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral');
+    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var route = '/api/referral';
+    var url = Uri.http(host, route);
+    if(host != dotenv.env['API_URL']) {
+    url = Uri.https(host, route);
+    }
+
     Map<String, dynamic> jsonMap = {
       'participantName': modelForm.name.toString(),
       'participantEmail': modelForm.email.toString(),

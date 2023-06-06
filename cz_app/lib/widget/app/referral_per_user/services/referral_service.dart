@@ -10,7 +10,13 @@ class ReferralService {
   ReferralService({required this.userId});
 
   Future<void> getData() async {
-    var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/employee/referral/$userId');
+    var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+    var route = '/api/employee/referral/$userId';
+    var url = Uri.http(host, route);
+    if(host != dotenv.env['API_URL']) {
+      url = Uri.https(host, route);
+    }
+
     Response response = await get(
         url,
         headers: {

@@ -6,6 +6,7 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nock/nock.dart';
@@ -48,7 +49,7 @@ GoRouter _router = GoRouter(
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -57,8 +58,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-void main() {
-  setUpAll(() {
+void main(){
+
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(); // Load dotenv parameters
     nock.defaultBase = "http://localhost:3000/api";
     nock.init();
   });

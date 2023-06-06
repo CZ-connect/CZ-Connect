@@ -3,7 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<void> deleteReferral(BuildContext context, int id) async {
-  var url = Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/referral/$id');
+  var host = dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net';
+  var route = '/api/referral/$id';
+  var url = Uri.http(host, route);
+  if(host != dotenv.env['API_URL']) {
+    url = Uri.https(host, route);
+  }
 
   try {
     var response = await http.delete(url, headers: {
