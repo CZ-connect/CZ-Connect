@@ -63,7 +63,7 @@ void main(){
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(); // Load dotenv parameters
-        var host = dotenv.env['API_URL'];
+    var host = dotenv.env['API_URL'];
     if(host!.isEmpty) {
       nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
     } else {
