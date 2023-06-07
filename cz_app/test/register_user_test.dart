@@ -13,7 +13,12 @@ void main() {
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(); // Load dotenv parameters
-    nock.defaultBase = "http://localhost:3000/api";
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
 
@@ -23,11 +28,11 @@ void main() {
 
   testWidgets('RegisterWidget Form submission successfull', (WidgetTester tester) async {
 
-    final interceptor = nock("http://localhost:3000/api")
+    final interceptor = nock
         .post("/employee/register")
       ..reply(201, "[]");
 
-    final interceptorDeparments = nock("http://localhost:3000/api")
+    final interceptorDeparments = nock
         .get("/department")
       ..reply(200, '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recrutering"}]');
 

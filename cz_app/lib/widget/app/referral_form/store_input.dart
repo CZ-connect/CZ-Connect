@@ -118,7 +118,6 @@ class FormWidget extends StatelessWidget {
     if(host.isEmpty) {
       url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
-    
 
     Map<String, dynamic> jsonMap = {
       'participantName': modelForm.name.toString(),

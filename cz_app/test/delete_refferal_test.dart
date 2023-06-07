@@ -75,8 +75,13 @@ void main() {
 
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
-    await dotenv.load(); // Load dotenv parameters
-    nock.defaultBase = "http://localhost:3000/api";
+    await dotenv.load();
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
   group('Delete referrals', () {
