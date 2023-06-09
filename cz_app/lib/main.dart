@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cz_app/404.dart';
 import 'package:cz_app/widget/app/auth/login.dart';
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
@@ -40,7 +42,9 @@ import 'widget/app/templates/departments/container.dart';
 import 'widget/app/templates/departments/top.dart';
 
 void main() async {
-  await dotenv.load();
+
+ // dotenv.load();
+
   runApp(const MyApp());
 }
 
