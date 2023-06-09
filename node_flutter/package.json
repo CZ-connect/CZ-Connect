@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node app.js",
-        "test": "jest test --verbose --watchAll --no-cache  --runInBand --forceExit"
+        "test": "jest test --verbose  --no-cache  --runInBand --forceExit"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",
