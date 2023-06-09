@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:cz_app/widget/app/models/department_form.dart';
@@ -68,7 +69,13 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
   }
 
   Future<void> sendForm(BuildContext context) async {
-    var url = Uri.http('flutter-backend.azurewebsites.net', '/api/department');
+    var host = dotenv.env['API_URL'];
+    var route = '/api/department';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };

@@ -29,6 +29,7 @@ import 'package:cz_app/widget/app/templates/referral_overview/template.dart';
 import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:cz_app/widget/app/user_dashboard/user_index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widget/app/departments/edit.dart';
@@ -38,7 +39,10 @@ import 'widget/app/templates/departments/bottom.dart';
 import 'widget/app/templates/departments/container.dart';
 import 'widget/app/templates/departments/top.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  await dotenv.load();
+  runApp(const MyApp());
+}
 
 /// The route configuration.
 

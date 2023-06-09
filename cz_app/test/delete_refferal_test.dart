@@ -7,6 +7,7 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
@@ -73,7 +74,14 @@ void main() {
   });
 
   setUpAll(() async {
-    nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load();
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
   group('Delete referrals', () {

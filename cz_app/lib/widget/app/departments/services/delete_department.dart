@@ -1,8 +1,14 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<void> deleteDepartment(BuildContext context, int id) async {
-  var url = Uri.https('flutter-backend.azurewebsites.net', '/api/department/$id');
+  var host = dotenv.env['API_URL'];
+  var route = '/api/department/$id';
+  var url = Uri.http(host!, route);
+  if(host.isEmpty) {
+    url = Uri.https('flutter-backend.azurewebsites.net', route);
+  }
 
   try {
     var response = await http.delete(url, headers: {

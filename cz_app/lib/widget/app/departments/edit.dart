@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:cz_app/widget/app/models/department.dart';
@@ -80,7 +81,7 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
 
   Future<void> sendForm(BuildContext context) async {
     var url =
-        Uri.https('flutter-backend.azurewebsites.net', '/api/department/${widget.department.id}');
+        Uri.http(dotenv.env['API_URL'] ?? 'flutter-backend.azurewebsites.net', '/api/department/${widget.department.id}');
     Map<String, dynamic> jsonMap = {
       'departmentName': departmentForm.DepartmentName.toString(),
     };
