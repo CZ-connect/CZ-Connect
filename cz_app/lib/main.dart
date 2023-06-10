@@ -43,7 +43,7 @@ import 'widget/app/templates/departments/top.dart';
 
 void main() async {
 
- // dotenv.load();
+  await dotenv.load(fileName: "env");
 
   runApp(const MyApp());
 }
@@ -404,6 +404,7 @@ final GoRouter _router = GoRouter(
 /// The main app.
 class MyApp extends StatelessWidget {
   /// Constructs a [MyApp]
+
   const MyApp({super.key});
 
   @override
