@@ -43,7 +43,7 @@ import 'widget/app/templates/departments/top.dart';
 
 void main() async {
 
-  await dotenv.load(fileName: "env");
+  await dotenv.load(fileName: "env", isOptional: true);
 
   runApp(const MyApp());
 }
