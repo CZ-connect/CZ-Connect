@@ -1,16 +1,27 @@
 # cz_app
 
-A new Flutter project.
+Welcome to our Recruitment App, a comprehensive and easy-to-use platform designed to revolutionize the hiring process. We understand that hiring the right candidate is a crucial aspect of any business, and our application aims to simplify this process by providing a streamlined, efficient, and user-friendly solution.
 
 ## Getting Started
+## install
+```
+for the most up to date installation see : https://docs.flutter.dev/get-started/install/
+```
+## dart based documenation
+based on the dart documentation of : https://pub.dev/packages/dartdoc
 
-This project is a starting point for a Flutter application.
+# how to use
+## install
+```
+dart doc
+dart pub global activate dhttpd
+```
+## run
+```
+dhttpd --path doc\doc\api
+```
+## open
+```
+http://localhost:8080
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
