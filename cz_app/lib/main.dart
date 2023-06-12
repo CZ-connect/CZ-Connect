@@ -402,6 +402,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     UserPreferences.init();
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: ThemeData(
         primarySwatch: Colors.red,
