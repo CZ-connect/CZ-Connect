@@ -31,11 +31,13 @@ app.UseCors(x => x
     .AllowCredentials());
 app.UseAuthorization();
 app.MapControllers();
-app.UseSwagger();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => 
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "cz-connect api"));
 }
 // Run all migrations on runtime
 using (var scope = app.Services.CreateScope())
