@@ -13,7 +13,7 @@ void main() {
       // ↓ required to avoid HTTP error 400 mocked returns
       HttpOverrides.global = null;
       TestWidgetsFlutterBinding.ensureInitialized();
-      await dotenv.load(); // Load dotenv parameters
+      await dotenv.load(fileName: "env", isOptional: true); // Load dotenv parameters
     });
     
     late ModelForm modelForm;
