@@ -1,16 +1,20 @@
 import 'dart:io';
 
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/departments/edit.dart';
 import 'package:cz_app/widget/app/departments/index.dart';
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/templates/departments/bottom.dart';
 import 'package:cz_app/widget/app/templates/departments/container.dart';
 import 'package:cz_app/widget/app/templates/departments/template.dart';
 import 'package:cz_app/widget/app/templates/departments/top.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nock/nock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 GoRouter _router = GoRouter(
   routes: [
@@ -54,16 +58,48 @@ GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'),
+      ],
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
     );
   }
 }
+
 
 void main() {
   setUpAll(() {
@@ -83,7 +119,7 @@ void main() {
     testWidgets('Department Index Builds', (WidgetTester tester) async {
       final departmentInterceptor = nock.get('/department')
         ..reply(200, expectedDepartments);
-      await tester.pumpWidget(const MyApp());
+      await tester.pumpWidget(MyApp());
       expect(departmentInterceptor.isDone, true);
       expect(find.byKey(const Key('Department_index_key')), findsOneWidget);
     });

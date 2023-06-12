@@ -1,9 +1,12 @@
 import 'dart:convert' show jsonDecode;
+import 'package:flutter/cupertino.dart';
+
 import '../../models/referral.dart' show Referral;
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferralData {
-  Future<List<Referral>> fetchReferrals(int id) async {
+  Future<List<Referral>> fetchReferrals(int id, BuildContext context) async {
     final response = await http.get(
         Uri.parse('http://localhost:3000/api/referral/employee/$id'),
         headers: {
@@ -19,7 +22,7 @@ class ReferralData {
           .toList();
       return referralObjs;
     } else {
-      throw Exception('Aandrachten ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)?.failedToRetrieveDepartments);
     }
   }
 

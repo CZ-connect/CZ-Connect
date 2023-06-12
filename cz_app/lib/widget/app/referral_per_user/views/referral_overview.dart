@@ -2,6 +2,7 @@ import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_link_share_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferralOverview extends StatefulWidget {
   final List<Referral> referrals;
@@ -40,7 +41,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                          'Aangedragen kandidaat: ${referral.participantName}',
+                                          '${AppLocalizations.of(context)!.applicantLabel} ${referral.participantName}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -67,11 +68,11 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                     children: [
                                       Flexible(
                                         child: Text(
-                                            'Opgegeven E-mail: ${referral.participantEmail}'),
+                                            '${AppLocalizations.of(context)!.emailLabel} ${referral.participantEmail}'),
                                       ),
                                       Flexible(
                                         child: Text(
-                                            'Datum opgeving: ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
+                                            '${AppLocalizations.of(context)!.dateLabel} ${DateFormat('dd-MM-yyyy').format(referral.registrationDate)}'),
                                       ),
                                     ],
                                   ),
@@ -93,9 +94,9 @@ class _ReferralOverviewState extends State<ReferralOverview> {
           body: MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(50.0),
-                child: Center(child: Text('Geen gegevens gevonden')),
+                child: Center(child: Text(AppLocalizations.of(context)!.noDataFound)),
               )),
           floatingActionButton: const ReferralLinkShareButton());
     }

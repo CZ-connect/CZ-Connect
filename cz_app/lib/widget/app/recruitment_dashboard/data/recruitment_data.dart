@@ -1,11 +1,14 @@
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RecruitmentData {
-  Future<List<Department>> fetchDepartments() async {
+  Future<List<Department>> fetchDepartments(BuildContext context) async {
     final response =
         await http.get(Uri.parse('http://localhost:3000/api/department'));
 
@@ -17,11 +20,11 @@ class RecruitmentData {
 
       return departmentObjs;
     } else {
-      throw Exception('Afdelingen ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchDepartmentsError);
     }
   }
 
-  Future<List<Employee>> fetchEmployees(int departmentId) async {
+  Future<List<Employee>> fetchEmployees(int departmentId, BuildContext context) async {
     final response = await http.get(
         Uri.parse(
             'http://localhost:3000/api/employee/department/$departmentId'),
@@ -38,11 +41,11 @@ class RecruitmentData {
           .toList();
       return employeeObjs;
     } else {
-      throw Exception('Medewerkers ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchEmployeesError);
     }
   }
 
-  Future<List<Referral>> fetchUnlinkedReferrals() async {
+  Future<List<Referral>> fetchUnlinkedReferrals(BuildContext context) async {
     final response = await http
         .get(Uri.parse('http://localhost:3000/api/referral/unlinked'));
     if (response.statusCode == 200) {
@@ -52,8 +55,7 @@ class RecruitmentData {
           unlinkedReferrals.map((r) => Referral.fromJson(r)).toList();
       return referrals;
     } else {
-      throw Exception(
-          'Open sollicitaties ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchReferralsError);
     }
   }
 }

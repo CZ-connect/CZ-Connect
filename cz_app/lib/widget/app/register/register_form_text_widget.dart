@@ -9,7 +9,7 @@ class RegisterContainerTextWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          AppLocalizations.of(context)!.registerContainerText,
+          AppLocalizations.of(context)?.registerContainerText ?? "",
           style: TextStyle(
             color: Colors.grey[800],
             fontWeight: FontWeight.bold,

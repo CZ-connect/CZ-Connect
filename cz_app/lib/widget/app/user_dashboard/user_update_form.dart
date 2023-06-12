@@ -7,6 +7,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 
 import '../models/roles.dart';
 import '../models/user.dart';
@@ -59,15 +62,15 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const UserUpdateContainerTextWidget(),
+              UserUpdateContainerTextWidget(context: context),
               TextFormField(
                 initialValue: widget.user.name,
-                decoration: const InputDecoration(
-                  hintText: 'Naam',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.nameHintText,
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het naam is verplicht';
+                    return AppLocalizations.of(context)!.nameRequiredError;
                   }
                   return null;
                 },
@@ -78,15 +81,15 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
               TextFormField(
                 initialValue: widget.user.email,
                 key: const Key('email'),
-                decoration: const InputDecoration(
-                  hintText: 'E-mail',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.emailHintText,
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het e-mailveld is verplicht';
+                    return AppLocalizations.of(context)!.emailRequired;
                   }
                   if (!EmailValidator.validate(value)) {
-                    return 'Voer een geldig e-mailadres in';
+                    return AppLocalizations.of(context)!.emailInvalidError;
                   }
                   return null;
                 },
@@ -102,8 +105,8 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                     selectedDepartment = newValue;
                   });
                 },
-                decoration: const InputDecoration(
-                  hintText: 'Selecteer Afdeling',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.selectDepartmentHint,
                 ),
                 items: departmentNames.map((String departmentName) {
                   return DropdownMenuItem<String>(
@@ -113,7 +116,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                 }).toList(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Een afdeling moet worden geselecteerd';
+                    return AppLocalizations.of(context)!.selectDepartmentError;
                   }
                   return null;
                 },
@@ -136,7 +139,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                 }).toList(),
                 validator: (Roles? value) {
                   if (value == null) {
-                    return 'Een rol moet worden geselecteerd';
+                    return AppLocalizations.of(context)!.selectRoleError;
                   }
                   return null;
                 },
@@ -150,7 +153,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                       onPressed: () {
                         Navigator.of(context).pop(false);
                       },
-                      child: const Text('Annuleren'),
+                      child: Text(AppLocalizations.of(context)!.cancelLabel),
                     ),
                   ),
                   Padding(
@@ -163,7 +166,7 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
                           Navigator.of(context).pop(true);
                         }
                       },
-                      child: const Text('Aanpassen'),
+                      child: Text(AppLocalizations.of(context)!.editButton),
                     ),
                   ),
                 ],
@@ -190,19 +193,19 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.body}')),
+         SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
         throw Exception('Applicatie error: ${response.statusCode}');
       } else if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Gebruiker aangepast')),
+            SnackBar(content: Text(AppLocalizations.of(context)!.userUpdatedSnackBar)),
           );
           return true;
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.userUpdatedSnackBar)),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
     } catch (exception) {
       return false;

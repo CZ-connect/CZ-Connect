@@ -7,26 +7,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void main() => runApp(const RecruitmentDashboardIndexWidget());
 
 class RecruitmentDashboardIndexWidget extends StatefulWidget {
-  const RecruitmentDashboardIndexWidget({super.key});
+  const RecruitmentDashboardIndexWidget({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RecruitmentDashboard();
+  State<StatefulWidget> createState() => _RecruitmentDashboardState();
 }
 
-class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
+class _RecruitmentDashboardState extends State<RecruitmentDashboardIndexWidget> {
   late Future<List<Department>> departments;
   late Future<List<Employee>> employees;
   late Future<List<Referral>> unlinkedReferrals;
 
   @override
   void initState() {
-    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals();
-    departments = RecruitmentData().fetchDepartments();
-    employees = RecruitmentData().fetchEmployees(1);
+    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals(context);
+    departments = RecruitmentData().fetchDepartments(context);
+    employees = RecruitmentData().fetchEmployees(1, context);
     super.initState();
   }
 
@@ -42,7 +44,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
   void selectDepartment(int departmentId) {
     setState(() {
       selectedDepartment = departmentId;
-      employees = RecruitmentData().fetchEmployees(departmentId);
+      employees = RecruitmentData().fetchEmployees(departmentId, context);
     });
   }
 
@@ -53,7 +55,6 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         children: [
           Flexible(
             child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
               children: [
                 Flexible(child: recruimentTableButtonRow()),
               ],
@@ -61,7 +62,6 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
           ),
           Flexible(
             child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
               children: [
                 Flexible(
                   child: showDepartments
@@ -83,16 +83,16 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchDepartmentsError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Er zijn geen afdelingen gevonden.');
+          return Text(AppLocalizations.of(context)?.noDepartmentsFound ?? '');
         } else {
-          List<Department> departments = snapshot.data as List<Department>;
+          List<Department> departments = snapshot.data!;
           return SizedBox(
             width: MediaQuery.of(context).size.width,
             child: GridView.count(
               childAspectRatio:
-                  MediaQuery.of(context).size.width / (departments.length * 75),
+              MediaQuery.of(context).size.width / (departments.length * 75),
               crossAxisCount: departments.length + 1,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -106,7 +106,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                         toggleExpansion();
                       }
                     },
-                    child: const Text("Open sollicitaties"),
+                    child: Text(AppLocalizations.of(context)?.openApplicationsButton ?? ''),
                   ),
                 ),
                 for (Department department in departments)
@@ -138,11 +138,11 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchEmployeesError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Er zijn geen medewerkers gevonden.');
+          return Text(AppLocalizations.of(context)?.noEmployeesFound ?? '');
         } else {
-          List<Employee> employees = snapshot.data as List<Employee>;
+          List<Employee> employees = snapshot.data!;
           return buildDepartmentTable(employees);
         }
       },
@@ -164,16 +164,16 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   List<DataColumn> buildDepartmentColumns() {
     return <DataColumn>[
-      const DataColumn(label: Text("Medewerker")),
-      const DataColumn(label: Text("Email")),
-      const DataColumn(label: Text("Aantal aandrachten"))
+      DataColumn(label: Text(AppLocalizations.of(context)?.employeeLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.emailLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.referralCountLabel ?? '')),
     ];
   }
 
   List<DataRow> buildDepartmentRows(List<Employee> employees) {
     return List.generate(
       employees.length,
-      (index) {
+          (index) {
         final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
@@ -193,7 +193,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
               ),
             ),
             DataCell(Text(employees[index].email)),
-            DataCell(Text("Aandrachten: ${employees[index].referralCount}")),
+            DataCell(Text("${AppLocalizations.of(context)?.referralCountPrefix} ${employees[index].referralCount}")),
           ],
         );
       },
@@ -207,11 +207,11 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchReferralsError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Op dit moment zijn er geen open sollicitaties.');
+          return Text(AppLocalizations.of(context)?.noOpenReferrals ?? '');
         } else {
-          List<Referral> referrals = snapshot.data as List<Referral>;
+          List<Referral> referrals = snapshot.data!;
           return buildUnlinkedTable(referrals);
         }
       },
@@ -233,17 +233,17 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   List<DataColumn> buildUnlinkedColumns() {
     return <DataColumn>[
-      const DataColumn(label: Text("Naam")),
-      const DataColumn(label: Text("Status")),
-      const DataColumn(label: Text("Linkedin")),
-      const DataColumn(label: Text("Gesolliciteerd op"))
+      DataColumn(label: Text(AppLocalizations.of(context)?.nameLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.statusLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.linkedinLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.applicationDateLabel ?? '')),
     ];
   }
 
   List<DataRow> buildUnlinkedRows(List<Referral> referrals) {
     return List.generate(
       referrals.length,
-      (index) {
+          (index) {
         final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
@@ -272,8 +272,8 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                 Clipboard.setData(
                     ClipboardData(text: referrals[index].linkedin ?? ""));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text("De link is gekopieerd naar je klipbord.")),
+                  SnackBar(
+                  content: Text(AppLocalizations.of(context)?.linkCopiedMessage ?? '')),
                 );
               },
             ),

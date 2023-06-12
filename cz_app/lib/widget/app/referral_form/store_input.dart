@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
@@ -22,15 +23,15 @@ class FormWidget extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                const ContainerTextWidget(),
+                ContainerTextWidget(context: context),
                 TextFormField(
                   key: const Key('nameField'),
-                  decoration: const InputDecoration(
-                    hintText: 'Naam',
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.nameHintText,
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'De naam is een verplicht veld.';
+                      return AppLocalizations.of(context)?.nameRequiredError;
                     }
                     return null;
                   },
@@ -39,15 +40,15 @@ class FormWidget extends StatelessWidget {
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'voorbeeld@email.nl',
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)?.emailHintText,
                   ),
                   validator: (String? value) {
                     if (!EmailValidator.validate(value!) && value.isNotEmpty) {
-                      return 'Voer een geldig emailadres in';
+                      return AppLocalizations.of(context)?.emailInvalidError;
                     } else if (modelForm.phoneNumber!.isEmpty &&
                         value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld.';
+                      return AppLocalizations.of(context)?.contactFieldRequiredError;
                     }
                     emailNumberFlag = true;
                     return null;
@@ -64,9 +65,10 @@ class FormWidget extends StatelessWidget {
                     RegExp regex = RegExp(
                         r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Voer een geldig telefoonnummer in.';
+                      return AppLocalizations.of(context)?.emailInvalidError;
                     } else if (modelForm.email!.isEmpty && value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld.';
+                      return AppLocalizations.of(context)?.contactFieldRequiredError;
+                    } else if (modelForm.email!.isEmpty && value.isEmpty) {
                     }
                     return null;
                   },
@@ -82,7 +84,7 @@ class FormWidget extends StatelessWidget {
                     RegExp regex = RegExp(
                         r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Dat is geen valide url.';
+                      return AppLocalizations.of(context)?.urlInvalidError;
                     }
                     return null;
                   },
@@ -98,11 +100,11 @@ class FormWidget extends StatelessWidget {
                       _formKey.currentState?.save();
                       sendform(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Informatie afhandelen')),
+                        SnackBar(content: Text(AppLocalizations.of(context)!.handlingInformationSnackBar)),
                       );
                     }
                   },
-                  child: const Text('Verstuur'),
+                  child: Text(AppLocalizations.of(context)!.sendButtonText),
                 ),
               ],
             )),
@@ -133,15 +135,15 @@ class FormWidget extends StatelessWidget {
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
       // return response.body;
     } catch (exception) {

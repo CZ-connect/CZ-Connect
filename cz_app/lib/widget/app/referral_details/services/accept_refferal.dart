@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Future<void> acceptReffal(BuildContext context, dynamic referral) async {
   var id = referral.id.toString();
@@ -40,19 +42,21 @@ Future<void> acceptReffal(BuildContext context, dynamic referral) async {
     if (response.statusCode >= 400 && response.statusCode <= 499) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+
       );
-      throw Exception('Applicatie error: ${response.statusCode}');
+      throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+
       );
-      throw Exception('Applicatie error: ${response.statusCode}');
+      throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
     }
   } catch (exception) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: $exception')),
+      SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${exception}')),
     );
   }
 }

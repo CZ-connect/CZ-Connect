@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:cz_app/widget/app/models/department_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DepartmentCreationForm extends StatefulWidget {
   const DepartmentCreationForm({super.key});
@@ -24,42 +25,46 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
           key: formKey,
           child: Column(
             children: <Widget>[
-              Text("Maak hier een nieuwe afdeling.",
-                  style: TextStyle(
-                      color: Colors.grey[800],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40)),
-              TextFormField(
-                key: const Key('departmentNameField'),
-                decoration:
-                    const InputDecoration(hintText: 'Naam van de afdeling'),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Een naam voor de afdeling is verplicht.';
-                  }
-                  return null;
-                },
-                onSaved: (String? value) {
-                  departmentForm.DepartmentName = value;
-                },
-              ),
-              const Padding(padding: EdgeInsets.all(8.0)),
-              ElevatedButton(
-                onPressed: () {
-                  formKey.currentState?.save();
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState?.save();
-                    sendForm(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Afdeling aangemaakt.'),
-                      ),
-                    );
-                  }
-                  context.go('/department/index');
-                },
-                child: const Text('Afdeling aanmaken'),
-              ),
+          Text(
+          AppLocalizations.of(context)!.createNewDepartmentText,
+          style: TextStyle(
+            color: Colors.grey[800],
+            fontWeight: FontWeight.bold,
+            fontSize: 40,
+          ),
+        ),
+        TextFormField(
+          key: const Key('departmentNameField'),
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)?.newDepartmentNameHint,
+          ),
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
+              return AppLocalizations.of(context)?.newDepartmentNameRequired ?? '';
+            }
+            return null;
+          },
+          onSaved: (String? value) {
+            departmentForm.DepartmentName = value;
+          },
+        ),
+        Padding(padding: EdgeInsets.all(8.0)),
+        ElevatedButton(
+          onPressed: () {
+            formKey.currentState?.save();
+            if (formKey.currentState!.validate()) {
+              formKey.currentState?.save();
+              sendForm(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!.departmentCreatedSnackbarMessage),
+                ),
+              );
+            }
+            context.go('/department/index');
+          },
+          child: Text(AppLocalizations.of(context)!.createDepartmentButtonText),
+      ),
             ],
           ),
         ),
@@ -80,15 +85,15 @@ class _DepartmentCreationForm extends State<DepartmentCreationForm> {
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
     } catch (exception) {
       throw Exception(exception);

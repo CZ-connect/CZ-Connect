@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/department_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DepartmentUpdateWidget extends StatefulWidget {
   final Department department;
@@ -34,19 +35,23 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
           key: _formKeyDepartment,
           child: Column(
             children: <Widget>[
-              Text("Maak hier een nieuwe afdeling.",
-                  style: TextStyle(
-                      color: Colors.grey[800],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40)),
+              Text(
+                AppLocalizations.of(context)!.createNewDepartmentText,
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
+              ),
               TextFormField(
                 key: const Key('departmentNameField'),
                 initialValue: widget.department.departmentName,
-                decoration:
-                    const InputDecoration(hintText: 'Naam van de afdeling'),
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.newDepartmentNameHint,
+                ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Een naam voor de afdeling is verplicht.';
+                    return AppLocalizations.of(context)?.newDepartmentNameRequired;
                   }
                   return null;
                 },
@@ -54,7 +59,7 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
                   departmentForm.DepartmentName = value;
                 },
               ),
-              const Padding(padding: EdgeInsets.all(8.0)),
+              Padding(padding: EdgeInsets.all(8.0)),
               ElevatedButton(
                 onPressed: () {
                   _formKeyDepartment.currentState?.save();
@@ -62,14 +67,14 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
                     _formKeyDepartment.currentState?.save();
                     sendForm(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Afdeling aangepast.'),
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context)!.departmentUpdatedSnackbarMessage ?? ''),
                       ),
                     );
                   }
                   context.go('/department/index');
                 },
-                child: const Text('Afdeling aanpassen'),
+                child: Text(AppLocalizations.of(context)!.updateDepartmentButtonText),
               ),
             ],
           ),
@@ -90,17 +95,15 @@ class _DepartmentUpdateWidget extends State<DepartmentUpdateWidget> {
       var response = await http.put(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix} ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix} ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix} ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix} ${response.statusCode}');
       }
     } catch (exception) {
       throw Exception(exception);

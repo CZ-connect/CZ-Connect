@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_details/referral_details.dart';
@@ -6,9 +7,12 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nock/nock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 GoRouter _router = GoRouter(
   routes: [
@@ -46,16 +50,52 @@ GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+
+
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'),
+      ],
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
     );
   }
 }
+
 
 void main() {
   setUpAll(() {
@@ -91,7 +131,7 @@ void main() {
 
       // Build the OverViewWidget
       await tester.runAsync(() async {
-        await tester.pumpWidget(const MyApp());
+        await tester.pumpWidget(MyApp());
         await tester.pumpAndSettle();
       });
       //Expect the data is loaded

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:cz_app/widget/app/user_dashboard/user_update_form.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/department.dart';
 import '../models/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({Key? key}) : super(key: key);
@@ -64,22 +64,22 @@ class _State extends State<UserDashboard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Gebruiker verwijderen'),
+          title: Text(AppLocalizations.of(context)!.deleteUserTitle),
           content:
-              const Text('Weet u zeker dat u de gebruiker wilt verwijderen?'),
+              Text(AppLocalizations.of(context)!.confirmDeleteUser),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: const Text('Nee'),
+              child:Text(AppLocalizations.of(context)!.noLabel),
             ),
             ElevatedButton(
               onPressed: () {
                 removeUser(user);
                 Navigator.of(context).pop(true);
               },
-              child: const Text('Ja'),
+              child:Text(AppLocalizations.of(context)!.yesLabel),
             ),
           ],
         );
@@ -174,8 +174,8 @@ class _State extends State<UserDashboard> {
                   onChanged: (value) {
                     searchUsers(value);
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Zoeken',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.searchLabel,
                     prefixIcon: Icon(Icons.search),
                   ),
                 ),
@@ -197,10 +197,9 @@ class _State extends State<UserDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(user.email),
-                        Text(
-                            'Afdeling: ${user.department ?? 'Niet van toepassing'}'),
-                        Text('Geverifieerd: ${user.verified ? 'Ja' : 'Nee'}'),
-                        Text('Rol: ${user.role ?? 'Niet van toepassing'}'),
+                        Text(AppLocalizations.of(context)!.departmentLabel + ' ${user.department ?? AppLocalizations.of(context)!.notApplicable}'),
+                        Text(AppLocalizations.of(context)!.verifiedLabel + ' ${user.verified ? AppLocalizations.of(context)!.yesLabel : AppLocalizations.of(context)!.noLabel}'),
+                        Text(AppLocalizations.of(context)!.roleLabel + ' ${user.role ?? AppLocalizations.of(context)!.notApplicable}'),
                       ],
                     ),
                     trailing: Wrap(
@@ -213,13 +212,13 @@ class _State extends State<UserDashboard> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.black38,
                           ),
-                          child: Text('Verwijderen'),
+                          child: Text(AppLocalizations.of(context)!.deleteButton),
                         ),
                         ElevatedButton(
                           onPressed: () {
                             showUpdateUserPrompt(user);
                           },
-                          child: Text('Aanpassen'),
+                          child: Text(AppLocalizations.of(context)!.editButton),
                         ),
                         SizedBox(
                           width: 120,
@@ -230,9 +229,8 @@ class _State extends State<UserDashboard> {
                             style: ElevatedButton.styleFrom(
                               primary: (user.verified) ? Colors.black38 : null,
                             ),
-                            child: Text((user.verified)
-                                ? "Onverifiëren"
-                                : "Verifiëren"),
+                            child: Text(user.verified ?
+                            AppLocalizations.of(context)!.unverifyButton : AppLocalizations.of(context)!.verifyButton),
                           ),
                         ),
                       ],
@@ -244,9 +242,9 @@ class _State extends State<UserDashboard> {
             ),
           )
         else
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(50.0),
-            child: Center(child: Text('Geen data gevonden')),
+            child: Center(child: Text(AppLocalizations.of(context)!.noDataMessage)),
           ),
       ],
     );

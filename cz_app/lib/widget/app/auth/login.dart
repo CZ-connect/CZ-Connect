@@ -85,23 +85,23 @@ class LoginWidget extends StatelessWidget {
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.body}')),
+         SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode == 200) {
         await UserPreferences.setUserFromToken(response.body);
         if (!UserPreferences.isLoggedIn()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error: iets ging verkeerd')),
+              SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
           );
         } else {
           context.go('/');
         }
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
-        );
-        throw Exception('Applicatie error: ${response.statusCode}');
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}'))
+    );
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
       // return response.body;
     } catch (exception) {}

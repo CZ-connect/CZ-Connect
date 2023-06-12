@@ -59,11 +59,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               const RegisterContainerTextWidget(),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerFirstname,
+                  hintText: AppLocalizations.of(context)?.registerFirstname ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.registerFirstNameRequired;
+                    return AppLocalizations.of(context)?.registerFirstNameRequired ?? "";
                   }
                   return null;
                 },
@@ -73,12 +73,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerLastname,
+                  hintText: AppLocalizations.of(context)?.registerLastname ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     var registerLastNameRequired;
-                    return AppLocalizations.of(context)!.registerLastNameRequired;
+                    return AppLocalizations.of(context)?.registerLastNameRequired ?? "";
                   }
                   return null;
                 },
@@ -89,14 +89,14 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               TextFormField(
                 key: const Key('email'),
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerEmail,
+                  hintText: AppLocalizations.of(context)?.registerEmail ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.registerEmailRequired;
+                    return AppLocalizations.of(context)?.registerEmailRequired ?? "";
                   }
                   if (!EmailValidator.validate(value)) {
-                    return AppLocalizations.of(context)!.registerValidEmail;
+                    return AppLocalizations.of(context)?.registerValidEmail ?? "";
                   }
                   return null;
                 },
@@ -110,7 +110,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 autocorrect: false,
                 controller: passwordController,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerPassword,
+                  hintText: AppLocalizations.of(context)?.registerPassword ?? "",
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible
@@ -122,7 +122,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.registerPasswordRequired;
+                    return AppLocalizations.of(context)?.registerPasswordRequired ?? "";
                   }
                   return null;
                 },
@@ -135,11 +135,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerRepeatPassword,
+                  hintText: AppLocalizations.of(context)?.registerRepeatPassword ?? "",
                 ),
                 validator: (String? value) {
                   if (value != passwordController.text) {
-                    return AppLocalizations.of(context)!.registerPasswordsDoNotMatch;
+                    return AppLocalizations.of(context)?.registerPasswordsDoNotMatch ?? "";
                   }
                   return null;
                 },
@@ -152,7 +152,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   });
                 },
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.registerSelectDepartment,
+                  hintText: AppLocalizations.of(context)?.registerSelectDepartment ?? "",
                 ),
                 items: departmentNames.map((String departmentName) {
                   return DropdownMenuItem<String>(
@@ -162,7 +162,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 }).toList(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return AppLocalizations.of(context)!.registerDepartmentRequired;
+                    return AppLocalizations.of(context)?.registerDepartmentRequired ?? "";
                   }
                   return null;
                 },
@@ -178,7 +178,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     sendForm(context);
                   }
                 },
-                child: Text(AppLocalizations.of(context)!.registerButton),
+                child: Text(AppLocalizations.of(context)?.registerButton ?? ""),
               ),
             ],
           ),
@@ -210,19 +210,19 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.body}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  AppLocalizations.of(context)!.registerSuccessMessage)),
+                  AppLocalizations.of(context)?.registerSuccessMessage ?? "")),
         );
       }
     } catch (exception) {}

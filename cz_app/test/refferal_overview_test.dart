@@ -1,11 +1,15 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nock/nock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 GoRouter _router = GoRouter(
   routes: [
@@ -26,16 +30,50 @@ GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'),
+      ],
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
     );
   }
 }
+
 
 void main() {
   setUpAll(() {
@@ -48,7 +86,7 @@ void main() {
 
   const expectedJsonResponse =
       '[{"id":52,"participantName":"Lynn van der Poel","status":"Pending","participantEmail":"EvivanVeen@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-04-02T00:00:00","employeeId":1,"employee":null}]';
-  MyApp myapp = const MyApp();
+  MyApp myapp = MyApp();
 
   group('Refferal Overview', () {
     testWidgets('Navigating to referral overview, displaying 2 referrals',

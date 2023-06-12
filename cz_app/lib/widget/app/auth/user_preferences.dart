@@ -23,7 +23,6 @@ class UserPreferences {
     await _prefs?.setString(_keyUserName, decodedToken['displayname']);
     await _prefs?.setString(_keyUserRole, decodedToken['role']);
     await _prefs?.setBool(_keyIsLoggedIn, true);
-    //todo set and get locale
     checkSavedToken();
   }
 

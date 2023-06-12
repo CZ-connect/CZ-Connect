@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../models/graph.dart';
 import '../data/graph_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RefferalLineChart extends StatelessWidget {
   final List<Graph>? graph;
@@ -261,11 +263,11 @@ class LineReferalState extends State<LineChartSample> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const SizedBox(
+              SizedBox(
                 height: 37,
               ),
-              const Text(
-                'Aandrachten',
+              Text(
+                AppLocalizations.of(context)!.referralLabel,
                 style: TextStyle(
                   color: Colors.red,
                   fontSize: 32,
@@ -289,9 +291,9 @@ class LineReferalState extends State<LineChartSample> {
                               width: 10.0,
                               height: 10.0,
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                              child: Text('Totaal aantal aandrachten'),
+                              child: Text(AppLocalizations.of(context)!.totalReferralCountLabel)
                             )
                           ],
                         ),
@@ -305,9 +307,9 @@ class LineReferalState extends State<LineChartSample> {
                               width: 10.0,
                               height: 10.0,
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 5.0),
-                              child: Text('Aantal succesvolle aandrachten'),
+                              child: Text(AppLocalizations.of(context)!.successfulReferralCountLabel)
                             ),
                           ],
                         ),
@@ -320,7 +322,7 @@ class LineReferalState extends State<LineChartSample> {
                 height: 37,
               ),
               FutureBuilder<List<Graph>>(
-                future: fetchGraphData(),
+                future: fetchGraphData(context),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Graph>> snapshot) {
                   if (snapshot.hasData) {
@@ -335,8 +337,8 @@ class LineReferalState extends State<LineChartSample> {
                     );
                   } else if (snapshot.hasError) {
                     debugPrint("${snapshot.error}");
-                    return const Text(
-                        "Er is iets fout gegaan met het inladen van de data.");
+                    return Text(
+                      AppLocalizations.of(context)!.dataLoadError);
                   } else {
                     return const Expanded(
                       child: Center(
