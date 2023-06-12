@@ -48,7 +48,7 @@ class _ReferralOverviewState extends State<ReferralOverview> {
                                       ),
                                       Flexible(
                                         child: Text(
-                                          referral.translateStatus(),
+                                          referral.translateStatus(context),
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),

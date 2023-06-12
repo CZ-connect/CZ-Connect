@@ -64,7 +64,7 @@ class _DashboardRow extends State<DashboardRow> {
                 ),
               ),
             ),
-            DataCell(Text(referrals[index].translateStatus())),
+            DataCell(Text(referrals[index].translateStatus(context))),
           ],
         );
       },

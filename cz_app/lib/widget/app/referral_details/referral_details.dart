@@ -87,7 +87,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 DataRow(
                   cells: <DataCell>[
                     DataCell(Text(AppLocalizations.of(context)?.statusLabel ?? "")),
-                    DataCell(Text(referral?.translateStatus() ?? "")),
+                    DataCell(Text(referral?.translateStatus(context) ?? "")),
                   ],
                 ),
                 DataRow(

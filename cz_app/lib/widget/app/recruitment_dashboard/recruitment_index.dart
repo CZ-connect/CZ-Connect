@@ -265,7 +265,7 @@ class _RecruitmentDashboardState extends State<RecruitmentDashboardIndexWidget> 
                 ),
               ),
             ),
-            DataCell(Text(referrals[index].translateStatus())),
+            DataCell(Text(referrals[index].translateStatus(context))),
             DataCell(
               Text(referrals[index].linkedin ?? "-"),
               onTap: () {
