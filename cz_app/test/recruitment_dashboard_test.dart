@@ -50,7 +50,7 @@ void main() {
   const unlinkedReferralsMock =
       '{"referral_data":[{"id":1001,"participantName":"Bob de Vries","status":"Pending","participantEmail":"bobdevries@example.com","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:41.896","employeeId":null,"employee":null},{"id":1002,"participantName":"test2","status":"Pending","participantEmail":"test@test.test","linkedin":null,"participantPhoneNumber":null,"registrationDate":"2023-05-15T09:03:46.483","employeeId":null,"employee":null}]}';
   group('Recruitment Dashboard', () {
-    testWidgets('test the dashboard row widget', (WidgetTester tester) async {
+    testWidgets('test the recruitment row widget', (WidgetTester tester) async {
       tester.binding.window.physicalSizeTestValue = Size(1920, 1080);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
       // Set up the mocks
