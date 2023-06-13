@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
   ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = dotenv.env['API_URL'] ?? 'https://flutter-frontend.azurewebsites.net' + '/#/?referral=';
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,19 @@ class ReferralLinkShareDialog extends StatelessWidget {
         children: <Widget>[
           const Text('Gebruik de onderstaande referentielink om nieuwe gebruikers aan te brengen'),
           const SizedBox(height: 8),
-          Center(child:SelectableText(link + UserPreferences.getUserId().toString())),
+          Center(child:SelectableText("Persoonlijke link met id: " + UserPreferences.getUserId().toString())),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
             child: const Text("Kopiëer de link"),
             onPressed:  () async {
-              await Clipboard.setData(ClipboardData(text: link + UserPreferences.getUserId().toString()));
+              var host = dotenv.env['API_URL'];
+              if(host!.isEmpty) {
+                host = 'https://flutter-frontend.azurewebsites.net/';
+              }
+
+              await Clipboard.setData(ClipboardData(text: host+'/#/?referral=' + UserPreferences.getUserId().toString()));
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Link gekopieerd!"),
@@ -34,7 +40,7 @@ class ReferralLinkShareDialog extends StatelessWidget {
               );
               context.pop();
             }
-        ),
+          ),
       ],
     );
   }
