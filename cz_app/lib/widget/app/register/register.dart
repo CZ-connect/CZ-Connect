@@ -209,10 +209,31 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       var response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
+        String errorMessage;
+        print(response.body);
+        switch (response.body) {
+          case 'EMAIL_ALREADY_REGISTERED':
+            errorMessage = AppLocalizations.of(context)!.emailAlreadyRegisteredText;
+            break;
+
+          case 'INVALID_ROLE':
+            errorMessage = AppLocalizations.of(context)!.invalidRoleText;
+            break;
+          case 'INVALID_DEPARTMENT':
+            errorMessage = AppLocalizations.of(context)!.invalidDepartmentText;
+            break;
+
+          default:
+            errorMessage = AppLocalizations.of(context)!.errorOccurredMessage;
+            break;
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+          SnackBar(
+            content: Text('${AppLocalizations.of(context)?.appErrorPrefix} $errorMessage'),
+          ),
         );
         throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
+
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),

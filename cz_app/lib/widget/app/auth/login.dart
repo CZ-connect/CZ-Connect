@@ -84,8 +84,25 @@ class LoginWidget extends StatelessWidget {
       var response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
+        String errorMessage;
+        print(response.body);
+        switch (response.body) {
+          case 'INCORRECT_EMAIL_OR_PASSWORD':
+            errorMessage = AppLocalizations.of(context)!.invalidEmailOrPasswordText;
+            break;
+
+          case 'USER_NOT_VERIFIED':
+            errorMessage = AppLocalizations.of(context)!.userNotVerifiedText;
+            break;
+
+          default:
+            errorMessage = AppLocalizations.of(context)!.errorOccurredMessage;
+            break;
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+          SnackBar(
+            content: Text('${AppLocalizations.of(context)?.appErrorPrefix} $errorMessage'),
+          ),
         );
         throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode == 200) {

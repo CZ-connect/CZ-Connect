@@ -136,7 +136,13 @@
   "approved": "Approved",
   "denied": "Denied",
   "pending": "Pending",
-  "successfulReferralCountLabel": "Successful Referral Count"
+  "successfulReferralCountLabel": "Successful Referral Count",
+  "emailAlreadyRegisteredText": "E-mail is already registered",
+  "invalidRoleText": "Invalid role",
+  "invalidDepartmentText": "Invalid department",
+  "invalidEmailOrPasswordText": "Invalid e-mail or password",
+  "userNotVerifiedText": "The user isn't verified",
+  "errorOccurredMessage": "An error occurred. Please try again later."
 }
 
 
