@@ -12,21 +12,20 @@ import 'dart:convert';
 import 'package:nock/nock.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-GoRouter _router = GoRouter(
-    routes: [
-    GoRoute(
-    path: '/',
-    builder: (BuildContext context, GoRouterState state) {
-      return const Scaffold(
-        body: RegisterWidget()
-);})]);
-
+GoRouter _router = GoRouter(routes: [
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Scaffold(body: RegisterWidget());
+      })
+]);
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -65,7 +64,6 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
-
   setUpAll(() {
     nock.init();
   });
@@ -74,23 +72,23 @@ void main() {
     nock.cleanAll();
   });
 
-  testWidgets('RegisterWidget Form submission successfull', (WidgetTester tester) async {
-
+  testWidgets('RegisterWidget Form submission successfull',
+      (WidgetTester tester) async {
     final interceptor = nock("http://localhost:3000/api")
         .post("/employee/register")
       ..reply(201, "[]");
 
     final interceptorDeparments = nock("http://localhost:3000/api")
         .get("/department")
-      ..reply(200, '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recrutering"}]');
+      ..reply(200,
+          '[{"id":1,"departmentName":"Klantenservice"},{"id":2,"departmentName":"Financiën"},{"id":3,"departmentName":"Personeelszaken"},{"id":4,"departmentName":"Marketing"},{"id":5,"departmentName":"ICT"},{"id":6,"departmentName":"Recrutering"}]');
 
-    await tester.pumpWidget(
-      MyApp()
-    );
+    await tester.pumpWidget(MyApp());
 
     await tester.enterText(find.byType(TextFormField).at(0), 'John');
     await tester.enterText(find.byType(TextFormField).at(1), 'Doe');
-    await tester.enterText(find.byKey(const Key('email')), 'johndoe@example.com');
+    await tester.enterText(
+        find.byKey(const Key('email')), 'johndoe@example.com');
     await tester.enterText(find.byType(TextFormField).at(3), 'password');
     await tester.enterText(find.byType(TextFormField).at(4), 'password');
 

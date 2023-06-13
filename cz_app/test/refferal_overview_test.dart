@@ -30,13 +30,12 @@ GoRouter _router = GoRouter(
   ],
 );
 
-
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -73,7 +72,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 void main() {
   setUpAll(() {

@@ -11,21 +11,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-GoRouter _router = GoRouter(
-    routes: [
-      GoRoute(
-          path: '/',
-          builder: (BuildContext context, GoRouterState state) {
-            return Scaffold(
-                body: FormWidget()
-            );})]);
-
+GoRouter _router = GoRouter(routes: [
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return Scaffold(body: FormWidget());
+      })
+]);
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -102,9 +101,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Naam is een verplicht veld.'), findsOneWidget);
-      expect(
-          find.text(
-              'E-mailadres of telefoonnummer is een verplicht veld.'),
+      expect(find.text('E-mailadres of telefoonnummer is een verplicht veld.'),
           findsWidgets);
     });
 

@@ -69,7 +69,6 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Linkedin:")),
                     DataCell(Text(AppLocalizations.of(context)?.linkedinLabel ?? "")),
                     DataCell(
                       Text(referral?.linkedin ?? "-"),
@@ -151,7 +150,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                                   },
                                 ),
                                 TextButton(
-                                  child: Text(AppLocalizations.of(context)?.deleteLabel ?? ""),
+                                  child: Text(AppLocalizations.of(context)?.removeLabel ?? ""),
                                   onPressed: () {
                                     deleteReferral(context, referral?.id ?? 0);
                                     if (widget.employeeReferral?.employee !=

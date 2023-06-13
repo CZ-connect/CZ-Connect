@@ -142,5 +142,6 @@
   "invalidDepartmentText": "Ongeldige afdeling",
   "invalidEmailOrPasswordText": "Ongeldig e-mailadres of wachtwoord",
   "userNotVerifiedText": "De gebruiker is niet geverifieerd",
-  "errorOccurredMessage": "Er is een fout opgetreden. Probeer het later opnieuw."
+  "errorOccurredMessage": "Er is een fout opgetreden. Probeer het later opnieuw.",
+  "removeLabel": "Verwijder"
 }

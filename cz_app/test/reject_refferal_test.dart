@@ -17,7 +17,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nock/nock.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 import 'delete_refferal_test.dart';
 
 GoRouter _router = GoRouter(
@@ -60,7 +59,8 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -74,7 +74,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
       locale: _locale,

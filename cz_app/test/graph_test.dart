@@ -13,23 +13,22 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
-GoRouter _router = GoRouter(
-    routes: [
-      GoRoute(
-          path: '/',
-          builder: (BuildContext context, GoRouterState state) {
-            return Scaffold(
-                body: ReferralDashboardContainerWidget(child: LineChartSample()),
-  );})]);
-
+GoRouter _router = GoRouter(routes: [
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return Scaffold(
+          body: ReferralDashboardContainerWidget(child: LineChartSample()),
+        );
+      })
+]);
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -150,8 +149,7 @@ void main() {
   testWidgets('should render a line chart with referral data', (tester) async {
     await binding.setSurfaceSize(const Size(900, 900));
 
-    await tester.pumpWidget(MyApp()
-    );
+    await tester.pumpWidget(MyApp());
 
     // Then
     final textFinder = find.text('Aandrachten');

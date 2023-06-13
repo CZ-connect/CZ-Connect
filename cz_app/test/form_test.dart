@@ -16,7 +16,9 @@ class Employee {
   String? name;
   String? email;
   String? role;
+
   Employee(this.name, this.email, this.role);
+
   // Factory method to create an Employee object from JSON data
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
@@ -27,22 +29,20 @@ class Employee {
   }
 }
 
-
-GoRouter _router = GoRouter(
-    routes: [
-      GoRoute(
-          path: '/',
-          builder: (BuildContext context, GoRouterState state) {
-            return Scaffold(
-                body: FormWidget()
-            );})]);
-
+GoRouter _router = GoRouter(routes: [
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return Scaffold(body: FormWidget());
+      })
+]);
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {

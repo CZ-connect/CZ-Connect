@@ -13,22 +13,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Create a MockClient using the Mock class provided by the Mockito package.
 class MockClient extends Mock implements http.Client {}
 
-
-GoRouter _router = GoRouter(
-    routes: [
-      GoRoute(
-          path: '/',
-          builder: (BuildContext context, GoRouterState state) {
-            return Scaffold(
-                body: LoginWidget()
-);})]);
-
+GoRouter _router = GoRouter(routes: [
+  GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return Scaffold(body: LoginWidget());
+      })
+]);
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -96,8 +94,7 @@ void main() {
 
     // Verify error messages
     expect(find.text('Het e-mailveld is verplicht'), findsOneWidget);
-    expect(
-        find.text('Het wachtwoordveld is verplicht'), findsOneWidget);
+    expect(find.text('Het wachtwoordveld is verplicht'), findsOneWidget);
 
     // Fill form
     await tester.enterText(find.widgetWithText(TextFormField, 'E-mail'), '');

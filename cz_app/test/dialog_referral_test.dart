@@ -50,15 +50,12 @@ GoRouter _router = GoRouter(
   ],
 );
 
-
-
-
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -72,7 +69,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
       locale: _locale,
@@ -95,7 +91,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 void main() {
   setUpAll(() {
@@ -143,8 +138,8 @@ void main() {
       await tester.tap(find.text("Verwijderen").first, warnIfMissed: true);
       await tester.pumpAndSettle();
       expect(find.text("Referral Verwijderen"), findsOneWidget);
-      expect(find.text("Cancel"), findsOneWidget);
-      await tester.tap(find.text("Cancel"));
+      expect(find.text("Annuleren"), findsOneWidget);
+      await tester.tap(find.text("Annuleren"));
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey("referral_details")), findsOneWidget);
     });
