@@ -171,21 +171,21 @@ class _State extends State<UserDashboard> {
   @override
   Widget build(BuildContext context) {
     void searchUsers(String searchTerm) {
-      // setState(() {
-      //   filteredUsers = allUsers.where((user) {
-      //     final searchTermLowerCase = searchTerm.toLowerCase();
-      //     final verifiedText = user.verified ? 'ja' : 'nee';
-      //     return (user.name.toLowerCase().contains(searchTermLowerCase) ||
-      //             user.email.toLowerCase().contains(searchTermLowerCase) ||
-      //             verifiedText.toLowerCase().contains(searchTermLowerCase) ||
-      //             (user.role.toLowerCase().contains(searchTermLowerCase) ??
-      //                 false) ||
-      //             user.department!
-      //                 .toLowerCase()
-      //                 .contains(searchTermLowerCase) ??
-      //         false);
-      //   }).toList();
-      // });
+      setState(() {
+        filteredUsers = allUsers.where((user) {
+          final searchTermLowerCase = searchTerm.toLowerCase();
+          final verifiedText = user.verified ? 'ja' : 'nee';
+          return (user.name.toLowerCase().contains(searchTermLowerCase) ||
+                  user.email.toLowerCase().contains(searchTermLowerCase) ||
+                  verifiedText.toLowerCase().contains(searchTermLowerCase) ||
+                  (user.role.toLowerCase().contains(searchTermLowerCase) ??
+                      false) ||
+                  user.department!
+                      .toLowerCase()
+                      .contains(searchTermLowerCase) ??
+              false);
+        }).toList();
+      });
     }
 
     return Column(
