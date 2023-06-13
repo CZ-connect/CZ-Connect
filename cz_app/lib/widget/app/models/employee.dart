@@ -21,6 +21,6 @@ class Employee {
         name: json['employee']['employeeName'],
         email: json['employee']['employeeEmail'],
         role: json['employee']['role'] as String?,
-        referralCount: json['referralCount']);
+        referralCount: json['referralCounter']);
   }
 }
