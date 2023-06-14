@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       routerConfig: _router,
       locale: _locale,
       localizationsDelegates: const [
-        AppLocalizations.delegate, // Add this line
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -100,13 +100,10 @@ class MockEmployeeData extends Mock implements EmployeeData {}
 
 void main() {
   group('formWidget', () {
-    // ignore: unused_local_variable
     late MockEmployeeData mockEmployeeData;
-    // ignore: unused_local_variable
     final modelForm = ModelForm(null, null);
 
     setUpAll(() {
-      // ↓ required to avoid HTTP error 400 mocked returns
       HttpOverrides.global = null;
     });
     setUp(() {

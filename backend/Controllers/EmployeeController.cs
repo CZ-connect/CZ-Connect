@@ -30,21 +30,18 @@ namespace CZConnect.Controllers
 
             if (employeeCheck != null)
             {
-                //return BadRequest("Dit e-mailadres is al geregistreerd.");
                 return BadRequest("EMAIL_ALREADY_REGISTERED");
             }
 
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
                 return BadRequest("INVALID_ROLE");
-                //return BadRequest("Ongeldige rol toegevoegd.");
             }
 
             Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
             if (department == null)
             {
                 return BadRequest("INVALID_DEPARTMENT");
-                //return BadRequest("Ongeldige afdeling.");
             }
             int departmentId = (int)department.Id;
 
@@ -78,9 +75,6 @@ namespace CZConnect.Controllers
             if (existingEmployee != null)
             {
 
-            Console.WriteLine(existingEmployee.Id);
-            Console.WriteLine(employee.Id);
-                //return BadRequest("Dit e-mailadres is al geregistreerd.");
                 return BadRequest("EMAIL_ALREADY_REGISTERED");
             }
 

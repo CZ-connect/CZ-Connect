@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       routerConfig: _router,
       locale: _locale,
       localizationsDelegates: const [
-        AppLocalizations.delegate, // Add this line
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

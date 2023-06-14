@@ -17,7 +17,6 @@ class DepartmentData {
 
       return departmentObjs;
     } else {
-      //throw Exception();
       throw Exception(AppLocalizations.of(context)!.failedToRetrieveDepartments);
     }
   }
