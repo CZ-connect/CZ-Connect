@@ -67,7 +67,7 @@ class RecruitmentData {
     return jsonDecode(response.body)["pendingReferrals"];
   }
 
-  Future<List<Referral>> fetchUnlinkedReferrals() async {
+  Future<List<Referral>> fetchUnlinkedReferrals(BuildContext context) async {
     final response = await http
         .get(Uri.parse('http://localhost:3000/api/referral/unlinked'));
     if (response.statusCode == 200) {

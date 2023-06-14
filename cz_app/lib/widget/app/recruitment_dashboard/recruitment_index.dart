@@ -28,9 +28,9 @@ class _RecruitmentDashboardState extends State<RecruitmentDashboardIndexWidget> 
 
   @override
   void initState() {
-    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals();
-    departments = RecruitmentData().fetchDepartments();
-    employees = RecruitmentData().fetchEmployees(1);
+    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals(context);
+    departments = RecruitmentData().fetchDepartments(context);
+    employees = RecruitmentData().fetchEmployees(1, context);
     completedCounter = RecruitmentData().completedCounter(1);
     pendingCounter = RecruitmentData().pendingCounter(1);
     super.initState();
@@ -48,7 +48,7 @@ class _RecruitmentDashboardState extends State<RecruitmentDashboardIndexWidget> 
   void selectDepartment(int departmentId) {
     setState(() {
       selectedDepartment = departmentId;
-      employees = RecruitmentData().fetchEmployees(departmentId);
+      employees = RecruitmentData().fetchEmployees(departmentId, context);
       completedCounter = RecruitmentData().completedCounter(departmentId);
       pendingCounter = RecruitmentData().pendingCounter(departmentId);
     });
