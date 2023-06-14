@@ -226,22 +226,30 @@ namespace CZConnect.Controllers
         [Route("department/{departmentId}")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartment(long departmentId)
         {
+            DashboardViewModel dashboardViewModel = new DashboardViewModel();
+            dashboardViewModel.employeeWithCounters = new List<EmployeeWithCounters>();
+
             var employeesPerDepartment = await _repository.AllAsync<Employee>(e => e.DepartmentId == departmentId);
             var referrals = await _repository.AllAsync<Referral>();
-            var employeeWithReferralCounter = employeesPerDepartment.Select(employee => {
-                var referralCount = referrals.Count(r => r.EmployeeId == employee.Id);
-                return new {
-                    Employee = employee,
-                    ReferralCount = referralCount
-                };
-            }).ToList();
-        
+
+            foreach (var employee in employeesPerDepartment)
+            {
+                var referralCountPerUser = referrals.Count(r => r.EmployeeId == employee.Id);
+                var completedCounterPerUser = referrals.Count(r => r.EmployeeId == employee.Id && r.Status == ReferralStatus.Approved);
+                var pendingCounterPerUser = referrals.Count(r => r.EmployeeId == employee.Id && r.Status == ReferralStatus.Pending);
+
+                dashboardViewModel.completedReferrals += completedCounterPerUser;
+                dashboardViewModel.pendingReferrals += pendingCounterPerUser;
+                dashboardViewModel.employeeWithCounters.Add(new EmployeeWithCounters(employee, referralCountPerUser));
+            }
+
+
             if(employeesPerDepartment == null)
             {
                 return NotFound();
             }
 
-            return Ok(employeeWithReferralCounter);
+            return Ok(dashboardViewModel);
         }
 
         [HttpGet("referral/{id}")] //Get Refferals from a employee

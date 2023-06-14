@@ -415,6 +415,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     UserPreferences.init();
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _router,
       locale: _locale,
       localizationsDelegates: const [

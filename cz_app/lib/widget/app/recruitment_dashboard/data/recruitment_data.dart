@@ -35,17 +35,39 @@ class RecruitmentData {
         });
 
     if (response.statusCode == 200) {
-      var employeeObjsJson = jsonDecode(response.body) as List;
-      List<Employee> employeeObjs = employeeObjsJson
-          .map((employeeJson) => Employee.fromJson(employeeJson))
-          .toList();
-      return employeeObjs;
+      final parsedResponse = jsonDecode(response.body);
+
+      if (parsedResponse.containsKey("employeeWithCounters")) {
+        final employeeObjsJson = parsedResponse["employeeWithCounters"] as List;
+        final employeeObjs = employeeObjsJson
+            .map((employeeJson) => Employee.fromJson(employeeJson))
+            .toList();
+        return employeeObjs;
+      } else {
+        throw Exception(
+            'Invalid JSON response: employeeWithCounters not found');
+      }
     } else {
       throw Exception(AppLocalizations.of(context)!.fetchEmployeesError);
     }
   }
 
-  Future<List<Referral>> fetchUnlinkedReferrals(BuildContext context) async {
+
+  Future<int> completedCounter(int departmentId) async {
+    final response = await http.get(Uri.parse(
+        'http://localhost:3000/api/employee/department/$departmentId'));
+
+    return jsonDecode(response.body)["completedReferrals"];
+  }
+
+  Future<int> pendingCounter(int departmentId) async {
+    final response = await http.get(Uri.parse(
+        'http://localhost:3000/api/employee/department/$departmentId'));
+
+    return jsonDecode(response.body)["pendingReferrals"];
+  }
+
+  Future<List<Referral>> fetchUnlinkedReferrals() async {
     final response = await http
         .get(Uri.parse('http://localhost:3000/api/referral/unlinked'));
     if (response.statusCode == 200) {
