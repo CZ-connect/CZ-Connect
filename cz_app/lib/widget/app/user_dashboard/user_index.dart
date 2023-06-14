@@ -64,7 +64,7 @@ class _State extends State<UserDashboard> {
     }
     var url = Uri.http(host!, route);
     if(host.isEmpty) {
-      url = Uri.https(host, route);
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
     }
 
     await http.post(url);

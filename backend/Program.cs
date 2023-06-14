@@ -36,18 +36,14 @@ app.UseSwagger();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerUI();
-}
-// Run all migrations on runtime
-using (var scope = app.Services.CreateScope())
-{
- 
+    using var scope = app.Services.CreateScope();
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
         db.Database.Migrate(); // your existing line to apply migrations
         app.UseItToSeedSqlServer(); // your existing line to seed the database
         
-        // Replace "YourEntity" with one of your actual entity classes
+        
         var data = db.Set<Employee>().FirstOrDefault();
 
         Console.WriteLine("Connection successful.");
@@ -61,5 +57,7 @@ using (var scope = app.Services.CreateScope())
        // throw new Exception(ex.Message + ""+ ex.Data);
     }
 }
+// Run all migrations on runtime
+
 
 app.Run();
