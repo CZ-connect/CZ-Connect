@@ -64,14 +64,30 @@ class RecruitmentData {
   }
 
   Future<int> completedCounter(int departmentId) async {
-    final response = await http.get(Uri.parse(
+    var host = dotenv.env['API_URL'];
+    var route = 'api/employee/department/$departmentId';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      var response = await http.get(Uri.parse(
+          'https://flutter-backend.azurewebsites.net/api/employee/department/$departmentId'));
+      return jsonDecode(response.body)["pendingReferrals"];
+    }
+    var response = await http.get(Uri.parse(
         'http://localhost:3000/api/employee/department/$departmentId'));
 
     return jsonDecode(response.body)["completedReferrals"];
   }
 
   Future<int> pendingCounter(int departmentId) async {
-    final response = await http.get(Uri.parse(
+    var host = dotenv.env['API_URL'];
+    var route = 'api/employee/department/$departmentId';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      var response = await http.get(Uri.parse(
+          'https://flutter-backend.azurewebsites.net/api/employee/department/$departmentId'));
+      return jsonDecode(response.body)["pendingReferrals"];
+    }
+   var response = await http.get(Uri.parse(
         'http://localhost:3000/api/employee/department/$departmentId'));
 
     return jsonDecode(response.body)["pendingReferrals"];

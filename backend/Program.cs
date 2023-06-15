@@ -57,7 +57,7 @@ if (app.Environment.IsDevelopment())
        // throw new Exception(ex.Message + ""+ ex.Data);
     }
 }
-// Run all migrations on runtime
+
 
 
 app.Run();
