@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Dependency injection
 builder.Services.AddScoped<IRepository, Repository<AppDBContext>>();
-
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CZConnectDatabase")));
+
 
 builder.Services.AddScoped<DbInit>();
 builder.Services.AddSwaggerGen();
@@ -34,17 +34,31 @@ app.MapControllers();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c => 
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "cz-connect api"));
+
+    app.UseSwaggerUI();
+    using var scope = app.Services.CreateScope();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+        db.Database.Migrate(); // your existing line to apply migrations
+        app.UseItToSeedSqlServer(); // your existing line to seed the database
+        
+        
+        var data = db.Set<Employee>().FirstOrDefault();
+
+        Console.WriteLine("Connection successful.");
+      
+    }
+    catch (Exception ex)
+    {
+        
+        Console.WriteLine($"Connection failed: {ex.Message}");
+   
+       // throw new Exception(ex.Message + ""+ ex.Data);
+    }
+
 }
-// Run all migrations on runtime
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDBContext>();
-    db.Database.Migrate();
-    app.UseItToSeedSqlServer();
-}
+
+
 
 app.Run();

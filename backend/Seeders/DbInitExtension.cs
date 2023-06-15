@@ -13,6 +13,7 @@ internal static class DbInitExtension
         {
             var context = services.GetRequiredService<AppDBContext>();
             DbInit.Initialize(context);
+
         }
         catch (Exception ex)
         {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
 
@@ -111,7 +112,13 @@ class FormWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/referral');
+    var host = dotenv.env['API_URL'];
+    var route = '/api/referral';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     Map<String, dynamic> jsonMap = {
       'participantName': modelForm.name.toString(),
       'participantEmail': modelForm.email.toString(),

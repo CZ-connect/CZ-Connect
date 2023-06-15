@@ -10,6 +10,10 @@ RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
+# Use root user
+USER root
 WORKDIR /usr/src/app
 COPY --from=build-env /usr/src/app/out .
+
 ENTRYPOINT [ "dotnet", "backend.dll" ]
+

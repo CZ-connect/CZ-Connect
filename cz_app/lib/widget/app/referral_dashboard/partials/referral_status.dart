@@ -95,15 +95,21 @@ class _ReferralStatus extends State<ReferralStatus> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-                child: Column(children: [
-              Expanded(child: referralCompleted),
-              const Text('Goedgekeurd')
-            ])),
+              child: Column(
+                children: [
+                  Expanded(child: referralCompleted),
+                  const Text('Goedgekeurd')
+                ],
+              ),
+            ),
             Expanded(
-                child: Column(children: [
-              Expanded(child: referralPending),
-              const Text('In Afwachting')
-            ])),
+              child: Column(
+                children: [
+                  Expanded(child: referralPending),
+                  const Text('In Afwachting')
+                ],
+              ),
+            ),
           ],
         ),
       ),
