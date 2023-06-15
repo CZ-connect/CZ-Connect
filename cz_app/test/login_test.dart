@@ -11,7 +11,7 @@ class MockClient extends Mock implements http.Client {}
 void main() {
   const login = {"email": "andrew@gmail.com", "Password": "jello123"};
   setUpAll(() {
-    nock.defaultBase = "http://localhost:3000/api";
+    nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
     nock.init();
   });
 

@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/referral_per_user/views/error.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/loading.dart';
 import 'package:cz_app/widget/app/referral_per_user/views/referral_overview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nock/nock.dart';
@@ -38,7 +39,15 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
-  setUpAll(() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: "env", isOptional: true); // Load dotenv parameters
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
 
@@ -53,7 +62,7 @@ void main() {
   group('Refferal Overview', () {
     testWidgets('Navigating to referral overview, displaying 2 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock
           .get("/employee/referral/0")
         ..reply(200, expectedJsonResponse);
       await tester.pumpWidget(myapp);
@@ -66,7 +75,7 @@ void main() {
 
     testWidgets('Navigating to referral overview, displaying 0 referrals',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock
           .get("/employee/referral/0")
         ..reply(200, '[]');
       _router.go("/");
@@ -81,7 +90,7 @@ void main() {
     testWidgets(
         'Navigating to referral overview, failing to get referrals and displaying error',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock
           .get("/employee/referral/0")
         ..reply(404, '');
       _router.go("/");
@@ -94,7 +103,7 @@ void main() {
     testWidgets(
         'Navigating to referral overview, failing to get referrals, displaying error, navigating back to the menu',
         (WidgetTester tester) async {
-      final interceptor = nock("http://localhost:3000/api")
+      final interceptor = nock
           .get("/employee/referral/0")
         ..reply(200, expectedJsonResponse);
       _router.go("/");

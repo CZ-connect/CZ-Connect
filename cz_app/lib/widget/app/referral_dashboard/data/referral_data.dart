@@ -1,11 +1,20 @@
 import 'dart:convert' show jsonDecode;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import '../../models/referral.dart' show Referral;
 import 'package:http/http.dart' as http;
 
 class ReferralData {
   Future<List<Referral>> fetchReferrals(int id) async {
+    var host = dotenv.env['API_URL'];
+    var route = '/api/referral/employee/$id';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     final response = await http.get(
-        Uri.parse('http://localhost:3000/api/referral/employee/$id'),
+        url,
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
@@ -24,15 +33,29 @@ class ReferralData {
   }
 
   Future<int> completedCounter(int id) async {
+    var host = dotenv.env['API_URL'];
+    var route = '/api/referral/employee/$id';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/referral/employee/$id'));
+        .get(url);
 
     return jsonDecode(response.body)["completed"];
   }
 
   Future<int> pendingCounter(int id) async {
+    var host = dotenv.env['API_URL'];
+    var route = '/api/referral/employee/$id';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+    
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/referral/employee/$id'));
+        .get(url);
 
     return jsonDecode(response.body)["pending"];
   }

@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:cz_app/widget/app/models/register_form.dart';
 import 'package:cz_app/widget/app/models/user_form.dart';
-import 'package:cz_app/widget/app/register/register_form_text_widget.dart';
 import 'package:cz_app/widget/app/user_dashboard/user_update_form_text_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +34,14 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<void> fetchDepartments() async {
-    final response = await http.get(Uri.http('localhost:3000', '/api/department'));
+    var host = dotenv.env['API_URL'];
+    var route = '/api/department/';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       final List<dynamic> departmentsJson = jsonDecode(response.body);
       setState(() {
@@ -174,7 +180,13 @@ class _UserUpdateWidget extends State<UserUpdateWidget> {
   }
 
   Future<bool> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/employee/${widget.user.id}');
+    var host = dotenv.env['API_URL'];
+    var route = '/api/employee/${widget.user.id}';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+    
     print(widget.user.id.toString());
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email,
