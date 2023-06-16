@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> deleteDepartment(BuildContext context, int id) async {
   var host = dotenv.env['API_URL'];
@@ -19,16 +20,16 @@ Future<void> deleteDepartment(BuildContext context, int id) async {
     if (response.statusCode >= 400 && response.statusCode <= 499) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
       );
       throw Exception('Applicatie error: ${response.statusCode}');
     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
       );
-      throw Exception('Applicatie error: ${response.statusCode}');
-    }
+      Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
+  }
   } catch (exception) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Error: $exception')),

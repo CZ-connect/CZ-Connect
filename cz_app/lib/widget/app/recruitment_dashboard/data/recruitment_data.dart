@@ -1,12 +1,15 @@
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RecruitmentData {
-  Future<List<Department>> fetchDepartments() async {
+  Future<List<Department>> fetchDepartments(BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/department';
     var url = Uri.http(host!, route);
@@ -25,11 +28,11 @@ class RecruitmentData {
 
       return departmentObjs;
     } else {
-      throw Exception('Afdelingen ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchDepartmentsError);
     }
   }
 
-  Future<List<Employee>> fetchEmployees(int departmentId) async {
+  Future<List<Employee>> fetchEmployees(int departmentId, BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/employee/department/$departmentId';
     var url = Uri.http(host!, route);
@@ -59,9 +62,10 @@ class RecruitmentData {
             'Invalid JSON response: employeeWithCounters not found');
       }
     } else {
-      throw Exception('Medewerkers ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchEmployeesError);
     }
   }
+
 
   Future<int> completedCounter(int departmentId) async {
     var host = dotenv.env['API_URL'];
@@ -70,7 +74,7 @@ class RecruitmentData {
     if(host.isEmpty) {
       var response = await http.get(Uri.parse(
           'https://flutter-backend.azurewebsites.net/api/employee/department/$departmentId'));
-      return jsonDecode(response.body)["pendingReferrals"];
+      return jsonDecode(response.body)["completedReferrals"];
     }
     var response = await http.get(Uri.parse(
         'http://localhost:3000/api/employee/department/$departmentId'));
@@ -93,7 +97,7 @@ class RecruitmentData {
     return jsonDecode(response.body)["pendingReferrals"];
   }
 
-  Future<List<Referral>> fetchUnlinkedReferrals() async {
+  Future<List<Referral>> fetchUnlinkedReferrals(BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/referral/unlinked';
     var url = Uri.http(host!, route);
@@ -110,8 +114,7 @@ class RecruitmentData {
           unlinkedReferrals.map((r) => Referral.fromJson(r)).toList();
       return referrals;
     } else {
-      throw Exception(
-          'Open sollicitaties ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.fetchReferralsError);
     }
   }
 }

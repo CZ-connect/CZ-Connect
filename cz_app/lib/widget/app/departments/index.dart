@@ -3,20 +3,21 @@ import 'package:cz_app/widget/app/departments/services/delete_department.dart';
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DepartmentIndex extends StatefulWidget {
-  const DepartmentIndex({super.key});
+  const DepartmentIndex({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _DepartmentIndex();
+  _DepartmentIndexState createState() => _DepartmentIndexState();
 }
 
-class _DepartmentIndex extends State<DepartmentIndex> {
+class _DepartmentIndexState extends State<DepartmentIndex> {
   late Future<List<Department>> departments;
 
   @override
   void initState() {
-    departments = DepartmentData().fetchDepartments();
+    departments = DepartmentData().fetchDepartments(context);
     super.initState();
   }
 
@@ -32,13 +33,14 @@ class _DepartmentIndex extends State<DepartmentIndex> {
               children: [
                 Flexible(
                   child: Text(
-                    "Overzicht van alle afdelingen.",
+                    AppLocalizations.of(context)!.departmentOverviewText ?? '',
                     style: TextStyle(
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40),
+                      color: Colors.grey[800],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -54,10 +56,11 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text('Er zijn geen afdelingen gevonden.');
+                        return Text(
+                          AppLocalizations.of(context)?.noDepartmentsFoundText ?? '',
+                        );
                       } else {
-                        List<Department> departments =
-                            snapshot.data as List<Department>;
+                        List<Department> departments = snapshot.data!;
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: SizedBox(
@@ -65,16 +68,18 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                             child: DataTable(
                               dataRowHeight: 75,
                               headingRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.grey),
+                                      (states) => Colors.grey),
                               columns: <DataColumn>[
-                                const DataColumn(
+                                DataColumn(
                                   label: Expanded(
-                                    child: Text("Afdelingsnaam"),
+                                    child: Text(
+                                      AppLocalizations.of(context)?.departmentNameColumnText ?? '',
+                                    ),
                                   ),
                                 ),
-                                const DataColumn(
+                                DataColumn(
                                   label: Expanded(
-                                    child: Text(""),
+                                    child: Text(''),
                                   ),
                                 ),
                                 DataColumn(
@@ -83,7 +88,9 @@ class _DepartmentIndex extends State<DepartmentIndex> {
                                     onPressed: () {
                                       context.go('/department/create');
                                     },
-                                    child: const Text("Nieuwe afdeling"),
+                                    child: Text(
+                                      AppLocalizations.of(context)?.newDepartmentButtonText ?? '',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -106,7 +113,7 @@ class _DepartmentIndex extends State<DepartmentIndex> {
   List<DataRow> buildRows(List<Department> departments) {
     return List.generate(
       departments.length,
-      (index) {
+          (index) {
         final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
@@ -128,41 +135,55 @@ class _DepartmentIndex extends State<DepartmentIndex> {
     return ElevatedButton(
       key: const Key('edit_department_key'),
       onPressed: () {
-        context.goNamed('editDepartment',
-            params: {'id': department.id.toString()}, extra: department);
+        context.goNamed(
+          'editDepartment',
+          params: {'id': department.id.toString()},
+          extra: department,
+        );
       },
-      child: const Text("Bewerken"),
+      child: Text(
+        AppLocalizations.of(context)?.editButtonText ?? '',
+      ),
     );
   }
 
   ElevatedButton deleteDepartmentButton(Department department) {
     return ElevatedButton(
       key: const Key('delete_department_key'),
-      child: const Text("Verwijderen"),
+      child: Text(
+        AppLocalizations.of(context)?.deleteButtonText ?? '',
+      ),
       onPressed: () async {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text("Afdeling verwijderen"),
-              content: const Text(
-                  "Weet u zeker dat u deze afdeling wilt gaan verwijderen?"),
+              title: Text(
+                AppLocalizations.of(context)?.deleteDepartmentDialogTitle ?? '',
+              ),
+              content: Text(
+                AppLocalizations.of(context)?.deleteDepartmentDialogMessage ?? '',
+              ),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [
                 TextButton(
-                  child: const Text("Cancel"),
+                  child: Text(
+                    AppLocalizations.of(context)?.deleteDepartmentDialogCancelButtonText ?? '',
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
-                  child: const Text("Verwijder"),
+                  child: Text(
+                    AppLocalizations.of(context)?.deleteDepartmentDialogDeleteButtonText ?? '',
+                  ),
                   onPressed: () async {
                     await deleteDepartment(context, department.id);
                     setState(() {
                       Navigator.of(context).pop(true);
-                      departments = DepartmentData().fetchDepartments();
+                      departments = DepartmentData().fetchDepartments(context);
                     });
                   },
                 ),

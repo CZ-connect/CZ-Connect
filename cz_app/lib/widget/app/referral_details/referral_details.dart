@@ -8,6 +8,7 @@ import '../models/employee.dart';
 import 'services/reject_refferal.dart';
 import 'services/accept_refferal.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferralDetailWidget extends StatefulWidget {
   final EmployeeReferralViewModel? employeeReferral;
@@ -34,66 +35,65 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
               headingRowColor:
                   MaterialStateColor.resolveWith((states) => Colors.white12),
               columns: <DataColumn>[
-                const DataColumn(
+                DataColumn(
                   label: Expanded(
-                    child: Text(
-                      "Informatie over:",
+                   child: Text(AppLocalizations.of(context)?.infoLabel ?? "",
                       key: Key('info'),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: Expanded(
-                    child: Text(referral!.participantName),
+                    child: Text(referral?.participantName ?? ""),
                   ),
                 ),
               ],
               rows: <DataRow>[
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Naam:")),
-                    DataCell(Text(referral.participantName))
+                    DataCell(Text(AppLocalizations.of(context)?.nameLabel ?? "")),
+                    DataCell(Text(referral?.participantName ?? ""))
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Email:")),
-                    DataCell(Text(referral.participantEmail ?? "-"))
+                    DataCell(Text(AppLocalizations.of(context)?.emailLabel ?? "")),
+                    DataCell(Text(referral?.participantEmail ?? "-"))
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Telefoonnummer:")),
-                    DataCell(Text(referral.participantPhoneNumber ?? "-"))
+                    DataCell(Text(AppLocalizations.of(context)?.phoneNumberLabel ?? "")),
+                    DataCell(Text(referral?.participantPhoneNumber ?? "-"))
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Linkedin:")),
+                    DataCell(Text(AppLocalizations.of(context)?.linkedinLabel ?? "")),
                     DataCell(
-                      Text(referral.linkedin ?? "-"),
+                      Text(referral?.linkedin ?? "-"),
                       onTap: () {
                         Clipboard.setData(
-                            ClipboardData(text: referral.linkedin ?? ""));
+                            ClipboardData(text: referral?.linkedin ?? ""));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("De link is gekopieerd")),
-                        );
+                      SnackBar(
+                          content: Text(AppLocalizations.of(context)?.linkCopiedMessage ?? ""),
+                        ));
                       },
                     ),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Status:")),
-                    DataCell(Text(referral.translateStatus())),
+                    DataCell(Text(AppLocalizations.of(context)?.statusLabel ?? "")),
+                    DataCell(Text(referral?.translateStatus(context) ?? "")),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    const DataCell(Text("Datum:")),
+                    DataCell(Text(AppLocalizations.of(context)?.dateLabel ?? "")),
                     DataCell(Text(DateFormat('d, MMM, yyyy')
-                        .format(referral.registrationDate)))
+                        .format(referral?.registrationDate ?? new DateTime(1992))))
                   ],
                 ),
                 DataRow(
@@ -103,8 +103,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          child: const Text(
-                            "Terug naar overzicht",
+                            child: Text(AppLocalizations.of(context)?.backToOverviewLabel ?? "",
                             style: TextStyle(color: Colors.blue),
                           ),
                           onTap: () {
@@ -132,28 +131,28 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                     padding: const EdgeInsets.only(left: 5.0, right: 40.0),
                     child: ElevatedButton(
                       key: const Key('delete_referral_key'),
-                      child: const Text("Verwijderen"),
+                      child: Text(AppLocalizations.of(context)?.deleteLabel ?? ""),
                       onPressed: () async {
                         showDialog(
                           context: context,
                           barrierDismissible: false,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text("Referral Verwijderen"),
-                              content: const Text(
-                                  "Weet u zeker dat u deze referral wilt gaan verwijderen?"),
-                              actionsAlignment: MainAxisAlignment.spaceBetween,
+                              title: Text(AppLocalizations.of(context)?.deleteReferralTitle ?? ""),
+                              content: Text(
+                              AppLocalizations.of(context)?.deleteReferralConfirmation ?? ""),
+                            actionsAlignment: MainAxisAlignment.spaceBetween,
                               actions: [
                                 TextButton(
-                                  child: const Text("Cancel"),
+                                  child: Text(AppLocalizations.of(context)?.cancelLabel ?? ""),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 TextButton(
-                                  child: const Text("Verwijder"),
+                                  child: Text(AppLocalizations.of(context)?.removeLabel ?? ""),
                                   onPressed: () {
-                                    deleteReferral(context, referral.id);
+                                    deleteReferral(context, referral?.id ?? 0);
                                     if (widget.employeeReferral?.employee !=
                                         null) {
                                       context.go("/referraldashboard",
@@ -170,7 +169,7 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                       },
                     ),
                   ),
-                  if (referral.status == "Pending") ...[
+                  if (referral?.status == "Pending") ...[
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: ElevatedButton(
@@ -178,17 +177,17 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         onPressed: () {
                           setState(
                             () {
-                              referral.status = "Denied";
+                              referral?.status = "Denied";
                               rejectRefferal(context, referral);
                             },
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Aandracht afkeuren'),
-                            ),
+                            SnackBar(
+                              content:Text(AppLocalizations.of(context)?.rejectReferralMessage ?? ""),
+                              ),
                           );
                         },
-                        child: const Text("Afkeuren"),
+                        child: Text(AppLocalizations.of(context)?.rejectLabel ?? ""),
                       ),
                     ),
                     Padding(
@@ -198,17 +197,17 @@ class _ReferralDetailState extends State<ReferralDetailWidget> {
                         onPressed: () {
                           setState(
                             () {
-                              referral.status = "Approved";
+                              referral?.status = "Approved";
                               acceptReffal(context, referral);
                             },
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Aandracht goedkeuren'),
+                            SnackBar(
+                              content: Text(AppLocalizations.of(context)?.approveReferralMessage ?? ""),
                             ),
                           );
                         },
-                        child: const Text("Goedkeuren"),
+                        child: Text(AppLocalizations.of(context)?.approveLabel ?? ""),
                       ),
                     ),
                   ]

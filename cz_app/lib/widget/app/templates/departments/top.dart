@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class DepartmentTopWidget extends StatelessWidget {
   const DepartmentTopWidget({super.key});
@@ -23,8 +25,8 @@ class DepartmentTopWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   width: 100,
                   height: 100,
                   child: DecoratedBox(
@@ -36,11 +38,11 @@ class DepartmentTopWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
-                  key: Key('department-title'),
-                  'CZ Connect - Afdelingen',
-                  style: TextStyle(
+                  key: const Key('department-title'),
+                  AppLocalizations.of(context)!.departmentTitle,
+                  style: const TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

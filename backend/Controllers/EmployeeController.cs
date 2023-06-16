@@ -30,18 +30,18 @@ namespace CZConnect.Controllers
 
             if (employeeCheck != null)
             {
-                return BadRequest("Dit e-mailadres is al geregistreerd.");
+                return BadRequest("EMAIL_ALREADY_REGISTERED");
             }
 
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
-                return BadRequest("Ongeldige rol toegevoegd.");
+                return BadRequest("INVALID_ROLE");
             }
 
             Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
             if (department == null)
             {
-                return BadRequest("Ongeldige afdeling.");
+                return BadRequest("INVALID_DEPARTMENT");
             }
             int departmentId = (int)department.Id;
 
@@ -75,20 +75,18 @@ namespace CZConnect.Controllers
             if (existingEmployee != null)
             {
 
-            Console.WriteLine(existingEmployee.Id);
-            Console.WriteLine(employee.Id);
-                return BadRequest("Dit e-mailadres is al geregistreerd.");
+                return BadRequest("EMAIL_ALREADY_REGISTERED");
             }
 
             if (!Enum.TryParse(request.Role, out EmployeeRole role))
             {
-                return BadRequest("Ongeldige rol toegevoegd.");
+                return BadRequest("INVALID_ROLE");
             }
 
             Department? department = await _repository.FindByAsync<Department>(d => d.DepartmentName == request.Department);
             if (department == null)
             {
-                return BadRequest("Ongeldige afdeling.");
+                return BadRequest("INVALID_DEPARTMENT");
             }
             int departmentId = (int)department.Id;
 
@@ -140,23 +138,24 @@ namespace CZConnect.Controllers
 
             if (employee == null)
             {
-                return BadRequest("Verkeerde email of wachtwoord ingevuld");
+                return BadRequest("INCORRECT_EMAIL_OR_PASSWORD");
             }
 
             if (!employee.Verified)
             {
-                return BadRequest("Gebruiker is niet geverifieerd.");
+                return BadRequest("USER_NOT_VERIFIED");
             }
-          
+        
             if (!BCrypt.Net.BCrypt.Verify(request.Password, employee.PasswordHash))
             {
-                return BadRequest("Verkeerde email of wachtwoord ingevuld");
+                return BadRequest("INCORRECT_EMAIL_OR_PASSWORD");
             }
 
             string token = CreateToken(employee);
 
             return Ok(token);
         }
+
 
         private string CreateToken(Employee employee)
         {

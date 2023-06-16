@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class Referral {
   int id;
   String status;
@@ -31,14 +34,16 @@ class Referral {
     );
   }
 
-  translateStatus() {
+  String translateStatus(BuildContext context) {
     switch (status) {
       case "Approved":
-        return "Geaccepteerd";
+        return AppLocalizations.of(context)!.approved;
       case "Denied":
-        return "Afgekeurd";
+        return AppLocalizations.of(context)!.denied;
       case "Pending":
-        return "In Afwachting";
+        return AppLocalizations.of(context)!.pending;
+      default:
+        return ""; // Fallback value when the status doesn't match any cases
     }
   }
 }
