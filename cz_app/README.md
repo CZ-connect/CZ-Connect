@@ -1,6 +1,12 @@
 # cz_app
 
-Welcome to our Recruitment App, a comprehensive and easy-to-use platform designed to revolutionize the hiring process. We understand that hiring the right candidate is a crucial aspect of any business, and our application aims to simplify this process by providing a streamlined, efficient, and user-friendly solution.
+Welcome to our Recruitment App, a comprehensive and easy-to-use platform designed to revolutionize the hiring process. We understand that hiring the right candidate is a crucial aspect of any business, and our application aims to simplify this process by providing a streamlined, efficient, and user-friendly solution. 
+
+## usecases of the app
+1. Managing applications
+2. Insigths into requitment process
+3. Rewarding employees for succesfull recruitment
+4. Authentication and authorisation of Employees to the app
 
 # User Guide
 ## Application Setup
