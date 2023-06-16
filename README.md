@@ -12,7 +12,7 @@ READMES for each part of the app can be found in their respective folders:
 - [Node.js](https://nodejs.org/en/download/)
 - [ASP.NET Core](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com/download) (recommended)
-# Development testing badged
+# Development testing bages
 [![.NET Tests](https://github.com/CZ-connect/CZ-Connect/actions/workflows/backend_tests.yml/badge.svg)](https://github.com/CZ-connect/CZ-Connect/actions/workflows/backend_tests.yml)
 [![Coding guidelines and Testing](https://github.com/CZ-connect/CZ-Connect/actions/workflows/dart_code_guidelines.yml/badge.svg)](https://github.com/CZ-connect/CZ-Connect/actions/workflows/dart_code_guidelines.yml)
 [![Build and deploy ASP.Net Core app to Azure Web App - flutter-backend](https://github.com/CZ-connect/CZ-Connect/actions/workflows/feature-deployment_flutter-backend.yml/badge.svg?branch=development)](https://github.com/CZ-connect/CZ-Connect/actions/workflows/feature-deployment_flutter-backend.yml)
