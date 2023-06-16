@@ -5,6 +5,7 @@ READMES for each part of the app can be found in their respective folders:
 - [ASP.NET Core backend](https://github.com/CZ-connect/CZ-Connect/tree/feature/documentation/backend)
 - [Backend test](https://github.com/CZ-connect/CZ-Connect/tree/feature/documentation/backend.tests)
 - [Node server](https://github.com/CZ-connect/CZ-Connect/tree/feature/documentation/node_flutter)
+- [Workflows](https://github.com/CZ-connect/CZ-Connect/tree/feature/documentation/.github)
 # Development
 ## Prerequisites
 - [Flutter](https://flutter.dev/docs/get-started/install)
