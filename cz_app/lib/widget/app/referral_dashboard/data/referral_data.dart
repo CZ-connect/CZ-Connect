@@ -1,11 +1,13 @@
 import 'dart:convert' show jsonDecode;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../models/referral.dart' show Referral;
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferralData {
-  Future<List<Referral>> fetchReferrals(int id) async {
+  Future<List<Referral>> fetchReferrals(int id, BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/referral/employee/$id';
     var url = Uri.http(host!, route);
@@ -28,7 +30,7 @@ class ReferralData {
           .toList();
       return referralObjs;
     } else {
-      throw Exception('Aandrachten ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)?.failedToRetrieveDepartments);
     }
   }
 

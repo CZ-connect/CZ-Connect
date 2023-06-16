@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ReferralOverviewTopWidget extends StatelessWidget {
   const ReferralOverviewTopWidget({super.key});
@@ -23,8 +25,8 @@ class ReferralOverviewTopWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   width: 100,
                   height: 100,
                   child: DecoratedBox(
@@ -36,10 +38,10 @@ class ReferralOverviewTopWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
-                  'Aandrachten overzicht',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.referralOverview,
+                  style: const TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

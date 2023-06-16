@@ -1,10 +1,12 @@
 import 'package:cz_app/widget/app/models/department.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show jsonDecode;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DepartmentData {
-  Future<List<Department>> fetchDepartments() async {
+  Future<List<Department>> fetchDepartments(BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/department';
     var url = Uri.http(host!, route);
@@ -22,7 +24,7 @@ class DepartmentData {
 
       return departmentObjs;
     } else {
-      throw Exception('Afdelingen ophalen vanuit de backend is mislukt.');
+      throw Exception(AppLocalizations.of(context)!.failedToRetrieveDepartments);
     }
   }
 }

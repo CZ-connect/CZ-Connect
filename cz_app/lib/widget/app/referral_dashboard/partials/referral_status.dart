@@ -3,6 +3,8 @@ import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ReferralStatus extends StatefulWidget {
   final Employee? employee;
@@ -30,7 +32,7 @@ class _ReferralStatus extends State<ReferralStatus> {
       }
     } catch (e) {
       context.go(Uri(path: '/error').toString(),
-          extra: {'message': 'Aandrachten inladen mislukt.'});
+      extra: {'message': AppLocalizations.of(context)?.referralsLoadFailedMessage ?? ''});
     }
   }
 
@@ -95,21 +97,15 @@ class _ReferralStatus extends State<ReferralStatus> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              child: Column(
-                children: [
-                  Expanded(child: referralCompleted),
-                  const Text('Goedgekeurd')
-                ],
-              ),
-            ),
+                child: Column(children: [
+              Expanded(child: referralCompleted),
+                  Text(AppLocalizations.of(context)?.approvedLabel ?? '')
+            ])),
             Expanded(
-              child: Column(
-                children: [
-                  Expanded(child: referralPending),
-                  const Text('In Afwachting')
-                ],
-              ),
-            ),
+                child: Column(children: [
+              Expanded(child: referralPending),
+                  Text(AppLocalizations.of(context)?.pendingLabel ?? '')
+            ])),
           ],
         ),
       ),

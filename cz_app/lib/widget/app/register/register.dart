@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/roles.dart';
 
@@ -65,12 +66,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             children: <Widget>[
               const RegisterContainerTextWidget(),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Voornaam', // Last Name
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.registerFirstname ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het voornaamveld is verplicht';
+                    return AppLocalizations.of(context)?.registerFirstNameRequired ?? "";
                   }
                   return null;
                 },
@@ -79,12 +80,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Achternaam', // Surname
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.registerLastname ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het achternaamveld is verplicht';
+                    var registerLastNameRequired;
+                    return AppLocalizations.of(context)?.registerLastNameRequired ?? "";
                   }
                   return null;
                 },
@@ -94,15 +96,15 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
               TextFormField(
                 key: const Key('email'),
-                decoration: const InputDecoration(
-                  hintText: 'E-mail',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.registerEmail ?? "",
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het e-mailveld is verplicht';
+                    return AppLocalizations.of(context)?.registerEmailRequired ?? "";
                   }
                   if (!EmailValidator.validate(value)) {
-                    return 'Voer een geldig e-mailadres in';
+                    return AppLocalizations.of(context)?.registerValidEmail ?? "";
                   }
                   return null;
                 },
@@ -116,7 +118,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 autocorrect: false,
                 controller: passwordController,
                 decoration: InputDecoration(
-                  hintText: 'Wachtwoord', // Password
+                  hintText: AppLocalizations.of(context)?.registerPassword ?? "",
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible
@@ -128,7 +130,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 ),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Het wachtwoordveld is verplicht';
+                    return AppLocalizations.of(context)?.registerPasswordRequired ?? "";
                   }
                   return null;
                 },
@@ -140,12 +142,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 obscureText: !_isPasswordVisible,
                 enableSuggestions: false,
                 autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: 'Herhaal Wachtwoord',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.registerRepeatPassword ?? "",
                 ),
                 validator: (String? value) {
                   if (value != passwordController.text) {
-                    return 'De wachtwoorden komen niet overeen';
+                    return AppLocalizations.of(context)?.registerPasswordsDoNotMatch ?? "";
                   }
                   return null;
                 },
@@ -157,8 +159,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     selectedDepartment = newValue;
                   });
                 },
-                decoration: const InputDecoration(
-                  hintText: 'Selecteer Afdeling',
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)?.registerSelectDepartment ?? "",
                 ),
                 items: departmentNames.map((String departmentName) {
                   return DropdownMenuItem<String>(
@@ -168,7 +170,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 }).toList(),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Een afdeling moet worden geselecteerd';
+                    return AppLocalizations.of(context)?.registerDepartmentRequired ?? "";
                   }
                   return null;
                 },
@@ -181,10 +183,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 onPressed: () {
                   if (_formKeyLogin.currentState!.validate()) {
                     _formKeyLogin.currentState?.save();
-                    sendform(context);
+                    sendForm(context);
                   }
                 },
-                child: const Text('Registeren'),
+                child: Text(AppLocalizations.of(context)?.registerButton ?? ""),
               ),
             ],
           ),
@@ -199,7 +201,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     });
   }
 
-  Future<void> sendform(BuildContext context) async {
+  Future<void> sendForm(BuildContext context) async {
     var host = dotenv.env['API_URL'];
     var route = '/api/employee/register';
     var url = Uri.http(host!, route);
@@ -221,20 +223,41 @@ class _RegisterWidgetState extends State<RegisterWidget> {
       var response = await http.post(url,
           headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode >= 400 && response.statusCode <= 499) {
+        String errorMessage;
+        print(response.body);
+        switch (response.body) {
+          case 'EMAIL_ALREADY_REGISTERED':
+            errorMessage = AppLocalizations.of(context)!.emailAlreadyRegisteredText;
+            break;
+
+          case 'INVALID_ROLE':
+            errorMessage = AppLocalizations.of(context)!.invalidRoleText;
+            break;
+          case 'INVALID_DEPARTMENT':
+            errorMessage = AppLocalizations.of(context)!.invalidDepartmentText;
+            break;
+
+          default:
+            errorMessage = AppLocalizations.of(context)!.errorOccurredMessage;
+            break;
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.body}')),
+          SnackBar(
+            content: Text('${AppLocalizations.of(context)?.appErrorPrefix} $errorMessage'),
+          ),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
+
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Applicatie error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Applicatie error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
               content: Text(
-                  'Aanmelding is successvol! Wacht nu tot uw account is geverifieerd.')),
+                  AppLocalizations.of(context)?.registerSuccessMessage ?? "")),
         );
       }
     } catch (exception) {}

@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../../models/graph.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Future<List<Graph>> fetchGraphData() async {
+Future<List<Graph>> fetchGraphData(BuildContext context) async {
   var host = dotenv.env['API_URL'];
   var route = '/api/graphdata';
   var url = Uri.http(host!, route);
@@ -18,6 +20,6 @@ Future<List<Graph>> fetchGraphData() async {
     List<Graph> graph = graphJson.map((e) => Graph.fromJson(e)).toList();
     return graph;
   } else {
-    throw Exception('Grafiek data ophalen vanuit de backend is mislukt.');
+    throw Exception(AppLocalizations.of(context)?.fetchChartDataError ?? '');
   }
 }
