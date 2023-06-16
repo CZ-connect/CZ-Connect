@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
 class EmployeeData {
   Future<Employee?> fetchEmployee() async {
     final response =
-        await http.get(Uri.parse('http://localhost:3000/api/employee/1'));
+        await http.get(Uri.parse('https://flutter-backend.azurewebsites.net/api/employee/1'));
 
     if (response.statusCode == 200) {
       // If the server did return a successful response, then parse the JSON.

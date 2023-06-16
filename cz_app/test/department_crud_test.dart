@@ -6,6 +6,7 @@ import 'package:cz_app/widget/app/departments/index.dart';
 import 'package:cz_app/widget/app/models/department.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cz_app/widget/app/templates/departments/bottom.dart';
@@ -102,9 +103,17 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
-  setUpAll(() {
+
+  setUpAll(() async {
     HttpOverrides.global = null;
-    nock.defaultBase = "http://localhost:3000/api";
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: "env", isOptional: true); // Load dotenv parameters
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
 

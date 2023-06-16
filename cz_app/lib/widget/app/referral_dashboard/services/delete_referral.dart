@@ -1,9 +1,15 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> deleteReferral(BuildContext context, int id) async {
-  var url = Uri.http('localhost:3000', '/api/referral/$id');
+  var host = dotenv.env['API_URL'];
+  var route = '/api/referral/$id';
+  var url = Uri.http(host!, route);
+  if(host.isEmpty) {
+    url = Uri.https('flutter-backend.azurewebsites.net', route);
+  }
 
   try {
     var response = await http.delete(url, headers: {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +8,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> acceptReffal(BuildContext context, dynamic referral) async {
   var id = referral.id.toString();
-  var url = Uri.http('localhost:3000', '/api/referral/accept/$id');
+  var host = dotenv.env['API_URL'];
+  var route = '/api/referral/accept/$id';
+  var url = Uri.http(host!, route);
+  if(host.isEmpty) {
+    url = Uri.https('flutter-backend.azurewebsites.net', route);
+  }
 
   DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
       .parse(referral.registrationDate.toString());

@@ -17,12 +17,12 @@ class ContainerTextWidget extends StatelessWidget {
             style: TextStyle(
                 color: Colors.grey[800],
                 fontWeight: FontWeight.bold,
-                fontSize: 40)),
+                fontSize: 20)),
         Text(h2,
             style: TextStyle(
                 color: Colors.grey[800],
                 fontWeight: FontWeight.bold,
-                fontSize: 32))
+                fontSize: 16))
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cz_app/404.dart';
 import 'package:cz_app/widget/app/auth/login.dart';
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
@@ -30,6 +32,7 @@ import 'package:cz_app/widget/app/templates/referral_overview/top.dart';
 import 'package:cz_app/widget/app/user_dashboard/user_index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widget/app/departments/edit.dart';
@@ -40,7 +43,12 @@ import 'widget/app/templates/departments/container.dart';
 import 'widget/app/templates/departments/top.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+
+  await dotenv.load(fileName: "env", isOptional: true);
+
+  runApp(MyApp());
+}
 
 /// The route configuration.
 

@@ -3,6 +3,7 @@ import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/login_form.dart';
 import 'package:cz_app/widget/app/auth/login_form_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -71,9 +72,13 @@ class LoginWidget extends StatelessWidget {
       ),
     );
   }
-
   Future<void> sendForm(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/employee/login');
+    var host = dotenv.env['API_URL'];
+    var route = '/api/employee/login';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
     Map<String, dynamic> jsonMap = {
       'email': modelForm.email.toString(),
       'Password': modelForm.password.toString(),
@@ -121,6 +126,10 @@ class LoginWidget extends StatelessWidget {
         throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
       // return response.body;
-    } catch (exception) {}
+    } catch (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Applicatie error: $exception')),
+      );
+    }
   }
 }

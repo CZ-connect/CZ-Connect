@@ -4,6 +4,7 @@ import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/referral_form/store_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:cz_app/widget/app/models/form.model.dart';
@@ -64,10 +65,13 @@ class _MyAppState extends State<MyApp> {
 
 void main() {
   group('Form Widget', () {
-    setUpAll(() {
+    setUpAll(() async {
       // ↓ required to avoid HTTP error 400 mocked returns
       HttpOverrides.global = null;
+      TestWidgetsFlutterBinding.ensureInitialized();
+      await dotenv.load(fileName: "env", isOptional: true); // Load dotenv parameters
     });
+    
     late ModelForm modelForm;
     setUp(() {
       modelForm = ModelForm(null, null);

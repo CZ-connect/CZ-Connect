@@ -1,12 +1,14 @@
 import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferralLinkShareDialog extends StatelessWidget {
-  const ReferralLinkShareDialog({Key? key}) : super(key: key);
-  final String link = "localhost:5555/#/?referral=";
+  ReferralLinkShareDialog({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +20,19 @@ class ReferralLinkShareDialog extends StatelessWidget {
         children: <Widget>[
           Text(AppLocalizations.of(context)!.textReferralLink),
           const SizedBox(height: 8),
-          Center(child:SelectableText(link + UserPreferences.getUserId().toString())),
+          Center(child:SelectableText("Persoonlijke link met id: " + UserPreferences.getUserId().toString())),
         ],
       ),
       actions: <Widget>[
         ElevatedButton(
             child: Text(AppLocalizations.of(context)!.buttonCopyLink),
             onPressed:  () async {
-              await Clipboard.setData(ClipboardData(text: link + UserPreferences.getUserId().toString()));
+              var host = dotenv.env['API_URL'];
+              if(host!.isEmpty) {
+                host = 'https://flutter-frontend.azurewebsites.net/';
+              }
+
+              await Clipboard.setData(ClipboardData(text: host+'/#/?referral=' + UserPreferences.getUserId().toString()));
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(AppLocalizations.of(context)!.linkCopiedMessage),
@@ -34,7 +41,7 @@ class ReferralLinkShareDialog extends StatelessWidget {
               );
               context.pop();
             }
-        ),
+          ),
       ],
     );
   }
