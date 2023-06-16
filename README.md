@@ -1,4 +1,4 @@
-# connect
+# CZ-connect
 This is the CZ-connect app repository. It contains the source code for the backend and frontend of the app.
 READMES for each part of the app can be found in their respective folders:
 - [Flutter frontend](https://github.com/CZ-connect/CZ-Connect/tree/feature/documentation/cz_app)
