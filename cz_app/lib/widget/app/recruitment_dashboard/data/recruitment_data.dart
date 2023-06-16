@@ -74,7 +74,7 @@ class RecruitmentData {
     if(host.isEmpty) {
       var response = await http.get(Uri.parse(
           'https://flutter-backend.azurewebsites.net/api/employee/department/$departmentId'));
-      return jsonDecode(response.body)["pendingReferrals"];
+      return jsonDecode(response.body)["completedReferrals"];
     }
     var response = await http.get(Uri.parse(
         'http://localhost:3000/api/employee/department/$departmentId'));
