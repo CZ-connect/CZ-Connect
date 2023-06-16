@@ -31,10 +31,10 @@ app.UseCors(x => x
     .AllowCredentials());
 app.UseAuthorization();
 app.MapControllers();
-app.UseSwagger();
 
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwaggerUI();
     using var scope = app.Services.CreateScope();
     try
@@ -56,6 +56,7 @@ if (app.Environment.IsDevelopment())
    
        // throw new Exception(ex.Message + ""+ ex.Data);
     }
+
 }
 
 
