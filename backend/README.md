@@ -8,7 +8,7 @@ docker: https://docs.docker.com/desktop/install/windows-install/
 ```
 ## run
 ```
-docker compose up--build
+docker compose up --build
 ```
 ## open
 ```
