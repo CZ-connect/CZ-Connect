@@ -5,4 +5,4 @@ We firmly believe in the significance of rigorous testing for maintaining high-q
 We use the xUnit testing framework for our backend testing. xUnit is a unit testing framework for the .NET platform, and it's the most popular testing framework for C#. It's a free, open-source framework that's easy to use and highly extensible. It's also compatible with a wide range of .NET platforms, including .NET Core, .NET Framework, and Mono.
 
 # Testing Strategy
-we use unit testing with a code coverage of 80% to ensure that our backend is working as expected. We where using the TDD approach to develop our backend. We also use integration testing to ensure that our backend is working with the database and the frontend as expected.
+We use unit testing with a code coverage of 80% to ensure that our backend is working as expected. We where using the TDD approach to develop our backend. We also use integration testing to ensure that our backend is working with the database and the frontend as expected.
