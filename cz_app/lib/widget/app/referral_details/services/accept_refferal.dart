@@ -1,18 +1,26 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Future<void> acceptReffal(BuildContext context, dynamic referral) async {
   var id = referral.id.toString();
-  var url = Uri.http('localhost:3000', '/api/referral/accept/$id');
+  var host = dotenv.env['API_URL'];
+  var route = '/api/referral/accept/$id';
+  var url = Uri.http(host!, route);
+  if(host.isEmpty) {
+    url = Uri.https('flutter-backend.azurewebsites.net', route);
+  }
 
   DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
       .parse(referral.registrationDate.toString());
   String formattedDateString = dateTime.toString().replaceFirst(' ', 'T');
 
   var phone = "";
-  if(referral.participantPhoneNumber != null) {
+  if (referral.participantPhoneNumber != null) {
     phone = referral.participantPhoneNumber.toString();
   }
 
@@ -31,24 +39,30 @@ Future<void> acceptReffal(BuildContext context, dynamic referral) async {
 
   try {
     var response = await http.put(url,
-        headers: {"Accept": "application/json","Content-Type": "application/json"}, body: body);
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: body);
 
     if (response.statusCode >= 400 && response.statusCode <= 499) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Client error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+
       );
-      throw Exception('Client error: ${response.statusCode}');
+      throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
     } else if (response.statusCode >= 500 && response.statusCode <= 599) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Server error: ${response.statusCode}')),
+        SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
+
       );
-      throw Exception('Server error: ${response.statusCode}');
+      throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
     }
   } catch (exception) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: $exception')),
+      SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${exception}')),
     );
   }
 }

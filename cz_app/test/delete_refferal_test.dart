@@ -7,13 +7,31 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nock/nock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 GoRouter _router = GoRouter(
   routes: [
+    GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state) {
+          return const Scaffold(
+            body: ReferralDashboardTemplate(
+              header: ReferralDashboardTopWidget(),
+              body: ReferralDashboardBottomWidget(
+                child: ReferralDashboardContainerWidget(
+                  child: ReferralDashboardIndexWidget(),
+                ),
+              ),
+            ),
+          );
+        }),
     GoRoute(
         path: '/referraldetail',
         builder: (context, state) {
@@ -31,30 +49,44 @@ GoRouter _router = GoRouter(
             ),
           );
         }),
-    GoRoute(
-        path: '/',
-        builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold(
-            body: ReferralDashboardTemplate(
-              header: ReferralDashboardTopWidget(),
-              body: ReferralDashboardBottomWidget(
-                child: ReferralDashboardContainerWidget(
-                  child: ReferralDashboardIndexWidget(),
-                ),
-              ),
-            ),
-          );
-        }),
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'),
+      ],
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
     );
   }
 }
@@ -67,13 +99,19 @@ class MockUserPreferences extends Mock implements UserPreferences {
 }
 
 void main() {
-
   setUp(() {
     nock.cleanAll();
   });
 
   setUpAll(() async {
-    nock.defaultBase = "http://localhost:3000/api";
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: "env", isOptional: true);
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
   group('Delete referrals', () {
@@ -90,22 +128,19 @@ void main() {
         );
 
       nock.get("/referral/employee/0").reply(
-        200,
-        expectedJsonResponse,
-      );
+            200,
+            expectedJsonResponse,
+          );
 
       nock.get("/referral/employee/0").reply(
-        200,
-        expectedJsonResponse,
-      );
-      nock.delete("/referral/15").reply(
-          200,
-          "{}"
-      );
+            200,
+            expectedJsonResponse,
+          );
+      nock.delete("/referral/15").reply(200, "{}");
 
       // Build the OverViewWidget
       await tester.runAsync(() async {
-        await tester.pumpWidget(const MyApp());
+        await tester.pumpWidget(MyApp());
         await tester.pumpAndSettle();
       });
       //Expect the data is loaded
@@ -113,9 +148,7 @@ void main() {
       expect(find.text("Jesse Smit"), findsOneWidget);
       await tester.tap(find.text("Jesse Smit"));
       await tester.pumpAndSettle();
-      await tester.tap(find
-          .text("Verwijderen")
-          .first, warnIfMissed: true);
+      await tester.tap(find.text("Verwijderen").first, warnIfMissed: true);
       await tester.pumpAndSettle();
       expect(find.text("Referral Verwijderen"), findsOneWidget);
       expect(find.text("Verwijder"), findsOneWidget);

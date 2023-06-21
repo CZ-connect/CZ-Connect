@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorScreen extends StatefulWidget {
   const ErrorScreen({super.key});
@@ -15,7 +16,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String message = 'Iets ging verkeerd';
+    String message = AppLocalizations.of(context)!.failedToRetrieveReferrals;
 
     return Scaffold(
         key: const Key('error_screen'),

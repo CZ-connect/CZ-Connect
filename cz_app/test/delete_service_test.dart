@@ -1,3 +1,4 @@
+import 'package:cz_app/widget/app/auth/user_preferences.dart';
 import 'package:cz_app/widget/app/models/employee_referral.dart';
 import 'package:cz_app/widget/app/referral_dashboard/referrals_index.dart';
 import 'package:cz_app/widget/app/referral_dashboard/services/delete_referral.dart';
@@ -7,9 +8,13 @@ import 'package:cz_app/widget/app/templates/referral_dashboard/container.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/template.dart';
 import 'package:cz_app/widget/app/templates/referral_dashboard/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nock/nock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 GoRouter _router = GoRouter(
   routes: [
@@ -47,20 +52,59 @@ GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    UserPreferences.init();
     return MaterialApp.router(
       routerConfig: _router,
+      locale: _locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('nl'),
+      ],
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
     );
   }
 }
 
 void main() {
-  setUpAll(() {
-    nock.defaultBase = "http://localhost:3000/api";
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: "env", isOptional: true); // Load dotenv parameters
+    var host = dotenv.env['API_URL'];
+    if(host!.isEmpty) {
+      nock.defaultBase = "https://flutter-backend.azurewebsites.net/api";
+    } else {
+      nock.defaultBase = "http://localhost:3000/api";
+    }
     nock.init();
   });
 
@@ -81,17 +125,17 @@ void main() {
           200,
           expectedJsonResponse,
         );
-        nock.get("/referral/employee/0").reply(
+      nock.get("/referral/employee/0").reply(
             200,
             expectedJsonResponse,
-        );
-        nock.get("/referral/employee/0").reply(
-          200,
-          expectedJsonResponse,
-        );
+          );
+      nock.get("/referral/employee/0").reply(
+            200,
+            expectedJsonResponse,
+          );
       nock.delete("/referral/15").reply(400, {});
 
-      await tester.pumpWidget(const MyApp());
+      await tester.pumpWidget(MyApp());
       await tester.pumpAndSettle();
 
       expect(interceptor.isDone, true);
@@ -103,13 +147,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text("Referral Verwijderen"), findsOneWidget);
-      expect(find.text("Verwijder"), findsOneWidget);
+      expect(find.text("Verwijderen"), findsOneWidget);
       final BuildContext context = tester.element(
           find.byKey(const Key('delete_referral_key'), skipOffstage: false));
       await deleteReferral(context, 15);
       await tester.pumpAndSettle();
-      expect(find.text('Server Error: 500'), findsNothing);
-      expect(find.text('Client Error: 400'), findsNothing);
+      expect(find.text('Applicatie Error: 500'), findsNothing);
+      expect(find.text('Applicatie Error: 400'), findsNothing);
       expect(find.byKey(const ValueKey('referral_details')), findsOneWidget);
     });
   });

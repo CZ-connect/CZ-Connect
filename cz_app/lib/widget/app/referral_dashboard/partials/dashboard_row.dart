@@ -5,6 +5,8 @@ import 'package:cz_app/widget/app/models/employee.dart';
 import '../../models/referral.dart' show Referral;
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class DashboardRow extends StatefulWidget {
   final Employee? employee;
@@ -22,9 +24,9 @@ class _DashboardRow extends State<DashboardRow> {
   @override
   void initState() {
     if (widget.employee != null) {
-      referrals = ReferralData().fetchReferrals(widget.employee!.id);
+      referrals = ReferralData().fetchReferrals(widget.employee!.id, context);
     } else {
-      referrals = ReferralData().fetchReferrals(UserPreferences.getUserId());
+      referrals = ReferralData().fetchReferrals(UserPreferences.getUserId(), context);
     }
     super.initState();
   }
@@ -46,8 +48,6 @@ class _DashboardRow extends State<DashboardRow> {
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
           cells: <DataCell>[
-
-            DataCell(Text(referrals[index].status)),
             DataCell(
               MouseRegion(
                 cursor: SystemMouseCursors.click,
@@ -64,6 +64,7 @@ class _DashboardRow extends State<DashboardRow> {
                 ),
               ),
             ),
+            DataCell(Text(referrals[index].translateStatus(context))),
           ],
         );
       },
@@ -89,11 +90,11 @@ class _DashboardRow extends State<DashboardRow> {
                       MaterialStateColor.resolveWith((states) => Colors.grey),
                   // ignore: prefer_const_literals_to_create_immutables
                   columns: <DataColumn>[
-                    const DataColumn(
-                      label: Expanded(child: Text("Status")),
+                    DataColumn(
+                      label: Expanded(child: Text(AppLocalizations.of(context)?.applicantNameLabel ?? "")),
                     ),
-                    const DataColumn(
-                      label: Expanded(child: Text("Naam sollicitant")),
+                    DataColumn(
+                      label: Expanded(child: Text(AppLocalizations.of(context)?.statusLabel ?? "")),
                     ),
                   ],
                   rows: buildRows(referrals),
@@ -101,7 +102,7 @@ class _DashboardRow extends State<DashboardRow> {
               ),
             );
           } else {
-            return const Text("No data found.");
+            return Text(AppLocalizations.of(context)!.noReferralsFoundMessage);
           }
         } else {
           return const CircularProgressIndicator();

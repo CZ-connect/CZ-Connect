@@ -38,7 +38,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
-  intl: ^0.18.0
+  intl: any
   dio: ^5.0.3
   http: ^0.13.5
   http_mock_adapter: ^0.4.2
@@ -49,6 +49,12 @@ dependencies:
   very_good_analysis: ^4.0.0+1
   google_fonts: ^4.0.3
   fl_chart: ^0.62.0
+  intl_utils: ^2.1.0
+  flutter_localizations: 
+    sdk: flutter
+  flag: ^6.0.0
+  flutter_dotenv: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +72,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -76,6 +82,7 @@ flutter:
   assets:
     - ./assets/images/profile_placeholder.png
     - ./assets/images/logo-cz.png
+    - env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

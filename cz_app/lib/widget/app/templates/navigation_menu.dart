@@ -1,7 +1,11 @@
+import 'package:cz_app/main.dart';
 import 'package:cz_app/widget/app/models/roles.dart';
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../auth/user_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key}) : super(key: key);
@@ -33,12 +37,12 @@ class NavigationMenu extends StatelessWidget {
           ),
           if (UserPreferences.isLoggedIn())
             ListTile(
-              title: Text('Ingelogd als ${UserPreferences.getUserName()}'),
+              title: Text('${AppLocalizations.of(context)!.loggedInAsPrefix} ${UserPreferences.getUserName()}'),
               key: const Key('logged_in_user_menu_item'),
             ),
           if (!UserPreferences.isLoggedIn())
             ListTile(
-              title: const Text('Inloggen'),
+              title: Text(AppLocalizations.of(context)!.login),
               key: const Key('login_menu_item'),
               onTap: () {
                 context.go('/login');
@@ -47,46 +51,92 @@ class NavigationMenu extends StatelessWidget {
             ),
           if (UserPreferences.isLoggedIn())
             ListTile(
-              title: const Text('Uitloggen'),
+              title: Text(AppLocalizations.of(context)!.logout),
               key: const Key('logout_menu_item'),
               onTap: () {
                 context.go('/logout');
               },
               enabled: UserPreferences.isLoggedIn(),
             ),
-          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
+          if (!UserPreferences.isLoggedIn())
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.register),
+              key: const Key('register_menu_item'),
+              onTap: () {
+                context.go('/register');
+              },
+           ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.userDashboard),
+              key: const Key('user_dashboard_menu_item'),
+              onTap: () {
+                context.go('/userdashboard');
+              },
+            ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.recruitmentDashboard),
+              key: const Key('recruitment_dashboard_menu_item'),
+              onTap: () {
+                context.go('/recruitmentdashboard');
+              },
+            ),
           ListTile(
-            title: const Text('Recruitment Dashboard'),
-            key: const Key('recruitment_dashboard_menu_item'),
-            onTap: () {
-              context.go('/recruitmentdashboard');
-            },
-          ),
-          ListTile(
-            title: const Text('Application Form'),
+            title: Text(AppLocalizations.of(context)!.applicationForm),
             key: const Key('application_form_menu_item'),
             onTap: () {
               context.go('/');
             },
           ),
-          if (UserPreferences.isLoggedIn() && (role == Roles.Admin.name || role == Roles.Recruitment.name))
-          ListTile(
-            title: const Text('Graph Referals'),
-            key: const Key('Graph_refferals_menu_item'),
-            onTap: () {
-              context.go('/graph');
-            },
-          ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.charts),
+              key: const Key('Graph_refferals_menu_item'),
+              onTap: () {
+                context.go('/graph');
+              },
+            ),
           if (UserPreferences.isLoggedIn())
             ListTile(
-            title: const Text('Referral Overzicht'),
-            key: const Key('referral_overview_menu_item'),
-            onTap: () {
-              context.go('/loading');
-            },
-          ),
-        ],
+              title: Text(AppLocalizations.of(context)!.referralOverview),
+              key: const Key('referral_overview_menu_item'),
+              onTap: () {
+                context.go('/loading');
+              },
+            ),
+          if (UserPreferences.isLoggedIn() &&
+              (role == Roles.Admin.name || role == Roles.Recruitment.name))
+            ListTile(
+              title: Text(AppLocalizations.of(context)!.departments),
+              key: const Key('departments_menu_item'),
+              onTap: () {
+                context.go('/department/index');
+              },
+    ),
+    ListTile(
+    title: Row(
+    children: [
+      IconButton(
+        icon: const Flag.fromString('nl'),
+        onPressed: () {
+          MyApp.of(context)!.setLocale(const Locale.fromSubtags(languageCode: 'nl'));
+        },
       ),
+      IconButton(
+      icon: const Flag.fromString('us'),
+      onPressed: () {
+          MyApp.of(context)!.setLocale(const Locale.fromSubtags(languageCode: 'en'));
+        },
+      ),
+    ],
+    ),
+    )
+        ]
+      )
     );
   }
 }

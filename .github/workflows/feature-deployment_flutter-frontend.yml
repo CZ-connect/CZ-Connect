@@ -1,0 +1,87 @@
+name: Build and deploy Node.js app to Azure Web App - flutter-frontend
+
+on:
+  pull_request:
+    branches:
+      - development
+  push:
+    branches:
+      - development
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install Flutter
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.7.6'  # Set the version of Flutter to install
+
+      # Install dependencies
+      - name: Get dependencies
+        run: flutter pub get
+        working-directory: cz_app
+
+      # Analyse project
+      - name: Run analyze
+        run: flutter analyze --pub --no-fatal-infos --no-fatal-warnings
+        working-directory: cz_app
+
+      # Clean project
+      - name: clean flutter
+        run: flutter clean
+        working-directory: cz_app
+
+      # Build Web
+      - name: build flutter (Web)
+        run: flutter build web
+        working-directory: cz_app
+
+      - name: Move build to node_flutter/public-flutter
+        run: mv cz_app/build/web/ node_flutter/public-flutter/
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+
+      - name: npm install, build, and test
+        run: |
+          cd node_flutter
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: ./node_flutter
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'flutter-frontend'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_94B8D260BA6A47F49D7682BF5E7291E5 }}
+          package: .

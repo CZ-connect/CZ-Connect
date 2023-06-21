@@ -3,6 +3,8 @@ import 'package:cz_app/widget/app/models/employee.dart';
 import 'package:flutter/material.dart';
 import 'package:cz_app/widget/app/referral_dashboard/data/referral_data.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ReferralStatus extends StatefulWidget {
   final Employee? employee;
@@ -20,17 +22,17 @@ class _ReferralStatus extends State<ReferralStatus> {
   void setupReference() async {
     try {
       if (widget.employee == null) {
-        completedCounter = ReferralData()
-            .completedCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
-        pendingCounter = ReferralData()
-            .pendingCounter(UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
+        completedCounter = ReferralData().completedCounter(
+            UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
+        pendingCounter = ReferralData().pendingCounter(
+            UserPreferences.getUserId()); // TO-DO CHANGE 2 TO LOGGED IN USER
       } else {
         completedCounter = ReferralData().completedCounter(widget.employee!.id);
         pendingCounter = ReferralData().pendingCounter(widget.employee!.id);
       }
     } catch (e) {
       context.go(Uri(path: '/error').toString(),
-          extra: {'message': 'Referrals failed.'});
+      extra: {'message': AppLocalizations.of(context)?.referralsLoadFailedMessage ?? ''});
     }
   }
 
@@ -97,12 +99,12 @@ class _ReferralStatus extends State<ReferralStatus> {
             Expanded(
                 child: Column(children: [
               Expanded(child: referralCompleted),
-              const Text('Goedgekeurd')
+                  Text(AppLocalizations.of(context)?.approvedLabel ?? '')
             ])),
             Expanded(
                 child: Column(children: [
               Expanded(child: referralPending),
-              const Text('In Afwachting')
+                  Text(AppLocalizations.of(context)?.pendingLabel ?? '')
             ])),
           ],
         ),

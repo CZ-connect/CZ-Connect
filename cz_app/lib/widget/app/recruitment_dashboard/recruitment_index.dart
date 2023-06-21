@@ -7,26 +7,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void main() => runApp(const RecruitmentDashboardIndexWidget());
 
 class RecruitmentDashboardIndexWidget extends StatefulWidget {
-  const RecruitmentDashboardIndexWidget({super.key});
+  const RecruitmentDashboardIndexWidget({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RecruitmentDashboard();
+  State<StatefulWidget> createState() => _RecruitmentDashboardState();
 }
 
-class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
+class _RecruitmentDashboardState extends State<RecruitmentDashboardIndexWidget> {
   late Future<List<Department>> departments;
   late Future<List<Employee>> employees;
   late Future<List<Referral>> unlinkedReferrals;
+  late Future<int> completedCounter;
+  late Future<int> pendingCounter;
 
   @override
   void initState() {
-    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals();
-    departments = RecruitmentData().fetchDepartments();
-    employees = RecruitmentData().fetchEmployees(1);
+    unlinkedReferrals = RecruitmentData().fetchUnlinkedReferrals(context);
+    departments = RecruitmentData().fetchDepartments(context);
+    employees = RecruitmentData().fetchEmployees(1, context);
+    completedCounter = RecruitmentData().completedCounter(1);
+    pendingCounter = RecruitmentData().pendingCounter(1);
     super.initState();
   }
 
@@ -42,38 +48,58 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
   void selectDepartment(int departmentId) {
     setState(() {
       selectedDepartment = departmentId;
-      employees = RecruitmentData().fetchEmployees(departmentId);
+      employees = RecruitmentData().fetchEmployees(departmentId, context);
+      completedCounter = RecruitmentData().completedCounter(departmentId);
+      pendingCounter = RecruitmentData().pendingCounter(departmentId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Column(
-        children: [
-          Flexible(
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Flexible(child: recruimentTableButtonRow()),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Flexible(
-                  child: showDepartments
-                      ? referralsPerDepartmentTable()
-                      : unlinkedReferralsTable(),
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final maxHeight = constraints.maxHeight;
+
+      return SizedBox.expand(
+        child: Column(
+          children: [
+            Container(
+              child: Flexible(
+                child: Row(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    Flexible(
+                      child: recruimentTableButtonRow(),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+            Flexible(
+              child: Row(
+                children: [
+                  Flexible(
+                    child: referralCounters(),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: Row(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Flexible(
+                    child: showDepartments
+                        ? referralsPerDepartmentTable()
+                        : unlinkedReferralsTable(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget recruimentTableButtonRow() {
@@ -83,16 +109,16 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchDepartmentsError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No departments found.');
+          return Text(AppLocalizations.of(context)?.noDepartmentsFound ?? '');
         } else {
-          List<Department> departments = snapshot.data as List<Department>;
+          List<Department> departments = snapshot.data!;
           return SizedBox(
             width: MediaQuery.of(context).size.width,
             child: GridView.count(
               childAspectRatio:
-                  MediaQuery.of(context).size.width / (departments.length * 75),
+              MediaQuery.of(context).size.width / (departments.length * 75),
               crossAxisCount: departments.length + 1,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -106,7 +132,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                         toggleExpansion();
                       }
                     },
-                    child: const Text("Open sollicitaties"),
+                    child: Text(AppLocalizations.of(context)?.openApplicationsButton ?? ''),
                   ),
                 ),
                 for (Department department in departments)
@@ -131,6 +157,80 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
     );
   }
 
+  Widget referralCounters() {
+    final referralCompleted = Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+          border: Border.all(width: 2),
+          shape: BoxShape.circle,
+          color: Colors.redAccent),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FutureBuilder(
+            future: completedCounter,
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            },
+          ),
+        ],
+      ),
+    );
+
+    final referralPending = Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+          border: Border.all(width: 2),
+          shape: BoxShape.circle,
+          color: Colors.redAccent),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FutureBuilder(
+            future: pendingCounter,
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            },
+          ),
+        ],
+      ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 15),
+      child: FractionallySizedBox(
+        widthFactor: 1.0,
+        heightFactor: 0.3,
+        alignment: FractionalOffset.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(child: referralCompleted),
+                  const Text('Goedgekeurd')
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(child: referralPending),
+                  const Text('In Afwachting')
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget referralsPerDepartmentTable() {
     return FutureBuilder<List<Employee>>(
       future: employees,
@@ -138,11 +238,11 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchEmployeesError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No employees found.');
+          return Text(AppLocalizations.of(context)?.noEmployeesFound ?? '');
         } else {
-          List<Employee> employees = snapshot.data as List<Employee>;
+          List<Employee> employees = snapshot.data!;
           return buildDepartmentTable(employees);
         }
       },
@@ -151,9 +251,10 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   Widget buildDepartmentTable(List<Employee> employees) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
+        height: 700,
         child: DataTable(
           columns: buildDepartmentColumns(),
           rows: buildDepartmentRows(employees),
@@ -164,16 +265,16 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   List<DataColumn> buildDepartmentColumns() {
     return <DataColumn>[
-      const DataColumn(label: Text("Medewerker")),
-      const DataColumn(label: Text("Email")),
-      const DataColumn(label: Text("Referrals"))
+      DataColumn(label: Text(AppLocalizations.of(context)?.employeeLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.emailLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.referralCountLabel ?? '')),
     ];
   }
 
   List<DataRow> buildDepartmentRows(List<Employee> employees) {
     return List.generate(
       employees.length,
-      (index) {
+          (index) {
         final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
@@ -193,7 +294,7 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
               ),
             ),
             DataCell(Text(employees[index].email)),
-            DataCell(Text("Referrals: ${employees[index].referralCount}")),
+            DataCell(Text("${AppLocalizations.of(context)?.referralCountPrefix} ${employees[index].referralCount}")),
           ],
         );
       },
@@ -207,11 +308,11 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(AppLocalizations.of(context)?.fetchReferralsError ?? '');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Op dit moment zijn er geen open sollicitaties.');
+          return Text(AppLocalizations.of(context)?.noOpenReferrals ?? '');
         } else {
-          List<Referral> referrals = snapshot.data as List<Referral>;
+          List<Referral> referrals = snapshot.data!;
           return buildUnlinkedTable(referrals);
         }
       },
@@ -233,17 +334,17 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
 
   List<DataColumn> buildUnlinkedColumns() {
     return <DataColumn>[
-      const DataColumn(label: Text("Naam")),
-      const DataColumn(label: Text("Status")),
-      const DataColumn(label: Text("Linkedin")),
-      const DataColumn(label: Text("Gesolliciteerd op"))
+      DataColumn(label: Text(AppLocalizations.of(context)?.nameLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.statusLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.linkedinLabel ?? '')),
+      DataColumn(label: Text(AppLocalizations.of(context)?.applicationDateLabel ?? '')),
     ];
   }
 
   List<DataRow> buildUnlinkedRows(List<Referral> referrals) {
     return List.generate(
       referrals.length,
-      (index) {
+          (index) {
         final color = index % 2 == 0 ? Colors.grey[300] : Colors.white;
         return DataRow(
           color: MaterialStateProperty.all<Color>(color!),
@@ -265,17 +366,18 @@ class _RecruitmentDashboard extends State<RecruitmentDashboardIndexWidget> {
                 ),
               ),
             ),
+            DataCell(Text(referrals[index].translateStatus(context))),
             DataCell(
               Text(referrals[index].linkedin ?? "-"),
               onTap: () {
                 Clipboard.setData(
                     ClipboardData(text: referrals[index].linkedin ?? ""));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Link copied to clipboard")),
+                  SnackBar(
+                  content: Text(AppLocalizations.of(context)?.linkCopiedMessage ?? '')),
                 );
               },
             ),
-            DataCell(Text(referrals[index].status)),
             DataCell(Text(DateFormat('d, MMM, yyyy')
                 .format(referrals[index].registrationDate))),
           ],

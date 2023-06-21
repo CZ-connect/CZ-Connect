@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  czconnect-backend:
+    container_name: czconnect-backend
+    image: czfluttercontainers.azurecr.io/czconnect-backend:latest
+    build:
+      context: backend
+      dockerfile: Dockerfile-backend
+    env_file:
+      - backend/.env
+    ports:
+      - 3000:3000
+    networks:
+      - czconnect
+
+  mssql-db:
+    container_name: mssql-db
+    image: czfluttercontainers.azurecr.io/mssql-db:latest
+    build:
+      context: backend
+      dockerfile: Dockerfile-mssql
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=3Q%8C7`5e_dXZ#H
+    volumes:
+      - mssql:/var/opt/mssql/data
+    networks:
+      - czconnect
+
+networks:
+  czconnect:
+
+volumes:
+  mssql:

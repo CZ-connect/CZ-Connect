@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:cz_app/widget/app/referral_form/partials/form_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/form.model.dart';
 import 'package:http/http.dart' as http;
-
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class FormWidget extends StatelessWidget {
@@ -24,15 +24,15 @@ class FormWidget extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                const ContainerTextWidget(),
+                ContainerTextWidget(context: context),
                 TextFormField(
                   key: const Key('nameField'),
-                  decoration: const InputDecoration(
-                    hintText: 'Naam',
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.nameHintText,
                   ),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'De naam is een verplicht veld';
+                      return AppLocalizations.of(context)?.nameRequiredError;
                     }
                     return null;
                   },
@@ -41,15 +41,15 @@ class FormWidget extends StatelessWidget {
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'voorbeeld@email.nl',
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)?.emailHintText,
                   ),
                   validator: (String? value) {
                     if (!EmailValidator.validate(value!) && value.isNotEmpty) {
-                      return 'Voer een geldig emailadres in';
+                      return AppLocalizations.of(context)?.emailInvalidError;
                     } else if (modelForm.phoneNumber!.isEmpty &&
                         value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
+                      return AppLocalizations.of(context)?.contactFieldRequiredError;
                     }
                     emailNumberFlag = true;
                     return null;
@@ -66,9 +66,10 @@ class FormWidget extends StatelessWidget {
                     RegExp regex = RegExp(
                         r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Voer een geldig telefoonnummer in';
+                      return AppLocalizations.of(context)?.emailInvalidError;
                     } else if (modelForm.email!.isEmpty && value.isEmpty) {
-                      return 'Het emailadress of het telefoonnummer is een verplicht veld';
+                      return AppLocalizations.of(context)?.contactFieldRequiredError;
+                    } else if (modelForm.email!.isEmpty && value.isEmpty) {
                     }
                     return null;
                   },
@@ -78,13 +79,13 @@ class FormWidget extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Website/Linkedin: linkedin.com/in/naam',
+                    hintText: 'Website/Linkedin',
                   ),
                   validator: (String? value) {
                     RegExp regex = RegExp(
                         r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                     if (!regex.hasMatch(value!) && value.isNotEmpty) {
-                      return 'Dat is geen valide url';
+                      return AppLocalizations.of(context)?.urlInvalidError;
                     }
                     return null;
                   },
@@ -100,11 +101,11 @@ class FormWidget extends StatelessWidget {
                       _formKey.currentState?.save();
                       sendform(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Informatie afhandelen')),
+                        SnackBar(content: Text(AppLocalizations.of(context)!.handlingInformationSnackBar)),
                       );
                     }
                   },
-                  child: const Text('Verstuur'),
+                  child: Text(AppLocalizations.of(context)!.sendButtonText),
                 ),
               ],
             )),
@@ -113,7 +114,13 @@ class FormWidget extends StatelessWidget {
   }
 
   Future<void> sendform(BuildContext context) async {
-    var url = Uri.http('localhost:3000', '/api/referral');
+    var host = dotenv.env['API_URL'];
+    var route = '/api/referral';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     Map<String, dynamic> jsonMap = {
       'participantName': modelForm.name.toString(),
       'participantEmail': modelForm.email.toString(),
@@ -135,15 +142,15 @@ class FormWidget extends StatelessWidget {
       if (response.statusCode >= 400 && response.statusCode <= 499) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Client error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Client error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       } else if (response.statusCode >= 500 && response.statusCode <= 599) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
+          SnackBar(content: Text('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}')),
         );
-        throw Exception('Server error: ${response.statusCode}');
+        throw Exception('${AppLocalizations.of(context)?.appErrorPrefix}  ${response.statusCode}');
       }
       // return response.body;
     } catch (exception) {

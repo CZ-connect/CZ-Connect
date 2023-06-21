@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cz_app/widget/app/models/referral.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 
 class ReferralService {
@@ -9,8 +10,15 @@ class ReferralService {
   ReferralService({required this.userId});
 
   Future<void> getData() async {
+    var host = dotenv.env['API_URL'];
+    var route = '/api/employee/referral/$userId';
+    var url = Uri.http(host!, route);
+    if(host.isEmpty) {
+      url = Uri.https('flutter-backend.azurewebsites.net', route);
+    }
+
     Response response = await get(
-        Uri.parse('http://localhost:3000/api/employee/referral/$userId'),
+        url,
         headers: {
           "Access-Control-Allow-Origin": "*",
           'Content-Type': 'application/json',
